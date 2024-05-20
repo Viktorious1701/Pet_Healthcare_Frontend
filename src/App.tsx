@@ -1,17 +1,18 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import BookingForm from './components/BookingForm';
-import NextForm from './components/NextForm'; // Import your next form component
-
+import './index.css'; // Import Tailwind CSS
+import Calendar from './components/CalendarComponent';
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<BookingForm />} />
-        <Route path="/next-form" element={<NextForm />} /> {/* Define the route for the next form */}
+        <Route path="/" element={<Calendar />} /> {/* Define the route for the next form */}
+        <Route path="/book" element={<BookingForm />} />
+        
       </Routes>
     </Router>
   );
 };
 
-export default App;
-
+export default App; 
