@@ -1,5 +1,5 @@
 {
-  "name": "pet-healthcare",
+  "name": "swp-vite",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,12 +12,16 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "date-fns": "^3.6.0",
+    "localforage": "^1.10.0",
+    "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "sort-by": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

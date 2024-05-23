@@ -1,21 +1,23 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import BookingForm from './components/BookingForm';
+
 import './index.css'; // Import Tailwind CSS
-import Calendar from './components/CalendarComponent';
-import Dashboard from './components/Dashboard';
+import About from './About';
+
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard/>} /> {/* Define the route for the next form */}
-        <Route path='/calendar' element={<Calendar/>}></Route>
-        <Route path="/book" element={<BookingForm />} />
-        
+        <Route path="/" element={<h1>Home</h1>} /> {/* Define the route for the home page */}
+        <Route path="/about" element={<About/>} /> {/* Define the route for the next form */}  \
+        <Route path="/services" element={<h1>Services</h1>} /> {/* Define the route for the services page */}
+        <Route path="/booking" element={<h1>Booking</h1>} /> {/* Define the route for the booking page */}
+        <Route path="/login" element={<h1>Login</h1>} /> {/* Define the route for the login page */}
+        <Route path="/*" element={<h1>404 Not Found</h1>} /> {/* Define the route for the 404 page */}
       </Routes>
     </Router>
   );
 };
 
-export default App; 
+export default App;
