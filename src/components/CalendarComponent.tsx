@@ -4,6 +4,9 @@ import 'react-calendar/dist/Calendar.css';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
 interface TimeSlots {
   [key: string]: string[];
 }
@@ -15,22 +18,27 @@ const timeSlots: TimeSlots = {
 };
 
 const CalendarComponent: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const navigate = useNavigate();
-  const onChange = (value: Date | null) => {
-    if (value) {
+
+  const onChange = (value: Value) => {
+    if (Array.isArray(value)) {
+      // Handle range selection
+    } else {
+      if (value) {
         setSelectedDate(value);
         const formattedDate = format(value, 'yyyy-MM-dd');
         setSlots(timeSlots[formattedDate] || []);
         setSelectedSlot(null); // Reset selected slot on date change
-    } else {
+      } else {
         setSelectedDate(null);
         setSlots([]);
         setSelectedSlot(null);
+      }
     }
-};
+  };
 
   const handleSlotClick = (slot: string) => {
     setSelectedSlot(slot);
@@ -38,13 +46,10 @@ const CalendarComponent: React.FC = () => {
 
   const handleNextClick = () => {
     if (selectedSlot && selectedDate) {
-      console.log(`Proceeding with date: ${format(selectedDate!, 'yyyy-MM-dd')} and slot: ${selectedSlot}`);
+      console.log(`Proceeding with date: ${selectedDate}, slot: ${selectedSlot}`);
       // Add your next steps here, such as navigating to another page or showing a form
       navigate('/book', {
-        state: {
-          date: selectedDate,
-          slot: selectedSlot,
-        },
+        state: { date: selectedDate, slot: selectedSlot },
       });
     }
   };
@@ -52,20 +57,16 @@ const CalendarComponent: React.FC = () => {
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto' }}>
       <h2>Select a Date</h2>
-      <Calendar onChange={(onChange)} value={selectedDate} />
+      <Calendar onChange={onChange} value={selectedDate} />
       {selectedDate && (
-        <div className='mt-2'>
-          <h3>Available Time Slots for {format(selectedDate, 'MMMM dd, yyyy')}</h3>
+        <div className="mt-2">
+          <h3>Available Time Slots</h3>
           {slots.length > 0 ? (
             <ul>
               {slots.map((slot, index) => (
-                <li key={index} onClick={() => handleSlotClick(slot)} className='mb-1 cursor-pointer'>
+                <li key={index} onClick={() => handleSlotClick(slot)} className="mb-1 cursor-pointer">
                   {slot}
-                  {selectedSlot === slot && (
-                    <button onClick={handleNextClick} className='ml-1'>
-                      Next
-                    </button>
-                  )}
+                  {selectedSlot === slot && <button onClick={handleNextClick} className="ml-1">Next</button>}
                 </li>
               ))}
             </ul>
