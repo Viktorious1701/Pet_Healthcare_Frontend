@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-import { useNavigate, useLocation } from "react-router-dom";
-import { format } from "date-fns";
+
+import { useNavigate} from "react-router-dom";
+import fetchDoctors from "./api";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -14,7 +18,7 @@ interface Doctor {
 }
 
 const BookingForm: React.FC = () => {
-  const location = useLocation();
+
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
@@ -25,21 +29,21 @@ const BookingForm: React.FC = () => {
     mode: "onSubmit",
   });
 
-  const { date, slot } = location.state as { date: Date; slot: string };
+
+  const { date, slot } = useSelector((state: RootState) => state.date);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   useEffect(() => {
-    const fetchDoctors = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/doctors?date=${format(date, 'yyyy-MM-dd')}&slot=${slot}`);
-        const data = await response.json();
-        setDoctors(data);
+        const dateObj = date ? new Date(date) : null;
+        const doctors = await fetchDoctors(dateObj, slot);
+        setDoctors(doctors);
       } catch (error) {
-        console.error("Error fetching doctors:", error);
+        console.error('Error fetching doctors:', error);
       }
     };
-
-    fetchDoctors();
+    fetchData();
   }, [date, slot]);
 
   const onSubmit = (formData: FormValues) => {
