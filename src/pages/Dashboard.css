@@ -1,3 +1,15 @@
+/*
+color 
+#dd327e : pink
+#fce7f3 : light pink
+#fdf2f8 : light pink
+#f4f4f4 : light grey
+#f0e4f1 : light pink
+#eceff5 : light blue
+
+*/
+
+
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -11,19 +23,19 @@ body {
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
   border-radius: 10px;
-  background-color: black;
+  background-color: #fce7f3;
 }
 
 .sidebar {
-  color: #fff;
+  color: #dd327e;
   width: 15vw;
   height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: #333;
+  align-items: center;
+  background-color: #fdf2f8;
   overflow-y: auto; /* Allow scrolling in the sidebar if needed */
 }
 
@@ -33,6 +45,8 @@ body {
 }
 
 .profile img {
+  display: block;
+  margin: 0 auto;
   border-radius: 50%;
   width: 80px;
   height: 80px;
@@ -59,22 +73,18 @@ body {
 }
 
 .nav-menu li:hover {
-  background-color: #555;
+  background-color: #f0e4f1;
   border-radius: 5px;
 }
 
 .nav-menu a {
-  color: #979797;
+  color: #dd327e;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
   display: block;
   width: 100%;
   text-align: center;
-}
-
-.nav-menu a:hover {
-  color: #fff;
 }
 
 /* Content */
@@ -86,6 +96,31 @@ body {
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto; /* Allow scrolling in the content area */
+}
+
+.dashboard-boards {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.accounts-board,
+.revenue-board {
+  color: #dd327e;
+  background-color: #eceff5;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  flex: 1; /* Allow boards to take equal space */
+}
+
+.accounts-count,
+.revenue-amount {
+  color: #dd327e;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 .main-content {
@@ -152,25 +187,18 @@ header h1 {
   min-width: 10rem;
 }
 
-.category.grocery {
+.category.hospitalization {
   background: #00bcd4;
 }
 
-.category.transportation {
+.category.booking {
   background: #9c27b0;
 }
 
-.category.housing {
+.category.others{
   background: #ff9800;
 }
 
-.category.food-drink {
-  background: #f44336;
-}
-
-.category.entertainment {
-  background: #4caf50;
-}
 
 .time {
   flex: 1;
@@ -184,33 +212,7 @@ header h1 {
   font-weight: bold;
 }
 
-/* Summary */
-.summary {
-  padding: 20px;
-  border-left: 1px solid #e0e0e0;
-}
 
-.summary h2 {
-  font-size: 20px;
-  margin-top: 0;
-}
-
-.summary ul {
-  list-style: none;
-  padding: 0;
-}
-
-.summary li {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
-  gap: 5rem;
-}
-
-.summary .amount {
-  font-weight: bold;
-}
 
 /* Media Queries for Mobile */
 @media (max-width: 768px) {
