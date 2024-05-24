@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
+
 import { useNavigate} from "react-router-dom";
 import fetchDoctors from "./api";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -16,6 +18,7 @@ interface Doctor {
 }
 
 const BookingForm: React.FC = () => {
+
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
@@ -25,6 +28,7 @@ const BookingForm: React.FC = () => {
     },
     mode: "onSubmit",
   });
+
 
   const { date, slot } = useSelector((state: RootState) => state.date);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -41,6 +45,7 @@ const BookingForm: React.FC = () => {
     };
     fetchData();
   }, [date, slot]);
+
   const onSubmit = (formData: FormValues) => {
     // Handle form submission logic here
     console.log("Form submitted:", formData);

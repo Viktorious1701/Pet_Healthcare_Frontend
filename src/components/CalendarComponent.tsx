@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+
 import { useDispatch } from 'react-redux';
 import { setDateSlot } from"./dateSlice"
 import { AppDispatch } from '../store';
+
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -14,14 +16,18 @@ interface TimeSlots {
 }
 
 const timeSlots: TimeSlots = {
+
   '2024-05-19': ['10:00', '11:00', '13:00', '14:00'],
   '2024-05-20': ['09:00', '10:30', '12:00', '15:00'],
   '2024-05-24': ['09:00', '10:00', '15:00', '16:00'],
+
   // Add more dates and slots as needed
 };
 
 const CalendarComponent: React.FC = () => {
+
   const dispatch = useDispatch<AppDispatch>();
+
   const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -59,6 +65,7 @@ const CalendarComponent: React.FC = () => {
         })
       )
       navigate('/book');
+
     }
   };
 
