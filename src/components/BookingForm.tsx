@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 
-import { useNavigate} from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import fetchDoctors from "./api";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import { RootState } from "../store";
 
 interface FormValues {
@@ -20,6 +22,7 @@ interface Doctor {
 const BookingForm: React.FC = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
       firstName: "",
@@ -36,8 +39,25 @@ const BookingForm: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dateObj = date ? new Date(date) : null;
-        const doctors = await fetchDoctors(dateObj, slot);
+
+        // Check if date and slot are in local storage
+        const dateFromStorage = localStorage.getItem('date');
+        const slotFromStorage = localStorage.getItem('slot');
+  
+        let dateObj = null;
+        let slotValue = null;
+  
+        // Use date and slot from local storage if available
+        if (dateFromStorage && slotFromStorage) {
+          dateObj = new Date(dateFromStorage);
+          slotValue = slotFromStorage;
+        } else {
+          // Otherwise, use date and slot from Redux store
+          dateObj = date ? new Date(date) : null;
+          slotValue = slot;
+        }
+  
+        const doctors = await fetchDoctors(dateObj, slotValue);
         setDoctors(doctors);
       } catch (error) {
         console.error('Error fetching doctors:', error);
@@ -49,15 +69,13 @@ const BookingForm: React.FC = () => {
   const onSubmit = (formData: FormValues) => {
     // Handle form submission logic here
     console.log("Form submitted:", formData);
-
+    
+    dispatch({
+      type: "SET_FORM_DATA",
+      payload: formData,
+    })
     // Navigate to the next form or page
-    navigate("/date", {
-      state: {
-        formData,
-        date,
-        slot,
-      },
-    });
+    navigate("/date");
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {
