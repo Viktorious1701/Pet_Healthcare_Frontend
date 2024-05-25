@@ -6,8 +6,10 @@ interface DateState {
 }
 
 const initialState: DateState = {
+
   date: localStorage.getItem('date') || null,
   slot: localStorage.getItem('slot') || null,
+
 };
 
 const dateSlice = createSlice({
@@ -31,6 +33,7 @@ const dateSlice = createSlice({
       } else {
         localStorage.removeItem('slot');
       }
+
     },
   },
 });

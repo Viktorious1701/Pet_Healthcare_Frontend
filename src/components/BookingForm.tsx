@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 
+
 import { useNavigate } from "react-router-dom";
 import fetchDoctors from "./api";
 import { useSelector, useDispatch } from "react-redux";
+
 import { RootState } from "../store";
 
 interface FormValues {
@@ -37,6 +39,7 @@ const BookingForm: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+
         // Check if date and slot are in local storage
         const dateFromStorage = localStorage.getItem('date');
         const slotFromStorage = localStorage.getItem('slot');
