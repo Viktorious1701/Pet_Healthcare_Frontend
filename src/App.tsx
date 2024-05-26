@@ -8,6 +8,9 @@ import BookingForm from './components/BookingForm';
 import CalendarComponent from './components/CalendarComponent';
 import 'react-calendar/dist/Calendar.css';
 import Login from './pages/Login';
+import Home from './pages/Home';
+import Register from './pages/Register';
+
 
 const App = () => {
   return (
@@ -19,7 +22,9 @@ const App = () => {
         <Route path="/calendar" element={<CalendarComponent/>} /> {/* Define the route for the booking page */}
         <Route path="/book" element={<BookingForm/>} /> {/* Define the route for the booking page */}
         <Route path="/login" element={<Login/>} /> {/* Define the route for the login page */}
+        <Route path="/register" element={<Register/>} /> {/* Define the route for the register page */}
         <Route path="/*" element={<h1>404 Not Found</h1>} /> {/* Define the route for the 404 page */}
+        <Route path="/home" element={<Home/>} /> {/* Define the route for the 404 page */}
       </Routes>
     </Router>
   );
