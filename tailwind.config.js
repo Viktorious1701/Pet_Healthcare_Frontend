@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line no-undef
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -51,6 +52,14 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        custom: {
+          pink: '#dd327e',
+          lightPink1: '#fce7f3',
+          lightPink2: '#fdf2f8',
+          lightGrey: '#f4f4f4',
+          lightPink3: '#f0e4f1',
+          lightBlue: '#eceff5',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -73,6 +82,6 @@ module.exports = {
       },
     },
   },
+  // eslint-disable-next-line no-undef
   plugins: [require("tailwindcss-animate")],
-}
-
+};
