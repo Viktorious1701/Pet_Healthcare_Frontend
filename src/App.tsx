@@ -1,4 +1,5 @@
 // App.tsx
+import "./index.css";
 import {
   Route,
   RouterProvider,
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
   )
 );
 const App = () => {
+  return <RouterProvider router={router} />;
   return <RouterProvider router={router} />;
 };
 
