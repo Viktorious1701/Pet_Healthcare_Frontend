@@ -128,7 +128,7 @@ export default function Header() {
               </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
+              <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
                 Liên Hệ
               </NavigationMenuLink>
           </NavigationMenuItem>
