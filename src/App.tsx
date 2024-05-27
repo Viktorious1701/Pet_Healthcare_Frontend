@@ -17,13 +17,15 @@ import Login from "./pages/Login";
 //import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Revenue from "./pages/Revenue";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Home/>} />
       <Route path="/dashboard/*" element={<Dashboard />}>
-        <Route path="accounts" element={<Accounts />} />{" "}
+        <Route path="revenue" element={<Revenue/>}/>
+        <Route path="accounts" element={<Accounts />} />
         {/* Nested Accounts route */}
         {/* Add more nested routes here if needed */}
       </Route>

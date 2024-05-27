@@ -29,6 +29,7 @@ const Accounts = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      
       <header className="flex items-center justify-between bg-custom-pink p-4">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="h-8 w-8" />
