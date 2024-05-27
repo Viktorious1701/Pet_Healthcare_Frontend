@@ -8,12 +8,13 @@ import Paw from "../assets/Paw2.svg"
 
 const Register = () => {
     return (
-        <div>
-            <div className="absolute bg-black bg-opacity-90 z-30 h-[65rem] w-[55rem]">
-                <Card className="relative ml-[12vw] mt-[22vh] max-w-sm z-20">
+        <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+            <img src={PetCare} alt="Pet care" className="absolute w-full h-full object-cover" />
+            <div className="w-full max-w-md p-8 bg-white rounded shadow-md z-10">
+                <Card>
                     <CardHeader className="space-y-1">
                         <CardTitle className="text-2xl font-bold">Register</CardTitle>
-                            <CardDescription>Enter your details to create a new account</CardDescription>
+                        <CardDescription>Enter your details to create a new account</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
@@ -40,12 +41,6 @@ const Register = () => {
                     </CardContent>
                 </Card>
             </div>
-
-            <div className="blur-[4px]">
-                <img src={PetCare} alt="Pet care" className="translate-y-[19vh] z-10 scale-[1.75]" />
-            </div>
-            <img src={Paw} alt="Pet care" className="translate-y-[-26vh] translate-x-[130vh] z-0 w-[18rem] color-white" />
-
         </div>
     );
 };
