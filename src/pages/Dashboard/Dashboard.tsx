@@ -1,19 +1,19 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import logo from "../assets/react.svg";
-
+import logo from '../../assets/react.svg';
+import DashboardHome from './DashboardHome';
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const navItems = [
     { path: '/dashboard', label: 'Dashboard' },
-    { path: '/dashboard/revenue', label: 'Revenue' },
+    { path: '/dashboard/appointments', label: 'Appointments' },
     { path: '/dashboard/accounts', label: 'Accounts' },
-    { path: '/dashboard/settings', label: 'Settings' },
+    { path: '/dashboard/hospitalization', label: 'Hospitalization' },
     { path: '/', label: 'Home Page' },
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-custom-gray">
       <aside className="hidden md:flex w-1/4 bg-pink-100 flex-col items-center py-6 px-4">
         <div className="text-center mb-6">
           <img src={logo} alt="profile picture" className="w-24 h-24 rounded-full mx-auto" />
@@ -40,15 +40,17 @@ const Dashboard = () => {
       </aside>
       <div className="w-full md:w-3/4 p-6 overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-center mb-5 gap-5">
-          <div className="bg-blue-100 text-pink-600 p-5 rounded-lg md:w-1/2 hover:bg-custom-lightPink1" onClick={() => navigate('/dashboard/accounts')}>
+          <div className="bg-custom-pink text-white p-5 rounded-lg md:w-1/2 hover:bg-custom-darkPink" onClick={() => navigate('/dashboard/accounts')}>
             <h2 className="text-xl font-bold mb-2">Total User Accounts</h2>
             <div className="text-2xl font-bold">1,234</div>
           </div>
-          <div className="bg-blue-100 text-pink-600 p-5 rounded-lg md:w-1/2 hover:bg-custom-lightPink1 mt-5 md:mt-0" onClick={() => navigate('/dashboard/revenue')}>
+          <div className="bg-custom-pink text-white p-5 rounded-lg md:w-1/2 hover:bg-custom-darkPink mt-5 md:mt-0" onClick={() => navigate('/dashboard/appointments')}>
             <h2 className="text-xl font-bold mb-2">Total Revenue</h2>
             <div className="text-2xl font-bold">$123,456.78</div>
           </div>
         </div>
+        {location.pathname === '/dashboard' && <DashboardHome />}
+
         <Outlet />
       </div>
     </div>

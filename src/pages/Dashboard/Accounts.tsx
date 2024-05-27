@@ -1,8 +1,9 @@
+// Accounts.tsx
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import logo from '../assets/Paw2.svg';
+import logo from '../../assets/react.svg';
+import SearchBar from '../../components/SearchBar'; // Adjust the import path as needed
 
-// Sample account data
 const accounts = [
   { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
   { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
@@ -18,32 +19,21 @@ const Accounts = () => {
   );
 
   const handleUpdateAccount = (accountId: number) => {
-    // Implement account update logic here
     console.log(`Updating account with ID: ${accountId}`);
   };
 
   const handleDeleteAccount = (accountId: number) => {
-    // Implement account deletion logic here
     console.log(`Deleting account with ID: ${accountId}`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      
-      <header className="flex items-center justify-between bg-custom-pink p-4">
+    <div className="bg-white p-5 rounded-lg mb-5 flex-1 overflow-y-auto">
+      <header className="flex items-center justify-between bg-custom-pink p-4 rounded-t-lg">
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="h-8 w-8" />
           <span className="ml-2 text-white text-lg font-semibold">Accounts</span>
         </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Search accounts..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 rounded border border-gray-300"
-          />
-        </div>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder='Search Accounts...' />
       </header>
       <div className="p-4">
         <h2 className="text-2xl font-semibold mb-4">Accounts</h2>

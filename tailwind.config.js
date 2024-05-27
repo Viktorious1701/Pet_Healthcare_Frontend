@@ -39,12 +39,16 @@ export const theme = {
         foreground: "hsl(var(--muted-foreground))",
       },
       custom: {
-          pink: '#dd327e',
-          lightPink1: '#fce7f3',
-          lightPink2: '#fdf2f8',
-          lightGrey: '#f4f4f4',
-          lightPink3: '#f0e4f1',
-          lightBlue: '#eceff5',
+        pink: '#dd327e',
+        teal: '#32ddac', // Changed from MintGreen
+        lavender: '#dd32b9', 
+        gray: '#b3b3b3',
+        lightPink: '#f58ab0', // Combined lightPink1 and lightPink2
+        darkPink: '#b0225d',
+        lightGrey: '#f4f4f4',
+        lightBlue: '#eceff5',
+        lightCrimson: '#dd3245', // Renamed from crimson
+        blue: '#00d8ff'
         },
       accent: {
         DEFAULT: "hsl(var(--accent))",
@@ -82,4 +86,7 @@ export const theme = {
 };
 // eslint-disable-next-line no-undef
 export const plugins = [require("tailwindcss-animate")];
+
+
+
 

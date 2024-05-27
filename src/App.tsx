@@ -9,8 +9,8 @@ import {
 import About from "./pages/About";
 import "./index.css";
 
-import Dashboard from "./pages/Dashboard";
-import Accounts from "./pages/Accounts"; // Import the Accounts component
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Accounts from "./pages/Dashboard/Accounts"; // Import the Accounts component
 import BookingForm from "./components/BookingForm";
 import CalendarComponent from "./components/CalendarComponent";
 import "react-calendar/dist/Calendar.css";
@@ -18,15 +18,16 @@ import Login from "./pages/Login";
 //import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import Revenue from "./pages/Revenue";
-
+import Appointment from "./pages/Dashboard/AppointmentDashboard";
+import Hospitalization from "./pages/Dashboard/Hospitalization";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Home/>} />
       <Route path="/dashboard/*" element={<Dashboard />}>
-        <Route path="revenue" element={<Revenue/>}/>
+        <Route path="appointments" element={<Appointment/>}/>
         <Route path="accounts" element={<Accounts />} />
+        <Route path="hospitalization" element={<Hospitalization/>} />
         {/* Nested Accounts route */}
         {/* Add more nested routes here if needed */}
       </Route>
