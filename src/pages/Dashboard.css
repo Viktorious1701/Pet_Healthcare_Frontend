@@ -9,7 +9,6 @@ color
 
 */
 
-
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -195,10 +194,9 @@ header h1 {
   background: #9c27b0;
 }
 
-.category.others{
+.category.others {
   background: #ff9800;
 }
-
 
 .time {
   flex: 1;
@@ -211,8 +209,6 @@ header h1 {
 .amount {
   font-weight: bold;
 }
-
-
 
 /* Media Queries for Mobile */
 @media (max-width: 768px) {
@@ -241,6 +237,5 @@ header h1 {
     width: 100vw;
     margin-top: 20px;
     overflow-y: auto; /* Ensure sale-revenue can scroll */
-
   }
 }
