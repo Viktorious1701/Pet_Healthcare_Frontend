@@ -1,9 +1,57 @@
-import Header from "@/components/Header";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import Paw from "@/assets/Paw2.svg";
-import { Link } from "react-router-dom";
-const Navbar = () => {
+import * as React from "react"
+import { Link } from "react-router-dom"
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/icons"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
+const intro: { title: string; href: string; description: string }[] = [
+  {
+    title: "Alert Lịch sử phát triển",
+    href: "/docs/primitives/alert-dialog",
+    description:
+      "Lich sử phát triển của HealthCare",
+  },
+  {
+    title: "Đội ngũ nhân viên",
+    href: "/docs/primitives/alert-dialog",
+    description:
+      "Đội ngũ nhân viên của HealthCare",
+  },
+]
+
+const shops: { title: string; href: string; description: string }[] = [
+  {
+    title: "Dịch Vụ 1",
+    href: "",
+    description:
+      "Dịch Vụ 1 description",
+  },
+  {
+    title: "Dịch Vụ 2",
+    href: "",
+    description:
+      "Dịch Vụ 2 description",
+  },
+  {
+    title: "Dịch Vụ 3",
+    href: "",
+    description:
+      "Dịch Vụ 3 description",
+  },
+  
+]
+
+export default function Header() {
   return (
     <div className="mt-[2.25rem] ml-10">
       <NavigationMenu>
@@ -14,10 +62,9 @@ const Navbar = () => {
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
                   <NavigationMenuLink asChild>
-                    <a
+                    <Link to={"/"}
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
-                    >
+                      >
                       <Icons.logo className="h-6 w-6" />
                       <div className="mb-2 mt-4 text-lg font-medium">
                         shadcn/ui
@@ -27,7 +74,7 @@ const Navbar = () => {
                         paste into your apps. Accessible. Customizable. Open
                         Source.
                       </p>
-                    </a>
+                    </Link>
                   </NavigationMenuLink>
                 </li>
                 <ListItem href="/docs" title="Introduction">
@@ -80,14 +127,38 @@ const Navbar = () => {
               </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
+              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
                 Liên Hệ
               </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
     </div>
-  );
-};
-
-export default Navbar;
+  )
+}
+ 
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ListItem.displayName = "ListItem"
