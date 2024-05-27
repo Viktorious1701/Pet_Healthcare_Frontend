@@ -1,16 +1,16 @@
+// App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import About from './About';
 import './index.css';
 
 import Dashboard from './pages/Dashboard';
-
+import Accounts from './pages/Accounts';  // Import the Accounts component
 import BookingForm from './components/BookingForm';
 import CalendarComponent from './components/CalendarComponent';
 import 'react-calendar/dist/Calendar.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Register from './pages/Register';
-
 
 const App = () => {
   return (
