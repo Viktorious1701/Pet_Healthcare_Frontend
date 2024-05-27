@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import "@/../app/globals.css"
 import PetCare from "../assets/petcare.jpg"
-import Paw from "../assets/Paw2.svg"
 
 const Register = () => {
     return (
