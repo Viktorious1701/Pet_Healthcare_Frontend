@@ -11,7 +11,7 @@ color
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import logo from "../assets/react.svg";
 import Report, { ReportItem } from '../components/Report';
-import Navbar from '../components/Navbar';
+
 
 const Dashboard = () => {
   const sampleData: ReportItem[] = [
