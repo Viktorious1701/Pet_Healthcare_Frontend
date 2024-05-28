@@ -35,10 +35,11 @@ const Accounts = () => {
         </div>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder='Search Accounts...' />
       </header>
-      <div className="p-4">
-        <h2 className="text-2xl font-semibold mb-4">Accounts</h2>
+      <section className="account-list">
+        <div className='accounts'>
+        <h2 className="text-lg font-bold mb-2">Accounts</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+          <table className="w-full bg-white rounded-lg shadow overflow-hidden">
             <thead>
               <tr className="bg-gray-200">
                 <th className="py-2 px-4 text-left">Name</th>
@@ -70,7 +71,8 @@ const Accounts = () => {
             </tbody>
           </table>
         </div>
-      </div>
+        </div>
+      </section>
       <Outlet />
     </div>
   );

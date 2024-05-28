@@ -1,9 +1,16 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/react.svg';
 import DashboardHome from './DashboardHome';
+import RevenueChart from '@/components/RevenueChart';
+
 const Dashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Dummy data for revenue
+  const appointmentsRevenue = 60000;
+  const hospitalizationRevenue = 63456.78;
+
   const navItems = [
     { path: '/dashboard', label: 'Dashboard' },
     { path: '/dashboard/appointments', label: 'Appointments' },
@@ -13,8 +20,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex min-h-screen bg-custom-gray">
-      <aside className="hidden md:flex w-1/4 bg-pink-100 flex-col items-center py-6 px-4">
+    <div className="flex h-screen bg-white">
+      <aside className="hidden md:flex w-1/4 bg-pink-100 flex-col items-center py-6 px-4 overflow-y-auto">
         <div className="text-center mb-6">
           <img src={logo} alt="profile picture" className="w-24 h-24 rounded-full mx-auto" />
           <h2 className="text-xl font-bold text-pink-700 mt-3">Admin Account</h2>
@@ -27,8 +34,8 @@ const Dashboard = () => {
                 <Link
                   to={item.path}
                   className={`block px-3 py-2 rounded-lg text-lg font-semibold transition-colors ${location.pathname === item.path
-                      ? 'bg-pink-300 text-pink-900'
-                      : 'text-pink-700 hover:bg-pink-200'
+                    ? 'bg-pink-300 text-pink-900'
+                    : 'text-pink-700 hover:bg-pink-200'
                     }`}
                 >
                   {item.label}
@@ -44,13 +51,13 @@ const Dashboard = () => {
             <h2 className="text-xl font-bold mb-2">Total User Accounts</h2>
             <div className="text-2xl font-bold">1,234</div>
           </div>
-          <div className="bg-custom-pink text-white p-5 rounded-lg md:w-1/2 hover:bg-custom-darkPink mt-5 md:mt-0" onClick={() => navigate('/dashboard/appointments')}>
+          <div className="bg-custom-pink text-white p-5 rounded-lg md:w-1/2 hover:bg-custom-darkPink mt-5 md:mt-0" onClick={() => navigate('/dashboard')}>
             <h2 className="text-xl font-bold mb-2">Total Revenue</h2>
             <div className="text-2xl font-bold">$123,456.78</div>
           </div>
         </div>
+        <RevenueChart appointmentsRevenue={appointmentsRevenue} hospitalizationRevenue={hospitalizationRevenue} />
         {location.pathname === '/dashboard' && <DashboardHome />}
-
         <Outlet />
       </div>
     </div>
@@ -58,4 +65,3 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
-
