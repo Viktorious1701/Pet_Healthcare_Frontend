@@ -8,7 +8,7 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       onLog(level, log, handler) {
-        if (log.cause && log.cause.message === `Can't resolve original location of error.`) {
+        if (log.cause && log.cause.cause === `Can't resolve original location of error.`) {
           return
         }
         handler(level, log)
