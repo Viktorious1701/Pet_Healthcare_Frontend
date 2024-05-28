@@ -38,6 +38,18 @@ export const theme = {
         DEFAULT: "hsl(var(--muted))",
         foreground: "hsl(var(--muted-foreground))",
       },
+      custom: {
+        pink: '#dd327e',
+        teal: '#32ddac', // Changed from MintGreen
+        lavender: '#dd32b9', 
+        gray: '#b3b3b3',
+        lightPink: '#f58ab0', // Combined lightPink1 and lightPink2
+        darkPink: '#b0225d',
+        lightGrey: '#f4f4f4',
+        lightBlue: '#eceff5',
+        lightCrimson: '#dd3245', // Renamed from crimson
+        blue: '#00d8ff'
+        },
       accent: {
         DEFAULT: "hsl(var(--accent))",
         foreground: "hsl(var(--accent-foreground))",
