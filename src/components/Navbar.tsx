@@ -1,6 +1,6 @@
 import Header from './Header'
 import { Button } from './ui/button'
-import Paw from '../assets/Paw2.svg'
+import Paw from '@/assets/Paw2.svg'
 const Navbar = () => {
   return (
     <div className="flex bg-[#F3F4F6] pb-8 justify-between ">
