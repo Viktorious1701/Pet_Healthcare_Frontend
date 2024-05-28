@@ -38,14 +38,6 @@ export const theme = {
         DEFAULT: "hsl(var(--muted))",
         foreground: "hsl(var(--muted-foreground))",
       },
-      custom: {
-          pink: '#dd327e',
-          lightPink1: '#fce7f3',
-          lightPink2: '#fdf2f8',
-          lightGrey: '#f4f4f4',
-          lightPink3: '#f0e4f1',
-          lightBlue: '#eceff5',
-        },
       accent: {
         DEFAULT: "hsl(var(--accent))",
         foreground: "hsl(var(--accent-foreground))",
