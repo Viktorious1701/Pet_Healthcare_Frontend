@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export interface ReportItem {
   category: string;
@@ -14,27 +14,17 @@ interface ReportProps {
 
 const Report: React.FC<ReportProps> = ({ day, data }) => {
   return (
-    <div className="mb-5">
-      <h2 className="text-lg font-bold text-pink-600 mb-2">{day}</h2>
-      <ul className="divide-y divide-gray-200">
+    <div>
+      <h2>{day}</h2>
+      <ul>
         {data.map((item, index) => (
-          <li key={index} className="flex items-center justify-between py-3">
-            <span
-              className={`category inline-flex items-center justify-center px-3 py-1 rounded-md text-white w-32 ${
-                item.category.toLowerCase() === "hospitalization"
-                  ? "bg-blue-500"
-                  : item.category.toLowerCase() === "booking"
-                  ? "bg-purple-500"
-                  : "bg-orange-500"
-              }`}
-            >
+          <li key={index}>
+            <span className={`category ${item.category.toLowerCase()}`}>
               {item.category}
             </span>
-            <span className="time text-gray-600">{item.time}</span>
-            <span className="note text-gray-600 truncate">{item.note}</span>
-            <span className="amount text-pink-600 font-bold">
-              {item.amount}
-            </span>
+            <span className="time">{item.time}</span>
+            <span className="note">{item.note}</span>
+            <span className="amount">{item.amount}</span>
           </li>
         ))}
       </ul>
