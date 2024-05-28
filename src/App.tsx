@@ -1,11 +1,5 @@
 // App.tsx
-import "./index.css";
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import About from "./pages/About";
 import "./index.css";
 
@@ -20,29 +14,27 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Appointment from "./pages/Dashboard/AppointmentDashboard";
 import Hospitalization from "./pages/Dashboard/Hospitalization";
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<Home/>} />
-      <Route path="/dashboard/*" element={<Dashboard />}>
-        <Route path="appointments" element={<Appointment/>}/>
-        <Route path="accounts" element={<Accounts />} />
-        <Route path="hospitalization" element={<Hospitalization/>} />
-        {/* Nested Accounts route */}
-        {/* Add more nested routes here if needed */}
-      </Route>
-      <Route path="/about" element={<About />} />
-      <Route path="/services" element={<h1>Services</h1>} />
-      <Route path="/calendar" element={<CalendarComponent />} />
-      <Route path="/book" element={<BookingForm />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/*" element={<h1>404 Not Found</h1>} />
-    </Route>
-  )
-);
+
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="appointments" element={<Appointment />} />
+          <Route path="accounts" element={<Accounts />} />
+          <Route path="hospitalization" element={<Hospitalization />} />
+        </Route>
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<h1>Services</h1>} />
+        <Route path="/calendar" element={<CalendarComponent />} />
+        <Route path="/book" element={<BookingForm />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;
