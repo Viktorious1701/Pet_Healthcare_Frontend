@@ -1,4 +1,5 @@
 // DashboardHome.jsx
+import RevenueChart from '@/components/RevenueChart';
 import { useEffect, useState } from 'react';
 
 const fetchBookingsThisMonth = () => {
@@ -21,7 +22,9 @@ const DashboardHome = () => {
    const [bookingsThisMonth, setBookingsThisMonth] = useState(0);
    const [cancelledBookings, setCancelledBookings] = useState(0);
    const [averageVetRatings, setAverageVetRatings] = useState(0);
- 
+    // Dummy data for revenue
+    const appointmentsRevenue = 60000;
+    const hospitalizationRevenue = 63456.78;
    // Fetch data on component mount
    useEffect(() => {
      const fetchData = async () => {
@@ -54,6 +57,10 @@ const DashboardHome = () => {
           <div className="text-4xl font-bold">{averageVetRatings}</div>
         </div>
       </div>
+      <RevenueChart
+          appointmentsRevenue={appointmentsRevenue}
+          hospitalizationRevenue={hospitalizationRevenue}
+        />
     </div>
   );
 };
