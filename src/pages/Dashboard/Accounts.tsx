@@ -1,8 +1,6 @@
-// Accounts.tsx
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import logo from '../../assets/react.svg';
-import SearchBar from '../../components/SearchBar'; // Adjust the import path as needed
+import logo from '@/assets/react.svg';
+import SearchBar from '../../components/SearchBar';
 
 const accounts = [
   { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
@@ -13,7 +11,6 @@ const accounts = [
 
 const Accounts = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
   const filteredAccounts = accounts.filter((account) =>
     account.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -37,43 +34,42 @@ const Accounts = () => {
       </header>
       <section className="account-list">
         <div className='accounts'>
-        <h2 className="text-lg font-bold mb-2">Accounts</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="py-2 px-4 text-left">Name</th>
-                <th className="py-2 px-4 text-left">Email</th>
-                <th className="py-2 px-4 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAccounts.map((account) => (
-                <tr key={account.id} className="border-b">
-                  <td className="py-2 px-4">{account.name}</td>
-                  <td className="py-2 px-4">{account.email}</td>
-                  <td className="py-2 px-4">
-                    <button
-                      onClick={() => handleUpdateAccount(account.id)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => handleDeleteAccount(account.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <h2 className="text-lg font-bold mb-2">Accounts</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="py-2 px-4 text-left">Name</th>
+                  <th className="py-2 px-4 text-left">Email</th>
+                  <th className="py-2 px-4 text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredAccounts.map((account) => (
+                  <tr key={account.id} className="border-b">
+                    <td className="py-2 px-4">{account.name}</td>
+                    <td className="py-2 px-4">{account.email}</td>
+                    <td className="py-2 px-4">
+                      <button
+                        onClick={() => handleUpdateAccount(account.id)}
+                        className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => handleDeleteAccount(account.id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
-      <Outlet />
     </div>
   );
 };
