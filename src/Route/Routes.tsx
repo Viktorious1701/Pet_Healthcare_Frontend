@@ -1,5 +1,9 @@
 import App from "@/App";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import Accounts from "@/pages/Dashboard/Accounts";
+import AppointmentDashboard from "@/pages/Dashboard/AppointmentDashboard";
+import Hospitalization from "@/pages/Dashboard/Hospitalization";
+
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -21,6 +25,12 @@ export const router = createBrowserRouter([
             <Dashboard></Dashboard>
           </ProtectedRoutes>
         ),
+        children: [
+          { path: "accounts", element: <Accounts></Accounts> },
+          { path: "appointment_dashboard", element: <AppointmentDashboard></AppointmentDashboard> },
+          { path: "hospitalization", element: <Hospitalization></Hospitalization> },
+        ],
+
       },
     ],
   },

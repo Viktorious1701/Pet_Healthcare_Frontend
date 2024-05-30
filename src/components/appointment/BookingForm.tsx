@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-
-
-import { useNavigate } from "react-router-dom";
 import fetchDoctors from "./api";
 import { useSelector, useDispatch } from "react-redux";
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { setDateSlot } from "@/components/slices/dateSlice";

@@ -2,7 +2,7 @@ import Navbar from "@/components/navigation/Navbar"
 import {Card, Skeleton} from "@nextui-org/react";
 
 
-const Home = (props: Props) => {
+const Home = () => {
   return (
     <>
       <Navbar/>
