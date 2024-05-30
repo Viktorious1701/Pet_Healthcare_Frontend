@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { setDateSlot } from"./dateSlice"
-import { AppDispatch } from '../store';
+import { setDateSlot } from "@/components/slices/dateSlice";
+import { AppDispatch } from '@/store';
 
 
 type ValuePiece = Date | null;

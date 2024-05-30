@@ -10,8 +10,8 @@ import About from "./pages/About";
 import "./index.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Accounts from "./pages/Dashboard/Accounts"; // Import the Accounts component
-import BookingForm from "./components/BookingForm";
-import CalendarComponent from "./components/CalendarComponent";
+import BookingForm from "./components/appointment/BookingForm";
+import CalendarComponent from "./components/calendar/CalendarComponent";
 import "react-calendar/dist/Calendar.css";
 import Login from "./pages/Login";
 //import Home from "./pages/Home";

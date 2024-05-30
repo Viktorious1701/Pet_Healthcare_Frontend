@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import logo from '../../assets/react.svg';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '@/components/navigation/SearchBar'
 
 
 interface Appointment {

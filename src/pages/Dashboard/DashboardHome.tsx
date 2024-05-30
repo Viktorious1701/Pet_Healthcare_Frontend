@@ -1,5 +1,5 @@
 // DashboardHome.jsx
-import RevenueChart from '@/components/RevenueChart';
+import RevenueChart from '@/components/dashboard_components/RevenueChart';
 import { useEffect, useState } from 'react';
 
 const fetchBookingsThisMonth = () => {

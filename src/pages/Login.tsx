@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import "@/../app/globals.css"
-import PetCare from "../assets/petcare.jpg"
+import PetCare from "@/assets/petcare.jpg"
 
 const Login = () => {
     return (
