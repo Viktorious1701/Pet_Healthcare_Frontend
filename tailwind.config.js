@@ -1,10 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
+const { nextui } = require('@nextui-org/react');
 export const darkMode = ["class"];
 export const content = [
   './pages/**/*.{ts,tsx}',
   './components/**/*.{ts,tsx}',
   './app/**/*.{ts,tsx}',
   './src/**/*.{ts,tsx}',
+  './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
 ];
 export const prefix = "";
 export const theme = {
@@ -85,5 +88,5 @@ export const theme = {
   },
 };
 // eslint-disable-next-line no-undef
-export const plugins = [require("tailwindcss-animate")];
+export const plugins = [nextui(), require("tailwindcss-animate")];
 

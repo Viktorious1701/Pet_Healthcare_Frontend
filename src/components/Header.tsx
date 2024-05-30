@@ -31,22 +31,16 @@ const intro: { title: string; href: string; description: string }[] = [
 
 const shops: { title: string; href: string; description: string }[] = [
   {
-    title: "Dịch Vụ 1",
+    title: "Booking",
     href: "",
     description:
       "Dịch Vụ 1 description",
   },
   {
-    title: "Dịch Vụ 2",
+    title: "Hospitalization",
     href: "",
     description:
       "Dịch Vụ 2 description",
-  },
-  {
-    title: "Dịch Vụ 3",
-    href: "",
-    description:
-      "Dịch Vụ 3 description",
   },
   
 ]
@@ -57,7 +51,7 @@ export default function Header() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F3F4F6]">Getting started</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-[#F3F4F6]">Home</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
@@ -107,7 +101,7 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F3F4F6]">Dịch Vụ</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-[#F3F4F6]">Service</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px] ">
                 {shops.map((component) => (
