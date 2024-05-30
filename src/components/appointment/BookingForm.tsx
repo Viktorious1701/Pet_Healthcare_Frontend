@@ -21,7 +21,7 @@ interface Doctor {
 
 const BookingForm: React.FC = () => {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
@@ -75,7 +75,7 @@ const BookingForm: React.FC = () => {
       payload: formData,
     })
     // Navigate to the next form or page
-    navigate("/date");
+    // navigate("/date");
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {

@@ -31,7 +31,7 @@ const CalendarComponent: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const onChange = (value: Value) => {
     if (Array.isArray(value)) {
@@ -64,7 +64,7 @@ const CalendarComponent: React.FC = () => {
           slot: selectedSlot,
         })
       )
-      navigate('/book');
+      // navigate('/book');
 
     }
   };

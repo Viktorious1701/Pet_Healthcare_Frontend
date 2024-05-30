@@ -3,17 +3,28 @@ import App from './App.tsx'
 import './index.css'
 import { Provider } from 'react-redux'
 import store from './store.ts'
+
 import React from 'react'
-// 1. import `NextUIProvider` component
-import {NextUIProvider} from "@nextui-org/react";
+import { RouterProvider } from 'react-router-dom'
+import { router } from './Route/Routes.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+
+// ReactDOM.createRoot(document.getElementById('root')!).render(
+//   <Provider store={store}>
+//     <App />
+//   </Provider>
+// )
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+        
+  <React.StrictMode>
   <NextUIProvider>
-    <Provider store={store}>
-      <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    </Provider>
+    <RouterProvider router={router}></RouterProvider>
   </NextUIProvider>
+  </React.StrictMode>
+);
 
-)
