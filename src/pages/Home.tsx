@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar"
 
+interface Props {}
 
-export default function Home() {
+const Home = (props: Props) => {
   return (
     <>
       <Navbar/>
@@ -9,3 +10,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home
