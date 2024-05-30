@@ -1,6 +1,7 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
 import logo from '@/assets/react.svg';
+import { useAuth } from "@/Context/useAuth";
 interface SidebarContextType {
   expanded: boolean;
 }
@@ -13,7 +14,7 @@ interface SidebarProps {
 
 export default function SidebarComponent({ children }: SidebarProps) {
     const [expanded, setExpanded] = useState<boolean>(true);
-  
+    const { user } = useAuth();
     return (
       <aside
         className={`left-0 top-0 h-screen bg-white border-r shadow-sm ${
@@ -51,10 +52,10 @@ export default function SidebarComponent({ children }: SidebarProps) {
               }`}
             >
               <div className="leading-4">
-                <h4 className="font-semibold">John Doe</h4>
-                <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+                <h4 className="font-semibold">{user?.userName}</h4>
+                <span className="text-xs text-gray-600">{user?.email}</span>
               </div>
-              <MoreVertical size={20} />
+              <MoreVertical size={20} /> 
             </div>
           </div>
         </nav>

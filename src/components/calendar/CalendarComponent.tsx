@@ -5,8 +5,7 @@ import { format } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import { setDateSlot } from "@/components/slices/dateSlice";
 import { AppDispatch } from '@/store';
-
-
+import 'react-calendar/dist/Calendar.css';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
