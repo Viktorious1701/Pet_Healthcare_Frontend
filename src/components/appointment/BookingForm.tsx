@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-
-
-import { useNavigate } from "react-router-dom";
 import fetchDoctors from "./api";
 import { useSelector, useDispatch } from "react-redux";
 
-import { RootState } from "../store";
+import { RootState } from "../../store";
 
 interface FormValues {
   firstName: string;
@@ -43,10 +40,10 @@ const BookingForm: React.FC = () => {
         // Check if date and slot are in local storage
         const dateFromStorage = localStorage.getItem('date');
         const slotFromStorage = localStorage.getItem('slot');
-  
+
         let dateObj = null;
         let slotValue = null;
-  
+
         // Use date and slot from local storage if available
         if (dateFromStorage && slotFromStorage) {
           dateObj = new Date(dateFromStorage);
@@ -56,7 +53,7 @@ const BookingForm: React.FC = () => {
           dateObj = date ? new Date(date) : null;
           slotValue = slot;
         }
-  
+
         const doctors = await fetchDoctors(dateObj, slotValue);
         setDoctors(doctors);
       } catch (error) {
@@ -69,7 +66,7 @@ const BookingForm: React.FC = () => {
   const onSubmit = (formData: FormValues) => {
     // Handle form submission logic here
     console.log("Form submitted:", formData);
-    
+
     dispatch({
       type: "SET_FORM_DATA",
       payload: formData,

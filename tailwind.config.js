@@ -42,7 +42,7 @@ export const theme = {
         foreground: "hsl(var(--muted-foreground))",
       },
       custom: {
-        pink: '#dd327e',
+        pink: '#e65b9a',
         teal: '#32ddac', // Changed from MintGreen
         lavender: '#dd32b9', 
         gray: '#b3b3b3',

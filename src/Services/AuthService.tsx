@@ -2,11 +2,11 @@ import axios from "axios";
 import { handleError } from "../Helpers/ErrorHandler";
 import { UserProfileToken } from "../Models/User";
 
-const api = "https://localhost:7227/api/";
+const api = "https://pethealthcaresystem.azurewebsites.net/api/";
 
 export const loginAPI = async (username: string, password: string) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "account/login", {
+    const data = await axios.post<UserProfileToken>(api + "Account/login", {
       username: username,
       password: password
     });
@@ -22,7 +22,7 @@ export const registerAPI = async (
   password: string
 ) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "account/register", {
+    const data = await axios.post<UserProfileToken>(api + "Account/register", {
       email: email,
       username: username,
       password: password,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '@/assets/react.svg';
-import SearchBar from '../../components/SearchBar';
+import SearchBar from '@/components/navigation/SearchBar';
 
 const accounts = [
   { id: 1, name: 'John Doe', email: 'john.doe@example.com' },

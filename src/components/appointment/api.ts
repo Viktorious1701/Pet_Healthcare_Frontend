@@ -1,4 +1,4 @@
-import doctorsData from './doctors.json';
+import doctorsData from '../doctors.json';
 import { formatISO } from 'date-fns';
 
 interface Availability {

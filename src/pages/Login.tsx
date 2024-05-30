@@ -63,12 +63,13 @@ const Login = () => {
                   placeholder="username"
                   type="username"
                     {...register("userName")}
+                    autoComplete="new-password"
                 />
                 {errors.userName ? <p>{errors.userName.message}</p> : ""}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" {...register("password")}/>
+                <Input id="password" type="password" {...register("password")} autoComplete="new-password"/>
                 {errors.password ? <p>{errors.password.message}</p> : ""}
               </div>
               <Button className="w-full" type="submit">

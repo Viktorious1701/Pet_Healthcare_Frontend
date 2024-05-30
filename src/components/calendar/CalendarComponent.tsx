@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { setDateSlot } from"./dateSlice"
-import { AppDispatch } from '../store';
-
-
+import { setDateSlot } from "@/components/slices/dateSlice";
+import { AppDispatch } from '@/store';
+import 'react-calendar/dist/Calendar.css';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 

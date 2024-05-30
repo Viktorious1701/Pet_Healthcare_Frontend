@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import dateReducer from './components/dateSlice';
+import dateReducer from '@/components/slices/dateSlice';
 
 const store = configureStore({
   reducer: {
