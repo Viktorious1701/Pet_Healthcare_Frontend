@@ -15,11 +15,11 @@ import { SidebarItem } from "./SidebarComponent";
 
 const Sidebar = () => {
   const [activePath, setActivePath] = useState("/dashboard");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleNavigation = (path: string) => {
     setActivePath(path);
-    // navigate(path);
+    navigate(path);
   };
 
   return (

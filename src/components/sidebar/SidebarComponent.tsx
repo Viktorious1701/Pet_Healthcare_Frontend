@@ -13,7 +13,6 @@ interface SidebarProps {
 
 export default function SidebarComponent({ children }: SidebarProps) {
     const [expanded, setExpanded] = useState<boolean>(true);
-  
     return (
       <aside
         className={`left-0 top-0 h-screen bg-white border-r shadow-sm ${
