@@ -129,8 +129,6 @@ const Home = () => {
               </Link>
             </motion.button>
           </div>
-
-
           <div>
             <CustomCalendar />
           </div>
