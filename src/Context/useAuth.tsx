@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
@@ -8,7 +9,7 @@ import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
-import { ErrorOption } from "react-hook-form";
+//import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
   user: UserProfile | null;
@@ -35,7 +36,7 @@ export const UserProvider = ({ children }: Props) => {
     if (user && token) {
       setUser(JSON.parse(user));
       setToken(token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token; 
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
     setIsReady(true);
   }, []);
@@ -46,7 +47,6 @@ export const UserProvider = ({ children }: Props) => {
     password: string
   ) => {
     await registerAPI(email, username, password)
-      
       .then((res: any) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
@@ -61,13 +61,10 @@ export const UserProvider = ({ children }: Props) => {
           navigate("/dashboard");
         }
       })
-      .catch((e ) => toast.warning("Server error occurred"));
+      .catch((e) => toast.warning("Server error occurred", e));
   };
 
-  const loginUser = async (
-    username: string,
-    password: string
-  ) => {
+  const loginUser = async (username: string, password: string) => {
     await loginAPI(username, password)
       .then((res: any) => {
         if (res) {
@@ -83,12 +80,12 @@ export const UserProvider = ({ children }: Props) => {
           navigate("/dashboard");
         }
       })
-      .catch((e) => toast.warning("Server error occurred"));
+      .catch((e) => toast.warning("Server error occurred", e));
   };
 
   const isLoggedIn = () => {
     return !!user;
-  }
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -96,13 +93,15 @@ export const UserProvider = ({ children }: Props) => {
     setUser(null);
     setToken("");
     navigate("/");
-  }
+  };
 
   return (
-    <UserContext.Provider value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}>
-        {isReady ? children : null}
+    <UserContext.Provider
+      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
+    >
+      {isReady ? children : null}
     </UserContext.Provider>
-  )
+  );
 };
 
 export const useAuth = () => React.useContext(UserContext);

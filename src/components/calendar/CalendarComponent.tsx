@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import { format } from 'date-fns';
+import React, { useState } from "react";
+import Calendar from "react-calendar";
+import { format } from "date-fns";
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { setDateSlot } from "@/components/slices/dateSlice";
-import { AppDispatch } from '@/store';
-import 'react-calendar/dist/Calendar.css';
-import { useNavigate } from 'react-router';
+import { AppDispatch } from "@/store";
+import "react-calendar/dist/Calendar.css";
+import { useNavigate } from "react-router";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
@@ -15,22 +15,20 @@ interface TimeSlots {
 }
 
 const timeSlots: TimeSlots = {
-
-  '2024-05-19': ['10:00', '11:00', '13:00', '14:00'],
-  '2024-05-20': ['09:00', '10:30', '12:00', '15:00'],
-  '2024-05-24': ['09:00', '10:00', '15:00', '16:00'],
+  "2024-05-19": ["10:00", "11:00", "13:00", "14:00"],
+  "2024-05-20": ["09:00", "10:30", "12:00", "15:00"],
+  "2024-05-24": ["09:00", "10:00", "15:00", "16:00"],
 
   // Add more dates and slots as needed
 };
 
 const CalendarComponent: React.FC = () => {
-
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+
   const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onChange = (value: Value) => {
     if (Array.isArray(value)) {
@@ -38,7 +36,7 @@ const CalendarComponent: React.FC = () => {
     } else {
       if (value) {
         setSelectedDate(value);
-        const formattedDate = format(value, 'yyyy-MM-dd');
+        const formattedDate = format(value, "yyyy-MM-dd");
         setSlots(timeSlots[formattedDate] || []);
         setSelectedSlot(null); // Reset selected slot on date change
       } else {
@@ -55,21 +53,22 @@ const CalendarComponent: React.FC = () => {
 
   const handleNextClick = () => {
     if (selectedSlot && selectedDate) {
-      console.log(`Proceeding with date: ${selectedDate}, slot: ${selectedSlot}`);
+      console.log(
+        `Proceeding with date: ${selectedDate}, slot: ${selectedSlot}`
+      );
       // Add your next steps here, such as navigating to another page or showing a form
       dispatch(
         setDateSlot({
           date: selectedDate.toString(),
           slot: selectedSlot,
         })
-      )
-      navigate('/book');
-
+      );
+      navigate("/book");
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+    <div style={{ maxWidth: "400px", margin: "0 auto" }}>
       <h2>Select a Date</h2>
 
       <div className="flex justify-center items-center bg-custom-gray ">
@@ -88,9 +87,17 @@ const CalendarComponent: React.FC = () => {
           {slots.length > 0 ? (
             <ul>
               {slots.map((slot, index) => (
-                <li key={index} onClick={() => handleSlotClick(slot)} className="mb-1 cursor-pointer">
+                <li
+                  key={index}
+                  onClick={() => handleSlotClick(slot)}
+                  className="mb-1 cursor-pointer"
+                >
                   {slot}
-                  {selectedSlot === slot && <button onClick={handleNextClick} className="ml-1">Next</button>}
+                  {selectedSlot === slot && (
+                    <button onClick={handleNextClick} className="ml-1">
+                      Next
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
