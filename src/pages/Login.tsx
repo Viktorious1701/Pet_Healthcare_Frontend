@@ -1,29 +1,4 @@
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import "@/../app/globals.css";
-import PetCare from "../assets/petcare.jpg";
-import { useAuth } from "../Context/useAuth";
-import { useForm } from "react-hook-form";
 
-type LoginFormsInputs = {
-  userName: string;
-  password: string;
-};
-
-const validation = Yup.object().shape({
-  userName: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
-});
 
 import {
   CardTitle,
