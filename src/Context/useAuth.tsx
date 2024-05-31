@@ -8,6 +8,7 @@ import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
+import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
   user: UserProfile | null;
@@ -60,7 +61,7 @@ export const UserProvider = ({ children }: Props) => {
           navigate("/dashboard");
         }
       })
-      .catch((e) => toast.warning("Server error occurred"));
+      .catch((e ) => toast.warning("Server error occurred"));
   };
 
   const loginUser = async (

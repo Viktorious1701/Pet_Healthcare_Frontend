@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex bg-[#F3F4F6] pb-8 justify-between ">
+    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[#F3F4F6] pb-8  justify-between ">
       <div className="flex">
         <img src={Paw} className="ml-[3rem] mt-[2rem] w-[50px] h-[50px]" alt=""/>
         <Header />

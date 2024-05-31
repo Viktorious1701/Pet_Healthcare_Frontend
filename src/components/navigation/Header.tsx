@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
- 
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/icons";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,44 +12,38 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 
 const intro: { title: string; href: string; description: string }[] = [
   {
-    title: "Alert Lịch sử phát triển",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "Lich sử phát triển của HealthCare",
+    title: "About Us",
+    href: "/about",
+    description: "Our history, our mission, and our vision for the future",
   },
   {
-    title: "Đội ngũ nhân viên",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "Đội ngũ nhân viên của HealthCare",
+    title: "Customer Ratings",
+    href: "/",
+    description: "Customer overall ratings throughout the whole year",
   },
-]
+];
 
 const shops: { title: string; href: string; description: string }[] = [
   {
     title: "Dịch Vụ 1",
     href: "",
-    description:
-      "Dịch Vụ 1 description",
+    description: "Dịch Vụ 1 description",
   },
   {
     title: "Dịch Vụ 2",
     href: "",
-    description:
-      "Dịch Vụ 2 description",
+    description: "Dịch Vụ 2 description",
   },
   {
     title: "Dịch Vụ 3",
     href: "",
-    description:
-      "Dịch Vụ 3 description",
+    description: "Dịch Vụ 3 description",
   },
-  
-]
+];
 
 export default function Header() {
   return (
@@ -57,14 +51,16 @@ export default function Header() {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F3F4F6]">Getting started</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-[#F3F4F6]">
+              <Link to={"/"}>Getting Started</Link>
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                 <li className="row-span-3">
                   <NavigationMenuLink asChild>
-                    <a
+                    <Link
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
+                      to="/"
                     >
                       <Icons.logo className="h-6 w-6" />
                       <div className="mb-2 mt-4 text-lg font-medium">
@@ -75,30 +71,38 @@ export default function Header() {
                         paste into your apps. Accessible. Customizable. Open
                         Source.
                       </p>
-                    </a>
+                    </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/docs" title="Introduction">
+                <ListItem to="/docs" title="Introduction">
                   Re-usable components built using Radix UI and Tailwind CSS.
                 </ListItem>
-                <ListItem href="/docs/installation" title="Installation">
+                <ListItem
+                  to="/docs/installation"
+                  title="Installation"
+                >
                   How to install dependencies and structure your app.
                 </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Typography">
+                <ListItem
+                  to="/docs/primitives/typography"
+                  title="Typography"
+                >
                   Styles for headings, paragraphs, lists...etc
                 </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F3F4F6]">Giới Thiệu</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-[#F3F4F6]">
+              Giới Thiệu
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 {intro.map((component) => (
                   <ListItem
                     key={component.title}
                     title={component.title}
-                    href={component.href}
+                    to={component.href}
                   >
                     {component.description}
                   </ListItem>
@@ -107,14 +111,16 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F3F4F6]">Dịch Vụ</NavigationMenuTrigger>
+            <NavigationMenuTrigger className="bg-[#F3F4F6]">
+              Dịch Vụ
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] gap-3 p-4 md:w-[400px] md:grid-cols-2 lg:w-[500px] ">
                 {shops.map((component) => (
                   <ListItem
                     key={component.title}
                     title={component.title}
-                    href={component.href}
+                    to={component.href}
                   >
                     {component.description}
                   </ListItem>
@@ -123,30 +129,31 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
-                Thông Tin
-              </NavigationMenuLink>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
+              Thông Tin
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
-                Liên Hệ
-              </NavigationMenuLink>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
+              Liên Hệ
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
     </div>
-  )
+  );
 }
- 
+
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { to: string }
+>(({ className, title, children, to, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           ref={ref}
+          to={to}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
@@ -157,9 +164,9 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+

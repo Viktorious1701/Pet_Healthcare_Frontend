@@ -112,7 +112,8 @@ import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import BookingForm from '@/components/appointment/BookingForm';
-
+import NotFound from '@/pages/NotFound';
+import About from '@/pages/About';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -120,6 +121,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
+        element: <Home />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "home",
         element: <Home />,
       },
       {
@@ -152,8 +161,9 @@ export const router = createBrowserRouter([
           },
         ],
       },
+
       {
-        path: "calendar",
+        path: "appointments",
         element: <Calendar />,
       },
       {
@@ -162,7 +172,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <div>404 Not Found</div>,
+        element: <NotFound/>,
       }
     ],
   },

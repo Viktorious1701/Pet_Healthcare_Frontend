@@ -63,7 +63,7 @@ const CalendarComponent: React.FC = () => {
           slot: selectedSlot,
         })
       )
-       navigate('/book');
+      navigate('/book');
 
     }
   };
@@ -71,7 +71,17 @@ const CalendarComponent: React.FC = () => {
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto' }}>
       <h2>Select a Date</h2>
-      <Calendar onChange={onChange} value={selectedDate} />
+
+      <div className="flex justify-center items-center bg-custom-gray ">
+        <div className="bg-white rounded-md shadow-md p-6">
+          <Calendar
+            className="w-full p-2 border border-gray-300 rounded-md "
+            // Other props...
+            onChange={onChange}
+            value={selectedDate}
+          />
+        </div>
+      </div>
       {selectedDate && (
         <div className="mt-2">
           <h3>Available Time Slots</h3>
