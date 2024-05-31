@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    
     "@types/json-schema": "^7.0.15",
     "@types/node": "^20.12.12",
     "@types/react-dom": "^18.3.0",
@@ -34,6 +35,7 @@
     "@nextui-org/skeleton": "^2.0.28",
     "@nextui-org/system": "^2.2.0",
     "@nextui-org/theme": "^2.2.4",
+
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-slot": "^1.0.2",
@@ -44,6 +46,7 @@
     "@types/react-redux": "^7.1.33",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.2",
+    
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "class-variance-authority": "^0.7.0",
@@ -54,7 +57,12 @@
     "glob": "^10.4.1",
 
 
+    "dotenv": "^16.4.5",
+    "glob": "^10.4.1",
+
+
     "framer-motion": "^11.2.9",
+
 
     "localforage": "^1.10.0",
     "lucide-react": "^0.379.0",
@@ -70,9 +78,12 @@
     "react-router": "^6.23.1",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
+    
     "redux": "^5.0.1",
     "sort-by": "^0.0.2",
     "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "yup": "^1.4.0"
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
 

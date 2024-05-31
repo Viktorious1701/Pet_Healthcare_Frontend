@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../Models/User";
 import { createContext, useEffect, useState } from "react";
@@ -51,14 +50,13 @@ export const UserProvider = ({ children }: Props) => {
             email: res?.data.email,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
-          // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
           navigate("/dashboard");
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) => toast.warning("Server error occurred"));
   };
 
   const loginUser = async (
@@ -74,13 +72,13 @@ export const UserProvider = ({ children }: Props) => {
             email: res?.data.email,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token);
+          setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
           navigate("/dashboard");
         }
       })
-      .catch((e) => toast.warning("Server error occurred",e));
+      .catch((e) => toast.warning("Server error occurred"));
   };
 
   const isLoggedIn = () => {
@@ -92,7 +90,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken("");
-    // navigate("/");
+    navigate("/");
   }
 
   return (
@@ -102,5 +100,4 @@ export const UserProvider = ({ children }: Props) => {
   )
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => React.useContext(UserContext);
