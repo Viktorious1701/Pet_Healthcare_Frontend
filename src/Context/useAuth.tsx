@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../Models/User";
 import { createContext, useEffect, useState } from "react";
@@ -42,6 +45,7 @@ export const UserProvider = ({ children }: Props) => {
     password: string
   ) => {
     await registerAPI(email, username, password)
+      
       .then((res: any) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
