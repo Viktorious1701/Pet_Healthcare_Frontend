@@ -26,7 +26,7 @@ const timeSlots: TimeSlots = {
 const CalendarComponent: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Value>(new Date());
   const [slots, setSlots] = useState<string[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
@@ -63,7 +63,7 @@ const CalendarComponent: React.FC = () => {
           slot: selectedSlot,
         })
       )
-      // navigate('/book');
+       navigate('/book');
 
     }
   };
