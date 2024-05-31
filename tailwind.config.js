@@ -44,14 +44,18 @@ export const theme = {
       custom: {
         pink: '#e65b9a',
         teal: '#32ddac', // Changed from MintGreen
-        lavender: '#dd32b9', 
-        gray: '#b3b3b3',
-        lightPink: '#f58ab0', // Combined lightPink1 and lightPink2
+        lavender: '#dd32b9',
+        lightPink: '#f58ab0', 
         darkPink: '#b0225d',
         lightGrey: '#f4f4f4',
-        lightBlue: '#eceff5',
+        gray: '#b3b3b3',
+        light: '#f28fb2',
+        dark: '#b24975',
+  
         lightCrimson: '#dd3245', // Renamed from crimson
-        blue: '#00d8ff'
+        blue: '#00d8ff',
+        darkBlue: '#3730a3',
+        lightBlue: '#c7d2fe'
         },
       accent: {
         DEFAULT: "hsl(var(--accent))",

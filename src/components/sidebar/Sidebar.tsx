@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SidebarComponent from "./SidebarComponent";
 import {
@@ -27,8 +27,9 @@ const Sidebar = () => {
         path="/dashboard"
         onClick={handleNavigation}
         active={activePath === "/dashboard"}
-        alert
+        
       />
+      
       
       <SidebarItem
         icon={<UserCircle size={20} />}
@@ -37,6 +38,7 @@ const Sidebar = () => {
         onClick={handleNavigation}
         active={activePath === "/dashboard/accounts"}
       />
+      
       
       <SidebarItem
         icon={<Receipt size={20} />}
