@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
@@ -9,6 +10,7 @@ import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
+//import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
   user: UserProfile | null;
@@ -60,7 +62,7 @@ export const UserProvider = ({ children }: Props) => {
           navigate("/dashboard");
         }
       })
-      .catch((e) => toast.warning("Server error occurred",e));
+      .catch((e) => toast.warning("Server error occurred", e));
   };
 
   const loginUser = async (username: string, password: string) => {
