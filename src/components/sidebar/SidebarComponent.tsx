@@ -1,7 +1,8 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
 import logo from '@/assets/react.svg';
 import { useAuth } from "@/Context/useAuth";
+import UserSidebarProfile from "./UserSidebarProfile";
 interface SidebarContextType {
   expanded: boolean;
 }
@@ -55,7 +56,7 @@ export default function SidebarComponent({ children }: SidebarProps) {
                 <h4 className="font-semibold">{user?.userName}</h4>
                 <span className="text-xs text-gray-600">{user?.email}</span>
               </div>
-              <MoreVertical size={20} /> 
+              <UserSidebarProfile/>
             </div>
           </div>
         </nav>
