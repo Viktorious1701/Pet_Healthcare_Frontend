@@ -30,6 +30,7 @@ const Sidebar = () => {
         
       />
       
+      
       <SidebarItem
         icon={<UserCircle size={20} />}
         text="Accounts"
@@ -37,6 +38,7 @@ const Sidebar = () => {
         onClick={handleNavigation}
         active={activePath === "/dashboard/accounts"}
       />
+      
       
       <SidebarItem
         icon={<Receipt size={20} />}
