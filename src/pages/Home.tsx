@@ -10,7 +10,7 @@ import CustomCalendar from "@/components/calendar/CustomCalendar";
 
 const Home = () => {
   return (
-    <div className="flex flex-col min-h-screen p-0 m-0">
+    <div className="flex flex-col min-h-screen p-0 m-0 overflow-x-hidden">
       <Navbar />
       <main className="flex-grow mx-auto p-4 -ml-5 -mr-5">
         {/* Hero Section */}
@@ -136,7 +136,7 @@ const Home = () => {
         </section>
         <br />
         <br />
-        <br />
+        <br /> 
         <br />
         {/* Veterinarian Section */}
         <section id="veterinarian" className="mb-16 p-4 bg-gray-100 rounded-lg shadow text-center">
@@ -149,7 +149,7 @@ const Home = () => {
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
               <img src="https://via.placeholder.com/150" alt="Vet 2" className="rounded-full w-24 h-24 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Dr. John Smith</h3>
+              <h3 className="text-xl font-semibold mb-2">Dr. Johnny Sins</h3>
               <p className="text-base">Expert in Exotic Pets</p>
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
