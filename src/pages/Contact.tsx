@@ -1,6 +1,5 @@
 import Footer from '@/components/navigation/Footer';
 import Navbar from '@/components/navigation/Navbar';
-import React from 'react';
 
 const Contact = () => (
   <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
