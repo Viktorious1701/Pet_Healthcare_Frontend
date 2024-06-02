@@ -9,7 +9,7 @@ class Footer extends React.Component {
             <div className="flex flex-col">
               <div className="flex justify-center items-center self-center px-px w-9">
                 <img
-                  loading="lazy"
+                  loading="lazy" alt=''
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/3cafa9fd04a3bbd828e4f4532095fba2ffe4c3ff24267443fa6876e4f2347d83?apiKey=c62a455a8e834db1ac749b30467de15e&"
                   className="w-full aspect-[0.97]"
                 />
@@ -63,7 +63,7 @@ class Footer extends React.Component {
                     <div className="flex gap-4 max-md:pr-5 justify-center items-center text-center">
                       <div className="flex flex-col justify-center py-1">
                         <div className="flex justify-center items-center px-px">
-                          <img
+                          <img alt=''
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/a0010836910b60bda2b762aae75dce8b227e1dde799f3c572ced0f0bda1f0c83?apiKey=c62a455a8e834db1ac749b30467de15e&"
                             className="aspect-[0.96] w-[33px]"
@@ -72,7 +72,7 @@ class Footer extends React.Component {
                       </div>
                       <div className="flex flex-col justify-center py-1">
                         <div className="flex justify-center items-center px-px">
-                          <img
+                          <img alt=''
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/141c2c3d8b77d97f2fcab2c314d58077466ce7efe41510e39e1bb4e86061c48e?apiKey=c62a455a8e834db1ac749b30467de15e&"
                             className="aspect-[0.96] w-[33px]"
@@ -81,7 +81,7 @@ class Footer extends React.Component {
                       </div>
                       <div className="flex flex-col justify-center py-1">
                         <div className="flex justify-center items-center px-px">
-                          <img
+                          <img alt=''
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/3e084d80f5b1af7d2e84f91ab945accaff62c43e1a437513524c335b281ca22d?apiKey=c62a455a8e834db1ac749b30467de15e&"
                             className="aspect-[0.96] w-[33px]"

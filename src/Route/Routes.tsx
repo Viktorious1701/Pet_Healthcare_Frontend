@@ -9,7 +9,7 @@
 // const Accounts = lazy(() => import("@/pages/Dashboard/Accounts"));
 // const AppointmentDashboard = lazy(() => import("@/pages/Dashboard/AppointmentDashboard"));
 // const Hospitalization = lazy(() => import("@/pages/Dashboard/Hospitalization"));
-// const Calendar = lazy(() => import("@/pages/Calendar"));
+// const BookingPage = lazy(() => import("@/pages/BookingPage"));
 // const Home = lazy(() => import("@/pages/Home"));
 // const Login = lazy(() => import("@/pages/Login"));
 // const Register = lazy(() => import("@/pages/Register"));
@@ -107,11 +107,10 @@ import Dashboard from "@/pages/Dashboard/Dashboard";
 import Accounts from "@/pages/Dashboard/Accounts";
 import AppointmentDashboard from "@/pages/Dashboard/AppointmentDashboard";
 import Hospitalization from "@/pages/Dashboard/Hospitalization";
-import Calendar from "@/pages/Calendar";
+import BookingPage from "@/pages/Booking/BookingPage";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import BookingForm from '@/components/appointment/BookingForm';
 import NotFound from '@/pages/NotFound';
 import About from '@/pages/About';
 export const router = createBrowserRouter([
@@ -164,11 +163,7 @@ export const router = createBrowserRouter([
 
       {
         path: "appointments",
-        element: <Calendar />,
-      },
-      {
-        path: "book",
-        element: <BookingForm/>,
+        element: <BookingPage />,
       },
       {
         path: "*",
