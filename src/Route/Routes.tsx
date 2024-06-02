@@ -113,6 +113,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import NotFound from '@/pages/NotFound';
 import About from '@/pages/About';
+import BookingSuccess from '@/pages/Booking/BookingSuccess';
 import Contact from '@/pages/Contact';
 import ForgotPassword from '@/pages/ForgotPass';
 export const router = createBrowserRouter([
@@ -174,6 +175,10 @@ export const router = createBrowserRouter([
       {
         path: "appointments",
         element: <BookingPage />,
+      },
+      {
+        path: "booking-success",
+        element: <BookingSuccess />,
       },
    
       {
