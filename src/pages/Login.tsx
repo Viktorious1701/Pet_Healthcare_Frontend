@@ -16,7 +16,7 @@ import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import {Checkbox} from "@nextui-org/react";
-import React from "react";
+import { useState } from "react";
 
 type LoginFormsInputs = {
   userName: string;
@@ -42,7 +42,7 @@ const Login = () => {
     loginUser(form.userName, form.password);
   };
 
-  const [isSelected] = React.useState(false);
+  const [isSelected] = useState(false);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">

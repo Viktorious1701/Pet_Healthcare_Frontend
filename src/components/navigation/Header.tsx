@@ -17,7 +17,7 @@ import { Link } from "react-router-dom"
 const intro: { title: string; href: string; description: string }[] = [
   {
     title: "Welcome",
-    href: "/welcome",
+    href: "/",
     description:
       "Lich sử phát triển của HealthCare",
   },

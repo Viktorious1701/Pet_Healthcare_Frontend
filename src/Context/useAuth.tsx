@@ -19,6 +19,7 @@ type UserContextType = {
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
+  resetPassword: (email: string) => void;
 };
 
 type Props = { children: React.ReactNode };
@@ -84,6 +85,17 @@ export const UserProvider = ({ children }: Props) => {
       .catch((e) => toast.warning("Server error occurred", e));
   };
 
+  // This function is used to reset the password but not yet implemented
+  const resetPassword = async (email: string) => {
+    await axios
+      .post("http://localhost:5000/api/auth/forgot-password", { email })
+      .then((res) => {
+        if (res) {
+          toast.success("Password reset link sent to your email");
+        }
+      })
+      .catch((e) => toast.warning("Server error occurred", e));
+  };
   const isLoggedIn = () => {
     return !!user;
   };
@@ -98,7 +110,7 @@ export const UserProvider = ({ children }: Props) => {
 
   return (
     <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
+      value={{ loginUser, user, token, logout, isLoggedIn, registerUser, resetPassword}}
     >
       {isReady ? children : null}
     </UserContext.Provider>
