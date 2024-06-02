@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 import fetchDoctors from "./api";
 import { useDispatch } from "react-redux";
-
+import { useNavigate } from "react-router";
+import { setFormData } from "../slices/formSlice";
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -22,6 +23,7 @@ interface BookingFormProps {
 
 const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -52,10 +54,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
 
   const onSubmit = (formData: FormValues) => {
     console.log("Form submitted:", formData);
-    dispatch({
-      type: "SET_FORM_DATA",
-      payload: formData,
-    });
+    dispatch(setFormData(formData));
+    navigate("/booking-success"); // Redirect to homepage after form submission (adjust the path as needed
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {
@@ -162,14 +162,14 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-custom-gray text-white px-6 py-3 rounded cursor-pointer hover:bg-custom-darkBlue"
+                className="bg-custom-lightCrimson text-white px-6 py-3 rounded cursor-pointer hover: transform hover:scale-110"
               >
                 Cancel
               </button>
               <input
                 type="submit"
                 value="Submit"
-                className="bg-custom-pink text-white px-6 py-3 rounded cursor-pointer hover:bg-custom-darkBlue"
+                className="bg-custom-pink text-white px-6 py-3 rounded cursor-pointer hover: transform hover:scale-110"
               />
             </div>
           </form>

@@ -111,7 +111,7 @@ const BookingPage = () => {
                 </div>
               ) : (
                 <div className='p-10'>
-                  <h2 className="text-lg font-semibold">Support Information</h2>
+                  <h2 className="text-lg font-semibold">Date Selection </h2>
                   <p className="mt-4">Please select a date to <br />view available time slots.</p>
                 </div>
               )}
