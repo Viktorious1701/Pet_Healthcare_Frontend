@@ -12,35 +12,36 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { Link } from "react-router-dom"
 
 const intro: { title: string; href: string; description: string }[] = [
   {
     title: "Welcome",
-    href: "/docs/primitives/alert-dialog",
+    href: "/welcome",
     description:
       "Lich sử phát triển của HealthCare",
   },
   {
     title: "About Us",
-    href: "/docs/primitives/alert-dialog",
+    href: "/about",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
   {
     title: "Booking",
-    href: "/docs/primitives/alert-dialog",
+    href: "/booking",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
   {
     title: "Meet Our Teams",
-    href: "/docs/primitives/alert-dialog",
+    href: "/meet-our-teams",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
   {
     title: "Customer Rating",
-    href: "/docs/primitives/alert-dialog",
+    href: "/rating",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
@@ -49,13 +50,13 @@ const intro: { title: string; href: string; description: string }[] = [
 const shops: { title: string; href: string; description: string }[] = [
   {
     title: "Booking",
-    href: "",
+    href: "/booking",
     description:
       "Dịch Vụ 1 description",
   },
   {
     title: "Hospitalization",
-    href: "",
+    href: "/hospitalization",
     description:
       "Dịch Vụ 2 description",
   },
@@ -100,14 +101,14 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
-                About
-              </NavigationMenuLink>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
+              <Link to="/about">About</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-              <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
-                Contact
-              </NavigationMenuLink>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
+              <Link to="/contact">Contact</Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
