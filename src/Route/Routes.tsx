@@ -114,6 +114,7 @@ import Register from "@/pages/Register";
 import NotFound from '@/pages/NotFound';
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
+import ForgotPassword from '@/pages/ForgotPass';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -142,6 +143,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "dashboard",
