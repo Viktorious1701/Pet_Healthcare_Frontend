@@ -111,9 +111,10 @@ import BookingPage from "@/pages/Booking/BookingPage";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import BookingForm from '@/components/appointment/BookingForm';
 import NotFound from '@/pages/NotFound';
 import About from '@/pages/About';
+import Contact from '@/pages/Contact';
+import ForgotPassword from '@/pages/ForgotPass';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -128,6 +129,10 @@ export const router = createBrowserRouter([
         element: <About />,
       },
       {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
         path: "home",
         element: <Home />,
       },
@@ -138,6 +143,10 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "dashboard",
@@ -166,10 +175,7 @@ export const router = createBrowserRouter([
         path: "appointments",
         element: <BookingPage />,
       },
-      {
-        path: "book",
-        element: <BookingForm/>,
-      },
+   
       {
         path: "*",
         element: <NotFound/>,

@@ -14,6 +14,9 @@ import "@/../app/globals.css";
 import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
+import { Link } from 'react-router-dom';
+import {Checkbox} from "@nextui-org/react";
+import React from "react";
 
 type LoginFormsInputs = {
   userName: string;
@@ -28,14 +31,19 @@ const validation = Yup.object().shape({
 
 const Login = () => {
   const { loginUser } = useAuth();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormsInputs>({ resolver: yupResolver(validation) });
+
   const handleLogin = (form: LoginFormsInputs) => {
     loginUser(form.userName, form.password);
   };
+
+  const [isSelected] = React.useState(false);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
       <img
@@ -44,7 +52,7 @@ const Login = () => {
         className="absolute w-full h-full object-cover"
       />
       <form
-        className="w-full max-w-md p-8 bg-white rounded shadow-md z-10"
+        className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
         onSubmit={handleSubmit(handleLogin)}
       >
         <Card>
@@ -72,9 +80,18 @@ const Login = () => {
                 <Input id="password" type="password" {...register("password")} autoComplete="new-password"/>
                 {errors.password ? <p>{errors.password.message}</p> : ""}
               </div>
+              <Checkbox defaultSelected={isSelected} size="sm">Agree to Terms of Service</Checkbox>
               <Button className="w-full" type="submit">
                 Login
               </Button>
+              <div className="text-center">
+              <Link 
+                to="/forgot-password" 
+                className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+              >
+                Forgot Password?
+              </Link>
+              </div>
             </div>
           </CardContent>
         </Card>

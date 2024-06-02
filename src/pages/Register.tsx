@@ -44,7 +44,7 @@ const Register = () => {
         alt="Pet care"
         className="absolute w-full h-full object-cover"
       />
-      <form className="w-full max-w-md p-8 bg-white rounded shadow-md z-10"
+      <form className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
             onSubmit={handleSubmit(handleLogin)}>
         <Card>
           <CardHeader className="space-y-1">
