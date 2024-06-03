@@ -14,8 +14,8 @@ import "@/../app/globals.css";
 import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
-import {Checkbox} from "@nextui-org/react";
+import { Link } from "react-router-dom";
+import { Checkbox } from "@nextui-org/react";
 import React from "react";
 
 type LoginFormsInputs = {
@@ -27,7 +27,6 @@ const validation = Yup.object().shape({
   userName: Yup.string().required("Username is required"),
   password: Yup.string().required("Password is required"),
 });
-
 
 const Login = () => {
   const { loginUser } = useAuth();
@@ -70,27 +69,44 @@ const Login = () => {
                   id="username"
                   placeholder="username"
                   type="username"
-                    {...register("userName")}
-                    autoComplete="new-password"
+                  {...register("userName")}
+                  autoComplete="new-password"
                 />
                 {errors.userName ? <p>{errors.userName.message}</p> : ""}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" {...register("password")} autoComplete="new-password"/>
+                <Input
+                  id="password"
+                  placeholder="••••••••"
+                  type="password"
+                  {...register("password")}
+                  autoComplete="new-password"
+                />
                 {errors.password ? <p>{errors.password.message}</p> : ""}
               </div>
-              <Checkbox defaultSelected={isSelected} size="sm">Agree to Terms of Service</Checkbox>
+              <div className="flex justify-between">
+                <Checkbox defaultSelected={isSelected} size="sm">
+                  Remember me
+                </Checkbox>
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <Button className="w-full" type="submit">
                 Login
               </Button>
               <div className="text-center">
-              <Link 
-                to="/forgot-password" 
-                className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
-              >
-                Forgot Password?
-              </Link>
+                Don't have an account? &nbsp;
+                <Link
+                  to="/register"
+                  className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                >
+                  Register
+                </Link>
               </div>
             </div>
           </CardContent>

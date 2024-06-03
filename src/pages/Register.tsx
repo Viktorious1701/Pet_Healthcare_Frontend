@@ -14,6 +14,7 @@ import "@/../app/globals.css";
 import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "@/Context/useAuth";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 type RegisterFormsInputs = {
   email: string;
@@ -44,8 +45,10 @@ const Register = () => {
         alt="Pet care"
         className="absolute w-full h-full object-cover"
       />
-      <form className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
-            onSubmit={handleSubmit(handleLogin)}>
+      <form
+        className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
+        onSubmit={handleSubmit(handleLogin)}
+      >
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Register</CardTitle>
@@ -59,7 +62,7 @@ const Register = () => {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  placeholder="m@example.com"
+                  placeholder="test@example.com"
                   required
                   type="email"
                   {...register("email")}
@@ -72,8 +75,13 @@ const Register = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" required type="text" 
-                {...register("userName")}/>
+                <Input
+                  id="username"
+                  required
+                  type="text"
+                  placeholder="username"
+                  {...register("userName")}
+                />
                 {errors.userName ? (
                   <p className="text-white">{errors.userName.message}</p>
                 ) : (
@@ -82,8 +90,13 @@ const Register = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" required type="password" 
-                {...register("password")}/>
+                <Input
+                  id="password"
+                  placeholder="••••••••"
+                  required
+                  type="password"
+                  {...register("password")}
+                />
                 {errors.password ? (
                   <p className="text-white">{errors.password.message}</p>
                 ) : (
@@ -93,6 +106,15 @@ const Register = () => {
               <Button className="w-full" type="submit">
                 Register
               </Button>
+              <div className="text-center">
+                Already have an account? &nbsp;
+                <Link
+                  to="/login"
+                  className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                >
+                  Login
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>
