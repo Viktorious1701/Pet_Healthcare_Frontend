@@ -10,6 +10,7 @@ import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
+import { ADMIN_DASHBOARD, HOME_PAGE } from "@/Route/router-const";
 //import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
@@ -55,12 +56,18 @@ export const UserProvider = ({ children }: Props) => {
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
+            roleID: res?.data.roleID
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          navigate("/dashboard");
+          if(user?.roleID === 'Admin'){
+            navigate(`${ADMIN_DASHBOARD}`);
+          }
+          else{
+            navigate(`${HOME_PAGE}`);
+          }
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -74,12 +81,18 @@ export const UserProvider = ({ children }: Props) => {
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
+            roleID: res?.data.roleID
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          navigate("/dashboard");
+          if(user?.roleID === 'Admin'){
+            navigate(`${ADMIN_DASHBOARD}`);
+          }
+          else{
+            navigate(`${HOME_PAGE}`);
+          }
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -105,7 +118,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken("");
-    navigate("/");
+    navigate(`${HOME_PAGE}`);
   };
 
   return (

@@ -9,6 +9,7 @@ import {
   LifeBuoy,
 } from "lucide-react";
 import { SidebarItem } from "./SidebarComponent";
+import { ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, HOME_PAGE } from "@/Route/router-const";
 
 const Sidebar = () => {
   const [activePath, setActivePath] = useState("/dashboard");
@@ -24,9 +25,9 @@ const Sidebar = () => {
       <SidebarItem
         icon={<LayoutDashboard size={20} />}
         text="Dashboard"
-        path="/dashboard"
+        path={`/${ADMIN_DASHBOARD}`}
         onClick={handleNavigation}
-        active={activePath === "/dashboard"}
+        active={activePath === `/${ADMIN_DASHBOARD}`}
         
       />
       
@@ -34,32 +35,32 @@ const Sidebar = () => {
       <SidebarItem
         icon={<UserCircle size={20} />}
         text="Accounts"
-        path="/dashboard/accounts"
+        path={`/${ADMIN_DASHBOARD}/${ADMIN_ACCOUNT_PAGE}`}
         onClick={handleNavigation}
-        active={activePath === "/dashboard/accounts"}
+        active={activePath === `/${ADMIN_DASHBOARD}/${ADMIN_ACCOUNT_PAGE}`}
       />
       
       
       <SidebarItem
         icon={<Receipt size={20} />}
         text="Appointments"
-        path="/dashboard/appointment_dashboard"
+        path={`/${ADMIN_DASHBOARD}/${ADMIN_APPOINTMENT}`}
         onClick={handleNavigation}
-        active={activePath === "/dashboard/appointment_dashboard"}
+        active={activePath === `/${ADMIN_DASHBOARD}/${ADMIN_APPOINTMENT}`}
       />
       <SidebarItem
         icon={<Settings size={20} />}
         text="Hospitalization"
-        path="/dashboard/hospitalization"
+        path={`/${ADMIN_DASHBOARD}/${ADMIN_HOSPITALIZATION}`}
         onClick={handleNavigation}
-        active={activePath === "/dashboard/hospitalization"}
+        active={activePath === `/${ADMIN_DASHBOARD}/${ADMIN_HOSPITALIZATION}`}
       />
       <SidebarItem
         icon={<LifeBuoy size={20} />}
-        text="Support"
-        path="/support"
+        text="Home"
+        path={`/${HOME_PAGE}`}
         onClick={handleNavigation}
-        active={activePath === "/support"}
+        active={activePath === `/${HOME_PAGE}`}
       />
     </SidebarComponent>
   );

@@ -13,35 +13,36 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Link } from "react-router-dom"
+import { APPOINTMENT, HOSPITALIZATION } from "@/Route/router-const"
 
 const intro: { title: string; href: string; description: string }[] = [
   {
     title: "Welcome",
-    href: "/",
+    href: "#",
     description:
       "Lich sử phát triển của HealthCare",
   },
   {
     title: "About Us",
-    href: "/about",
+    href: "#about",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
   {
     title: "Booking",
-    href: "/booking",
+    href: "#booking",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
   {
     title: "Meet Our Teams",
-    href: "/meet-our-teams",
+    href: "#veterinarian",
     description:
-      "Đội ngũ nhân viên của HealthCare",
+      "Đội ngũ nhân viên của HealthCare"  ,
   },
   {
     title: "Customer Rating",
-    href: "/rating",
+    href: "#rating",
     description:
       "Đội ngũ nhân viên của HealthCare",
   },
@@ -50,13 +51,13 @@ const intro: { title: string; href: string; description: string }[] = [
 const shops: { title: string; href: string; description: string }[] = [
   {
     title: "Booking",
-    href: "/booking",
+    href: `/${APPOINTMENT}`,
     description:
       "Dịch Vụ 1 description",
   },
   {
     title: "Hospitalization",
-    href: "/hospitalization",
+    href: `/${HOSPITALIZATION}`,
     description:
       "Dịch Vụ 2 description",
   },

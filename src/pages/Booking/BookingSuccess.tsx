@@ -1,3 +1,4 @@
+import { APPOINTMENT, HOME_PAGE } from '@/Route/router-const';
 import { RootState } from '@/store';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -7,13 +8,13 @@ const BookingSuccess = () => {
   const navigate = useNavigate();
   const {isSubmitted} = useSelector((state: RootState) => state.formData);
   if (!isSubmitted) {
-    navigate("/appointments"); // Redirect to the booking page if the form is not submitted
+    navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
   }
 
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/") // Replace '/' with the path to your homepage
+      navigate(`/${HOME_PAGE}`) // Replace '/' with the path to your homepage
     }, 3000); // Redirect to homepage after 5 seconds (adjust the time as needed)
 
     return () => clearTimeout(timer); // Clean up the timer on component unmount

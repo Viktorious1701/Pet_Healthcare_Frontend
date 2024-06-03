@@ -116,41 +116,39 @@ import About from '@/pages/About';
 import BookingSuccess from '@/pages/Booking/BookingSuccess';
 import Contact from '@/pages/Contact';
 import ForgotPassword from '@/pages/ForgotPass';
+import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, FORGOT_PASS, HOME_PAGE, LOGIN, REGISTER } from './router-const';
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
       {
-        path: "",
+        path: `${HOME_PAGE}`,
         element: <Home />,
       },
       {
-        path: "about",
+        path: `${ABOUT_PAGE}`,
         element: <About />,
       },
       {
-        path: "contact",
+        path: `${CONTACT}`,
         element: <Contact />,
       },
+      
       {
-        path: "home",
-        element: <Home />,
-      },
-      {
-        path: "login",
+        path: `${LOGIN}`,
         element: <Login />,
       },
       {
-        path: "register",
+        path: `${REGISTER}`,
         element: <Register />,
       },
       {
-        path: "forgot-password",
+        path: `${FORGOT_PASS}`,
         element: <ForgotPassword />,
       },
       {
-        path: "dashboard",
+        path: `${ADMIN_DASHBOARD}`,
         element: (
           <ProtectedRoutes>
             <Dashboard />
@@ -158,26 +156,26 @@ export const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "accounts",
+            path: `${ADMIN_ACCOUNT_PAGE}`,
             element: <Accounts />,
           },
           {
-            path: "appointment_dashboard",
+            path: `${ADMIN_APPOINTMENT}`,
             element: <AppointmentDashboard />,
           },
           {
-            path: "hospitalization",
+            path: `${ADMIN_HOSPITALIZATION}`,
             element: <Hospitalization />,
           },
         ],
       },
 
       {
-        path: "appointments",
+        path: `${APPOINTMENT}`,
         element: <BookingPage />,
       },
       {
-        path: "booking-success",
+        path: `${APPOINTMENT_SUCCESS}`,
         element: <BookingSuccess />,
       },
    

@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import {Checkbox} from "@nextui-org/react";
 import { useState } from "react";
+import { FORGOT_PASS } from "@/Route/router-const";
 
 type LoginFormsInputs = {
   userName: string;
@@ -86,7 +87,7 @@ const Login = () => {
               </Button>
               <div className="text-center">
               <Link 
-                to="/forgot-password" 
+                to={`/${FORGOT_PASS}`} 
                 className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
               >
                 Forgot Password?
