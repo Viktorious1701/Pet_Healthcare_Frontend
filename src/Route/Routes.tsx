@@ -116,6 +116,7 @@ import About from '@/pages/About';
 import BookingSuccess from '@/pages/Booking/BookingSuccess';
 import Contact from '@/pages/Contact';
 import ForgotPassword from '@/pages/ForgotPass';
+import ResetPass from '@/pages/ResetPass';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -148,6 +149,10 @@ export const router = createBrowserRouter([
       {
         path: "forgot-password",
         element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPass/>
       },
       {
         path: "dashboard",

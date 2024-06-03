@@ -6,7 +6,12 @@
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../Models/User";
 import { createContext, useEffect, useState } from "react";
-import { loginAPI, registerAPI } from "../Services/AuthService";
+import {
+  forgotPasswordAPI,
+  loginAPI,
+  registerAPI,
+  reserPasswordAPI,
+} from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
@@ -17,6 +22,13 @@ type UserContextType = {
   token: string | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (username: string, password: string) => void;
+  forgotUser: (email: string) => void;
+  resetUser: (
+    token: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
 };
@@ -84,6 +96,33 @@ export const UserProvider = ({ children }: Props) => {
       .catch((e) => toast.warning("Server error occurred", e));
   };
 
+  const forgotUser = async (email: string) => {
+    await forgotPasswordAPI(email)
+      .then((res: any) => {
+        if (res) {
+          toast.success("Email sent Success!");
+          navigate("/reset-password");
+        }
+      })
+      .catch((e) => toast.warning("Server error occurred", e));
+  };
+
+  const resetUser = async (
+    token: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    await reserPasswordAPI(token, email, password, confirmPassword)
+      .then((res: any) => {
+        if (res) {
+          toast.success("Password reset Successfully");
+          navigate("/login");
+        }
+      })
+      .catch((e) => toast.warning("Server error occurred", e));
+  };
+
   const isLoggedIn = () => {
     return !!user;
   };
@@ -98,7 +137,16 @@ export const UserProvider = ({ children }: Props) => {
 
   return (
     <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
+      value={{
+        loginUser,
+        user,
+        token,
+        logout,
+        isLoggedIn,
+        registerUser,
+        forgotUser,
+        resetUser,
+      }}
     >
       {isReady ? children : null}
     </UserContext.Provider>
