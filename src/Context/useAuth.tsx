@@ -10,12 +10,12 @@ import {
   forgotPasswordAPI,
   loginAPI,
   registerAPI,
-  reserPasswordAPI,
+  resetPasswordAPI,
 } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
-import { ADMIN_DASHBOARD, HOME_PAGE } from "@/Route/router-const";
+import { ADMIN_DASHBOARD, HOME_PAGE, LOGIN, RESET_PASS } from "@/Route/router-const";
 //import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
@@ -28,7 +28,8 @@ type UserContextType = {
     token: string,
     email: string,
     password: string,
-    confirmPassword: string
+    confirmPassword: string,
+    resetPasswordAPI: any
   ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -75,10 +76,10 @@ export const UserProvider = ({ children }: Props) => {
           setUser(userObj!);
           toast.success("Login Success!");
           if(user?.roleID === 'Admin'){
-            navigate(`${ADMIN_DASHBOARD}`);
+            navigate(`/${ADMIN_DASHBOARD}`);
           }
           else{
-            navigate(`${HOME_PAGE}`);
+            navigate(`/${HOME_PAGE}`);
           }
         }
       })
@@ -99,7 +100,7 @@ export const UserProvider = ({ children }: Props) => {
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          navigate("/dashboard");
+          navigate(`/${HOME_PAGE}`);
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -110,7 +111,7 @@ export const UserProvider = ({ children }: Props) => {
       .then((res: any) => {
         if (res) {
           toast.success("Email sent Success!");
-          navigate("/reset-password");
+          navigate(`/${RESET_PASS}`);
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -122,11 +123,11 @@ export const UserProvider = ({ children }: Props) => {
     password: string,
     confirmPassword: string
   ) => {
-    await reserPasswordAPI(token, email, password, confirmPassword)
+    await resetPasswordAPI(token, email, password, confirmPassword)
       .then((res: any) => {
         if (res) {
           toast.success("Password reset Successfully");
-          navigate("/login");
+          navigate(`/${LOGIN}`);
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -152,7 +153,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("user");
     setUser(null);
     setToken("");
-    navigate(`${HOME_PAGE}`);
+    navigate(`/${HOME_PAGE}`);
   };
 
   return (
@@ -166,6 +167,7 @@ export const UserProvider = ({ children }: Props) => {
         registerUser,
         forgotUser,
         resetUser,
+        resetPassword,
       }}
     >
       {isReady ? children : null}

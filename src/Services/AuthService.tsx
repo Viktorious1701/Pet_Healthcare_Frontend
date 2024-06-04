@@ -44,7 +44,7 @@ export const forgotPasswordAPI = async (email: string) => {
   }
 };
 
-export const reserPasswordAPI = async (
+export const resetPasswordAPI = async (
   token: string,
   email: string,
   password: string,

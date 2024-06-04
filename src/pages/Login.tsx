@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import {Checkbox} from "@nextui-org/react";
 import { useState } from "react";
-import { FORGOT_PASS } from "@/Route/router-const";
+import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
 
 type LoginFormsInputs = {
   userName: string;
@@ -91,7 +91,7 @@ const Login = () => {
                   Remember me
                 </Checkbox>
                 <Link
-                  to="/forgot-password"
+                  to={`/${FORGOT_PASS}`}
                   className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
                 >
                   Forgot Password?
@@ -103,17 +103,11 @@ const Login = () => {
               <div className="text-center">
                 Don't have an account? &nbsp;
                 <Link
-                  to="/register"
+                  to={`/${REGISTER}`}
                   className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
                 >
                   Register
                 </Link>
-              <Link 
-                to={`/${FORGOT_PASS}`} 
-                className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
-              >
-                Forgot Password?
-              </Link>
               </div>
             </div>
           </CardContent>
