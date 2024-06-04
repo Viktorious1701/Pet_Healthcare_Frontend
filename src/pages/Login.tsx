@@ -14,9 +14,10 @@ import "@/../app/globals.css";
 import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { Checkbox } from "@nextui-org/react";
-import React from "react";
+import { Link } from 'react-router-dom';
+import {Checkbox} from "@nextui-org/react";
+import { useState } from "react";
+import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
 
 type LoginFormsInputs = {
   userName: string;
@@ -41,7 +42,7 @@ const Login = () => {
     loginUser(form.userName, form.password);
   };
 
-  const [isSelected] = React.useState(false);
+  const [isSelected] = useState(false);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
@@ -90,7 +91,7 @@ const Login = () => {
                   Remember me
                 </Checkbox>
                 <Link
-                  to="/forgot-password"
+                  to={`/${FORGOT_PASS}`}
                   className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
                 >
                   Forgot Password?
@@ -102,7 +103,7 @@ const Login = () => {
               <div className="text-center">
                 Don't have an account? &nbsp;
                 <Link
-                  to="/register"
+                  to={`/${REGISTER}`}
                   className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
                 >
                   Register
