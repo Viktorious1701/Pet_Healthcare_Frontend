@@ -25,7 +25,7 @@ const validation = Yup.object().shape({
 });
 
 const ForgotPassword = () => {
-  const { resetPassword } = useAuth();
+  const { forgotUser } = useAuth();
 
   const {
     register,
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
   } = useForm<ForgotPasswordFormInputs>({ resolver: yupResolver(validation) });
 
   const handleForgotPassword = (form: ForgotPasswordFormInputs) => {
-    resetPassword(form.email);
+    forgotUser(form.email);
   };
 
   return (
@@ -69,7 +69,7 @@ const ForgotPassword = () => {
                 {errors.email ? <p>{errors.email.message}</p> : ""}
               </div>
               <Button className="w-full" type="submit">
-                Reset Password
+                Send Email
               </Button>
               <div className="text-center">
                 <Link 

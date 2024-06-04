@@ -148,6 +148,10 @@ export const router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
+        path: "reset-password",
+        element: <ResetPass/>
+      },
+      {
         path: `${ADMIN_DASHBOARD}`,
         element: (
           <ProtectedRoutes>
