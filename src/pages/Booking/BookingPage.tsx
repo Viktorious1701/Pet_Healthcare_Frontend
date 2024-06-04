@@ -8,6 +8,7 @@ import { AppDispatch } from '@/store';
 import BookingForm from '@/components/appointment/BookingForm';
 import Footer from '@/components/navigation/Footer';
 import { ArrowRightFromLine } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -18,12 +19,19 @@ interface TimeSlot {
 }
 
 const BookingPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
   const [formVisible, setFormVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+    window.scrollTo(0, 0);
+  }, [navigate]);
   // Sample data for time slots
   const timeSlots: TimeSlot[] = [
     { time: '09:00 AM', available: true },

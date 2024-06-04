@@ -27,8 +27,10 @@ export const CUSTOMER_SETTINGS = "customer-settings"
 
 export const EMPLOYEE_DASHBOARD = "employee"
 export const EMPLOYEE_APPOINTMENT_MANAGE ="appointment-management"
-
-
+export const EMPLOYEE_KENNELS = "kennels"
+export const EMPLOYEE_HOSPITALIZED_PETS = "hospitalized-pets"
+export const EMPLOYEE_SCHEDULING_VETS = "scheduling-vets"
+export const EMPLOYEE_SETTINGS = "employee-settings"
 export const VET_DASHBOARD = "vet"
 export const VET_APPOINTMENT = "vet-appointment"
 

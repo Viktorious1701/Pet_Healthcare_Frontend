@@ -13,6 +13,10 @@ import { SidebarItem } from "./SidebarComponent";
 import {
     EMPLOYEE_DASHBOARD,
   EMPLOYEE_APPOINTMENT_MANAGE,
+  EMPLOYEE_KENNELS,
+  EMPLOYEE_HOSPITALIZED_PETS,
+  EMPLOYEE_SCHEDULING_VETS,
+  EMPLOYEE_SETTINGS,
 
 } from "@/Route/router-const";
 
@@ -43,31 +47,31 @@ const EmployeeSidebar = () => {
       />
       <SidebarItem
         icon={<User size={20} />}
-        text="Pet Profile"
-        path={`/employee/${EMPLOYEE_DASHBOARD}`}
+        text="Kennels Management"
+        path={`/employee/${EMPLOYEE_KENNELS}`}
         onClick={handleNavigation}
-        active={activePath === `/employee/${EMPLOYEE_DASHBOARD}`}
+        active={activePath === `/employee/${EMPLOYEE_KENNELS}`}
       />
       <SidebarItem
         icon={<Syringe size={20} />}
-        text="Vaccinations"
-        path={`/employee/${EMPLOYEE_DASHBOARD}`}
+        text="Hospitalized pets"
+        path={`/employee/${EMPLOYEE_HOSPITALIZED_PETS}`}
         onClick={handleNavigation}
-        active={activePath === `/employee/${EMPLOYEE_DASHBOARD}`}
+        active={activePath === `/employee/${EMPLOYEE_HOSPITALIZED_PETS}`}
       />
       <SidebarItem
         icon={<Hospital size={20} />}
-        text="Hospitalization"
-        path={`/employee/${EMPLOYEE_DASHBOARD}`}
+        text="Scheduling Vets"
+        path={`/employee/${EMPLOYEE_SCHEDULING_VETS}`}
         onClick={handleNavigation}
-        active={activePath === `/employee/${EMPLOYEE_DASHBOARD}`}
+        active={activePath === `/employee/${EMPLOYEE_SCHEDULING_VETS}`}
       />
       <SidebarItem
         icon={<Settings size={20} />}
         text="Settings"
-        path={`/employee/${EMPLOYEE_DASHBOARD}`}
+        path={`/employee/${EMPLOYEE_SETTINGS}`}
         onClick={handleNavigation}
-        active={activePath === `/employee/${EMPLOYEE_DASHBOARD}`}
+        active={activePath === `/employee/${EMPLOYEE_SETTINGS}`}
       />
     </SidebarComponent>
   );
