@@ -29,7 +29,6 @@ type UserContextType = {
     email: string,
     password: string,
     confirmPassword: string,
-    resetPasswordAPI: any
   ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
