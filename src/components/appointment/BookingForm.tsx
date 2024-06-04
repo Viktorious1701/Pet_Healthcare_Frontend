@@ -4,6 +4,7 @@ import fetchDoctors from "./api";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
+import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -55,7 +56,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const onSubmit = (formData: FormValues) => {
     console.log("Form submitted:", formData);
     dispatch(setFormData(formData));
-    navigate("/booking-success"); // Redirect to homepage after form submission (adjust the path as needed
+    navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {

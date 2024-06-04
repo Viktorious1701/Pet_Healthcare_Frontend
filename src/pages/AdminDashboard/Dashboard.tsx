@@ -3,6 +3,7 @@ import {  Outlet, useLocation } from 'react-router-dom';
 import DashboardHome from './DashboardHome';
 
 import Sidebar from '@/components/sidebar/Sidebar'; // Import the new Sidebar component
+import { ADMIN_DASHBOARD } from '@/Route/router-const';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Dashboard = () => {
           </div>
         </div>
         
-        {location.pathname === '/dashboard' && <DashboardHome />}
+        {location.pathname === `/${ADMIN_DASHBOARD}` && <DashboardHome />}
         <Outlet />
       </div>
     </div>

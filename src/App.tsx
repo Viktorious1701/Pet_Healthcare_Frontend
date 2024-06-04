@@ -3,7 +3,6 @@ import "./index.css";
 import {
   Outlet
 } from "react-router";
-import "./index.css";
 import { UserProvider } from "./Context/useAuth";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
