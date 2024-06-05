@@ -1,37 +1,52 @@
-import { useState, useRef, useEffect } from 'react';
-import Navbar from '@/components/navigation/Navbar';
-import CalendarComponent from '@/components/calendar/CalendarComponent';
-import { useDispatch } from 'react-redux';
+import { useState, useRef, useEffect } from "react";
+import Navbar from "@/components/navigation/Navbar";
+import CalendarComponent from "@/components/calendar/CalendarComponent";
+import { useDispatch } from "react-redux";
 import { setDateSlot } from "@/components/slices/dateSlice";
-import { AppDispatch } from '@/store';
+import { AppDispatch } from "@/store";
 //import petcare from '@/assets/heroBanner.png';
-import BookingForm from '@/components/appointment/BookingForm';
-import Footer from '@/components/navigation/Footer';
-import { ArrowRightFromLine } from 'lucide-react';
+import BookingForm from "@/components/appointment/BookingForm";
+import Footer from "@/components/navigation/Footer";
+import { ArrowRightFromLine } from "lucide-react";
+import { SlotGet } from "@/Models/Slot";
+import { slotGetAPI } from "@/Services/SlotService";
+import { toast } from "react-toastify";
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-interface TimeSlot {
-  time: string;
-  available: boolean;
-}
+// interface TimeSlot {
+//   time: string;
+//   available: boolean;
+// }
 
 const BookingPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [slots, setSlots] = useState<SlotGet[] | null>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null);
   const [formVisible, setFormVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Sample data for time slots
-  const timeSlots: TimeSlot[] = [
-    { time: '09:00 AM', available: true },
-    { time: '10:30 AM', available: false },
-    { time: '12:00 PM', available: true },
-    { time: '02:00 PM', available: true },
-    { time: '04:30 PM', available: false },
-  ];
+  // const timeSlots: TimeSlot[] = [
+  //   { time: '09:00 AM', available: true },
+  //   { time: '10:30 AM', available: false },
+  //   { time: '12:00 PM', available: true },
+  //   { time: '02:00 PM', available: true },
+  //   { time: '04:30 PM', available: false },
+  // ];
+  const getSlots = async () => {
+    slotGetAPI()
+      .then((res) => {
+        if (res?.data) {
+          setSlots(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Could not get slot data");
+      });
+  };
 
   const handleBookingCancel = () => {
     setSelectedDate(null);
@@ -45,33 +60,40 @@ const BookingPage = () => {
     }
   };
 
-  const handleSlotClick = (slot: TimeSlot) => {
+  const handleSlotClick = (slot: SlotGet) => {
     setSelectedSlot(slot);
   };
 
   const handleBooking = () => {
     if (selectedSlot && selectedDate) {
-      dispatch(setDateSlot({ date: selectedDate.toString(), slot: selectedSlot.time }));
+      dispatch(setDateSlot({ date: selectedDate.toString(), slot: selectedSlot.slotId.toString() }));
       setFormVisible(true);
     }
   };
 
   useEffect(() => {
     if (formVisible && containerRef.current) {
-      containerRef.current.scrollTo({ left: containerRef.current.clientWidth, behavior: 'smooth' });
+      containerRef.current.scrollTo({
+        left: containerRef.current.clientWidth,
+        behavior: "smooth",
+      });
     }
+    getSlots();
     // form visible if set to true and containerRef is not null will activate the scroll
   }, [formVisible]);
 
   const renderTimeSlots = () => {
-    return timeSlots.map((slot, index) => (
+    return slots?.map((slot, index) => (
       <div
         key={index}
-        className={`p-2 rounded-md cursor-pointer ${slot.available ? 'bg-custom-pink hover:bg-custom-blue text-white' : 'bg-custom-gray text-white'
-          }`}
+        className={`p-2 rounded-md cursor-pointer ${
+          slot.available
+            ? "bg-custom-pink hover:bg-custom-blue text-white"
+            : "bg-custom-gray text-white"
+        }`}
         onClick={() => handleSlotClick(slot)}
       >
-        {slot.time}
+        {slot.startTime}
       </div>
     ));
   };
@@ -83,7 +105,7 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen bg-custom-gray" >
+    <div className="bg-cover bg-center min-h-screen bg-custom-gray">
       <Navbar />
       <div ref={containerRef} className="flex overflow-x-hidden w-full">
         <div className="w-full flex-shrink-0 flex justify-center">
@@ -93,13 +115,20 @@ const BookingPage = () => {
             </div>
             <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
               {selectedDate ? (
-                <div className='p-6'>
+                <div className="p-6">
                   {/* Add arrow button to hide slots and reset date */}
                   <div className="flex justify-between items-center gap-5 mb-4">
-                    <h2 className="text-lg font-semibold">Available Time Slots</h2>
-                    <ArrowRightFromLine className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110" onClick={handleReset} />
+                    <h2 className="text-lg font-semibold">
+                      Available Time Slots
+                    </h2>
+                    <ArrowRightFromLine
+                      className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
+                      onClick={handleReset}
+                    />
                   </div>
-                  <div className="grid grid-cols-1 gap-2">{renderTimeSlots()}</div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {renderTimeSlots()}
+                  </div>
                   {selectedSlot && (
                     <button
                       className="bg-custom-darkBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
@@ -110,19 +139,25 @@ const BookingPage = () => {
                   )}
                 </div>
               ) : (
-                <div className='p-10'>
+                <div className="p-10">
                   <h2 className="text-lg font-semibold">Date Selection </h2>
-                  <p className="mt-4">Please select a date to <br />view available time slots.</p>
+                  <p className="mt-4">
+                    Please select a date to <br />
+                    view available time slots.
+                  </p>
                 </div>
               )}
             </div>
-
           </div>
         </div>
         {formVisible && selectedDate && selectedSlot && (
           <div className="w-full flex-shrink-0 flex justify-center ">
             <div className="pt-20 mt-20 flex justify-center w-full">
-              <BookingForm date={selectedDate} slot={selectedSlot.time} onCancel={handleBookingCancel} />
+              <BookingForm
+                date={selectedDate}
+                slot={selectedSlot.slotId}
+                onCancel={handleBookingCancel}  
+              />
             </div>
           </div>
         )}

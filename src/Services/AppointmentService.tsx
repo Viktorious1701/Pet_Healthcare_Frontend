@@ -1,0 +1,68 @@
+import { handleError } from "@/Helpers/ErrorHandler";
+import { AppointmentAvailableVets, AppointmentBook, AppointmentRating } from "@/Models/Appointment";
+import axios from "axios";
+
+const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
+
+export const appointmentAvailableVetsAPI = async (
+    date: string,
+    slotId: number
+) => {
+    try {
+        const data = await axios.get<AppointmentAvailableVets[]>(api + `/available-vets?date=${date}&slotId=${slotId}`);
+        return data;
+    } catch (error) {
+        handleError(error);
+    }
+};
+
+export const appointmentBookAPI = async (
+  customerUserName: string,
+  petId: number,
+  vetUserName: string,
+  slotId: number,
+  serviceId: number,
+  date: string
+) => {
+  try {
+    const data = await axios.post<AppointmentBook>(api + "/book", {
+      customerUserName: customerUserName,
+      petId: petId,
+      vetUserName: vetUserName,
+      slotId: slotId,
+      serviceId: serviceId,
+      date: date,
+    });
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const appointmentRateAPI = async (
+  appointmentId: number,
+  rating: number,
+  comment: string
+) => {
+  try {
+    const data = await axios.put<AppointmentRating>(
+      api + `/rate/${appointmentId}`,
+      {
+        rating: rating,
+        comment: comment,
+      }
+    );
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const appointmentCheckInAPI = async (appointmentId: number) => {
+  try {
+    const data = await axios.put(api + `/check-in/${appointmentId}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
