@@ -4,9 +4,11 @@ import axios from "axios";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/slot";
 
-export const slotGetAPI = async () => {
+export const slotGetAPI = async (date: string) => {
     try {
-        const data = await axios.get<SlotGet[]>(api);
+        const data = await axios.get<SlotGet[]>(api + `/${date}`);
+        console.log(api + `/${date}`);
+        
         return data;
     } catch (error) {
         handleError(error);

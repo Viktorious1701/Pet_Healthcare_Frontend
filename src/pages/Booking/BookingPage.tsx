@@ -15,11 +15,6 @@ import { toast } from "react-toastify";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-// interface TimeSlot {
-//   time: string;
-//   available: boolean;
-// }
-
 const BookingPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [slots, setSlots] = useState<SlotGet[] | null>([]);
@@ -28,16 +23,8 @@ const BookingPage = () => {
   const [formVisible, setFormVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Sample data for time slots
-  // const timeSlots: TimeSlot[] = [
-  //   { time: '09:00 AM', available: true },
-  //   { time: '10:30 AM', available: false },
-  //   { time: '12:00 PM', available: true },
-  //   { time: '02:00 PM', available: true },
-  //   { time: '04:30 PM', available: false },
-  // ];
-  const getSlots = async () => {
-    slotGetAPI()
+  const getSlots = async (date: string) => {
+    slotGetAPI(date)
       .then((res) => {
         if (res?.data) {
           setSlots(res?.data);
@@ -57,16 +44,24 @@ const BookingPage = () => {
     if (!Array.isArray(value)) {
       setSelectedDate(value);
       setSelectedSlot(null);
+      getSlots(String(value?.toLocaleDateString().replace(/\//g, "-")));
     }
   };
 
   const handleSlotClick = (slot: SlotGet) => {
-    setSelectedSlot(slot);
+    if (slot.available) {
+      setSelectedSlot(slot);
+    }
   };
 
   const handleBooking = () => {
     if (selectedSlot && selectedDate) {
-      dispatch(setDateSlot({ date: selectedDate.toString(), slot: selectedSlot.slotId.toString() }));
+      dispatch(
+        setDateSlot({
+          date: selectedDate.toString(),
+          slot: selectedSlot.slotId.toString(),
+        })
+      );
       setFormVisible(true);
     }
   };
@@ -78,24 +73,44 @@ const BookingPage = () => {
         behavior: "smooth",
       });
     }
-    getSlots();
     // form visible if set to true and containerRef is not null will activate the scroll
   }, [formVisible]);
 
+  const isSlotInThePast = (slot: SlotGet): boolean => {
+    const [month, day, year] = String(
+      selectedDate?.toLocaleDateString().replace(/\//g, "-")
+    ).split("-");
+    const [hour, minute] = slot.startTime.split(":");
+    const slotDateTime = new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour),
+      Number(minute)
+    );
+    const now = new Date();
+
+    return slotDateTime < now;
+  };
+
   const renderTimeSlots = () => {
-    return slots?.map((slot, index) => (
-      <div
-        key={index}
-        className={`p-2 rounded-md cursor-pointer ${
-          slot.available
-            ? "bg-custom-pink hover:bg-custom-blue text-white"
-            : "bg-custom-gray text-white"
-        }`}
-        onClick={() => handleSlotClick(slot)}
-      >
-        {slot.startTime}
-      </div>
-    ));
+    return slots?.map((slot, index) => {
+      const isPast = isSlotInThePast(slot);
+      slot.available = !isPast; // Update availability based on the current time
+      return (
+        <div
+          key={index}
+          className={`p-2 rounded-md cursor-pointer ${
+            slot.available
+              ? "bg-custom-pink hover:bg-custom-blue text-white"
+              : "bg-custom-gray text-white"
+          }`}
+          onClick={() => handleSlotClick(slot)}
+        >
+          {slot.startTime}
+        </div>
+      );
+    });
   };
 
   const handleReset = () => {
@@ -156,7 +171,7 @@ const BookingPage = () => {
               <BookingForm
                 date={selectedDate}
                 slot={selectedSlot.slotId}
-                onCancel={handleBookingCancel}  
+                onCancel={handleBookingCancel}
               />
             </div>
           </div>
