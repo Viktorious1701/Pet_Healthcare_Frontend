@@ -152,7 +152,7 @@ const Home = () => {
         {/* Veterinarian Section */}
         <section
           id="veterinarian"
-          className="mb-16 p-4 bg-gray-100 rounded-lg shadow text-center"
+          className="m mb-16 p-20  bg-gray-100 rounded-lg shadow text-center"
         >
           <h2 className="text-3xl font-bold text-pink mb-4">
             Meet Our Veterinarians
@@ -165,7 +165,13 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Jane Doe</h3>
-              <p className="text-base">Specialist in Small Animals</p>
+              <p className="text-base mb-4">Specialist in Small Animals</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Jane Doe has over 10 years of experience in treating small
+                animals such as dogs, cats, and rabbits. She is passionate about
+                providing compassionate care and ensuring the well-being of your
+                furry companions.
+              </p>
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
               <img
@@ -174,7 +180,13 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Johnny Sins</h3>
-              <p className="text-base">Expert in Exotic Pets</p>
+              <p className="text-base mb-4">Expert in Exotic Pets</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Johnny Sins is an expert in exotic pet care, with a
+                particular focus on reptiles, birds, and small mammals. He has a
+                deep understanding of the unique needs of these pets and
+                provides specialized treatment and care.
+              </p>
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
               <img
@@ -183,21 +195,40 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Alice Brown</h3>
-              <p className="text-base">Veterinary Surgeon</p>
+              <p className="text-base mb-4">Veterinary Surgeon</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Alice Brown is a skilled veterinary surgeon with extensive
+                experience in performing complex surgical procedures. She
+                specializes in orthopedic and soft tissue surgeries, ensuring
+                the highest level of care for your pets.
+              </p>
             </div>
+          </div>
+          <div className="mt-8">
+            <p className="text-lg text-gray-700 mb-4">
+              Our team of veterinarians is dedicated to providing exceptional
+              care for your pets. We believe in a compassionate and personalized
+              approach, tailoring our services to meet the unique needs of each
+              pet and owner.
+            </p>
+            <p className="text-lg text-gray-700">
+              At our clinic, we prioritize open communication and education. We
+              strive to keep pet owners informed about their pet's health and
+              provide guidance on proper care and preventive measures.
+            </p>
           </div>
         </section>
 
         {/* Customer Rating Section */}
         <section
-          id="testimonial"
+          id="rating"
           className="relative bg-cover bg-center"
           style={{ backgroundImage: `url(${petcare})` }}
         >
           <div className="hero__overlay bg-black/60 absolute inset-0"></div>
           <div className="container mx-auto px-4 py-16 relative">
             <div className="testimonial__title text-center mb-8">
-              <p className="xd_subtitle text-teal text-xl font-semibold mb-2">
+              <p className="xd_subtitle text-teal text-xl font-semibold mb-2 text-custom-pink">
                 Testimonial
               </p>
               <h2 className="text-white text-3xl font-bold">
