@@ -2,7 +2,9 @@ export type AppointmentAvailableVets = {
     id: string,
     userName: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    email: string,
+    imageURL: string
 }
 
 export type AppointmentRating = {

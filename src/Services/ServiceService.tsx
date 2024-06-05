@@ -6,7 +6,7 @@ const api = "https://pethealthcaresystem.azurewebsites.net/api/service";
 
 export const serviceGetAPI = async () => {
     try {
-        const data = await axios.get<ServiceGet>(api);
+        const data = await axios.get<ServiceGet[]>(api);
         return data;
     } catch (error) {
         handleError(error);
