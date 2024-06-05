@@ -17,12 +17,15 @@ import About from '@/pages/About';
 import BookingSuccess from '@/pages/Booking/BookingSuccess';
 import Contact from '@/pages/Contact';
 import ForgotPassword from '@/pages/ForgotPass';
-import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, HOSPITALIZATION, KENNEL, LOGIN, REGISTER, RESET_PASS } from './router-const';
+import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, CUSTOMER_PET_PROFILE, CUSTOMER_PET_UPDATE, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, HOSPITALIZATION, KENNEL, LOGIN, REGISTER, RESET_PASS } from './router-const';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 import ResetPass from '@/pages/ResetPass';
 import HospitalizationPage from '@/pages/Hospitalization/HospitalizationPage';
 import PetHealthTrack from '@/pages/Hospitalization/PetHealthTrack';
 import KennelPage from '@/pages/Hospitalization/Kennel';
+import PetProfile from '@/pages/PetProfile/PetProfile';
+import PetList from '@/pages/PetProfile/PetList';
+import PetUpdateForm from '@/pages/PetProfile/PetUpdateForm';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -113,6 +116,18 @@ export const router = createBrowserRouter([
       {
         path: `${KENNEL}/:kennelId`,
         element: <KennelPage />,
+      },
+      {
+        path: `${CUSTOMER_PET_PROFILE}`,
+        element: <PetList />,
+      },
+      {
+        path: `${CUSTOMER_PET_PROFILE}/:petId`,
+        element: <PetProfile />,
+      },
+      {
+        path: `${CUSTOMER_PET_UPDATE}/:petId`,
+        element: <PetUpdateForm />,
       },
       {
         path: "*",

@@ -2,6 +2,7 @@ import Navbar from "@/components/navigation/Navbar";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PetHospitalization, mockData } from "./MockData";
+import SearchBar from "@/components/navigation/SearchBar";
 
 const calculateTotalCost = (
   admissionDate: string,
@@ -20,6 +21,7 @@ const calculateTotalCost = (
 
 const HospitalizationPage: React.FC = () => {
   const [hospitalizations, setHospitalizations] = useState<PetHospitalization[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     // Update the total cost for each hospitalization
@@ -34,12 +36,18 @@ const HospitalizationPage: React.FC = () => {
     setHospitalizations(updatedData);
   }, []);
 
+  // Filter hospitalizations based on search term
+  const filteredHospitalizations = hospitalizations.filter((hospitalization) =>
+    hospitalization.petName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container mx-auto p-4">
       <Navbar />
       <div className="pt-[8rem]">
         <h1 className="text-3xl font-bold text-pink-600 mb-4">Pet Hospitalization Status</h1>
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} placeholder="Search by pet name..." />
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden mt-4">
           <thead className="bg-pink-200">
             <tr>
               <th className="py-2 px-4 text-left">Pet Name</th>
@@ -51,7 +59,7 @@ const HospitalizationPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {hospitalizations.map((hospitalization, index) => (
+            {filteredHospitalizations.map((hospitalization, index) => (
               <tr key={index} className="even:bg-pink-50 odd:bg-pink-100">
                 <td className="py-2 px-4">
                   <Link to={`/hospitalization/${hospitalization.petName}`} className="text-custom-pink hover:text-custom-darkPink underline">

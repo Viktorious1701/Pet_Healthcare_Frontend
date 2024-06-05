@@ -9,19 +9,20 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { APPOINTMENT, HOSPITALIZATION } from "@/Route/router-const";
+import { APPOINTMENT, CUSTOMER_PET_PROFILE, HOSPITALIZATION } from "@/Route/router-const";
 
 const intro = [
   { title: "Welcome", href: "/#", description: "Lich sử phát triển của HealthCare" },
   { title: "About Us", href: "#about", description: "Đội ngũ nhân viên của HealthCare" },
   { title: "Booking", href: "#booking", description: "Đội ngũ nhân viên của HealthCare" },
-  { title: "Meet Our Teams", href: "#veterinarian", description: "Đội ngũ nhân viên của HealthCare" },
+  { title: "Meet Our Vets", href: "#veterinarian", description: "Đội ngũ nhân viên của HealthCare" },
   { title: "Customer Rating", href: "#rating", description: "Đội ngũ nhân viên của HealthCare" },
 ];
 
 const shops = [
   { title: "Booking", href: `/${APPOINTMENT}`, description: "Dịch Vụ 1 description" },
   { title: "Hospitalization", href: `/${HOSPITALIZATION}`, description: "Dịch Vụ 2 description" },
+  { title: "Pet Profile", href: `/${CUSTOMER_PET_PROFILE}`, description: "Dịch Vụ 3 description" },
 ];
 
 export default function Header() {
