@@ -14,6 +14,7 @@ import "@/../app/globals.css";
 import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "@/Context/useAuth";
 import { useForm } from "react-hook-form";
+import { Divider } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
 type RegisterFormsInputs = {
@@ -106,14 +107,19 @@ const Register = () => {
               <Button className="w-full" type="submit">
                 Register
               </Button>
+              <div className="flex justify-center pt-2 w-[90%] mx-auto">
+                <Divider className="w-full"/>
+              </div>
               <div className="text-center">
-                Already have an account? &nbsp;
-                <Link
-                  to="/login"
-                  className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
-                >
-                  Login
-                </Link>
+                <p>
+                  Already have an account?{' '}
+                  <Link
+                    to="/login"
+                    className="font-bold text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
+                  >
+                    Login
+                  </Link>
+                </p>
               </div>
             </div>
           </CardContent>

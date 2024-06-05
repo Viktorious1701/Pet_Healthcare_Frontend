@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-import fetchDoctors from "./api";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
+import { AppointmentAvailableVets } from "@/Models/Appointment";
+import { appointmentAvailableVetsAPI } from "@/Services/AppointmentService";
+import { toast } from "react-toastify";
+import VetAssign from "./VetAssign";
+import { serviceGetAPI } from "@/Services/ServiceService";
+import { ServiceGet } from "@/Models/Service";
 interface FormValues {
   firstName: string;
   lastName: string;
   phone: string;
 }
 
-interface Doctor {
-  id: number;
-  name: string;
-}
+// interface Doctor {
+//   id: number;
+//   name: string;
+// }
 
 interface BookingFormProps {
   date: Date;
-  slot: string;
+  slot: number;
   onCancel: () => void; // New prop for onCancel function
 }
 
@@ -39,18 +44,36 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     mode: "onSubmit",
   });
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
+  const [services, setServices] = useState<ServiceGet[]>([]);
+
+  const getAvailableVets = async () => {
+    appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
+      .then((res) => {
+        if (res?.data) {
+          setVets(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Could not get vets data");
+      });
+  };
+
+  const getServices = async () => {
+    serviceGetAPI()
+      .then((res) => {
+        if (res?.data) {
+          setServices(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Could not get services data");
+      });
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const doctors = await fetchDoctors(date, slot);
-        setDoctors(doctors);
-      } catch (error) {
-        console.error("Error fetching doctors:", error);
-      }
-    };
-    fetchData();
+    getAvailableVets();
+    getServices();
   }, [date, slot]);
 
   const onSubmit = (formData: FormValues) => {
@@ -61,13 +84,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
 
   const onError = (errors: FieldErrors<FormValues>) => {
     console.log("Form errors: ", errors);
-  };
-
-  const validatePhone = (value: string) => {
-    const phoneRegex = /^\d{9,15}$/;
-    return (
-      phoneRegex.test(value) || "Phone number must be between 9 and 15 digits"
-    );
   };
 
   const handleCancel = () => {
@@ -83,7 +99,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
             Booking Details
           </h1>
           <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full">
-            <div className="flex flex-col mb-6">
+            {/* <div className="flex flex-col mb-6">
               <div className="flex items-center mb-2">
                 <label htmlFor="firstName" className="w-40 text-custom-blue">
                   First Name
@@ -97,9 +113,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
                 />
               </div>
               {errors.firstName && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.firstName?.message}</p>
-          )}
+                // Added a fixed height to the error message container to prevent layout shifts
+                <p className="text-red-500 ml-40 h-5">
+                  {errors.firstName?.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col mb-6">
               <div className="flex items-center mb-2">
@@ -115,47 +133,21 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
                 />
               </div>
               {errors.lastName && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.lastName?.message}</p>
-          )}
-            </div>
-            <div className="flex flex-col mb-6">
-              <div className="flex items-center mb-2">
-                <label htmlFor="phone" className="w-40 text-custom-blue">
-                  Phone
-                </label>
-                <input
-                  type="text"
-                  className="flex-grow border border-gray-300 rounded p-3 focus:border-custom-blue"
-                  {...register("phone", {
-                    required: "Phone is required",
-                    validate: validatePhone,
-                  })}
-                />
-              </div>
-              {errors.phone && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.phone?.message}</p>
-          )}
-            </div>
+                // Added a fixed height to the error message container to prevent layout shifts
+                <p className="text-red-500 ml-40 h-5">
+                  {errors.lastName?.message}
+                </p>
+              )}
+            </div> */}
             <div className="flex flex-col mb-6">
               <h2 className="text-lg font-bold text-custom-blue mb-3">
-                Available Doctors
+                Available Vets
               </h2>
-              {doctors.length > 0 ? (
-                <ul className="list-disc list-inside bg-custom-pink rounded p-4">
-                  {doctors.map((doctor) => (
-                    <li
-                      key={doctor.id}
-                      className="text-white text-bold list-none"
-                    >
-                      {doctor.name}
-                    </li>
-                  ))}
-                </ul>
+              {vets.length > 0 ? (
+                <VetAssign vets={vets} />
               ) : (
                 <p className="text-custom-blue">
-                  No doctors available for this date and timeslot.
+                  No vets available for this date and timeslot.
                 </p>
               )}
             </div>
