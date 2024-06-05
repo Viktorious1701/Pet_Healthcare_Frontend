@@ -220,7 +220,7 @@ const Home = () => {
           <div className="hero__overlay bg-black/60 absolute inset-0"></div>
           <div className="container mx-auto px-4 py-16 relative">
             <div className="testimonial__title text-center mb-8">
-              <p className="xd_subtitle text-teal text-xl font-semibold mb-2">
+              <p className="xd_subtitle text-teal text-xl font-semibold mb-2 text-custom-pink">
                 Testimonial
               </p>
               <h2 className="text-white text-3xl font-bold">

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import {
-  NavigationMenuLink,
   NavigationMenuItem,
   NavigationMenuContent,
   NavigationMenuList,
@@ -55,14 +54,14 @@ export default function Header() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
-              <Link to="/about">About</Link>
-            </NavigationMenuLink>
+            <Link to="/about" className={`${navigationMenuTriggerStyle()} bg-[#F3F4F6]`}>
+              About
+            </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink className={`${navigationMenuTriggerStyle()}`}>
-              <Link to="/contact">Contact</Link>
-            </NavigationMenuLink>
+            <Link to="/contact" className={`${navigationMenuTriggerStyle()}`}>
+              Contact
+            </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -70,17 +69,17 @@ export default function Header() {
   );
 }
 
-const ListItem = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithoutRef<"a">>(
+const ListItem = React.forwardRef<HTMLDivElement, { title: string, children: React.ReactNode, href: string, className?: string }>(
   ({ className, title, children, href, ...props }, ref) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const isHashLink = href?.startsWith("#");
+    const isHashLink = href.startsWith("#");
 
-    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
       if (isHashLink) {
         event.preventDefault();
-        const targetId = href?.slice(1);
-        const targetElement = document.getElementById(targetId?.toString() ?? "");
+        const targetId = href.slice(1);
+        const targetElement = document.getElementById(targetId);
 
         if (location.pathname === "/") {
           // Scroll to the target element if on the home page
@@ -89,24 +88,23 @@ const ListItem = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithout
           // Navigate to the home page and then scroll to the target element
           navigate("/");
           setTimeout(() => {
-            document.getElementById(targetId?.toString() ?? "")?.scrollIntoView({ behavior: "smooth" });
+            document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
           }, 100); // Delay to allow the navigation to complete
         }
       } else {
+        // Navigate to a different page
+        navigate(href);
         // Scroll to the top of the page when navigating to a different page
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     };
 
-    const resolvedLink = isHashLink ? `/#${href?.slice(1)}` : href;
-
     return (
       <li>
-        <Link
+        <div
           ref={ref}
-          to={resolvedLink ?? "#"}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer",
             className
           )}
           onClick={handleClick}
@@ -114,9 +112,10 @@ const ListItem = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithout
         >
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
-        </Link>
+        </div>
       </li>
     );
   }
 );
+
 ListItem.displayName = "ListItem";
