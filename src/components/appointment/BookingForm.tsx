@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-import fetchDoctors from "./api";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
+import { AppointmentAvailableVets } from "@/Models/Appointment";
+import { appointmentAvailableVetsAPI } from "@/Services/AppointmentService";
+import { toast } from "react-toastify";
 interface FormValues {
   firstName: string;
   lastName: string;
   phone: string;
 }
 
-interface Doctor {
-  id: number;
-  name: string;
-}
+// interface Doctor {
+//   id: number;
+//   name: string;
+// }
 
 interface BookingFormProps {
   date: Date;
-  slot: string;
+  slot: number;
   onCancel: () => void; // New prop for onCancel function
 }
 
@@ -39,18 +41,31 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     mode: "onSubmit",
   });
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
+
+  const getAvailableVets = async () => {
+    appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
+      .then((res) => {
+        if (res?.data) {
+          setVets(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Could not get vets data");
+      });
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const doctors = await fetchDoctors(date, slot);
-        setDoctors(doctors);
-      } catch (error) {
-        console.error("Error fetching doctors:", error);
-      }
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   try {
+    //     const vets = await fetchDoctors(date, slot);
+    //     setVets(vets);
+    //   } catch (error) {
+    //     console.error("Error fetching vets:", error);
+    //   }
+    // };
+    // fetchData();
+    getAvailableVets();
   }, [date, slot]);
 
   const onSubmit = (formData: FormValues) => {
@@ -140,22 +155,22 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
             </div>
             <div className="flex flex-col mb-6">
               <h2 className="text-lg font-bold text-custom-blue mb-3">
-                Available Doctors
+                Available Vets
               </h2>
-              {doctors.length > 0 ? (
+              {vets.length > 0 ? (
                 <ul className="list-disc list-inside bg-custom-pink rounded p-4">
-                  {doctors.map((doctor) => (
+                  {vets.map((vet) => (
                     <li
-                      key={doctor.id}
+                      key={vet.id}
                       className="text-white text-bold list-none"
                     >
-                      {doctor.name}
+                      {vet.userName}
                     </li>
                   ))}
                 </ul>
               ) : (
                 <p className="text-custom-blue">
-                  No doctors available for this date and timeslot.
+                  No vets available for this date and timeslot.
                 </p>
               )}
             </div>
