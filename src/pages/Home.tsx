@@ -8,6 +8,14 @@ import petcare from "@/assets/petcare.jpg";
 import logo from "@/assets/Paw2.svg";
 import CustomCalendar from "@/components/calendar/CustomCalendar";
 import { APPOINTMENT } from "@/Route/router-const";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay"
 
 const Home = () => {
   return (
@@ -196,48 +204,52 @@ const Home = () => {
                 What Our Customer Saying?
               </h2>
             </div>
-            <div className="splide splide--loop splide--ltr splide--draggable is-active is-overflow is-initialized">
-              <div className="splide__track">
-                <ul className="splide__list">
-                  <li className="splide__slide">
-                    <div className="testimonial wrp bg-white p-8 rounded-lg shadow-md">
-                      <img
-                        src={logo}
-                        alt=""
-                        className="rounded-full w-16 h-16 mx-auto mb-4"
-                      />
-                      <div className="product__rating flex justify-center mb-4">
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star text-gray-400"></span>
-                        <span className="fa fa-star text-gray-400"></span>
+            <Carousel
+              plugins={[
+                Autoplay({
+                  delay: 1700,
+                }),
+              ]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem key={index} className="basis-1/3 p-1">
+                    <div className="p-1">
+                      <div className="testimonial wrp bg-white p-8 rounded-lg shadow-md select-none">
+                        <img
+                          src={logo}
+                          alt=""
+                          className="rounded-full w-16 h-16 mx-auto mb-4"
+                        />
+                        <div className="product__rating flex justify-center mb-4">
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star text-gray-400"></span>
+                          <span className="fa fa-star text-gray-400"></span>
+                        </div>
+                        <p className="text-gray-700 text-center mb-4 select-none">
+                          Simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum simply dummy text of the printing
+                          and typesetting industry. Lorem Ipsum has been.
+                        </p>
+                        <h3 className="text-xl font-semibold text-center mb-2 select-none">
+                          Sara Taylor
+                        </h3>
+                        <p className="text-gray-600 text-center select-none">Consumer</p>
                       </div>
-                      <p className="text-gray-700 text-center mb-4">
-                        Simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum simply dummy text of the printing
-                        and typesetting industry. Lorem Ipsum has been.
-                      </p>
-                      <h3 className="text-xl font-semibold text-center mb-2">
-                        Sara Taylor
-                      </h3>
-                      <p className="text-gray-600 text-center">Consumer</p>
                     </div>
-                  </li>
-                  {/* Add more slides here if needed */}
-                </ul>
-              </div>
-              <ul className="splide__pagination splide__pagination--ltr flex justify-center mt-4">
-                <li role="presentation">
-                  <Button
-                    className="splide__pagination__page bg-gray-300 rounded-full w-3 h-3 mx-1"
-                    type="button"
-                    role="tab"
-                  ></Button>
-                </li>
-                {/* Add more pagination buttons here if needed */}
-              </ul>
-            </div>
+                    </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         </section>
       </main>
