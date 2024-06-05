@@ -92,6 +92,9 @@ const ListItem = React.forwardRef<HTMLAnchorElement, React.ComponentPropsWithout
             document.getElementById(targetId?.toString() ?? "")?.scrollIntoView({ behavior: "smooth" });
           }, 100); // Delay to allow the navigation to complete
         }
+      } else {
+        // Scroll to the top of the page when navigating to a different page
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     };
 

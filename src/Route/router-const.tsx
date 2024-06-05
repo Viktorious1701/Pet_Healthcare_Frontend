@@ -9,6 +9,7 @@ export const APPOINTMENT = "appointment"
 export const APPOINTMENT_SUCCESS = "appointment-success"
 
 export const HOSPITALIZATION = "hospitalization"
+export const KENNEL = "kennel"
 export const VACCINATION = "vaccination"
 
 export const ADMIN_DASHBOARD = "admin"
