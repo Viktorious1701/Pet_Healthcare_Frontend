@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import { useAuth } from "../Context/useAuth";
 import { Link } from 'react-router-dom';
 import PetCare from "../assets/petcare.jpg";
+import { Divider } from "@nextui-org/react";
 
 type ForgotPasswordFormInputs = {
   email: string;
@@ -68,17 +69,31 @@ const ForgotPassword = () => {
                 />
                 {errors.email ? <p>{errors.email.message}</p> : ""}
               </div>
-              <Button className="w-full" type="submit">
-                Send Email
-              </Button>
-              <div className="text-center">
+              <div className="flex justify-between">
                 <Link 
-                  to="/login" 
-                  className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                    to="/login" 
+                    className="flex-1 mr-2 px-4 py-2 text-sm font-bold text-white bg-[#DB2777] rounded hover:bg-[#9B1B5A] transition-colors duration-200 inline-flex items-center justify-center"
                 >
-                  Back to Login
+                    Go Back to Login
                 </Link>
+                <Button className="flex-1" type="submit">
+                    Reset Password
+                </Button>
+                </div>
+              <div className="flex justify-center pt-2 w-[90%] mx-auto">
+                <Divider className="w-full"/>
               </div>
+              <div className="flex flex-col items-center mt-4 text-[1rem]">
+                <p>
+                    Don't have an account?{' '}
+                </p>
+                <Link 
+                    to="/register" 
+                    className="text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200 mt-3 text-[1.2rem]"
+                >
+                    Create Account
+                </Link>
+                </div>
             </div>
           </CardContent>
         </Card>

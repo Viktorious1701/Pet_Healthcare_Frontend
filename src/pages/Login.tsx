@@ -1,9 +1,11 @@
+import React from 'react';
+import { Divider } from '@nextui-org/react';
 import {
+  Card,
+  CardContent,
   CardTitle,
   CardDescription,
   CardHeader,
-  CardContent,
-  Card,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -19,41 +21,36 @@ import {Checkbox} from "@nextui-org/react";
 import { useState } from "react";
 import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
 
-type LoginFormsInputs = {
+type LoginFormInputs = {
   userName: string;
   password: string;
 };
 
-const validation = Yup.object().shape({
-  userName: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
+const validationSchema = Yup.object().shape({
+  userName: Yup.string().required('Username is required'),
+  password: Yup.string().required('Password is required'),
 });
 
 const Login = () => {
   const { loginUser } = useAuth();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormsInputs>({ resolver: yupResolver(validation) });
+  } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
-  const handleLogin = (form: LoginFormsInputs) => {
-    loginUser(form.userName, form.password);
+  const onSubmit = (data: LoginFormInputs) => {
+    loginUser(data.userName, data.password);
   };
 
   const [isSelected] = useState(false);
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-      <img
-        src={PetCare}
-        alt="Pet care"
-        className="absolute w-full h-full object-cover"
-      />
+      <img src={PetCare} alt="Pet care" className="absolute w-full h-full object-cover" />
       <form
         className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
-        onSubmit={handleSubmit(handleLogin)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Card>
           <CardHeader className="space-y-1">
@@ -73,7 +70,7 @@ const Login = () => {
                   {...register("userName")}
                   autoComplete="new-password"
                 />
-                {errors.userName ? <p>{errors.userName.message}</p> : ""}
+                {errors.userName && <p>{errors.userName.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
@@ -92,7 +89,7 @@ const Login = () => {
                 </Checkbox>
                 <Link
                   to={`/${FORGOT_PASS}`}
-                  className="text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                  className="text-sm text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
                 >
                   Forgot Password?
                 </Link>
@@ -100,11 +97,14 @@ const Login = () => {
               <Button className="w-full" type="submit">
                 Login
               </Button>
+              <div className="flex justify-center pt-2 w-[90%] mx-auto">
+                <Divider className="w-full"/>
+              </div>
               <div className="text-center">
                 Don't have an account? &nbsp;
                 <Link
                   to={`/${REGISTER}`}
-                  className="font-bold text-sm text-blue-500 hover:underline hover:text-blue-700 transition-colors duration-200"
+                  className="font-bold text-sm text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
                 >
                   Register
                 </Link>
