@@ -4,8 +4,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
-import { AppointmentAvailableVets } from "@/Models/Appointment";
-import { appointmentAvailableVetsAPI, appointmentBookAPI } from "@/Services/AppointmentService";
+import { AppointmentAvailableVets, AppointmentGet } from "@/Models/Appointment";
+import {
+  appointmentAvailableVetsAPI,
+  appointmentBookAPI,
+  appointmentCustomerAPI,
+} from "@/Services/AppointmentService";
 import { toast } from "react-toastify";
 
 import { serviceGetAPI } from "@/Services/ServiceService";
@@ -41,6 +45,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
 
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
@@ -62,6 +67,18 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     mode: "onSubmit",
   });
 
+  const getCustomerAppointments = async () => {
+    appointmentCustomerAPI(String(user?.userName))
+    .then((res) => {
+      if (res?.data) {
+        setAppointments(res?.data);
+      }
+    })
+    .catch(() => {
+      toast.warning("Could not get user's appointments");
+    })
+  }
+
   const getAvailableVets = async () => {
     appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
       .then((res) => {
@@ -78,6 +95,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     petsOfCustomerAPI(String(user?.userName))
       .then((res) => {
         if (res?.data) {
+          if (res?.data === "User doesn't have any pets") {
+            return;
+          }
           setPets(res?.data);
         }
       })
@@ -99,7 +119,16 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   };
 
   const onSubmit = (formData: FormValues) => {
-    console.log("Form submitted:", formData);
+    if (formData.petId === 0 || formData.serviceId === 0) {  
+      toast.warning("You must select all items");
+      return;
+    }
+    if (appointments.some(
+      appointment => appointment.status === "Boooked" || appointment.status === "Processing"
+    )) {
+      toast.warning("You have an unfinished appointment, cannot book now");
+      return;
+    }
     handleAppointment(formData);
     dispatch(setFormData(formData));
     navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed
@@ -134,19 +163,19 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       e.slotId,
       e.serviceId,
       e.date
-    ).then(() => {
-    })
-    .catch((e) => {
-      toast.warning(e);
-    });
+    )
+      .then(() => {
+      })
+      .catch((e) => {
+        toast.warning(e);
+      });
   };
-
 
   useEffect(() => {
     setValue("petId", Number(selectedPetId));
     setValue("serviceId", Number(selectedServiceId));
     if (selectedVetUserName !== "Let us choose for you") {
-      setValue("vetUserName", selectedVetUserName)
+      setValue("vetUserName", selectedVetUserName);
     }
   }, [selectedPetId, selectedServiceId]);
 
@@ -154,6 +183,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     getAvailableVets();
     getPets();
     getServices();
+    getCustomerAppointments();
   }, [date, slot]);
 
   return (
@@ -167,46 +197,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
             onSubmit={handleSubmit(onSubmit, onError)}
             className="w-full flex flex-col items-center"
           >
-            {/* <div className="flex flex-col mb-6">
-              <div className="flex items-center mb-2">
-                <label htmlFor="firstName" className="w-40 text-custom-blue">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  className="flex-grow border border-gray-300 rounded p-3 focus:border-custom-blue"
-                  {...register("firstName", {
-                    required: "First name is required",
-                  })}
-                />
-              </div>
-              {errors.firstName && (
-                // Added a fixed height to the error message container to prevent layout shifts
-                <p className="text-red-500 ml-40 h-5">
-                  {errors.firstName?.message}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col mb-6">
-              <div className="flex items-center mb-2">
-                <label htmlFor="lastName" className="w-40 text-custom-blue">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  className="flex-grow border border-gray-300 rounded p-3 focus:border-custom-blue"
-                  {...register("lastName", {
-                    required: "Last name is required",
-                  })}
-                />
-              </div>
-              {errors.lastName && (
-                // Added a fixed height to the error message container to prevent layout shifts
-                <p className="text-red-500 ml-40 h-5">
-                  {errors.lastName?.message}
-                </p>
-              )}
-            </div> */}
             <div className="flex flex-col mb-6 min-w-full items-center">
               <h2 className="text-lg font-bold text-custom-blue mb-3">
                 Choose a pet to see the vet
@@ -214,7 +204,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
               {pets.length > 0 ? (
                 <BookingPet pets={pets} onSelectPet={handleSelectPet} />
               ) : (
-                <p className="text-custom-blue">No available services.</p>
+                <p className="text-custom-blue">No available pets.</p>
               )}
             </div>
             <div className="flex flex-col mb-6 min-w-full items-center">
