@@ -8,6 +8,14 @@ import petcare from "@/assets/petcare.jpg";
 import logo from "@/assets/Paw2.svg";
 import CustomCalendar from "@/components/calendar/CustomCalendar";
 import { APPOINTMENT } from "@/Route/router-const";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay"
 
 const Home = () => {
   return (
@@ -144,7 +152,7 @@ const Home = () => {
         {/* Veterinarian Section */}
         <section
           id="veterinarian"
-          className="mb-16 p-4 bg-gray-100 rounded-lg shadow text-center"
+          className="m mb-16 p-20  bg-gray-100 rounded-lg shadow text-center"
         >
           <h2 className="text-3xl font-bold text-pink mb-4">
             Meet Our Veterinarians
@@ -157,7 +165,13 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Jane Doe</h3>
-              <p className="text-base">Specialist in Small Animals</p>
+              <p className="text-base mb-4">Specialist in Small Animals</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Jane Doe has over 10 years of experience in treating small
+                animals such as dogs, cats, and rabbits. She is passionate about
+                providing compassionate care and ensuring the well-being of your
+                furry companions.
+              </p>
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
               <img
@@ -166,7 +180,13 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Johnny Sins</h3>
-              <p className="text-base">Expert in Exotic Pets</p>
+              <p className="text-base mb-4">Expert in Exotic Pets</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Johnny Sins is an expert in exotic pet care, with a
+                particular focus on reptiles, birds, and small mammals. He has a
+                deep understanding of the unique needs of these pets and
+                provides specialized treatment and care.
+              </p>
             </div>
             <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
               <img
@@ -175,69 +195,92 @@ const Home = () => {
                 className="rounded-full w-24 h-24 mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">Dr. Alice Brown</h3>
-              <p className="text-base">Veterinary Surgeon</p>
+              <p className="text-base mb-4">Veterinary Surgeon</p>
+              <p className="text-sm text-gray-600 mb-4">
+                Dr. Alice Brown is a skilled veterinary surgeon with extensive
+                experience in performing complex surgical procedures. She
+                specializes in orthopedic and soft tissue surgeries, ensuring
+                the highest level of care for your pets.
+              </p>
             </div>
+          </div>
+          <div className="mt-8">
+            <p className="text-lg text-gray-700 mb-4">
+              Our team of veterinarians is dedicated to providing exceptional
+              care for your pets. We believe in a compassionate and personalized
+              approach, tailoring our services to meet the unique needs of each
+              pet and owner.
+            </p>
+            <p className="text-lg text-gray-700">
+              At our clinic, we prioritize open communication and education. We
+              strive to keep pet owners informed about their pet's health and
+              provide guidance on proper care and preventive measures.
+            </p>
           </div>
         </section>
 
         {/* Customer Rating Section */}
         <section
-          id="testimonial"
+          id="rating"
           className="relative bg-cover bg-center"
           style={{ backgroundImage: `url(${petcare})` }}
         >
           <div className="hero__overlay bg-black/60 absolute inset-0"></div>
           <div className="container mx-auto px-4 py-16 relative">
             <div className="testimonial__title text-center mb-8">
-              <p className="xd_subtitle text-teal text-xl font-semibold mb-2">
+              <p className="xd_subtitle text-teal text-xl font-semibold mb-2 text-custom-pink">
                 Testimonial
               </p>
               <h2 className="text-white text-3xl font-bold">
                 What Our Customer Saying?
               </h2>
             </div>
-            <div className="splide splide--loop splide--ltr splide--draggable is-active is-overflow is-initialized">
-              <div className="splide__track">
-                <ul className="splide__list">
-                  <li className="splide__slide">
-                    <div className="testimonial wrp bg-white p-8 rounded-lg shadow-md">
-                      <img
-                        src={logo}
-                        alt=""
-                        className="rounded-full w-16 h-16 mx-auto mb-4"
-                      />
-                      <div className="product__rating flex justify-center mb-4">
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star checked text-yellow-400"></span>
-                        <span className="fa fa-star text-gray-400"></span>
-                        <span className="fa fa-star text-gray-400"></span>
+            <Carousel
+              plugins={[
+                Autoplay({
+                  delay: 1700,
+                }),
+              ]}
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem key={index} className="basis-1/3 p-1">
+                    <div className="p-1">
+                      <div className="testimonial wrp bg-white p-8 rounded-lg shadow-md select-none">
+                        <img
+                          src={logo}
+                          alt=""
+                          className="rounded-full w-16 h-16 mx-auto mb-4"
+                        />
+                        <div className="product__rating flex justify-center mb-4">
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star checked text-yellow-400"></span>
+                          <span className="fa fa-star text-gray-400"></span>
+                          <span className="fa fa-star text-gray-400"></span>
+                        </div>
+                        <p className="text-gray-700 text-center mb-4 select-none">
+                          Simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum simply dummy text of the printing
+                          and typesetting industry. Lorem Ipsum has been.
+                        </p>
+                        <h3 className="text-xl font-semibold text-center mb-2 select-none">
+                          Sara Taylor
+                        </h3>
+                        <p className="text-gray-600 text-center select-none">Consumer</p>
                       </div>
-                      <p className="text-gray-700 text-center mb-4">
-                        Simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum simply dummy text of the printing
-                        and typesetting industry. Lorem Ipsum has been.
-                      </p>
-                      <h3 className="text-xl font-semibold text-center mb-2">
-                        Sara Taylor
-                      </h3>
-                      <p className="text-gray-600 text-center">Consumer</p>
                     </div>
-                  </li>
-                  {/* Add more slides here if needed */}
-                </ul>
-              </div>
-              <ul className="splide__pagination splide__pagination--ltr flex justify-center mt-4">
-                <li role="presentation">
-                  <Button
-                    className="splide__pagination__page bg-gray-300 rounded-full w-3 h-3 mx-1"
-                    type="button"
-                    role="tab"
-                  ></Button>
-                </li>
-                {/* Add more pagination buttons here if needed */}
-              </ul>
-            </div>
+                    </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           </div>
         </section>
       </main>

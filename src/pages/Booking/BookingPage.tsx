@@ -4,18 +4,19 @@ import CalendarComponent from "@/components/calendar/CalendarComponent";
 import { useDispatch } from "react-redux";
 import { setDateSlot } from "@/components/slices/dateSlice";
 import { AppDispatch } from "@/store";
-//import petcare from '@/assets/heroBanner.png';
-import BookingForm from "@/components/appointment/BookingForm";
-import Footer from "@/components/navigation/Footer";
-import { ArrowRightFromLine } from "lucide-react";
 import { SlotGet } from "@/Models/Slot";
 import { slotGetAPI } from "@/Services/SlotService";
 import { toast } from "react-toastify";
+import BookingForm from '@/components/appointment/BookingForm';
+import Footer from '@/components/navigation/Footer';
+import { ArrowRightFromLine } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const BookingPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [slots, setSlots] = useState<SlotGet[] | null>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -34,6 +35,13 @@ const BookingPage = () => {
         toast.warning("Could not get slot data");
       });
   };
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+    window.scrollTo(0, 0);
+  }, [navigate]);
+  
 
   const handleBookingCancel = () => {
     setSelectedDate(null);
