@@ -19,6 +19,10 @@ export const theme = {
     },
   },
   extend: {
+    fontFamily: {
+      'mont': ['Montserrat Variable', 'sans-serif'],
+      'roboto': ['Roboto', 'sans-serif'],
+    },
     colors: {
       border: "hsl(var(--border))",
       input: "hsl(var(--input))",
