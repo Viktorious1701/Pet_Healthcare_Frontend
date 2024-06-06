@@ -37,7 +37,13 @@ import ResetPass from '@/pages/ResetPass';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 
 // Router Constants
-import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, LOGIN, REGISTER, RESET_PASS } from './router-const';
+import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, CUSTOMER_PET_PROFILE, CUSTOMER_PET_UPDATE, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, HOSPITALIZATION, KENNEL, LOGIN, REGISTER, RESET_PASS } from './router-const';
+import HospitalizationPage from '@/pages/Hospitalization/HospitalizationPage';
+import PetHealthTrack from '@/pages/Hospitalization/PetHealthTrack';
+import KennelPage from '@/pages/Hospitalization/Kennel';
+import PetList from '@/pages/PetProfile/PetList';
+import PetProfile from '@/pages/PetProfile/PetProfile';
+import PetUpdateForm from '@/pages/PetProfile/PetUpdateForm';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -117,8 +123,6 @@ export const router = createBrowserRouter([
         path: `${APPOINTMENT_SUCCESS}`,
         element: <BookingSuccess />,
       },
-    ],
-  },
 
   // Error routes
   { path: '/500', Component: GeneralError },
@@ -127,4 +131,34 @@ export const router = createBrowserRouter([
 
   // Fallback 404 route
   { path: '*', Component: NotFound },
+      {
+        path: `${HOSPITALIZATION}`,
+        element: <HospitalizationPage />,
+      },
+      {
+        path: `${HOSPITALIZATION}/:petName`,
+        element: <PetHealthTrack />,
+      },
+      {
+        path: `${KENNEL}/:kennelId`,
+        element: <KennelPage />,
+      },
+      {
+        path: `${CUSTOMER_PET_PROFILE}`,
+        element: <PetList />,
+      },
+      {
+        path: `${CUSTOMER_PET_PROFILE}/:petId`,
+        element: <PetProfile />,
+      },
+      {
+        path: `${CUSTOMER_PET_UPDATE}/:petId`,
+        element: <PetUpdateForm />,
+      },
+      {
+        path: "*",
+        element: <NotFound/>,
+      }
+    ],
+  },
 ]);

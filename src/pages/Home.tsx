@@ -206,6 +206,19 @@ const Home = () => {
               </div>
             ))}
           </div>
+          <div className="mt-8">
+            <p className="text-lg text-gray-700 mb-4">
+              Our team of veterinarians is dedicated to providing exceptional
+              care for your pets. We believe in a compassionate and personalized
+              approach, tailoring our services to meet the unique needs of each
+              pet and owner.
+            </p>
+            <p className="text-lg text-gray-700">
+              At our clinic, we prioritize open communication and education. We
+              strive to keep pet owners informed about their pet's health and
+              provide guidance on proper care and preventive measures.
+            </p>
+          </div>
         </section>
 
         {/* Customer Rating Section */}

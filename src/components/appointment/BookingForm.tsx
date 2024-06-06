@@ -7,16 +7,25 @@ import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
 import { AppointmentAvailableVets } from "@/Models/Appointment";
 import { appointmentAvailableVetsAPI } from "@/Services/AppointmentService";
 import { toast } from "react-toastify";
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  phone: string;
-}
 
-// interface Doctor {
-//   id: number;
-//   name: string;
-// }
+import { serviceGetAPI } from "@/Services/ServiceService";
+import { ServiceGet } from "@/Models/Service";
+import BookingVet from "./BookingVet";
+import BookingService from "./BookingService";
+import { petsOfCustomerAPI } from "@/Services/PetService";
+import { PetGet } from "@/Models/Pet";
+import { useAuth } from "@/Context/useAuth";
+import BookingPet from "./BookingPets";
+import VetAssign from "./VetAssign";
+        
+interface FormValues {
+  customerUserName: string;
+  petId: number;
+  vetUserName: string;
+  slotId: number;
+  serviceId: number;
+  date: string;
+}
 
 interface BookingFormProps {
   date: Date;
@@ -27,21 +36,22 @@ interface BookingFormProps {
 const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {user} = useAuth();
   const {
-    register,
     handleSubmit,
-    formState: { errors },
     reset,
   } = useForm<FormValues>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      phone: "",
+      // firstName: "",
+      // lastName: "",
+      // phone: "",
     },
     mode: "onSubmit",
   });
 
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
+  const [services, setServices] = useState<ServiceGet[]>([]);
+  const [pets, setPets] = useState<PetGet[]>([]);
 
   const getAvailableVets = async () => {
     appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
@@ -55,17 +65,35 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       });
   };
 
+
+  const getPets = async () => {
+    petsOfCustomerAPI(String(user?.userName))
+    .then((res) => {
+      if (res?.data) {
+        setPets(res?.data)
+      }
+    })
+    .catch(() => {
+      toast.warning("Could not get customer's pets")
+    })
+  }
+
+  const getServices = async () => {
+    serviceGetAPI()
+      .then((res) => {
+        if (res?.data) {
+          setServices(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Could not get services data");
+      });
+  };
+
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const vets = await fetchDoctors(date, slot);
-    //     setVets(vets);
-    //   } catch (error) {
-    //     console.error("Error fetching vets:", error);
-    //   }
-    // };
-    // fetchData();
     getAvailableVets();
+    getPets();
+    getServices();
   }, [date, slot]);
 
   const onSubmit = (formData: FormValues) => {
@@ -78,27 +106,20 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     console.log("Form errors: ", errors);
   };
 
-  const validatePhone = (value: string) => {
-    const phoneRegex = /^\d{9,15}$/;
-    return (
-      phoneRegex.test(value) || "Phone number must be between 9 and 15 digits"
-    );
-  };
-
   const handleCancel = () => {
     reset(); // Reset form fields
     onCancel(); // Call onCancel function passed from parent component
   };
 
   return (
-    <div className="flex items-center justify-center h-full ">
-      <div className="w-full max-w-md">
-        <div className="flex flex-col items-center p-8 bg-white rounded-md shadow-md">
+    <div className="flex items-center justify-center h-full w-screen">
+      <div className="w-full max-w-lg">
+        <div className="flex flex-col  justify-center items-center p-8 bg-white rounded-md shadow-md">
           <h1 className="text-2xl font-bold mb-6 text-custom-pink">
             Booking Details
           </h1>
-          <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full">
-            <div className="flex flex-col mb-6">
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="w-full flex flex-col items-center">
+            {/* <div className="flex flex-col mb-6">
               <div className="flex items-center mb-2">
                 <label htmlFor="firstName" className="w-40 text-custom-blue">
                   First Name
@@ -112,9 +133,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
                 />
               </div>
               {errors.firstName && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.firstName?.message}</p>
-          )}
+                // Added a fixed height to the error message container to prevent layout shifts
+                <p className="text-red-500 ml-40 h-5">
+                  {errors.firstName?.message}
+                </p>
+              )}
             </div>
             <div className="flex flex-col mb-6">
               <div className="flex items-center mb-2">
@@ -130,51 +153,49 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
                 />
               </div>
               {errors.lastName && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.lastName?.message}</p>
-          )}
+                // Added a fixed height to the error message container to prevent layout shifts
+                <p className="text-red-500 ml-40 h-5">
+                  {errors.lastName?.message}
+                </p>
+              )}
+            </div> */}
+            <div className="flex flex-col mb-6 min-w-full items-center">
+              <h2 className="text-lg font-bold text-custom-blue mb-3">
+                Choose a pet to see the vet
+              </h2>
+              {pets.length > 0 ? (
+                <BookingPet pets={pets} />
+              ) : (
+                <p className="text-custom-blue">
+                  No available services.
+                </p>
+              )}
             </div>
-            <div className="flex flex-col mb-6">
-              <div className="flex items-center mb-2">
-                <label htmlFor="phone" className="w-40 text-custom-blue">
-                  Phone
-                </label>
-                <input
-                  type="text"
-                  className="flex-grow border border-gray-300 rounded p-3 focus:border-custom-blue"
-                  {...register("phone", {
-                    required: "Phone is required",
-                    validate: validatePhone,
-                  })}
-                />
-              </div>
-              {errors.phone && (
-            // Added a fixed height to the error message container to prevent layout shifts
-            <p className="text-red-500 ml-40 h-5">{errors.phone?.message}</p>
-          )}
+            <div className="flex flex-col mb-6 min-w-full items-center">
+              <h2 className="text-lg font-bold text-custom-blue mb-3 ">
+                Available Services
+              </h2>
+              {services.length > 0 ? (
+                <BookingService services={services} />
+              ) : (
+                <p className="text-custom-blue">
+                  No available services.
+                </p>
+              )}
             </div>
-            <div className="flex flex-col mb-6">
+            <div className="flex flex-col mb-6 min-w-full items-center">
               <h2 className="text-lg font-bold text-custom-blue mb-3">
                 Available Vets
               </h2>
               {vets.length > 0 ? (
-                <ul className="list-disc list-inside bg-custom-pink rounded p-4">
-                  {vets.map((vet) => (
-                    <li
-                      key={vet.id}
-                      className="text-white text-bold list-none"
-                    >
-                      {vet.userName}
-                    </li>
-                  ))}
-                </ul>
+                <BookingVet vets={vets} />
               ) : (
                 <p className="text-custom-blue">
                   No vets available for this date and timeslot.
                 </p>
               )}
             </div>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 min-w-full items-center">
               <button
                 type="button"
                 onClick={handleCancel}
