@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
@@ -16,7 +16,6 @@ import { petsOfCustomerAPI } from "@/Services/PetService";
 import { PetGet } from "@/Models/Pet";
 import { useAuth } from "@/Context/useAuth";
 import BookingPet from "./BookingPets";
-import VetAssign from "./VetAssign";
         
 interface FormValues {
   customerUserName: string;
@@ -35,6 +34,7 @@ interface BookingFormProps {
 
 const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const dispatch = useDispatch();
+  
   const navigate = useNavigate();
   const {user} = useAuth();
   const {
@@ -45,6 +45,12 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       // firstName: "",
       // lastName: "",
       // phone: "",
+      customerUserName: `${user?.userName}`,
+      date: String(date?.toLocaleDateString().replace(/\//g, "-")),
+      slotId: slot,
+      vetUserName: "",
+      petId: 0,
+      serviceId: 0
     },
     mode: "onSubmit",
   });
@@ -112,8 +118,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   };
 
   return (
-    <div className="flex items-center justify-center h-full w-screen">
-      <div className="w-full max-w-lg">
+    <div className="flex items-center justify-center h-full w-full">
+      <div className="w-full max-w-screen-md">
         <div className="flex flex-col  justify-center items-center p-8 bg-white rounded-md shadow-md">
           <h1 className="text-2xl font-bold mb-6 text-custom-pink">
             Booking Details

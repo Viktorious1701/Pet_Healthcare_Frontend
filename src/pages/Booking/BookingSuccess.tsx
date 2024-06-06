@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router';
 
 const BookingSuccess = () => {
   const navigate = useNavigate();
+  const selector = useSelector((state:RootState) => state.formData.formData)
+  console.log(selector);
   const {isSubmitted} = useSelector((state: RootState) => state.formData);
   if (!isSubmitted) {
     navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
