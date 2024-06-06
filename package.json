@@ -27,6 +27,8 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@fontsource-variable/montserrat": "^5.0.19",
+    "@fontsource/roboto": "^5.0.13",
     "@hookform/resolvers": "^3.4.2",
     "@nextui-org/card": "^2.0.29",
     "@nextui-org/react": "^2.4.0",

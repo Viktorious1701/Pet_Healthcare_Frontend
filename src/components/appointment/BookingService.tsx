@@ -5,9 +5,15 @@ import logo from "@/assets/react.svg";
 
 interface BookingServiceProps {
   services: ServiceGet[];
+  onSelectService: (serviceId: string) => void;
 }
 
-const BookingService: React.FC<BookingServiceProps> = ({ services }) => {
+const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectService }) => {
+  
+    const handleServiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedServiceIdFromEvent = event.target.value;
+    onSelectService(selectedServiceIdFromEvent);
+  };
   return (
     <Select
       items={services}
@@ -58,9 +64,10 @@ const BookingService: React.FC<BookingServiceProps> = ({ services }) => {
           </div>
         ));
       }}
+      onChange={handleServiceChange}
     >
       {(service) => (
-        <SelectItem key={service.serviceId} textValue={service.name}>
+        <SelectItem key={service.serviceId} value={service.serviceId} textValue={service.name}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={service.name}

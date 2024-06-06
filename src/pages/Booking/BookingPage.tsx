@@ -97,7 +97,10 @@ const BookingPage = () => {
       Number(minute)
     );
     const now = new Date();
-
+    
+    if (!slot.available) {
+      return true;
+    }
     return slotDateTime < now;
   };
 

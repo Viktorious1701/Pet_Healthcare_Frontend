@@ -49,16 +49,16 @@ const Navbar = () => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem key="profile" className="h-14 gap-2" textValue="profile">
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
-              <DropdownItem key="team_settings">Team Settings</DropdownItem>
-              <DropdownItem key="analytics">Analytics</DropdownItem>
-              <DropdownItem key="system">System</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">
+              <DropdownItem key="settings" textValue="settings">My Settings</DropdownItem>
+              <DropdownItem key="team_settings" textValue="team_settings">Team Settings</DropdownItem>
+              <DropdownItem key="analytics" textValue="analytics">Analytics</DropdownItem>
+              <DropdownItem key="system" textValue="system">System</DropdownItem>
+              <DropdownItem key="configurations" textValue="configurations">Configurations</DropdownItem>
+              <DropdownItem key="help_and_feedback" textValue="help_and_feedback">
                 Help & Feedback
               </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={logout}>

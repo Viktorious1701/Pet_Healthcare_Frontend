@@ -8,7 +8,8 @@ export const slotGetAPI = async (date: string) => {
     try {
         const data = await axios.get<SlotGet[]>(api + `/${date}`);
         console.log(api + `/${date}`);
-        
+        console.log(data);
+                
         return data;
     } catch (error) {
         handleError(error);

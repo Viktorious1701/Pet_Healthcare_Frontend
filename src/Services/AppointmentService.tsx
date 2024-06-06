@@ -19,7 +19,7 @@ export const appointmentAvailableVetsAPI = async (
 export const appointmentBookAPI = async (
   customerUserName: string,
   petId: number,
-  vetUserName: string,
+  vetUserName: string | null,
   slotId: number,
   serviceId: number,
   date: string
