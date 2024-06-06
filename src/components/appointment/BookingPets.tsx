@@ -11,7 +11,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets }) => {
     <Select
       items={pets}
       label="Choose a pet"
-      className="max-w-xs"
+      className="max-w-md"
       variant="bordered"
       classNames={{
         label: "group-data-[filled=true]:-translate-y-5",
@@ -59,7 +59,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets }) => {
       }}
     >
       {(pet) => (
-        <SelectItem key={pet.id} textValue={pet.name}>
+        <SelectItem key={pet.id} value={pet.id.toString()} textValue={pet.name}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={pet.name}

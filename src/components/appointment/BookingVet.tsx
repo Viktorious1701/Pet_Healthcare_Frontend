@@ -22,7 +22,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets }) => {
     <Select
       items={allOptions}
       label="Assigned to"
-      className="max-w-xs"
+      className="max-w-md"
       variant="bordered"
       classNames={{
         label: "group-data-[filled=true]:-translate-y-5",
