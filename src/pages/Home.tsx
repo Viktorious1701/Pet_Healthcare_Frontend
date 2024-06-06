@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import petcare from "@/assets/petcare.jpg";
 import logo from "@/assets/Paw2.svg";
+import hero from "@/assets/hero.png";
 import CustomCalendar from "@/components/calendar/CustomCalendar";
 import { APPOINTMENT } from "@/Route/router-const";
+import { CONTACT } from "@/Route/router-const";
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +19,11 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay"
 
+import '@fontsource-variable/montserrat';
+import '@fontsource/roboto';
+
+import { ABOUT_PAGE } from "@/Route/router-const";
+
 const Home = () => {
   return (
     <div className="flex flex-col min-h-screen p-0 m-0 overflow-x-hidden">
@@ -25,99 +32,124 @@ const Home = () => {
         {/* Hero Section */}
         <section
           id="hero"
-          className="bg-gradient-to-r from-pink-500 to-pink-700 py-20 mt-8"
+          className="bg-[#F9FAFB] py-[8rem] mt-[6rem]"
         >
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between">
-              <div className="md:w-1/2 mb-8 md:mb-0">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                  Welcome to Pet Health Management
+          <div className="px-4">
+            <div className="flex flex-col md:flex-row items-center justify-center">
+              <div className="mb-8 md:mb-0">
+                <h1 className="text-6xl md:text-[8rem] font-bold text-[#1F2937] mb-4 text-center font-mont">
+                  Pamper Your Pet
                 </h1>
-                <p className="text-lg md:text-xl text-white mb-8">
-                  Manage your pets' health and appointments easily with our
-                  top-notch veterinary services.
+                <p className="text-lg md:text-[1.4rem] text-[#4B5563] mb-8 mt-[3rem] text-center font-roboto">
+                  Discover top-tier pet care services designed to keep your furry friends happy and healthy.
                 </p>
-                <Button
-                  color="primary"
-                  className="bg-white text-pink-700 hover:bg-pink-200"
-                >
-                  <Link
-                    to={`/${APPOINTMENT}`}
-                    className="text-pink-700 hover:text-white"
+                <div className="text-center space-x-8 mt-[4rem]">
+                  <Button
+                    color="primary"
+                    className="bg-white text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
                   >
-                    Book an Appointment
-                  </Link>
-                </Button>
-              </div>
-              <div className="md:w-1/2">
-                <img
-                  src={logo}
-                  alt="Hero"
-                  className="rounded-lg shadow-lg w-full h-auto md:h-96"
-                />
+                    <Link
+                      to={`/${APPOINTMENT}`}
+                      className="text-pink-700 hover:text-white"
+                    >
+                      Book an Appointment
+                    </Link>
+                  </Button>
+                  <Button
+                    color="primary"
+                    className="bg-white text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
+                  >
+                    <Link
+                      to={`/${CONTACT}`}
+                      className="text-pink-700 hover:text-white"
+                    >
+                      Contact Us
+                    </Link>
+                  </Button>
+                </div>
+                <img src={hero} alt="Hero" className="w-[110rem] h-auto mt-[5rem]" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Welcome Section */}
-        <section id="welcome" className="text-center mb-8 mt-16">
-          <h1 className="text-4xl font-bold mb-2 text-pink">
-            Welcome to Pet Health Management
-          </h1>
-          <p className="text-lg">
-            Manage your pets' health and appointments easily.
-          </p>
-        </section>
+        {/* Our Services Section */}
+        <section id="services">
 
-        {/* Category Section */}
-        <section
-          id="category"
-          className="mb-16 flex gap-10 justify-center items-center text-center"
-        >
-          <ImageCard imgSrc={petcare}>
-            <h3 className="text-xl font-bold mb-2">Booking</h3>
-            <div className="space-x-4 mt-4">
-              <h4 className="">We offer the best veterinarians</h4>
-            </div>
-          </ImageCard>
-          <ImageCard imgSrc={petcare}>
-            <h3 className="text-xl font-bold mb-2">Pet Hospitalization</h3>
-            <div className="space-x-4 mt-4">
-              <h4 className="">We offer the best hospitalization</h4>
-            </div>
-          </ImageCard>
+          {/* Welcome Section */}
+          <section id="welcome" className="text-center mb-[6rem] mt-[6rem]">
+            <h1 className="text-[4rem] font-bold mb-2 text-pink font-mont">
+              Our Services
+            </h1>
+            <p className="text-[1.3rem] font-roboto font-[100] text-[#4B5563]">
+              From grooming to boarding, we offer a comprehensive range of services to cater to 
+              <br />
+              your pet's every need.
+            </p>
+          </section>
+
+         {/* Category Section */}
+          <section
+            id="category"
+            className="mb-[8rem] flex gap-10 justify-center items-center text-center"
+          >
+            <ImageCard imgSrc={petcare}>
+              <h3 className="text-xl font-bold mb-2">Booking</h3>
+              <div className="space-x-4 mt-4">
+                <h4 className="">We offer the best veterinarians</h4>
+              </div>
+            </ImageCard>
+            <ImageCard imgSrc={petcare}>
+              <h3 className="text-xl font-bold mb-2">Pet Hospitalization</h3>
+              <div className="space-x-4 mt-4">
+                <h4 className="">We offer the best hospitalization</h4>
+              </div>
+            </ImageCard>
+            <ImageCard imgSrc={petcare}>
+              <h3 className="text-xl font-bold mb-2">Pet Care</h3>
+              <div className="space-x-4 mt-4">
+                <h4 className="">We offer the best pet care services</h4>
+              </div>
+            </ImageCard>
+          </section>
         </section>
 
         {/* About Section */}
-        <section id="about" className="mb-16 p-4 bg-gray-100 rounded-lg shadow">
-          <div className="flex justify-center gap-4">
+        <section id="about" className="py-[7rem] bg-[#F9FAFB] rounded-lg shadow">
+          <div className="flex justify-center gap-[20rem]">
             <div className="m-2">
               <img
-                className="rounded-md"
+                className="rounded-md h-96 w-full object-cover" // Adjust the height and width as needed
                 src="https://nextui.org/images/hero-card-complete.jpeg"
                 alt=""
               />
             </div>
-            <div className="flex flex-col justify-center items-center gap-9">
-              <p className="text-lg font-bold mb-2">About Us</p>
-              <h2 className="text-2xl mb-4">
-                We take care of your pets' condition and provide top-tier
-                treatment
-              </h2>
-              <p className="text-base mb-4">
-                Simply dummy text of the printing and typesetting industry.
-                Lorem has been the industry's standard dummy text ever since the
-                1500s, when an unknown printer took a galley.
-              </p>
+            <div className="flex flex-col justify-center items-center gap-[1rem]">
+              <h3 className="text-[4rem] font-bold font-mont">About Us</h3>
+              <div className="space-x-4">
+                <h4 className="text-lg font-roboto font-[100] text-[#4B5563] text-[1.5rem] text-center">
+                  We take care of your pets' condition and provide top-tier treatment
+                </h4>
+                <p className="text-base mt-4 font-roboto font-[100] text-[#4B5563] text-center">
+                  At our pet care center, we believe in providing comprehensive health services for your pets.
+                  <br />
+                  Our experienced veterinarians have been serving the community since the early 2000s,
+                  <br />
+                  offering a range of services from routine check-ups to surgical procedures.
+                  <br />
+                  We are committed to ensuring your pet's health and well-being.
+                </p>
+              </div>
               {/* Animated Button */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="bg-custom-pink text-white py-2 px-4 rounded-md shadow-md hover:bg-opacity-80 focus:outline-none"
-              >
-                Learn More
-              </motion.button>
+              <Link to={`${ABOUT_PAGE}`}>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="mt-[2rem] bg-custom-pink text-white py-2 px-4 rounded-md shadow-md hover:bg-opacity-80 focus:outline-none"
+                >
+                  Learn More
+                </motion.button>
+              </Link>
             </div>
           </div>
         </section>
@@ -125,13 +157,13 @@ const Home = () => {
         {/* Booking Section */}
         <section
           id="booking"
-          className="flex justify-center items-center gap-11 p-4 bg-custom-gray rounded-lg shadow border-l-4 border-pink text-center pb-10"
+          className="py-[7rem] flex justify-center items-center gap-11 p-4 text-center"
         >
           <div>
-            <h2 className="text-3xl font-bold text-pink mb-4">
+            <h2 className="text-[2.5rem] font-bold mb-6 font-mont">
               Book an Appointment
             </h2>
-            <p className="text-lg mb-4">
+            <p className="text-[1.25rem] mb-6 font-roboto font-[100] text-[#4B5563]">
               Schedule an appointment with our experienced veterinarians today.
             </p>
             <motion.button
@@ -152,93 +184,50 @@ const Home = () => {
         {/* Veterinarian Section */}
         <section
           id="veterinarian"
-          className="m mb-16 p-20  bg-gray-100 rounded-lg shadow text-center"
+          className="py-[7rem] bg-[#F9FAFB] text-center"
         >
-          <h2 className="text-3xl font-bold text-pink mb-4">
+          <h2 className="text-[3rem] font-bold text-pink mb-[4rem] font-mont">
             Meet Our Veterinarians
           </h2>
           <div className="flex flex-wrap justify-center gap-8">
-            <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Vet 1"
-                className="rounded-full w-24 h-24 mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">Dr. Jane Doe</h3>
-              <p className="text-base mb-4">Specialist in Small Animals</p>
-              <p className="text-sm text-gray-600 mb-4">
-                Dr. Jane Doe has over 10 years of experience in treating small
-                animals such as dogs, cats, and rabbits. She is passionate about
-                providing compassionate care and ensuring the well-being of your
-                furry companions.
-              </p>
-            </div>
-            <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Vet 2"
-                className="rounded-full w-24 h-24 mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">Dr. Johnny Sins</h3>
-              <p className="text-base mb-4">Expert in Exotic Pets</p>
-              <p className="text-sm text-gray-600 mb-4">
-                Dr. Johnny Sins is an expert in exotic pet care, with a
-                particular focus on reptiles, birds, and small mammals. He has a
-                deep understanding of the unique needs of these pets and
-                provides specialized treatment and care.
-              </p>
-            </div>
-            <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Vet 3"
-                className="rounded-full w-24 h-24 mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">Dr. Alice Brown</h3>
-              <p className="text-base mb-4">Veterinary Surgeon</p>
-              <p className="text-sm text-gray-600 mb-4">
-                Dr. Alice Brown is a skilled veterinary surgeon with extensive
-                experience in performing complex surgical procedures. She
-                specializes in orthopedic and soft tissue surgeries, ensuring
-                the highest level of care for your pets.
-              </p>
-            </div>
-          </div>
-          <div className="mt-8">
-            <p className="text-lg text-gray-700 mb-4">
-              Our team of veterinarians is dedicated to providing exceptional
-              care for your pets. We believe in a compassionate and personalized
-              approach, tailoring our services to meet the unique needs of each
-              pet and owner.
-            </p>
-            <p className="text-lg text-gray-700">
-              At our clinic, we prioritize open communication and education. We
-              strive to keep pet owners informed about their pet's health and
-              provide guidance on proper care and preventive measures.
-            </p>
+            {["Dr. Jane Doe", "Dr. Johnny Sins", "Dr. Alice Brown"].map((vet, index) => (
+              <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
+                <img
+                  src={`https://via.placeholder.com/150?text=${vet.split(' ').join('+')}`}
+                  alt={`Vet ${index + 1}`}
+                  className="rounded-full w-24 h-24 mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">{vet}</h3>
+                <p className="text-base">
+                  {index === 0 && "Specialist in Small Animals"}
+                  {index === 1 && "Expert in Exotic Pets"}
+                  {index === 2 && "Veterinary Surgeon"}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Customer Rating Section */}
         <section
-          id="rating"
-          className="relative bg-cover bg-center"
+          id="testimonial"
+          className="relative bg-cover bg-center bg-[#F9FAFB]"
           style={{ backgroundImage: `url(${petcare})` }}
         >
-          <div className="hero__overlay bg-black/60 absolute inset-0"></div>
-          <div className="container mx-auto px-4 py-16 relative">
-            <div className="testimonial__title text-center mb-8">
-              <p className="xd_subtitle text-teal text-xl font-semibold mb-2 text-custom-pink">
-                Testimonial
+          <div className="bg-black/60 absolute inset-0"></div>
+          <div className="container px-4 py-24 relative">
+            <div className="text-center mb-12">
+              <p className="text-[#F9FAFB] text-[4rem] font-semibold mb-2 font-mont">
+                Pet Owners' Stories
               </p>
-              <h2 className="text-white text-3xl font-bold">
-                What Our Customer Saying?
+              <h2 className="text-[#F9FAFB] text-[1.5rem] font-bold">
+                Hear from our community of pet owners and their experiences with our services.
               </h2>
             </div>
             <Carousel
               plugins={[
                 Autoplay({
-                  delay: 1700,
+                  delay: 2000,
                 }),
               ]}
               opts={{
