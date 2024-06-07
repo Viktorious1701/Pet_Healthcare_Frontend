@@ -115,7 +115,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       return;
     }
     
-    
     handleAppointment(formData);
     dispatch(setFormData(formData));
     navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed)
