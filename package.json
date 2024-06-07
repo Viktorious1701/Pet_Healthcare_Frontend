@@ -72,6 +72,7 @@
     "react-toastify": "^10.0.5",
     "redux": "^5.0.1",
     "sort-by": "^0.0.2",
+    "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
