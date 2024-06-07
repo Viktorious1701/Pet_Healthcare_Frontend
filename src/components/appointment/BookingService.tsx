@@ -3,10 +3,15 @@ import { Avatar, Select, SelectItem } from "@nextui-org/react";
 import { ServiceGet } from "@/Models/Service";
 interface BookingServiceProps {
   services: ServiceGet[];
-  onSelectService: (serviceId: number) => void; // Add a callback prop
+  onSelectService: (serviceId: string) => void;
 }
 
 const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectService }) => {
+  
+    const handleServiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedServiceIdFromEvent = event.target.value;
+    onSelectService(selectedServiceIdFromEvent);
+  };
   return (
     <Select
       items={services}
@@ -61,9 +66,10 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
           </div>
         ));
       }}
+      onChange={handleServiceChange}
     >
       {(service) => (
-        <SelectItem key={service.serviceId} value={service.serviceId.toString()} textValue={service.name}>
+        <SelectItem key={service.serviceId} value={service.serviceId} textValue={service.name}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={service.name}

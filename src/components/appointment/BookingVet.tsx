@@ -4,10 +4,15 @@ import { AppointmentAvailableVets } from "@/Models/Appointment";
 
 interface BookingVetProps {
   vets: AppointmentAvailableVets[];
-  onSelectVet: (vetUserName: string) => void; // Add a callback prop
+  onSelectVet: (vetUserName: string) => void;
 }
 
 const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
+  
+  const handleVetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPetIdFromEvent = event.target.value;
+    onSelectVet(selectedPetIdFromEvent);
+  };
   const autoAssignOption = {
     id: "auto-assign",
     userName: "Let us choose for you",
@@ -79,6 +84,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
           </div>
         ));
       }}
+      onChange={handleVetChange}
     >
       {(user) => (
         <SelectItem key={user.id} value={user.userName} textValue={user.userName}>

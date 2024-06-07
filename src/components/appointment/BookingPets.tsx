@@ -4,10 +4,15 @@ import { PetGet } from "@/Models/Pet";
 
 interface BookingPetProps {
   pets: PetGet[];
-  onSelectPet: (petId: number) => void; // Add a callback prop
+  onSelectPet: (petId: string) => void;
 }
 
 const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
+
+  const handlePetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPetIdFromEvent = event.target.value;
+    onSelectPet(selectedPetIdFromEvent);
+  };
   return (
     <Select
       items={pets}
@@ -62,9 +67,10 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
           </div>
         ));
       }}
+      onChange={handlePetChange}
     >
       {(pet) => (
-        <SelectItem key={pet.id} value={pet.id.toString()} textValue={pet.name}>
+        <SelectItem key={pet.id} value={pet.id} textValue={pet.name}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={pet.name}

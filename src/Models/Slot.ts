@@ -4,8 +4,9 @@ export type SlotPost = {
 };
 
 export type SlotGet = {
-    available: boolean;
     slotId: number,
     startTime: string,
-    endTime: string
+    endTime: string,
+    duration: string,
+    available: boolean
 };

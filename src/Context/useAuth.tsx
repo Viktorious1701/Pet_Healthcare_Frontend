@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
 import { ADMIN_DASHBOARD, HOME_PAGE, LOGIN, RESET_PASS } from "@/Route/router-const";
+import { appointmentCustomerAPI } from "@/Services/AppointmentService";
 //import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
@@ -32,6 +33,7 @@ type UserContextType = {
   ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
+  isAllowBook: () => boolean;
   resetPassword: (email: string) => void;
 };
 
@@ -143,6 +145,7 @@ export const UserProvider = ({ children }: Props) => {
       })
       .catch((e) => toast.warning("Server error occurred", e));
   };
+
   const isLoggedIn = () => {
     return !!user;
   };
@@ -155,6 +158,23 @@ export const UserProvider = ({ children }: Props) => {
     navigate(`/${HOME_PAGE}`);
   };
 
+  const isAllowBook = () => { 
+    appointmentCustomerAPI(String(user?.userName))
+    .then((res) => {
+      if (res?.data.some(
+        appointment => appointment.status === "Boooked" || appointment.status === "Processing"
+      )) {
+        return false;
+      }
+      return true;
+    })
+    .catch((e) => {
+      toast.warning("Server error occured", e);
+      return false;
+    })
+    return false;
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -163,6 +183,7 @@ export const UserProvider = ({ children }: Props) => {
         token,
         logout,
         isLoggedIn,
+        isAllowBook,
         registerUser,
         forgotUser,
         resetUser,
