@@ -44,10 +44,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
-  const [selectedPetId, setSelectedPetId] = useState<number>(0);
-  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
-  const [selectedVetUserName, setSelectedVetUserName] = useState<string>("");
-
+  
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
     null
@@ -112,10 +109,12 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       toast.warning("You must select all items");
       return;
     }
+    console.log(formData);
     if (!isAllowBook()) {
       toast.info("You still have an unfinished appointment");
       return;
     }
+    
     
     handleAppointment(formData);
     dispatch(setFormData(formData));
@@ -162,10 +161,13 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   useEffect(() => {
     setValue("petId", Number(selectedPetId));
     setValue("serviceId", Number(selectedServiceId));
-    if (selectedVetUserName !== "Let us choose for you") {
+    if (selectedVetUserName === "Let us choose for you" || selectedVetUserName === '') {
+      setValue("vetUserName", null);
+    }
+    else {
       setValue("vetUserName", selectedVetUserName);
     }
-  }, [selectedPetId, selectedServiceId]);
+  }, [selectedPetId, selectedServiceId, selectedVetUserName]);
 
   useEffect(() => {
     getAvailableVets();

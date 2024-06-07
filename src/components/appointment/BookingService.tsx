@@ -44,10 +44,6 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
           content: "p-0 border-small border-divider",
         },
       }}
-      onSelectionChange={(keys) => {
-        const selectedKey = Array.from(keys)[0];
-        onSelectService(Number(selectedKey));
-      }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
