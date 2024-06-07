@@ -1,7 +1,5 @@
 // slices/formSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { number } from 'yup';
-import { PetGet } from '@/Models/Pet';
 const initialState = {
   formData: {
     customerUserName: "",
