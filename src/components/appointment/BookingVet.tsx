@@ -10,8 +10,10 @@ interface BookingVetProps {
 const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
   
   const handleVetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedPetIdFromEvent = event.target.value;
-    onSelectVet(selectedPetIdFromEvent);
+    const selectedVetUserNameFromEvent = event.target.value;
+    console.log(selectedVetUserNameFromEvent);
+    
+    onSelectVet(selectedVetUserNameFromEvent);
   };
   const autoAssignOption = {
     id: "auto-assign",
@@ -56,10 +58,6 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
           content: "p-0 border-small border-divider",
         },
       }}
-      onSelectionChange={(keys) => {
-        const selectedKey = Array.from(keys)[0];
-        onSelectVet(selectedKey.toString());
-      }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
@@ -87,7 +85,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
       onChange={handleVetChange}
     >
       {(user) => (
-        <SelectItem key={user.id} value={user.userName} textValue={user.userName}>
+        <SelectItem key={user.userName} textValue={user.userName}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={user.userName}
