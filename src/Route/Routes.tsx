@@ -23,6 +23,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import About from '@/pages/About';
 import Contact from '@/pages/Contact';
+import AccountSettings from '@/pages/AccountSettings'; // Import the AccountSettings component
 
 // Error Pages
 import NotFound from '@/pages/Errors/NotFound';
@@ -37,13 +38,16 @@ import ResetPass from '@/pages/ResetPass';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 
 // Router Constants
-import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, CUSTOMER_PET_PROFILE, CUSTOMER_PET_UPDATE, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, HOSPITALIZATION, KENNEL, LOGIN, REGISTER, RESET_PASS } from './router-const';
-import HospitalizationPage from '@/pages/Hospitalization/HospitalizationPage';
-import PetHealthTrack from '@/pages/Hospitalization/PetHealthTrack';
-import KennelPage from '@/pages/Hospitalization/Kennel';
-import PetList from '@/pages/PetProfile/PetList';
-import PetProfile from '@/pages/PetProfile/PetProfile';
-import PetUpdateForm from '@/pages/PetProfile/PetUpdateForm';
+import { ABOUT_PAGE, ADMIN_ACCOUNT_PAGE, ADMIN_APPOINTMENT, ADMIN_DASHBOARD, ADMIN_HOSPITALIZATION, APPOINTMENT, APPOINTMENT_SUCCESS, CONTACT, CUSTOMER_APPOINTMENTS, CUSTOMER_DASHBOARD, CUSTOMER_HOSPITALIZATION_TABLE,  CUSTOMER_PET_LIST, CUSTOMER_PET_UPDATE, EMPLOYEE_DASHBOARD, FORGOT_PASS, HOME_PAGE, HOSPITALIZATION, KENNEL, LOGIN, REGISTER, RESET_PASS, SETTINGS } from './router-const';
+import HospitalizationPage from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
+import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
+import PetList from '@/pages/CustomerPage/PetProfile/PetList';
+import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
+import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
+import CustomerDashboard from '@/pages/CustomerPage/CustomerDashboard';
+import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
+import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,7 +65,7 @@ export const router = createBrowserRouter([
         path: `${CONTACT}`,
         element: <Contact />,
       },
-      
+
       {
         path: `${LOGIN}`,
         element: <Login />,
@@ -76,7 +80,7 @@ export const router = createBrowserRouter([
       },
       {
         path: `${RESET_PASS}`,
-        element: <ResetPass/>
+        element: <ResetPass />
       },
       {
         path: `${ADMIN_DASHBOARD}`,
@@ -101,17 +105,52 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: `${EMPLOYEE_DASHBOARD}`,
+        path: `/${CUSTOMER_DASHBOARD}`,
         element: (
           <ProtectedRoutes>
-            <EmployeeDashboard/>
+            <CustomerDashboard />
           </ProtectedRoutes>
         ),
         children: [
-            {
-              path: `${EMPLOYEE_DASHBOARD}`,
-              element: <EmployeeDashboard />,
-            }
+          {
+            path: `${CUSTOMER_PET_LIST}`,
+            element: <PetList />, // Component for pet list
+          },
+          {
+            path: `${CUSTOMER_PET_LIST}/:petId`,
+            element: <PetProfile />, // Component for pet profile
+          },
+          {
+            path: `${CUSTOMER_PET_UPDATE}/:petId`,
+            element: <PetUpdateForm />,
+          },
+          {
+            path: `${CUSTOMER_APPOINTMENTS}`,
+            element: <AppointmentManagement />, // Component for appointment management
+          },
+          {
+            path: `${CUSTOMER_HOSPITALIZATION_TABLE}`,
+            element: <HospitalizationTracking />, // Component for hospitalization tracking
+          },
+          {
+            path: `${SETTINGS}`,
+            element: <AccountSettings />, // Component for account settings
+          },
+        ],
+      },
+      
+      {
+        path: `${EMPLOYEE_DASHBOARD}`,
+        element: (
+          <ProtectedRoutes>
+            <EmployeeDashboard />
+          </ProtectedRoutes>
+        ),
+        children: [
+          {
+            path: `${EMPLOYEE_DASHBOARD}`,
+            element: <EmployeeDashboard />,
+          }
         ],
       },
 
@@ -124,13 +163,13 @@ export const router = createBrowserRouter([
         element: <BookingSuccess />,
       },
 
-  // Error routes
-  { path: '/500', Component: GeneralError },
-  { path: '/404', Component: NotFound },
-  { path: '/503', Component: MaintenanceError },
+      // Error routes
+      { path: '/500', Component: GeneralError },
+      { path: '/404', Component: NotFound },
+      { path: '/503', Component: MaintenanceError },
 
-  // Fallback 404 route
-  { path: '*', Component: NotFound },
+      // Fallback 404 route
+      { path: '*', Component: NotFound },
       {
         path: `${HOSPITALIZATION}`,
         element: <HospitalizationPage />,
@@ -143,21 +182,11 @@ export const router = createBrowserRouter([
         path: `${KENNEL}/:kennelId`,
         element: <KennelPage />,
       },
-      {
-        path: `${CUSTOMER_PET_PROFILE}`,
-        element: <PetList />,
-      },
-      {
-        path: `${CUSTOMER_PET_PROFILE}/:petId`,
-        element: <PetProfile />,
-      },
-      {
-        path: `${CUSTOMER_PET_UPDATE}/:petId`,
-        element: <PetUpdateForm />,
-      },
+     
+     
       {
         path: "*",
-        element: <NotFound/>,
+        element: <NotFound />,
       }
     ],
   },

@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navbar from "@/components/navigation/Navbar";
 import { mockData } from "./MockData";
 import { Button } from "@/components/ui/button";
+import CustomerSideBar from "@/components/sidebar/CustomerSidebar";
 
 const PetHealthTrack: React.FC = () => {
   const { petName } = useParams<{ petName: string }>();
@@ -15,10 +15,9 @@ const PetHealthTrack: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <Navbar />
-      <div className="pt-[8rem]">
-        {/* this return backs to the previous page that you click */}
+    <div className="flex">
+      <CustomerSideBar />
+      <div className="p-6">
         <Button onClick={() => navigate(-1)} className="mb-4 bg-custom-darkPink text-custom-lightGrey">
           Go Back
         </Button>

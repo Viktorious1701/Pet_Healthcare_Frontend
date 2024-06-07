@@ -10,18 +10,26 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from "@nextui-org/react";
+import {CUSTOMER_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS } from "@/Route/router-const";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
-
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate(`/${LOGIN}`);
   };
 
   const handleRegisterClick = () => {
-    navigate("/register");
+    navigate(`/${REGISTER}`);
+  };
+
+  const navigateToUserProfile = () => {
+    navigate(`/${CUSTOMER_DASHBOARD}/${SETTINGS}`);
+  };
+
+  const navigateToDashboard = () => {
+    navigate(`/${CUSTOMER_DASHBOARD}`);
   };
 
   return (
@@ -45,7 +53,7 @@ const Navbar = () => {
                 color="secondary"
                 name="Jason Hughes"
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src=""
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -53,13 +61,11 @@ const Navbar = () => {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
-              <DropdownItem key="team_settings">Team Settings</DropdownItem>
-              <DropdownItem key="analytics">Analytics</DropdownItem>
-              <DropdownItem key="system">System</DropdownItem>
-              <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">
-                Help & Feedback
+              <DropdownItem key="userProfile" onClick={navigateToUserProfile}>
+                User Profile
+              </DropdownItem>
+              <DropdownItem key="dashboard" onClick={navigateToDashboard}>
+                My Dashboard
               </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={logout}>
                 Log Out

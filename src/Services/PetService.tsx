@@ -13,3 +13,29 @@ export const petsOfCustomerAPI = async (
         handleError(error)
     }
 };
+
+export const updatePetData = async (
+    petId: number,
+    petData: {
+        name: string;
+        species: string;
+        breed: string;
+    }
+) => {
+    try {
+        const data = await axios.put(api + `/${petId}`, petData);
+        return data;
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export const getPetById = async (petId: string) => {
+    try {
+      const data = await axios.get(api + `/${petId}`);
+      return data;
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  
