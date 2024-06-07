@@ -44,6 +44,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
+  const [selectedPetId, setSelectedPetId] = useState<number>(0);
+  const [selectedServiceId, setSelectedServiceId] = useState<number>(0);
+  const [selectedVetUserName, setSelectedVetUserName] = useState<string>("");
 
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
@@ -116,7 +119,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     
     handleAppointment(formData);
     dispatch(setFormData(formData));
-    navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed
+    navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed)
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {
@@ -192,7 +195,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
               )}
             </div>
             <div className="flex flex-col mb-6 min-w-full items-center">
-              <h2 className="text-lg font-bold text-custom-blue mb-3 ">
+              <h2 className="text-lg font-bold text-custom-blue mb-3">
                 Available Services
               </h2>
               {services.length > 0 ? (

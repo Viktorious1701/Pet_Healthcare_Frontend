@@ -116,7 +116,7 @@ const Home = () => {
 
         {/* About Section */}
         <section id="about" className="py-[7rem] bg-[#F9FAFB] rounded-lg shadow">
-          <div className="flex justify-center gap-[20rem]">
+          <div className="flex justify-center gap-[10rem]">
             <div className="m-2">
               <img
                 className="rounded-md h-96 w-full object-cover" // Adjust the height and width as needed
@@ -264,7 +264,7 @@ const Home = () => {
                         <p className="text-gray-600 text-center select-none">Consumer</p>
                       </div>
                     </div>
-                    </CarouselItem>
+                  </CarouselItem>
                 ))}
               </CarouselContent>
               <CarouselPrevious />

@@ -13,7 +13,6 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
     const selectedPetIdFromEvent = event.target.value;
     onSelectVet(selectedPetIdFromEvent);
   };
-
   const autoAssignOption = {
     id: "auto-assign",
     userName: "Let us choose for you",
@@ -57,6 +56,10 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
           content: "p-0 border-small border-divider",
         },
       }}
+      onSelectionChange={(keys) => {
+        const selectedKey = Array.from(keys)[0];
+        onSelectVet(selectedKey.toString());
+      }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
@@ -64,7 +67,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
               alt={item.data?.userName}
               className="flex-shrink-0"
               size="sm"
-              src={item.data?.imageURL}
+              
             />
             <div className="flex flex-col">
               {item.data?.id === "auto-assign" ? (
@@ -84,13 +87,12 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
       onChange={handleVetChange}
     >
       {(user) => (
-        <SelectItem key={user.id} textValue={user.userName}>
+        <SelectItem key={user.id} value={user.userName} textValue={user.userName}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={user.userName}
               className="flex-shrink-0"
               size="sm"
-              src={user.imageURL}
             />
             <div className="flex flex-col">
               {user.id === "auto-assign" ? (

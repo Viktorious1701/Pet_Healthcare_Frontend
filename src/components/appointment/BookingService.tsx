@@ -1,8 +1,6 @@
 import React from "react";
 import { Avatar, Select, SelectItem } from "@nextui-org/react";
 import { ServiceGet } from "@/Models/Service";
-import logo from "@/assets/react.svg";
-
 interface BookingServiceProps {
   services: ServiceGet[];
   onSelectService: (serviceId: string) => void;
@@ -46,6 +44,10 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
           content: "p-0 border-small border-divider",
         },
       }}
+      onSelectionChange={(keys) => {
+        const selectedKey = Array.from(keys)[0];
+        onSelectService(Number(selectedKey));
+      }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
@@ -53,7 +55,7 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
               alt={item.data?.name}
               className="flex-shrink-0"
               size="sm"
-              src={logo}
+              
             />
             <div className="flex flex-col">
               <span>{item.data?.name}</span>
@@ -73,7 +75,7 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
               alt={service.name}
               className="flex-shrink-0"
               size="sm"
-              src={logo}
+              
             />
             <div className="flex flex-col">
               <span className="text-small">{service.name}</span>

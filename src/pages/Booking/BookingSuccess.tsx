@@ -8,7 +8,6 @@ const BookingSuccess = () => {
   const navigate = useNavigate();
   // const selector = useSelector((state:RootState) => state.formData.formData)
   const { isSubmitted } = useSelector((state: RootState) => state.formData);
-
   if (!isSubmitted) {
     navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
   }
