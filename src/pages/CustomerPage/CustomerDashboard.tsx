@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import CustomerSidebar from "@/components/sidebar/CustomerSidebar";
+import CustomerSidebar from "./CustomerSidebar";
 
 const CustomerDashboard = () => {
   return (

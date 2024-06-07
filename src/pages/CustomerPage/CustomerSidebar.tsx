@@ -1,19 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SidebarComponent from "./SidebarComponent";
-import {
-  HomeIcon,
-  Calendar,
-  Settings,
-  Hospital
-} from "lucide-react";
-import { SidebarItem } from "./SidebarComponent";
+import SidebarComponent, { SidebarItem } from "../../components/sidebar/SidebarComponent";
+import { HomeIcon, Calendar, Settings, Hospital, User } from "lucide-react"; // Import the User icon
 import {
   CUSTOMER_PET_LIST,
   CUSTOMER_DASHBOARD as CUSTOMER_PAGE,
   CUSTOMER_APPOINTMENTS,
   CUSTOMER_HOSPITALIZATION_TABLE as HOSPITALIZATION,
-  SETTINGS
+  SETTINGS,
+  
 } from "@/Route/router-const";
 
 const CustomerSidebar = () => {
@@ -27,6 +22,13 @@ const CustomerSidebar = () => {
 
   return (
     <SidebarComponent>
+       <SidebarItem
+        icon={<User size={20} />} // Add the User icon
+        text="Public Profile" // Text for Public Profile
+        path={`/${CUSTOMER_PAGE}`} // Path for Public Profile
+        onClick={() => handleNavigation(`/${CUSTOMER_PAGE}`)} // Handle navigation
+        active={activePath === `/${CUSTOMER_PAGE}`} // Check if active
+      />
       <SidebarItem
         icon={<HomeIcon size={20} />}
         text="Pet List"
@@ -48,6 +50,7 @@ const CustomerSidebar = () => {
         onClick={() => handleNavigation(`/${CUSTOMER_PAGE}/${HOSPITALIZATION}`)}
         active={activePath === `/${CUSTOMER_PAGE}/${HOSPITALIZATION}`}
       />
+     
       <SidebarItem
         icon={<Settings size={20} />}
         text="Account Settings"
