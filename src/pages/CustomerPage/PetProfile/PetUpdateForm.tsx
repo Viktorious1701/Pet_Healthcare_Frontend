@@ -1,41 +1,63 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import fetchPetData, { Pet } from "./fetchPetData";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { PetGet } from "@/Models/Pet";
+import { getPetById, updatePetData } from "@/Services/PetService";
+import { handleError } from "@/Helpers/ErrorHandler";
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from "@/Route/router-const";
 
-const PetUpdateForm = () => {
-  const { petId } = useParams();
-  const [editPet, setEditPet] = useState<Pet | null>(null);
-  const [formValues, setFormValues] = useState<Pet | null>(null);
+const PetUpdateForm: React.FC = () => {
+  const { petId } = useParams<{ petId: string }>();
+  const [editPet, setEditPet] = useState<PetGet | null>(null);
+  const [formValues, setFormValues] = useState({
+    petId: 0,
+    name: "",
+    species: "",
+    breed: "",
+  });
+  const navigate = useNavigate();
 
-  // Fetch pet data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       if (petId) {
-        const petData = await fetchPetData(petId);
-        setEditPet(petData);
-        setFormValues(petData);
+        try {
+          const response = await getPetById(petId);
+          if (response?.data) {
+            const petData = response.data as PetGet;
+            setEditPet(petData);
+            setFormValues({
+              petId: petData.id,
+              name: petData.name,
+              species: petData.species,
+              breed: petData.breed,
+            });
+          }
+        } catch (err) {
+          handleError(err);
+        }
       }
     };
     fetchData();
   }, [petId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (formValues) {
-      setFormValues({
-        ...formValues,
-        [e.target.name]: e.target.value,
-      });
-    }
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formValues) {
-      // Add save functionality here
-      alert("Save functionality not implemented yet.");
+    if (formValues && petId) {
+      try {
+        await updatePetData(parseInt(petId, 10), formValues);
+        alert("Pet information updated successfully.");
+        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
+      } catch (err) {
+        handleError(err);
+        alert("An error occurred while updating pet information.");
+      }
     }
-    setEditPet(null);
-    setFormValues(null);
   };
 
   return (
@@ -47,65 +69,40 @@ const PetUpdateForm = () => {
           </h2>
           <form onSubmit={handleSave}>
             <div className="mb-4">
-              <label
-                htmlFor="name"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
                 Name
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                value={formValues?.name || ""}
+                value={formValues.name}
                 onChange={handleInputChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="species"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="species" className="block text-gray-700 font-bold mb-2">
                 Species
               </label>
               <input
                 type="text"
                 id="species"
                 name="species"
-                value={formValues?.species || ""}
+                value={formValues.species}
                 onChange={handleInputChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="breed"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="breed" className="block text-gray-700 font-bold mb-2">
                 Breed
               </label>
               <input
                 type="text"
                 id="breed"
                 name="breed"
-                value={formValues?.breed || ""}
-                onChange={handleInputChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="image"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Image URL
-              </label>
-              <input
-                type="text"
-                id="image"
-                name="image"
-                value={formValues?.image || ""}
+                value={formValues.breed}
                 onChange={handleInputChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
@@ -118,10 +115,8 @@ const PetUpdateForm = () => {
                 Save
               </button>
               <button
-                onClick={() => {
-                  setEditPet(null);
-                  setFormValues(null);
-                }}
+                type="button"
+                onClick={() => navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)}
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Cancel
@@ -130,8 +125,8 @@ const PetUpdateForm = () => {
           </form>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {/* Render the pet list as before */}
+        <div className="text-center">
+          <p>Loading pet data...</p>
         </div>
       )}
     </div>
