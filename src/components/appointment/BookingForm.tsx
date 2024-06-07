@@ -4,11 +4,10 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
-import { AppointmentAvailableVets, AppointmentGet } from "@/Models/Appointment";
+import { AppointmentAvailableVets } from "@/Models/Appointment";
 import {
   appointmentAvailableVetsAPI,
-  appointmentBookAPI,
-  appointmentCustomerAPI,
+  appointmentBookAPI
 } from "@/Services/AppointmentService";
 import { toast } from "react-toastify";
 
@@ -40,12 +39,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useAuth();
+  const { user, isAllowBook } = useAuth();
 
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
 
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
@@ -66,18 +64,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     },
     mode: "onSubmit",
   });
-
-  const getCustomerAppointments = async () => {
-    appointmentCustomerAPI(String(user?.userName))
-    .then((res) => {
-      if (res?.data) {
-        setAppointments(res?.data);
-      }
-    })
-    .catch(() => {
-      toast.warning("Could not get user's appointments");
-    })
-  }
 
   const getAvailableVets = async () => {
     appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
@@ -123,12 +109,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       toast.warning("You must select all items");
       return;
     }
-    if (appointments.some(
-      appointment => appointment.status === "Boooked" || appointment.status === "Processing"
-    )) {
-      toast.warning("You have an unfinished appointment, cannot book now");
+    if (!isAllowBook()) {
+      toast.info("You still have an unfinished appointment");
       return;
     }
+    
     handleAppointment(formData);
     dispatch(setFormData(formData));
     navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed
@@ -167,7 +152,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       .then(() => {
       })
       .catch((e) => {
-        toast.warning(e);
+        toast.error(e);
       });
   };
 
@@ -183,7 +168,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     getAvailableVets();
     getPets();
     getServices();
-    getCustomerAppointments();
   }, [date, slot]);
 
   return (
