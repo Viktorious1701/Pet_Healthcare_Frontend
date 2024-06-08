@@ -15,7 +15,12 @@ import {
 import { toast } from "react-toastify";
 import React from "react";
 import axios from "axios";
-import { ADMIN_DASHBOARD, HOME_PAGE, LOGIN, RESET_PASS } from "@/Route/router-const";
+import {
+  ADMIN_DASHBOARD,
+  HOME_PAGE,
+  LOGIN,
+  RESET_PASS,
+} from "@/Route/router-const";
 import { appointmentCustomerAPI } from "@/Services/AppointmentService";
 //import { ErrorOption } from "react-hook-form";
 
@@ -29,11 +34,11 @@ type UserContextType = {
     token: string,
     email: string,
     password: string,
-    confirmPassword: string,
+    confirmPassword: string
   ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
-  isAllowBook: () => boolean;
+  isAllowBook: (userName: string) => boolean;
   resetPassword: (email: string) => void;
 };
 
@@ -70,18 +75,14 @@ export const UserProvider = ({ children }: Props) => {
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
-            roleID: res?.data.roleID
+            role: res?.data.role,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          if(user?.roleID === 'Admin'){
-            navigate(`/${ADMIN_DASHBOARD}`);
-          }
-          else{
-            navigate(`/${HOME_PAGE}`);
-          }
+
+          navigate(`/${HOME_PAGE}`);
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -95,13 +96,18 @@ export const UserProvider = ({ children }: Props) => {
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
-            roleID: res?.data.roleID
+            role: res?.data.role,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          navigate(`/${HOME_PAGE}`);
+          
+          if (userObj?.role === "Admin") {
+            navigate(`/${ADMIN_DASHBOARD}`);
+          } else {
+            navigate(`/${HOME_PAGE}`);
+          }
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -158,22 +164,26 @@ export const UserProvider = ({ children }: Props) => {
     navigate(`/${HOME_PAGE}`);
   };
 
-  const isAllowBook = () => { 
-    appointmentCustomerAPI(String(user?.userName))
-    .then((res) => {
-      if (res?.data.some(
-        appointment => appointment.status === "Boooked" || appointment.status === "Processing"
-      )) {
+  const isAllowBook = (userName: string) => {
+    appointmentCustomerAPI(userName)
+      .then((res) => {
+        if (
+          res?.data.some(
+            (appointment) =>
+              appointment.status === "Boooked" ||
+              appointment.status === "Processing"
+          )
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .catch((e) => {
+        toast.warning("Server error occured", e);
         return false;
-      }
-      return true;
-    })
-    .catch((e) => {
-      toast.warning("Server error occured", e);
-      return false;
-    })
+      });
     return false;
-  }
+  };
 
   return (
     <UserContext.Provider

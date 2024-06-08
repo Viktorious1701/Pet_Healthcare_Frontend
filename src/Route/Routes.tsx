@@ -47,6 +47,7 @@ import {
   CUSTOMER_HOSPITALIZATION_TABLE,
   CUSTOMER_PET_LIST,
   CUSTOMER_PET_UPDATE,
+  EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_DASHBOARD,
   FORGOT_PASS,
   HOME_PAGE,
@@ -57,6 +58,7 @@ import {
   RESET_PASS,
   SETTINGS
 } from './router-const';
+import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
@@ -168,6 +170,10 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
+            },
+            {
+              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
+              element: <BookingPageEmployee />
             }
           ],
         },
