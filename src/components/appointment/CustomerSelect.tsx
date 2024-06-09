@@ -47,6 +47,10 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
   };
 
   const handleSubmit = () => {
+    if (selectedCustomer === "") {
+      toast.warning("pls select a customer");
+      return;
+    }
     onSelectCustomer(selectedCustomer);
   }
 
