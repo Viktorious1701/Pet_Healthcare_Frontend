@@ -5,6 +5,7 @@ const UserProfileWrapper = styled.div`
   padding: 1rem;
   background-color: #f4f4f4; /* lightGrey */
   border-bottom: 1px solid #b3b3b3; /* gray */
+  min-height: 100vh;
 `;
 
 const Avatar = styled.img`
@@ -17,6 +18,7 @@ const Avatar = styled.img`
 const UserInfoTable = styled.table`
   width: 100%;
   border-collapse: collapse;
+  
 `;
 
 const TableRow = styled.tr`
@@ -24,10 +26,12 @@ const TableRow = styled.tr`
 `;
 
 const TableHeader = styled.th`
+  max-width: 150px;
   text-align: left;
   padding: 0.5rem;
   font-weight: bold;
   background-color: #e65b9a; /* pink */
+  
 `;
 
 const TableData = styled.td`

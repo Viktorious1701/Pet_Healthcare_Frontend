@@ -20,6 +20,7 @@ const PetProfile: React.FC = () => {
           const res = await getPetById(petId);
           if (res?.data) {
             setPetProfile(res.data);
+            console.log(res.data);
           }
         } catch (error) {
           handleError(error);
@@ -68,7 +69,7 @@ const PetProfile: React.FC = () => {
             <strong>Gender:</strong> {petProfile.gender ? "Male" : "Female"}
           </p>
           <p className="text-lg">
-            <strong>Weight:</strong> {petProfile.weight}
+            <strong>Weight:</strong> {petProfile.weight? `${petProfile.weight} kg` : "Not Available"}
           </p>
           <Button
             onClick={() => navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)}

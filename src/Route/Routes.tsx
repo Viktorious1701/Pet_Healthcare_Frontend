@@ -21,7 +21,7 @@ import ForgotPassword from '@/pages/ForgotPass';
 import ResetPass from '@/pages/ResetPass';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 import HospitalizationPage from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
-import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+import PetHealthTrackDTO from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
 import PetList from '@/pages/CustomerPage/PetProfile/PetList';
 import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
@@ -61,7 +61,7 @@ import {
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
   if (width <= 900) {
-      return <Resize />;
+    return <Resize />;
   }
 
   const router = createBrowserRouter([
@@ -152,6 +152,14 @@ const RouterComponent = () => {
               element: <HospitalizationTracking />, // Component for hospitalization tracking
             },
             {
+              path: `${HOSPITALIZATION}`,
+              element: <HospitalizationPage />,
+            },
+            {
+              path: `${HOSPITALIZATION}/:hospitalizationId`,
+              element: <PetHealthTrackDTO />,
+            },
+            {
               path: `${SETTINGS}`,
               element: <AccountSettings />, // Component for account settings
             },
@@ -179,14 +187,7 @@ const RouterComponent = () => {
           path: `${APPOINTMENT_SUCCESS}`,
           element: <BookingSuccess />,
         },
-        {
-          path: `${HOSPITALIZATION}`,
-          element: <HospitalizationPage />,
-        },
-        {
-          path: `${HOSPITALIZATION}/:petName`,
-          element: <PetHealthTrack />,
-        },
+       
         {
           path: `${KENNEL}/:kennelId`,
           element: <KennelPage />,

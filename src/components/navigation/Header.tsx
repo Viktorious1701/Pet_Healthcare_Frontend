@@ -9,7 +9,7 @@ import {
   NavigationMenu,
 } from "@/components/ui/navigation-menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { APPOINTMENT, HOSPITALIZATION } from "@/Route/router-const";
+import { APPOINTMENT } from "@/Route/router-const";
 
 const intro = [
   { title: "Welcome", href: "/#", description: "Lich sử phát triển của HealthCare" },
@@ -21,7 +21,6 @@ const intro = [
 
 const shops = [
   { title: "Booking", href: `/${APPOINTMENT}`, description: "Dịch Vụ 1 description" },
-  { title: "Hospitalization", href: `/${HOSPITALIZATION}`, description: "Dịch Vụ 2 description" }
 ];
 
 export default function Header() {
