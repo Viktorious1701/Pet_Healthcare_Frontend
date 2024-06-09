@@ -171,8 +171,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
   }, [selectedPetId, selectedServiceId, selectedVetUserName]);
 
   useEffect(() => {
-    console.log(userName);
-    
     getAvailableVets();
     getPets();
     getServices();
