@@ -4,10 +4,17 @@ import { AppointmentAvailableVets } from "@/Models/Appointment";
 
 interface BookingVetProps {
   vets: AppointmentAvailableVets[];
-  onSelectVet: (vetUserName: string) => void; // Add a callback prop
+  onSelectVet: (vetUserName: string) => void;
 }
 
 const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
+  
+  const handleVetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedVetUserNameFromEvent = event.target.value;
+    console.log(selectedVetUserNameFromEvent);
+    
+    onSelectVet(selectedVetUserNameFromEvent);
+  };
   const autoAssignOption = {
     id: "auto-assign",
     userName: "Let us choose for you",
@@ -51,10 +58,6 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
           content: "p-0 border-small border-divider",
         },
       }}
-      onSelectionChange={(keys) => {
-        const selectedKey = Array.from(keys)[0];
-        onSelectVet(selectedKey.toString());
-      }}
       renderValue={(items) => {
         return items.map((item) => (
           <div key={item.key} className="flex items-center gap-2">
@@ -79,9 +82,10 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
           </div>
         ));
       }}
+      onChange={handleVetChange}
     >
       {(user) => (
-        <SelectItem key={user.id} value={user.userName} textValue={user.userName}>
+        <SelectItem key={user.userName} textValue={user.userName}>
           <div className="flex gap-2 items-center">
             <Avatar
               alt={user.userName}

@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from "@nextui-org/react";
-import {CUSTOMER_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS } from "@/Route/router-const";
+import {CUSTOMER_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
@@ -25,11 +25,11 @@ const Navbar = () => {
   };
 
   const navigateToUserProfile = () => {
-    navigate(`/${CUSTOMER_DASHBOARD}/${SETTINGS}`);
+    navigate(`/${VET_DASHBOARD}/${SETTINGS}`);
   };
 
   const navigateToDashboard = () => {
-    navigate(`/${CUSTOMER_DASHBOARD}`);
+    navigate(`/${VET_DASHBOARD}`);
   };
 
   return (
@@ -57,7 +57,7 @@ const Navbar = () => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2">
+              <DropdownItem key="profile" className="h-14 gap-2" textValue="profile">
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
