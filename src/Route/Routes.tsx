@@ -47,6 +47,7 @@ import {
   CUSTOMER_HOSPITALIZATION_TABLE,
   CUSTOMER_PET_LIST,
   CUSTOMER_PET_UPDATE,
+  EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_DASHBOARD,
   FORGOT_PASS,
   HOME_PAGE,
@@ -58,6 +59,8 @@ import {
   SETTINGS,
   VET_DASHBOARD
 } from './router-const';
+
+import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
 import VetDashboard from '@/pages/VetDashboard/VetDashboard';
 import ComingSoon from '@/pages/VetDashboard/coming-soon';
 
@@ -171,6 +174,10 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
+            },
+            {
+              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
+              element: <BookingPageEmployee />
             }
           ],
         },
