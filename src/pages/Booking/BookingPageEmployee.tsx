@@ -6,10 +6,11 @@ import { AppDispatch } from "@/store";
 import { SlotGet } from "@/Models/Slot";
 import { slotGetAPI } from "@/Services/SlotService";
 import { toast } from "react-toastify";
-import BookingForm from '@/components/appointment/BookingForm';
-import { ArrowRightFromLine } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import BookingForm from "@/components/appointment/BookingForm";
+import { ArrowRightFromLine } from "lucide-react";
+import { useNavigate } from "react-router";
 import CustomerSelect from "@/components/appointment/CustomerSelect";
+import { Button } from "@nextui-org/react";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
@@ -21,9 +22,9 @@ const BookingPageEmployee = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
-  const [formVisible, setFormVisible] = useState(false);
-  const [customerSelected, setCustomerSelected] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const dateRef = useRef<HTMLDivElement | null>(null);
+  const bookRef = useRef<HTMLDivElement | null>(null);
 
   const getSlots = async (date: string) => {
     slotGetAPI(date)
@@ -38,16 +39,18 @@ const BookingPageEmployee = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/login');
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
     }
     window.scrollTo(0, 0);
   }, [navigate]);
 
   const handleBookingCancel = () => {
+    containerRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
     setSelectedDate(null);
     setSelectedSlot(null);
-    setFormVisible(false);
   };
 
   const handleDateChange = (value: Value) => {
@@ -73,24 +76,18 @@ const BookingPageEmployee = () => {
           user: selectedCustomer.toString(),
         })
       );
-      setFormVisible(true);
+      bookRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
   };
 
   const handleCustomerSelect = (customer: string) => {
-    setSelectedCustomer(customer);    
-    setCustomerSelected(true);
+    setSelectedCustomer(customer);
+    dateRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
-
-  useEffect(() => {
-    if (formVisible && containerRef.current) {
-      containerRef.current.scrollTo({
-        left: containerRef.current.clientWidth,
-        behavior: "smooth",
-      });
-    }
-    // form visible if set to true and containerRef is not null will activate the scroll
-  }, [formVisible]);
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
     const [month, day, year] = String(
@@ -135,76 +132,89 @@ const BookingPageEmployee = () => {
   const handleReset = () => {
     setSelectedDate(null);
     setSelectedSlot(null);
-    setFormVisible(false);
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen w-full">
-      <div ref={containerRef} className="flex overflow-x-hidden w-full">
-        {!customerSelected ? (
-          <div className="w-full flex-shrink-0 flex justify-center">
-            <div className="pt-20 mt-20 flex justify-center">
-              <CustomerSelect onSelectCustomer={handleCustomerSelect} /> {/* Hypothetical CustomerSelect component */}
-            </div>
+    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden">
+      <div className="w-full">
+        {/* First div */}
+        <div
+          ref={containerRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          <div className="pt-20 flex justify-center">
+            <CustomerSelect onSelectCustomer={handleCustomerSelect} />
           </div>
-        ) : (
-          <>
-            <div className="w-full flex-shrink-0 flex justify-center">
-              <div className="pt-20 mt-20 flex justify-center">
-                <div className="bg-white rounded-md shadow-md p-6 mr-8">
-                  <CalendarComponent onDateChange={handleDateChange} />
-                </div>
-                <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
-                  {selectedDate ? (
-                    <div className="p-6">
-                      {/* Add arrow button to hide slots and reset date */}
-                      <div className="flex justify-between items-center gap-5 mb-4">
-                        <h2 className="text-lg font-semibold">
-                          Available Time Slots
-                        </h2>
-                        <ArrowRightFromLine
-                          className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
-                          onClick={handleReset}
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 gap-2">
-                        {renderTimeSlots()}
-                      </div>
-                      {selectedSlot && (
-                        <button
-                          className="bg-custom-darkBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                          onClick={handleBooking}
-                        >
-                          Confirm Booking
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="p-10">
-                      <h2 className="text-lg font-semibold">Date Selection </h2>
-                      <p className="mt-4">
-                        Please select a date to <br />
-                        view available time slots.
-                      </p>
-                    </div>
+        </div>
+
+        {/* Second div */}
+        <div
+          ref={dateRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          <div className="mt-20 pt-20 flex justify-center">
+            <div className="bg-white rounded-md shadow-md p-6 mr-8">
+              <CalendarComponent onDateChange={handleDateChange} />
+              <Button
+                className="mt-4 text-white text-md bg-custom-darkBlue"
+                onClick={handleBookingCancel}
+              >
+                Back To Customer Selection
+              </Button>
+            </div>
+            <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
+              {selectedDate ? (
+                <div className="p-6">
+                  <div className="flex justify-between items-center gap-5 mb-4">
+                    <h2 className="text-lg font-semibold">
+                      Available Time Slots
+                    </h2>
+                    <ArrowRightFromLine
+                      className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
+                      onClick={handleReset}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {renderTimeSlots()}
+                  </div>
+                  {selectedSlot && (
+                    <button
+                      className="bg-custom-darkBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                      onClick={handleBooking}
+                    >
+                      Confirm Booking
+                    </button>
                   )}
                 </div>
-              </div>
-            </div>
-            {formVisible && selectedDate && selectedSlot && (
-              <div className="w-full flex-shrink-0 flex justify-center">
-                <div className="pt-20 mt-20 flex justify-center w-full">
-                  <BookingForm
-                    date={selectedDate}
-                    slot={selectedSlot.slotId}
-                    userName={String(selectedCustomer)}
-                    onCancel={handleBookingCancel}
-                  />
+              ) : (
+                <div className="p-10">
+                  <h2 className="text-lg font-semibold">Date Selection </h2>
+                  <p className="mt-4">
+                    Please select a date to <br />
+                    view available time slots.
+                  </p>
                 </div>
-              </div>
-            )}
-          </>
-        )}
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Third div */}
+        <div
+          ref={bookRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          {selectedDate && selectedSlot && (
+            <div className="flex justify-center w-full">
+              <BookingForm
+                date={selectedDate}
+                slot={selectedSlot.slotId}
+                userName={String(selectedCustomer)}
+                onCancel={handleBookingCancel}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <br />
       <br />
