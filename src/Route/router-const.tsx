@@ -43,6 +43,8 @@ export const EMPLOYEE_SETTINGS = "employee-settings"
 export const VET_DASHBOARD = "vet"
 export const VET_APPOINTMENT = "vet-appointment"
 
+export const COMING_SOON = "coming-soon"
+
 
 
 

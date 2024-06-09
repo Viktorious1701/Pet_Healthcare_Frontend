@@ -56,9 +56,13 @@ import {
   LOGIN,
   REGISTER,
   RESET_PASS,
-  SETTINGS
+  SETTINGS,
+  VET_DASHBOARD
 } from './router-const';
+
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
+import VetDashboard from '@/pages/VetDashboard/VetDashboard';
+import ComingSoon from '@/pages/VetDashboard/coming-soon';
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
@@ -178,6 +182,20 @@ const RouterComponent = () => {
           ],
         },
         {
+          path: `${VET_DASHBOARD}`,
+          element: (
+            <ProtectedRoutes>
+              <VetDashboard />
+            </ProtectedRoutes>
+          ),
+          children: [
+            {
+              path: `${VET_DASHBOARD}`,
+              element: <VetDashboard />,
+            }
+          ],
+        },
+        {
           path: `${APPOINTMENT}`,
           element: <BookingPage />,
         },
@@ -208,6 +226,10 @@ const RouterComponent = () => {
         {
           path: '/503',
           element: <MaintenanceError />,
+        },
+        {
+          path: '/${COMING_SOON}',
+          element: <ComingSoon />,
         },
         {
           path: '*',
