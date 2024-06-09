@@ -7,5 +7,14 @@ export type UserProfileToken = {
 export type UserProfile = {
     userName: string;
     email: string;
-    roleID: string;
+    role: string;
+};
+
+export type UserGet = {
+    id: string,
+    userName: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    imageURL: string
 };
