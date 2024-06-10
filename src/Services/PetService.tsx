@@ -20,6 +20,8 @@ export const updatePetData = async (
         name: string;
         species: string;
         breed: string;
+        gender: boolean;
+        imageURL: string;
     }
 ) => {
     try {

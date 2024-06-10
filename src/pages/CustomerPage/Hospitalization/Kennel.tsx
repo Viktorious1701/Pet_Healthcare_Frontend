@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-import { mockData, PetHospitalization } from "./MockData";
-import CustomerSidebar from "../CustomerSidebar"; // Import the CustomerSidebar component
+import CustomerSidebar from "../CustomerSidebar";
+import { getKennelById } from "@/Services/KennelService";
+import { Kennel } from "@/Models/Kennel";
 
 const KennelPage: React.FC = () => {
   const { kennelId } = useParams<{ kennelId: string }>();
   const navigate = useNavigate();
+  const [kennelDetails, setKennelDetails] = useState<Kennel | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Find the kennel details based on kennelId
-  const kennelDetails: PetHospitalization | undefined = mockData.find(
-    (hospitalization) => hospitalization.kennel.kennelId === kennelId
-  );
+  useEffect(() => {
+    const fetchKennelDetails = async () => {
+      try {
+        if (kennelId) {
+          const data = await getKennelById(kennelId);
+          setKennelDetails(data);
+        }
+      } catch (err) {
+        setError("Error fetching kennel details.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!kennelDetails) {
-    return <div>Kennel not found</div>;
-  }
+    fetchKennelDetails();
+  }, [kennelId]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!kennelDetails) return <div>Kennel not found</div>;
 
   return (
     <div className="flex">
-      <CustomerSidebar /> {/* Render the CustomerSidebar component */}
+      <CustomerSidebar />
       <div className="p-6 flex-grow">
         <Button
           onClick={() => navigate(-1)}
@@ -31,10 +47,10 @@ const KennelPage: React.FC = () => {
         <div className="bg-white shadow-md rounded-lg p-6">
           <p className="text-lg font-semibold mb-2">Kennel ID: {kennelId}</p>
           <p className="text-lg font-semibold mb-2">
-            Description: {kennelDetails.kennel.description}
+            Description: {kennelDetails.description}
           </p>
           <p className="text-lg font-semibold mb-2">
-            Daily Cost: ${kennelDetails.kennel.dailyCost.toFixed(2)}
+            Daily Cost: ${kennelDetails.dailyCost.toFixed(2)}
           </p>
         </div>
       </div>

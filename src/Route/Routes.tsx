@@ -1,7 +1,7 @@
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from "@/App";
-import ProtectedRoutes from "./ProtectedRoutes";
+import ProtectedRoutes from './ProtectedRoutes';
 import Dashboard from "@/pages/AdminDashboard/Dashboard";
 import Accounts from "@/pages/AdminDashboard/Accounts";
 import AppointmentDashboard from "@/pages/AdminDashboard/AppointmentDashboard";
@@ -21,7 +21,7 @@ import ForgotPassword from '@/pages/ForgotPass';
 import ResetPass from '@/pages/ResetPass';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 import HospitalizationPage from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
-import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+import PetHealthTrackDTO from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
 import PetList from '@/pages/CustomerPage/PetProfile/PetList';
 import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
@@ -48,7 +48,6 @@ import {
   CUSTOMER_HOSPITALIZATION_TABLE,
   CUSTOMER_PET_LIST,
   CUSTOMER_PET_UPDATE,
-  EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_DASHBOARD,
   FORGOT_PASS,
   HOME_PAGE,
@@ -58,14 +57,20 @@ import {
   REGISTER,
   RESET_PASS,
   SETTINGS,
-  SETTINGS_PROFILE,
-  VET_DASHBOARD
+
+  VET_DASHBOARD,
+  COMING_SOON,
+  HOSPITALIZATION_INTRO
 } from './router-const';
+import VetDashboard from '@/pages/VetDashboard/VetDashboard';
+import ComingSoon from '@/pages/VetDashboard/coming-soon';
+import HospitalizationService from '@/pages/HospitalizationService';
+
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
   if (width <= 900) {
-      return <Resize />;
+    return <Resize />;
   }
 
   const router = createBrowserRouter([
@@ -76,6 +81,10 @@ const RouterComponent = () => {
         {
           path: `${HOME_PAGE}`,
           element: <Home />,
+        },
+        {
+          path: `${HOSPITALIZATION_INTRO}`,
+          element: <HospitalizationService />
         },
         {
           path: `${ABOUT_PAGE}`,
@@ -104,7 +113,7 @@ const RouterComponent = () => {
         {
           path: `${ADMIN_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Admin']}>
               <Dashboard />
             </ProtectedRoutes>
           ),
@@ -126,7 +135,7 @@ const RouterComponent = () => {
         {
           path: `/${CUSTOMER_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Customer']}>
               <CustomerDashboard />
             </ProtectedRoutes>
           ),
@@ -156,6 +165,14 @@ const RouterComponent = () => {
               element: <HospitalizationTracking />, // Component for hospitalization tracking
             },
             {
+              path: `${HOSPITALIZATION}`,
+              element: <HospitalizationPage />,
+            },
+            {
+              path: `${HOSPITALIZATION}/:hospitalizationId`,
+              element: <PetHealthTrackDTO />,
+            },
+            {
               path: `${SETTINGS}`,
               element: <AccountSettings />, // Component for account settings
             },
@@ -164,7 +181,7 @@ const RouterComponent = () => {
         {
           path: `${EMPLOYEE_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Employee']}>
               <EmployeeDashboard />
             </ProtectedRoutes>
           ),
@@ -172,16 +189,24 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
-            },
-            {
-              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
-              element: <BookingPageEmployee />
             }
           ],
         },
         // Main routes
         {
           path: `${VET_DASHBOARD}`,
+          element: (
+            <ProtectedRoutes allowedRoles={['Vet']}>
+              <VetDashboard />
+            </ProtectedRoutes>
+          ),
+          children: [
+            {
+              
+              path: `${VET_DASHBOARD}`,
+              element: <VetDashboard />,
+            }
+
           lazy: async () => {
             const AppShell = await import('../pages/VetDashboard/ProtectedVetDashboard');
             return { Component: AppShell.default }
@@ -272,6 +297,7 @@ const RouterComponent = () => {
                 },
               ],
             },
+
           ],
         },
         {
@@ -283,6 +309,7 @@ const RouterComponent = () => {
           element: <BookingSuccess />,
         },
         {
+
           path: `${HOSPITALIZATION}`,
           element: <HospitalizationPage />,
         },
@@ -292,6 +319,7 @@ const RouterComponent = () => {
         },
         
         {
+
           path: `${KENNEL}/:kennelId`,
           element: <KennelPage />,
         },

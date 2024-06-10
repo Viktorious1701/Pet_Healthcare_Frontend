@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SidebarComponent, { SidebarItem } from "../../components/sidebar/SidebarComponent";
-import { HomeIcon, Calendar, Settings, Hospital, User } from "lucide-react"; // Import the User icon
+import { HomeIcon, Calendar, Settings, Hospital, User, DoorOpen } from "lucide-react"; // Import the User icon
 import {
   CUSTOMER_PET_LIST,
   CUSTOMER_DASHBOARD as CUSTOMER_PAGE,
@@ -57,6 +57,13 @@ const CustomerSidebar = () => {
         path={`/${CUSTOMER_PAGE}/${SETTINGS}`}
         onClick={() => handleNavigation(`/${CUSTOMER_PAGE}/${SETTINGS}`)}
         active={activePath === `/${CUSTOMER_PAGE}/${SETTINGS}`}
+      />
+      <SidebarItem
+        icon={<DoorOpen size={20} />}
+        text="Go Back To Home Page"
+        path={`/`}
+        onClick={() => handleNavigation(`/`)}
+        active={activePath === `/`}
       />
     </SidebarComponent>
   );

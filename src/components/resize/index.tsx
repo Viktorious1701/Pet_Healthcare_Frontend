@@ -12,6 +12,7 @@ function getWindowDimensions(): WindowDimensions {
   };
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWindowDimensions(): WindowDimensions {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
@@ -31,8 +32,8 @@ export const Resize: React.FC = () => {
   return (
     <div className="w-100 vh-100">
       <ResizeStyle style={{ height: '100vh' }}>
-        <div className="d-flex justify-content-center align-items-center h-100">
-          <div className="box-style mw-50 d-flex flex-column justify-content-center align-items-center">
+        <div className="flex justify-center items-center h-screen">
+          <div className="box-style min-w-52 flex flex-col justify-center items-center">
             <div>
               <iframe
                 src="https://giphy.com/embed/RM0FFEcOLBzEjtrbCK"
