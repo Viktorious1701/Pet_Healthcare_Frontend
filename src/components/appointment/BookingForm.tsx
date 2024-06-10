@@ -32,10 +32,11 @@ interface FormValues {
 interface BookingFormProps {
   date: Date;
   slot: number;
+  userName: string;
   onCancel: () => void; // New prop for onCancel function
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCancel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
 
   const { handleSubmit, reset, setValue } = useForm<FormValues>({
     defaultValues: {
-      customerUserName: `${user?.userName}`,
+      customerUserName: "",
       petId: 0,
       vetUserName: null,
       slotId: slot,
@@ -78,9 +79,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
   };
 
   const getPets = async () => {
-    petsOfCustomerAPI(String(user?.userName))
+    petsOfCustomerAPI(userName)
       .then((res) => {
-        if (res?.data) {
+        if (res?.data) {          
           if (res?.data === "User doesn't have any pets") {
             return;
           }
@@ -110,9 +111,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
       return;
     }
     console.log(formData);
-    if (!isAllowBook()) {
-      toast.info("You still have an unfinished appointment");
-      return;
+    if (user?.role === "Customer") {
+      if (!isAllowBook(userName)) {
+        toast.info("You still have an unfinished appointment");
+        return;
+      }
     }
     
     handleAppointment(formData);
@@ -166,6 +169,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ date, slot, onCancel }) => {
     else {
       setValue("vetUserName", selectedVetUserName);
     }
+    setValue("customerUserName", userName);
   }, [selectedPetId, selectedServiceId, selectedVetUserName]);
 
   useEffect(() => {

@@ -24,7 +24,7 @@ import {
 } from "@/Route/router-const";
 
 const EmployeeSidebar = () => {
-  const [activePath, setActivePath] = useState("/Employee/appointments");
+  const [activePath, setActivePath] = useState("/employee/appointments");
   const navigate = useNavigate();
 
   const handleNavigation = (path: string) => {

@@ -1,32 +1,30 @@
 import { useState, useRef, useEffect } from "react";
-import Navbar from "@/components/navigation/Navbar";
 import CalendarComponent from "@/components/calendar/CalendarComponent";
 import { useDispatch } from "react-redux";
-import { setDateSlot } from "@/components/slices/dateSlice";
+import { setUserBooking } from "@/components/slices/dateSlice";
 import { AppDispatch } from "@/store";
 import { SlotGet } from "@/Models/Slot";
 import { slotGetAPI } from "@/Services/SlotService";
 import { toast } from "react-toastify";
-import BookingForm from '@/components/appointment/BookingForm';
-import Footer from '@/components/navigation/Footer';
-import { ArrowRightFromLine } from 'lucide-react';
-import { useNavigate } from 'react-router';
-import { useAuth } from "@/Context/useAuth";
-
+import BookingForm from "@/components/appointment/BookingForm";
+import { ArrowRightFromLine } from "lucide-react";
+import { useNavigate } from "react-router";
+import CustomerSelect from "@/components/appointment/CustomerSelect";
+import { Button } from "@nextui-org/react";
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const BookingPage = () => {
+const BookingPageEmployee = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
-  const { user } = useAuth();
 
   const [slots, setSlots] = useState<SlotGet[] | null>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null);
-  const [formVisible, setFormVisible] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const dateRef = useRef<HTMLDivElement | null>(null);
+  const bookRef = useRef<HTMLDivElement | null>(null);
 
   const getSlots = async (date: string) => {
     slotGetAPI(date)
@@ -39,19 +37,22 @@ const BookingPage = () => {
         toast.warning("Could not get slot data");
       });
   };
+
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/login');
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
     }
     window.scrollTo(0, 0);
   }, [navigate]);
-  
 
   const handleBookingCancel = () => {
+    containerRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
     setSelectedDate(null);
     setSelectedSlot(null);
-    setFormVisible(false);
   };
+
   const handleDateChange = (value: Value) => {
     if (!Array.isArray(value)) {
       setSelectedDate(value);
@@ -67,26 +68,26 @@ const BookingPage = () => {
   };
 
   const handleBooking = () => {
-    if (selectedSlot && selectedDate) {
+    if (selectedSlot && selectedDate && selectedCustomer) {
       dispatch(
-        setDateSlot({
+        setUserBooking({
           date: selectedDate.toString(),
           slot: selectedSlot.slotId.toString(),
+          user: selectedCustomer.toString(),
         })
       );
-      setFormVisible(true);
-    }
-  };
-
-  useEffect(() => {
-    if (formVisible && containerRef.current) {
-      containerRef.current.scrollTo({
-        left: containerRef.current.clientWidth,
+      bookRef.current?.scrollIntoView({
         behavior: "smooth",
       });
     }
-    // form visible if set to true and containerRef is not null will activate the scroll
-  }, [formVisible]);
+  };
+
+  const handleCustomerSelect = (customer: string) => {
+    setSelectedCustomer(customer);
+    dateRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
     const [month, day, year] = String(
@@ -101,7 +102,7 @@ const BookingPage = () => {
       Number(minute)
     );
     const now = new Date();
-    
+
     if (!slot.available) {
       return true;
     }
@@ -131,22 +132,39 @@ const BookingPage = () => {
   const handleReset = () => {
     setSelectedDate(null);
     setSelectedSlot(null);
-    setFormVisible(false);
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen bg-custom-gray">
-      <Navbar />
-      <div ref={containerRef} className="flex overflow-x-hidden w-full">
-        <div className="w-full flex-shrink-0 flex justify-center">
-          <div className="pt-20 mt-20 flex justify-center">
+    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden">
+      <div className="w-full">
+        {/* First div */}
+        <div
+          ref={containerRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          <div className="pt-20 flex justify-center">
+            <CustomerSelect onSelectCustomer={handleCustomerSelect} />
+          </div>
+        </div>
+
+        {/* Second div */}
+        <div
+          ref={dateRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          <div className="mt-20 pt-20 flex justify-center">
             <div className="bg-white rounded-md shadow-md p-6 mr-8">
               <CalendarComponent onDateChange={handleDateChange} />
+              <Button
+                className="mt-4 text-white text-md bg-custom-darkBlue"
+                onClick={handleBookingCancel}
+              >
+                Back To Customer Selection
+              </Button>
             </div>
             <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
               {selectedDate ? (
                 <div className="p-6">
-                  {/* Add arrow button to hide slots and reset date */}
                   <div className="flex justify-between items-center gap-5 mb-4">
                     <h2 className="text-lg font-semibold">
                       Available Time Slots
@@ -180,24 +198,28 @@ const BookingPage = () => {
             </div>
           </div>
         </div>
-        {formVisible && selectedDate && selectedSlot && (
-          <div className="w-full flex-shrink-0 flex justify-center ">
-            <div className="pt-20 mt-20 flex justify-center w-full">
+
+        {/* Third div */}
+        <div
+          ref={bookRef}
+          className="w-full flex-shrink-0 flex justify-center h-screen"
+        >
+          {selectedDate && selectedSlot && (
+            <div className="flex justify-center w-full">
               <BookingForm
-                userName={user!.userName}
                 date={selectedDate}
                 slot={selectedSlot.slotId}
-                onCancel={handleBookingCancel}               
-                />
+                userName={String(selectedCustomer)}
+                onCancel={handleBookingCancel}
+              />
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <br />
       <br />
-      <Footer />
     </div>
   );
 };
 
-export default BookingPage;
+export default BookingPageEmployee;

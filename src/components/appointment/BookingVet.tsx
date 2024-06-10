@@ -10,9 +10,7 @@ interface BookingVetProps {
 const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
   
   const handleVetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedVetUserNameFromEvent = event.target.value;
-    console.log(selectedVetUserNameFromEvent);
-    
+    const selectedVetUserNameFromEvent = event.target.value;  
     onSelectVet(selectedVetUserNameFromEvent);
   };
   const autoAssignOption = {
