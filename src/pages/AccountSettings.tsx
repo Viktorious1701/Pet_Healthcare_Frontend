@@ -54,7 +54,21 @@ const StyledInput = styled.input`
   }
 `;
 
+const HiddenUsernameInput = styled.input`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+`;
+
 const AccountSettings: React.FC = () => {
+  const [username, setUsername] = useState(''); // Placeholder state
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -67,54 +81,67 @@ const AccountSettings: React.FC = () => {
   return (
     <StyledAccountSettings>
       <Content>
-        <Table>
-          <tbody>
-            <TableRow>
-              <TableHeader>Field</TableHeader>
-              <TableHeader>Value</TableHeader>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <label htmlFor="currentPassword">Current Password</label>
-              </TableCell>
-              <TableCell>
-                <StyledInput
-                  type="password"
-                  id="currentPassword"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <label htmlFor="newPassword">New Password</label>
-              </TableCell>
-              <TableCell>
-                <StyledInput
-                  type="password"
-                  id="newPassword"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>
-                <label htmlFor="confirmNewPassword">Confirm New Password</label>
-              </TableCell>
-              <TableCell>
-                <StyledInput
-                  type="password"
-                  id="confirmNewPassword"
-                  value={confirmNewPassword}
-                  onChange={(e) => setConfirmNewPassword(e.target.value)}
-                />
-              </TableCell>
-            </TableRow>
-          </tbody>
-        </Table>
-        <Button onClick={handlePasswordChange}>Change Password</Button>
+        <form onSubmit={handlePasswordChange}>
+          <HiddenUsernameInput
+            type="text"
+            id="username"
+            name="username"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Table>
+            <tbody>
+              <TableRow>
+                <TableHeader>Field</TableHeader>
+                <TableHeader>Value</TableHeader>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <label htmlFor="currentPassword">Current Password</label>
+                </TableCell>
+                <TableCell>
+                  <StyledInput
+                    type="password"
+                    id="currentPassword"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    autoComplete="current-password"
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <label htmlFor="newPassword">New Password</label>
+                </TableCell>
+                <TableCell>
+                  <StyledInput
+                    type="password"
+                    id="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    autoComplete="new-password"
+                  />
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <label htmlFor="confirmNewPassword">Confirm New Password</label>
+                </TableCell>
+                <TableCell>
+                  <StyledInput
+                    type="password"
+                    id="confirmNewPassword"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    autoComplete="new-password"
+                  />
+                </TableCell>
+              </TableRow>
+            </tbody>
+          </Table>
+          <Button type="submit">Change Password</Button>
+        </form>
       </Content>
     </StyledAccountSettings>
   );

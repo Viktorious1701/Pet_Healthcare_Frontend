@@ -1,6 +1,6 @@
 import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState, ReactNode } from "react";
-import logo from '@/assets/react.svg';
+import logo from '@/assets/PethealthCareSystem_ba-style.png';
 import { useAuth } from "@/Context/useAuth";
 import UserSidebarProfile from "./UserSidebarProfile";
 interface SidebarContextType {
@@ -29,7 +29,7 @@ export default function SidebarComponent({ children }: SidebarProps) {
               className={`h-10 overflow-hidden transition-all ${
                 expanded ? "w-32" : "w-0"
               }`}
-              alt=""
+              alt="Logo"
             />
             <button
               onClick={() => setExpanded((curr) => !curr)}

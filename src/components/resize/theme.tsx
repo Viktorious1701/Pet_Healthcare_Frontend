@@ -9,6 +9,6 @@ export const lightPinkTheme: DefaultTheme = {
     primaryDark: "#C71585",  // Medium violet red
     secondary: "#FFC0CB",  // Pink
     background: "#FFF5EE",  // Seashell
-    text: "#333333",
+    text: "#333333", 
   },
 };

@@ -30,7 +30,6 @@ const HospitalizationPage: React.FC = () => {
     const fetchHospitalizationsWithPets = async () => {
       try {
         const res = await HospitalizationListAPI();
-        console.log("useeff", res?.data);
         if (res?.data) {
           const hospitalizationsWithPets = await Promise.all(
             res.data.map(async (hospitalization: Hospitalization) => {

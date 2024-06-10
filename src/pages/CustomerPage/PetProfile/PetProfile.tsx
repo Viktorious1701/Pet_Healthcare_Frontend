@@ -20,7 +20,7 @@ const PetProfile: React.FC = () => {
           const res = await getPetById(petId);
           if (res?.data) {
             setPetProfile(res.data);
-            console.log(res.data);
+        
           }
         } catch (error) {
           handleError(error);

@@ -66,11 +66,11 @@ const PetList: React.FC = () => {
               <div className="flex justify-between gap-2" >
                 <Button
                   onClick={() => handleViewProfile(pet.id.toString())}
-                  className="text-custom-darkPink hover:transition-opacity mt-2 block"
+                  className="text-custom-darkPink hover:transition-opacity mt-2 block text-ellipsis"
                 >
                   View Profile
                 </Button>
-                <Button className="bg-custom-lightPink mt-2">
+                <Button className="bg-custom-lightPink mt-2 text-ellipsis">
                   <Link to={`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_UPDATE}/${pet.id}`}>Update</Link>
                 </Button>
               </div>

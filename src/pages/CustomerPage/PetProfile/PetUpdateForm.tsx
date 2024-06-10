@@ -56,7 +56,6 @@ const PetUpdateForm: React.FC = () => {
     e.preventDefault();
     if (formValues && petId) {
       try {
-        console.log("after submit", formValues)
         await updatePetData(parseInt(petId, 10), formValues);
         alert("Pet information updated successfully.");
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
