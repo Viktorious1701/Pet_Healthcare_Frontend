@@ -57,14 +57,14 @@ import {
   REGISTER,
   RESET_PASS,
   SETTINGS,
-
   VET_DASHBOARD,
-  COMING_SOON,
-  HOSPITALIZATION_INTRO
+  HOSPITALIZATION_INTRO,
+  SETTINGS_PROFILE
 } from './router-const';
 import VetDashboard from '@/pages/VetDashboard/VetDashboard';
-import ComingSoon from '@/pages/VetDashboard/coming-soon';
 import HospitalizationService from '@/pages/HospitalizationService';
+import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+
 
 
 const RouterComponent = () => {
@@ -200,13 +200,6 @@ const RouterComponent = () => {
               <VetDashboard />
             </ProtectedRoutes>
           ),
-          children: [
-            {
-              
-              path: `${VET_DASHBOARD}`,
-              element: <VetDashboard />,
-            }
-
           lazy: async () => {
             const AppShell = await import('../pages/VetDashboard/ProtectedVetDashboard');
             return { Component: AppShell.default }
