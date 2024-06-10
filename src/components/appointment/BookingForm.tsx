@@ -4,10 +4,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
 import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
-import { AppointmentAvailableVets } from "@/Models/Appointment";
+import { AppointmentAvailableVets, AppointmentGet } from "@/Models/Appointment";
 import {
   appointmentAvailableVetsAPI,
-  appointmentBookAPI
+  appointmentBookAPI,
+  appointmentCustomerAPI,
 } from "@/Services/AppointmentService";
 import { toast } from "react-toastify";
 
@@ -36,16 +37,22 @@ interface BookingFormProps {
   onCancel: () => void; // New prop for onCancel function
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCancel }) => {
+const BookingForm: React.FC<BookingFormProps> = ({
+  userName,
+  date,
+  slot,
+  onCancel,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isAllowBook } = useAuth();
+  const { user } = useAuth();
 
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
-  
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
     null
@@ -81,7 +88,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
   const getPets = async () => {
     petsOfCustomerAPI(userName)
       .then((res) => {
-        if (res?.data) {          
+        if (res?.data) {
           if (res?.data === "User doesn't have any pets") {
             return;
           }
@@ -105,20 +112,42 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
       });
   };
 
+  const getCustomerAppointments = async () => {
+    appointmentCustomerAPI(userName)
+      .then((res) => {
+        if (res?.data) {
+          setAppointments(res?.data);
+        }
+      })
+      .catch(() => {
+        toast.warning("Server error occured");
+      });
+  };
+
+  const isAllowBook = () => {
+    var unfinishAppointment = appointments.some(
+      (appointment) =>
+        appointment.status === "Boooked" || appointment.status === "Processing"
+    );
+    return unfinishAppointment ? true : false;
+  };
+
   const onSubmit = (formData: FormValues) => {
-    if (formData.petId === 0 || formData.serviceId === 0) {  
+    if (formData.petId === 0 || formData.serviceId === 0) {
       toast.warning("You must select all items");
       return;
     }
-    console.log(formData);
     if (user?.role === "Customer") {
-      if (!isAllowBook(userName)) {
+      if (!isAllowBook()) {
+        handleAppointment(formData);
+      } else {
         toast.info("You still have an unfinished appointment");
         return;
       }
+    } else if (user?.role === "Employee") {
+      handleAppointment(formData);
     }
-    
-    handleAppointment(formData);
+    console.log(formData);
     dispatch(setFormData(formData));
     navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed)
   };
@@ -153,8 +182,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
       e.serviceId,
       e.date
     )
-      .then(() => {
-      })
+      .then(() => {})
       .catch((e) => {
         toast.error(e);
       });
@@ -163,10 +191,12 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
   useEffect(() => {
     setValue("petId", Number(selectedPetId));
     setValue("serviceId", Number(selectedServiceId));
-    if (selectedVetUserName === "Let us choose for you" || selectedVetUserName === '') {
+    if (
+      selectedVetUserName === "Let us choose for you" ||
+      selectedVetUserName === ""
+    ) {
       setValue("vetUserName", null);
-    }
-    else {
+    } else {
       setValue("vetUserName", selectedVetUserName);
     }
     setValue("customerUserName", userName);
@@ -176,6 +206,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
     getAvailableVets();
     getPets();
     getServices();
+    getCustomerAppointments();
   }, [date, slot]);
 
   return (
