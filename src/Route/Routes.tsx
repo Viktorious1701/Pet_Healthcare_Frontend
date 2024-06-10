@@ -41,6 +41,7 @@ import {
   ADMIN_HOSPITALIZATION,
   APPOINTMENT,
   APPOINTMENT_SUCCESS,
+  COMING_SOON,
   CONTACT,
   CUSTOMER_APPOINTMENTS,
   CUSTOMER_DASHBOARD,
@@ -57,12 +58,14 @@ import {
   RESET_PASS,
   SETTINGS,
   VET_DASHBOARD,
-  COMING_SOON,
-  HOSPITALIZATION_INTRO
+  HOSPITALIZATION_INTRO,
+  SETTINGS_PROFILE
 } from './router-const';
 import VetDashboard from '@/pages/VetDashboard/VetDashboard';
-import ComingSoon from '@/pages/VetDashboard/coming-soon';
 import HospitalizationService from '@/pages/HospitalizationService';
+import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+
+
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
@@ -189,6 +192,7 @@ const RouterComponent = () => {
             }
           ],
         },
+        // Main routes
         {
           path: `${VET_DASHBOARD}`,
           element: (
@@ -196,12 +200,97 @@ const RouterComponent = () => {
               <VetDashboard />
             </ProtectedRoutes>
           ),
+          lazy: async () => {
+            const AppShell = await import('../pages/VetDashboard/ProtectedVetDashboard');
+            return { Component: AppShell.default }
+          },
+          errorElement: <GeneralError />,
           children: [
             {
-              
-              path: `${VET_DASHBOARD}`,
-              element: <VetDashboard />,
-            }
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/VetDashboard/dashboard')).default,
+              }),
+            },
+            {
+              path: 'tasks',
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/tasks')).default,
+              }),
+            },
+            {
+              path: 'chats',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: 'apps',
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/apps')).default,
+              }),
+            },
+            {
+              path: 'users',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: `${COMING_SOON}`,
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path:  `${SETTINGS_PROFILE}`,
+              lazy: async () => ({
+                Component: (await import('../pages/VetDashboard/settings')).default,
+              }),
+              errorElement: <GeneralError />,
+              children: [
+                {
+                  index: true,
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/profile')).default,
+                  }),
+                },
+                {
+                  path: 'account',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/account')).default,
+                  }),
+                },
+                {
+                  path: 'appearance',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/appearance')).default,
+                  }),
+                },
+                {
+                  path: 'notifications',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/notifications'))
+                      .default,
+                  }),
+                },
+                {
+                  path: 'display',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/display')).default,
+                  }),
+                },
+                {
+                  path: 'error-example',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/error-example'))
+                      .default,
+                  }),
+                  errorElement: <GeneralError className='h-[50svh]' minimal />,
+                },
+              ],
+            },
+
           ],
         },
         {
@@ -213,6 +302,17 @@ const RouterComponent = () => {
           element: <BookingSuccess />,
         },
         {
+
+          path: `${HOSPITALIZATION}`,
+          element: <HospitalizationPage />,
+        },
+        {
+          path: `${HOSPITALIZATION}/:petName`,
+          element: <PetHealthTrack />,
+        },
+        
+        {
+
           path: `${KENNEL}/:kennelId`,
           element: <KennelPage />,
         },
@@ -227,10 +327,6 @@ const RouterComponent = () => {
         {
           path: '/503',
           element: <MaintenanceError />,
-        },
-        {
-          path: `/${COMING_SOON}`,
-          element: <ComingSoon />,
         },
         {
           path: '*',

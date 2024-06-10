@@ -11,7 +11,9 @@ import {
   DropdownTrigger
 } from "@nextui-org/react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 import {ADMIN_DASHBOARD, CUSTOMER_DASHBOARD, EMPLOYEE_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
+
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
