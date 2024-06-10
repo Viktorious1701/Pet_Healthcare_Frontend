@@ -10,6 +10,7 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from "@nextui-org/react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {CUSTOMER_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
 
 const Navbar = () => {

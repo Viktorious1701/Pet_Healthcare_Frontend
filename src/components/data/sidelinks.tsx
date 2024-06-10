@@ -1,6 +1,7 @@
+import { COMING_SOON, SETTINGS_PROFILE } from '@/Route/router-const'
 import {
   IconCalendarWeek,
-  IconLogout,
+  IconDashboard,
   IconSettings,
   IconUser,
 } from '@tabler/icons-react'
@@ -18,28 +19,28 @@ export interface SideLink extends NavLink {
 
 export const sidelinks: SideLink[] = [
     {
+      title: 'Dashboard',
+      label: '',
+      href: '',
+      icon: <IconDashboard size={18} />,
+    },
+    {
       title: 'Profile',
       label: '',
-      href: '/${COMING_SOON}',
+      href: '${COMING_SOON}',
       icon: <IconUser size={18} />,
     },
     {
       title: 'Schedule',
       label: '',
-      href: '/${COMING_SOON}',
+      href: `${COMING_SOON}`,
       icon: <IconCalendarWeek size={18} />,
     },
     {
       title: 'Setting',
       label: '',
-      href: '/${COMING_SOON}',
+      href: `${SETTINGS_PROFILE}`,
       icon: <IconSettings size={18} />,
-    },
-    {
-      title: 'Logout',
-      label: '',
-      href: '/${COMING_SOON}',
-      icon: <IconLogout size={18} />,
     },
   // {
   //   title: 'Dashboard',
