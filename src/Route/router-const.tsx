@@ -8,6 +8,7 @@ export const FORGOT_PASS = "forgot-password"
 export const APPOINTMENT = "appointment"
 export const APPOINTMENT_SUCCESS = "appointment-success"
 
+export const HOSPITALIZATION_INTRO = "hospital_intro"
 export const HOSPITALIZATION = "hospitalization"
 export const KENNEL = "kennel"
 export const VACCINATION = "vaccination"
@@ -44,6 +45,7 @@ export const VET_DASHBOARD = "vet"
 export const VET_APPOINTMENT = "vet-appointment"
 
 export const COMING_SOON = "coming-soon"
+export const SETTINGS_PROFILE = "settings_profile"
 
 
 

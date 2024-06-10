@@ -10,12 +10,33 @@ import {
   DropdownMenu,
   DropdownTrigger
 } from "@nextui-org/react";
-import {CUSTOMER_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+import {ADMIN_DASHBOARD, CUSTOMER_DASHBOARD, EMPLOYEE_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
+
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
-
+  const role = user?.role || "0";
+  console.log("role is ", role);
+  let path = "";
+  switch (role) {
+    case "Admin":
+      path = ADMIN_DASHBOARD;
+      break;
+    case "Employee":
+      path = EMPLOYEE_DASHBOARD;
+      break;
+      case "Vet":
+      path = VET_DASHBOARD;
+      break;
+      case "Customer": 
+      path = CUSTOMER_DASHBOARD;
+      break;
+    default:
+      path = CUSTOMER_DASHBOARD;
+  }
   const handleLoginClick = () => {
     navigate(`/${LOGIN}`);
   };
@@ -25,11 +46,11 @@ const Navbar = () => {
   };
 
   const navigateToUserProfile = () => {
-    navigate(`/${VET_DASHBOARD}/${SETTINGS}`);
+    navigate(`/${path}/${SETTINGS}`);
   };
 
   const navigateToDashboard = () => {
-    navigate(`/${VET_DASHBOARD}`);
+    navigate(`/${path}`);
   };
 
   return (

@@ -1,7 +1,7 @@
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from "@/App";
-import ProtectedRoutes from "./ProtectedRoutes";
+import ProtectedRoutes from './ProtectedRoutes';
 import Dashboard from "@/pages/AdminDashboard/Dashboard";
 import Accounts from "@/pages/AdminDashboard/Accounts";
 import AppointmentDashboard from "@/pages/AdminDashboard/AppointmentDashboard";
@@ -21,7 +21,7 @@ import ForgotPassword from '@/pages/ForgotPass';
 import ResetPass from '@/pages/ResetPass';
 import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 import HospitalizationPage from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
-import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+import PetHealthTrackDTO from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
 import PetList from '@/pages/CustomerPage/PetProfile/PetList';
 import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
@@ -41,13 +41,13 @@ import {
   ADMIN_HOSPITALIZATION,
   APPOINTMENT,
   APPOINTMENT_SUCCESS,
+  COMING_SOON,
   CONTACT,
   CUSTOMER_APPOINTMENTS,
   CUSTOMER_DASHBOARD,
   CUSTOMER_HOSPITALIZATION_TABLE,
   CUSTOMER_PET_LIST,
   CUSTOMER_PET_UPDATE,
-  EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_DASHBOARD,
   FORGOT_PASS,
   HOME_PAGE,
@@ -57,17 +57,20 @@ import {
   REGISTER,
   RESET_PASS,
   SETTINGS,
-  VET_DASHBOARD
+  VET_DASHBOARD,
+  HOSPITALIZATION_INTRO,
+  SETTINGS_PROFILE
 } from './router-const';
-
-import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
 import VetDashboard from '@/pages/VetDashboard/VetDashboard';
-import ComingSoon from '@/pages/VetDashboard/coming-soon';
+import HospitalizationService from '@/pages/HospitalizationService';
+import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+
+
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
   if (width <= 900) {
-      return <Resize />;
+    return <Resize />;
   }
 
   const router = createBrowserRouter([
@@ -78,6 +81,10 @@ const RouterComponent = () => {
         {
           path: `${HOME_PAGE}`,
           element: <Home />,
+        },
+        {
+          path: `${HOSPITALIZATION_INTRO}`,
+          element: <HospitalizationService />
         },
         {
           path: `${ABOUT_PAGE}`,
@@ -106,7 +113,7 @@ const RouterComponent = () => {
         {
           path: `${ADMIN_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Admin']}>
               <Dashboard />
             </ProtectedRoutes>
           ),
@@ -128,7 +135,7 @@ const RouterComponent = () => {
         {
           path: `/${CUSTOMER_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Customer']}>
               <CustomerDashboard />
             </ProtectedRoutes>
           ),
@@ -158,6 +165,14 @@ const RouterComponent = () => {
               element: <HospitalizationTracking />, // Component for hospitalization tracking
             },
             {
+              path: `${HOSPITALIZATION}`,
+              element: <HospitalizationPage />,
+            },
+            {
+              path: `${HOSPITALIZATION}/:hospitalizationId`,
+              element: <PetHealthTrackDTO />,
+            },
+            {
               path: `${SETTINGS}`,
               element: <AccountSettings />, // Component for account settings
             },
@@ -166,7 +181,7 @@ const RouterComponent = () => {
         {
           path: `${EMPLOYEE_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Employee']}>
               <EmployeeDashboard />
             </ProtectedRoutes>
           ),
@@ -174,25 +189,108 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
-            },
-            {
-              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
-              element: <BookingPageEmployee />
             }
           ],
         },
+        // Main routes
         {
           path: `${VET_DASHBOARD}`,
           element: (
-            <ProtectedRoutes>
+            <ProtectedRoutes allowedRoles={['Vet']}>
               <VetDashboard />
             </ProtectedRoutes>
           ),
+          lazy: async () => {
+            const AppShell = await import('../pages/VetDashboard/ProtectedVetDashboard');
+            return { Component: AppShell.default }
+          },
+          errorElement: <GeneralError />,
           children: [
             {
-              path: `${VET_DASHBOARD}`,
-              element: <VetDashboard />,
-            }
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/VetDashboard/dashboard')).default,
+              }),
+            },
+            {
+              path: 'tasks',
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/tasks')).default,
+              }),
+            },
+            {
+              path: 'chats',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: 'apps',
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/apps')).default,
+              }),
+            },
+            {
+              path: 'users',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: `${COMING_SOON}`,
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path:  `${SETTINGS_PROFILE}`,
+              lazy: async () => ({
+                Component: (await import('../pages/VetDashboard/settings')).default,
+              }),
+              errorElement: <GeneralError />,
+              children: [
+                {
+                  index: true,
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/profile')).default,
+                  }),
+                },
+                {
+                  path: 'account',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/account')).default,
+                  }),
+                },
+                {
+                  path: 'appearance',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/appearance')).default,
+                  }),
+                },
+                {
+                  path: 'notifications',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/notifications'))
+                      .default,
+                  }),
+                },
+                {
+                  path: 'display',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/display')).default,
+                  }),
+                },
+                {
+                  path: 'error-example',
+                  lazy: async () => ({
+                    Component: (await import('../pages/VetDashboard/settings/error-example'))
+                      .default,
+                  }),
+                  errorElement: <GeneralError className='h-[50svh]' minimal />,
+                },
+              ],
+            },
+
           ],
         },
         {
@@ -204,6 +302,7 @@ const RouterComponent = () => {
           element: <BookingSuccess />,
         },
         {
+
           path: `${HOSPITALIZATION}`,
           element: <HospitalizationPage />,
         },
@@ -211,7 +310,9 @@ const RouterComponent = () => {
           path: `${HOSPITALIZATION}/:petName`,
           element: <PetHealthTrack />,
         },
+        
         {
+
           path: `${KENNEL}/:kennelId`,
           element: <KennelPage />,
         },
@@ -226,10 +327,6 @@ const RouterComponent = () => {
         {
           path: '/503',
           element: <MaintenanceError />,
-        },
-        {
-          path: '/${COMING_SOON}',
-          element: <ComingSoon />,
         },
         {
           path: '*',

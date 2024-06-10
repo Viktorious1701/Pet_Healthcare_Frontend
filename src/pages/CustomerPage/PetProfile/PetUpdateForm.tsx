@@ -13,6 +13,9 @@ const PetUpdateForm: React.FC = () => {
     name: "",
     species: "",
     breed: "",
+    gender: false,
+    weight: 0,
+    imageURL: ""
   });
   const navigate = useNavigate();
 
@@ -29,6 +32,9 @@ const PetUpdateForm: React.FC = () => {
               name: petData.name,
               species: petData.species,
               breed: petData.breed,
+              weight: petData.weight,
+              gender: petData.gender,
+              imageURL: petData.imageURL
             });
           }
         } catch (err) {
@@ -58,6 +64,13 @@ const PetUpdateForm: React.FC = () => {
         alert("An error occurred while updating pet information.");
       }
     }
+  };
+
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormValues({
+      ...formValues,
+      gender: e.target.value === "male" ? true : false,
+    });
   };
 
   return (
@@ -103,6 +116,47 @@ const PetUpdateForm: React.FC = () => {
                 id="breed"
                 name="breed"
                 value={formValues.breed}
+                onChange={handleInputChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="gender" className="block text-gray-700 font-bold mb-2">
+                Gender
+              </label>
+              <select
+                id="gender"
+                name="gender"
+                value={formValues.gender ? "male" : "female"}
+                onChange={handleGenderChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label htmlFor="weight" className="block text-gray-700 font-bold mb-2">
+                Weight
+              </label>
+              <input
+                type="number"
+                id="weight"
+                name="weight"
+                value={formValues.weight}
+                onChange={handleInputChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="imageURL" className="block text-gray-700 font-bold mb-2">
+                Image URL
+              </label>
+              <input
+                type="text"
+                id="imageURL"
+                name="imageURL"
+                value={formValues.imageURL}
                 onChange={handleInputChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               />
