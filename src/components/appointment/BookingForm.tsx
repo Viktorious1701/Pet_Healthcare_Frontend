@@ -40,7 +40,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isAllowBook } = useAuth();
+  const { user, isAllowBook } = useAuth();
 
   const [vets, setVets] = useState<AppointmentAvailableVets[]>([]);
   const [services, setServices] = useState<ServiceGet[]>([]);
@@ -111,9 +111,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
       return;
     }
     console.log(formData);
-    if (!isAllowBook(userName)) {
-      toast.info("You still have an unfinished appointment");
-      return;
+    if (user?.role === "Customer") {
+      if (!isAllowBook(userName)) {
+        toast.info("You still have an unfinished appointment");
+        return;
+      }
     }
     
     handleAppointment(formData);
@@ -171,8 +173,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
   }, [selectedPetId, selectedServiceId, selectedVetUserName]);
 
   useEffect(() => {
-    console.log(userName);
-    
     getAvailableVets();
     getPets();
     getServices();

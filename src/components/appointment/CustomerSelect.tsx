@@ -46,7 +46,15 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
     setSelectedCustomer(userName);
   };
 
+  const handleCancel = () => {
+    setSelectedCustomer("");
+  };
+
   const handleSubmit = () => {
+    if (selectedCustomer === "") {
+      toast.warning("pls select a customer");
+      return;
+    }
     onSelectCustomer(selectedCustomer);
   }
 
@@ -63,7 +71,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         <Button className="bg-custom-pink text-white text-md" onClick={handleSubmit}>Confirm</Button>
       </div>
       <Divider />
-      <div className="mx-10">
+      <div className="flex items-center mx-10">
         <Card className="shadow-none">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <p className="text-tiny uppercase font-bold">Selected Customer</p>
@@ -72,6 +80,9 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
             {selectedCustomer}
           </CardBody>
         </Card>
+        <Button className="bg-custom-lightCrimson text-white text-md" onClick={handleCancel}>
+          Cancel
+        </Button>
       </div>
       <Divider />
       <div className="m-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
