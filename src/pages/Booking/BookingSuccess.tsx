@@ -1,4 +1,5 @@
-import { APPOINTMENT, HOME_PAGE } from "@/Route/router-const";
+import { useAuth } from "@/Context/useAuth";
+import { APPOINTMENT, EMPLOYEE_APPOINTMENT_MANAGE, EMPLOYEE_DASHBOARD, HOME_PAGE } from "@/Route/router-const";
 import { RootState } from "@/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -6,7 +7,8 @@ import { useNavigate } from "react-router";
 
 const BookingSuccess = () => {
   const navigate = useNavigate();
-  // const selector = useSelector((state:RootState) => state.formData.formData)
+  const { user } = useAuth();
+
   const { isSubmitted } = useSelector((state: RootState) => state.formData);
   if (!isSubmitted) {
     navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
@@ -14,7 +16,12 @@ const BookingSuccess = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate(`/${HOME_PAGE}`); // Replace '/' with the path to your homepage
+      if (user?.role === "Customer") {
+        navigate(`/${HOME_PAGE}`); // Replace '/' with the path to your homepage
+      }
+      else if (user?.role === "Employee") {
+        navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_MANAGE}`);
+      }
     }, 3000); // Redirect to homepage after 5 seconds (adjust the time as needed)
 
     return () => clearTimeout(timer); // Clean up the timer on component unmount

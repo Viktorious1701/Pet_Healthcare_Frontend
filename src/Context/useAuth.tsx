@@ -17,9 +17,11 @@ import React from "react";
 import axios from "axios";
 import {
   ADMIN_DASHBOARD,
+  EMPLOYEE_DASHBOARD,
   HOME_PAGE,
   LOGIN,
   RESET_PASS,
+  VET_DASHBOARD,
 } from "@/Route/router-const";
 //import { ErrorOption } from "react-hook-form";
 
@@ -101,10 +103,19 @@ export const UserProvider = ({ children }: Props) => {
           setUser(userObj!);
           toast.success("Login Success!");
 
-          if (userObj?.role === "Admin") {
-            navigate(`/${ADMIN_DASHBOARD}`);
-          } else {
-            navigate(`/${HOME_PAGE}`);
+          switch (userObj.role) {
+            case "Admin":
+              navigate(`/${ADMIN_DASHBOARD}`);
+              break;
+            case "Employee":
+              navigate(`/${EMPLOYEE_DASHBOARD}`);
+              break;
+            case "Vet":
+              navigate(`/${VET_DASHBOARD}`);
+              break;
+            default:
+              navigate(`/${HOME_PAGE}`);
+              break;
           }
         }
       })
