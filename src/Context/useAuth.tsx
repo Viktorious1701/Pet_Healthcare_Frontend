@@ -21,7 +21,6 @@ import {
   LOGIN,
   RESET_PASS,
 } from "@/Route/router-const";
-import { appointmentCustomerAPI } from "@/Services/AppointmentService";
 //import { ErrorOption } from "react-hook-form";
 
 type UserContextType = {
@@ -38,7 +37,6 @@ type UserContextType = {
   ) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
-  isAllowBook: (userName: string) => boolean;
   resetPassword: (email: string) => void;
 };
 
@@ -102,7 +100,7 @@ export const UserProvider = ({ children }: Props) => {
           setToken(res?.data.token!);
           setUser(userObj!);
           toast.success("Login Success!");
-          
+
           if (userObj?.role === "Admin") {
             navigate(`/${ADMIN_DASHBOARD}`);
           } else {
@@ -164,27 +162,6 @@ export const UserProvider = ({ children }: Props) => {
     navigate(`/${HOME_PAGE}`);
   };
 
-  const isAllowBook = (userName: string) => {
-    appointmentCustomerAPI(userName)
-      .then((res) => {
-        if (
-          res?.data.some(
-            (appointment) =>
-              appointment.status === "Boooked" ||
-              appointment.status === "Processing"
-          )
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .catch((e) => {
-        toast.warning("Server error occured", e);
-        return false;
-      });
-    return false;
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -193,7 +170,6 @@ export const UserProvider = ({ children }: Props) => {
         token,
         logout,
         isLoggedIn,
-        isAllowBook,
         registerUser,
         forgotUser,
         resetUser,
