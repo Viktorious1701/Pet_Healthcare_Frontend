@@ -11,8 +11,27 @@ import { ArrowRightFromLine } from "lucide-react";
 import { useNavigate } from "react-router";
 import CustomerSelect from "@/components/appointment/CustomerSelect";
 import { Button } from "@nextui-org/react";
+
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
+
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
+
+const steps = [
+  {
+    label: "Select a customer",
+  },
+  {
+    label: "Select date and slot",
+  },
+  {
+    label: "Select Pet, Service and Vet",
+  }
+];
 
 const BookingPageEmployee = () => {
   const navigate = useNavigate();
@@ -25,6 +44,8 @@ const BookingPageEmployee = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dateRef = useRef<HTMLDivElement | null>(null);
   const bookRef = useRef<HTMLDivElement | null>(null);
+
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const getSlots = async (date: string) => {
     slotGetAPI(date)
@@ -51,6 +72,7 @@ const BookingPageEmployee = () => {
     });
     setSelectedDate(null);
     setSelectedSlot(null);
+    handleReset();
   };
 
   const handleDateChange = (value: Value) => {
@@ -79,6 +101,7 @@ const BookingPageEmployee = () => {
       bookRef.current?.scrollIntoView({
         behavior: "smooth",
       });
+      handleNext()
     }
   };
 
@@ -87,6 +110,7 @@ const BookingPageEmployee = () => {
     dateRef.current?.scrollIntoView({
       behavior: "smooth",
     });
+    handleNext()
   };
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
@@ -132,10 +156,38 @@ const BookingPageEmployee = () => {
   const handleReset = () => {
     setSelectedDate(null);
     setSelectedSlot(null);
+    setActiveStep(0);
   };
 
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
+
   return (
-    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden">
+    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden mr-72">
+      <div className="absolute z-50 right-10 top-1/3">
+        <Box sx={{ maxWidth: 400 }}>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((step, index) => (
+              <Step key={step.label}>
+                <StepLabel
+                  optional={
+                    index === 2 ? (
+                      <Typography variant="caption">Last step</Typography>
+                    ) : null
+                  }
+                >
+                  {step.label}
+                </StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Box>
+      </div>
       <div className="w-full">
         {/* First div */}
         <div

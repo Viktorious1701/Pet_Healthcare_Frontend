@@ -59,11 +59,15 @@ import {
   SETTINGS,
   VET_DASHBOARD,
   HOSPITALIZATION_INTRO,
-  SETTINGS_PROFILE
+  SETTINGS_PROFILE,
+  EMPLOYEE_APPOINTMENT_MANAGE,
+  EMPLOYEE_KENNELS
 } from './router-const';
 import VetDashboard from '@/pages/VetDashboard/VetDashboard';
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
+import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
+import KennelManagement from '@/pages/EmployeeDashboard/KennelManagement';
 
 
 
@@ -189,6 +193,14 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
+            },
+            {
+              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
+              element: <BookingPageEmployee />,
+            },
+            {
+              path: `${EMPLOYEE_KENNELS}`,
+              element: <KennelManagement />
             }
           ],
         },
