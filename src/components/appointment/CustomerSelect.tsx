@@ -63,12 +63,9 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
   );
   return (
     <div>
-      <h1 className="ml-10 mb-4 text-4xl font-bold">
-        Create an appointment for customer
-      </h1>
       <div className="flex justify-between mx-10 mb-6">
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <Button className="bg-custom-pink text-white text-md" onClick={handleSubmit}>Confirm</Button>
+        <Button className="ml-bg-custom-darkBlue text-white text-md" onClick={handleSubmit}>Confirm</Button>
       </div>
       <Divider />
       <div className="flex items-center mx-10">

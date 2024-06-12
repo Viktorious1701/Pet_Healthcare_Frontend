@@ -27,9 +27,15 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource/roboto": "^5.0.13",
     "@hookform/resolvers": "^3.6.0",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
+    "@mui/x-charts": "^7.6.2",
+    "@mui/x-data-grid": "^7.6.2",
     "@nextui-org/card": "^2.0.29",
     "@nextui-org/react": "^2.4.0",
     "@nextui-org/skeleton": "^2.0.28",
