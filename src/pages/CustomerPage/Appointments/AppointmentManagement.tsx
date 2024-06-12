@@ -1,69 +1,148 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
-// Define the Appointment interface
-interface Appointment {
-  id: number;
-  petName: string;
-  date: string;
-  description: string;
-  rating: number | null;
-}
-
-// Define some dummy appointments
-const dummyAppointments: Appointment[] = [
-  { id: 1, petName: "Bella", date: "2023-05-01", description: "Regular Checkup", rating: null },
-  { id: 2, petName: "Max", date: "2023-06-15", description: "Vaccination", rating: null },
-  { id: 3, petName: "Luna", date: "2023-07-20", description: "Dental Cleaning", rating: null },
-];
+import { appointmentCustomerAPI } from "@/Services/AppointmentService";
+import { AppointmentGet } from "@/Models/Appointment";
+import { useAuth } from "@/Context/useAuth";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const AppointmentManagement: React.FC = () => {
-  // State to manage appointments
-  const [appointments, setAppointments] = useState<Appointment[]>(dummyAppointments);
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const { user } = useAuth();
+  const username = user?.userName;
+  const [loading, setLoading] = useState(true);
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentsPerPage = 5;
 
-  // Function to handle rating
+  useEffect(() => {
+    setLoading(true);
+    const storedAppointments = sessionStorage.getItem("appointments");
+    if(storedAppointments){
+      setAppointments(JSON.parse(storedAppointments));
+      setLoading(false);
+      return;
+    }
+    const fetchAppointments = async () => {
+      try {
+        const listAppointment = await appointmentCustomerAPI(username ?? "");
+        setAppointments(listAppointment?.data || []);
+        sessionStorage.setItem("appointments", JSON.stringify(listAppointment?.data || []));
+      } catch (error) {
+        console.error("Error fetching appointments:", error);
+      }finally{
+        setLoading(false);
+      }
+    };
+
+    fetchAppointments();
+  }, [username]);
+
   const handleRating = (id: number, rating: number) => {
-    const updatedAppointments = appointments.map(appointment =>
-      appointment.id === id ? { ...appointment, rating } : appointment
+    const updatedAppointments = appointments.map((appointment) =>
+      appointment.appointmentId === id ? { ...appointment, rating } : appointment
     );
     setAppointments(updatedAppointments);
   };
-  
+
+  // Pagination logic
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+  const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
+  const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold text-pink-600 mb-4">Appointment History</h1>
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-        <thead className="bg-pink-200">
-          <tr>
-            <th className="py-2 px-4 text-left">Pet Name</th>
-            <th className="py-2 px-4 text-left">Date</th>
-            <th className="py-2 px-4 text-left">Description</th>
-            <th className="py-2 px-4 text-left">Rating</th>
-            <th className="py-2 px-4 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((appointment) => (
-            <tr key={appointment.id} className="even:bg-pink-50 odd:bg-pink-100">
-              <td className="py-2 px-4">{appointment.petName}</td>
-              <td className="py-2 px-4">{appointment.date}</td>
-              <td className="py-2 px-4">{appointment.description}</td>
-              <td className="py-2 px-4">{appointment.rating ?? "Not Rated"}</td>
-              <td className="py-2 px-4">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <Button
-                    key={rating}
-                    className={`mx-1 ${appointment.rating === rating ? "bg-custom-darkPink" : "bg-custom-lightGrey"}`}
-                    onClick={() => handleRating(appointment.id, rating)}
+    <div className="p-6 ">
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
+        <h1 className="text-3xl font-bold text-white">
+          Appointment History
+        </h1>
+      </div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableCaption>A list of your recent appointments.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Pet</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Service</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Rating</TableHead>
+              <TableHead>Cancel</TableHead>
+              <TableHead>Rate</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentAppointments.map((appointment) => (
+              <TableRow key={appointment.appointmentId} className="even:bg-pink-50 odd:bg-pink-100">
+                <TableCell className="font-medium">{appointment.pet}</TableCell>
+                <TableCell>{appointment.date}</TableCell>
+                <TableCell>{appointment.service}</TableCell>
+                <TableCell>{appointment.status}</TableCell>
+                <TableCell>{appointment.rating}</TableCell>
+                <TableCell>
+                  <Button className="mx-1 bg-custom-darkPink">Cancel</Button>
+                </TableCell>
+                <TableCell>
+                  <select
+                    title="Rate this appointment"
+                    value={appointment.rating || ''}
+                    onChange={(e) => handleRating(appointment.appointmentId, parseInt(e.target.value))}
+                    className="bg-white border border-gray-300 rounded p-2"
                   >
-                    {rating} ⭐
+                    <option value="" disabled>Select Rating</option>
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <option key={rating} value={rating}>
+                        {rating} ⭐
+                      </option>
+                    ))}
+                  </select>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={5}>Total Appointments</TableCell>
+              <TableCell className="text-right" colSpan={2}>{appointments.length}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={7} className="text-center">
+                <div className="flex justify-between">
+                  <Button onClick={handlePreviousPage} disabled={currentPage === 1} className="bg-custom-pink">
+                    Previous
                   </Button>
-                ))}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                  <span>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <Button onClick={handleNextPage} disabled={currentPage === totalPages} className="bg-custom-pink">
+                    Next
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
     </div>
   );
 };

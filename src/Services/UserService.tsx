@@ -16,7 +16,7 @@ const api1 = "https://pethealthcaresystem.azurewebsites.net/api/Account/me";
 export const getUserProfile = async () => {
     try {
         const data = await axios.get<UserInfo>(api1);
-        console.log("data in api", data.data);
+        
         return data;
     } catch (error) {
         handleError(error);

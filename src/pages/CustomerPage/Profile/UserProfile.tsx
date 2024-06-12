@@ -78,14 +78,14 @@ const UserProfile: React.FC = () => {
 
     const fetchUserProfile = async () => {
       // Reset state before fetching new data
-      setUser(undefined);
 
       const data = await getUserProfile();
-      console.log("data in profile", data?.data);
 
       if (data?.data?.email === user.email) {
         // Only set userInfo if the emails match
         setUser(data.data);
+        // Store user info in session storage
+        sessionStorage.setItem('userInfo', JSON.stringify(data.data));
       } else {
         setUser(undefined); // Clear userInfo if emails do not match
         setShowModal(true); // Show modal if data is missing
