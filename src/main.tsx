@@ -5,8 +5,9 @@ import store from "./store.ts";
 import React from "react";
 import RouterComponent from "./Route/Routes.tsx";
 import { NextUIProvider } from "@nextui-org/react";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { lightPinkTheme } from "./components/resize/theme.tsx";
+import { ThemeProvider } from '@/components/vet_components/theme-provider.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,10 +16,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ThemeProvider theme={lightPinkTheme}>
-        <NextUIProvider>
-          <RouterComponent />
-        </NextUIProvider>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <StyledThemeProvider theme={lightPinkTheme}>
+          <NextUIProvider>
+            <RouterComponent />
+          </NextUIProvider>
+        </StyledThemeProvider>
       </ThemeProvider>
     </React.StrictMode>
   </Provider>

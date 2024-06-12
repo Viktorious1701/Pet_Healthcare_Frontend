@@ -27,7 +27,7 @@ export const sidelinks: SideLink[] = [
     {
       title: 'Profile',
       label: '',
-      href: '${COMING_SOON}',
+      href: `${COMING_SOON}`,
       icon: <IconUser size={18} />,
     },
     {

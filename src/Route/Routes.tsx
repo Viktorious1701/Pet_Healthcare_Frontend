@@ -63,13 +63,15 @@ import {
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS
 } from './router-const';
-import VetDashboard from '@/pages/VetDashboard/VetDashboard';
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
 import KennelManagement from '@/pages/EmployeeDashboard/KennelManagement';
+import React from 'react';
 
 
+
+const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
 const RouterComponent = () => {
   const { width } = useWindowDimensions();
@@ -209,13 +211,9 @@ const RouterComponent = () => {
           path: `${VET_DASHBOARD}`,
           element: (
             <ProtectedRoutes allowedRoles={['Vet']}>
-              <VetDashboard />
+              <ProtectedVetDashboard />
             </ProtectedRoutes>
           ),
-          lazy: async () => {
-            const AppShell = await import('../pages/VetDashboard/ProtectedVetDashboard');
-            return { Component: AppShell.default }
-          },
           errorElement: <GeneralError />,
           children: [
             {
