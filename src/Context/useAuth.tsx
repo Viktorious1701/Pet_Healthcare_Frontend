@@ -169,7 +169,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    setToken("");
+    setToken(null);
     navigate(`/${HOME_PAGE}`);
   };
 
