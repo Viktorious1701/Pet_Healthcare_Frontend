@@ -17,7 +17,7 @@ const PetUpdateForm: React.FC = () => {
     weight: 0,
     imageUrl: ""
   });
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // State for image preview
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,8 +36,8 @@ const PetUpdateForm: React.FC = () => {
               breed: petData.breed,
               weight: petData.weight,
               gender: petData.gender,
-              imageUrl: petData.imageUrl || "path/to/default-image.jpg"
-            });            
+              imageUrl:  "" // change this to petData.imageUrl
+            });
           }
         } catch (err) {
           handleError(err);
@@ -55,28 +55,28 @@ const PetUpdateForm: React.FC = () => {
     });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; // Get the first file selected
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Set imageUrl in formValues state to the base64 representation of the selected image
-        setFormValues({
-          ...formValues,
-          imageUrl: reader.result as string,
-        });
-        // Set imagePreview state to display the selected image
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
-    }
-  };
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formValues && petId) {
       try {
-        await updatePetData(parseInt(petId, 10), formValues);
+        const dataToUpdate = { ...formValues };
+        // Commenting out the imageUrl update
+        // if (imagePreview) {
+        //   dataToUpdate.imageUrl = imagePreview;
+        // }
+        console.log("dataToUpdate", dataToUpdate);
+        await updatePetData(parseInt(petId, 10), dataToUpdate);
         alert("Pet information updated successfully.");
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
       } catch (err) {
@@ -89,7 +89,7 @@ const PetUpdateForm: React.FC = () => {
   const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormValues({
       ...formValues,
-      gender: e.target.value === "male" ? true : false,
+      gender: e.target.value === "male",
     });
   };
 
@@ -171,7 +171,8 @@ const PetUpdateForm: React.FC = () => {
               </div>
             </div>
             <div>
-              <div className="mb-4">
+              {/* Commenting out the image upload section */}
+              {/* <div className="mb-4">
                 <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
                   Choose Image
                 </label>
@@ -179,8 +180,8 @@ const PetUpdateForm: React.FC = () => {
                   type="file"
                   id="image"
                   name="image"
-                  accept="image/*" // Specify accepted file types (images)
-                  onChange={handleFileChange} // Handle file input change
+                  accept="image/*"
+                  onChange={handleFileChange}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
               </div>
@@ -190,7 +191,7 @@ const PetUpdateForm: React.FC = () => {
                   alt="Preview"
                   className="block mx-auto mb-4 max-w-full h-auto"
                 />
-              )}
+              )} */}
               <div className="mb-4">
                 <label htmlFor="imageURL" className="block text-gray-700 font-bold mb-2">
                   Image URL
@@ -202,6 +203,7 @@ const PetUpdateForm: React.FC = () => {
                   value={formValues.imageUrl}
                   onChange={handleInputChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  readOnly
                 />
               </div>
             </div>
@@ -228,7 +230,7 @@ const PetUpdateForm: React.FC = () => {
         </div>
       )}
     </div>
-  );  
+  );
 };
 
 export default PetUpdateForm;

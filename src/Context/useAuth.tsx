@@ -166,8 +166,8 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.clear();
+    sessionStorage.clear();
     setUser(null);
     setToken(null);
     navigate(`/${HOME_PAGE}`);
