@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import SearchBar from "@/components/navigation/SearchBar";
 import { HospitalizationListAPI } from "@/Services/HospitalizationService";
 import { getPetById } from "@/Services/PetService";
 import { Hospitalization } from "@/Models/Hospitalization";
 import { CUSTOMER_DASHBOARD, HOSPITALIZATION, KENNEL } from "@/Route/router-const";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const calculateTotalCost = (
   admissionDate: string,
@@ -21,14 +31,22 @@ const calculateTotalCost = (
 };
 
 const HospitalizationPage: React.FC = () => {
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>(
-    []
-  );
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setLoading(true);
+    const storedHospitalizations = sessionStorage.getItem('hospitalizations');
+        if (storedHospitalizations) {
+          setHospitalizations(JSON.parse(storedHospitalizations));
+          setLoading(false);
+          return;
+        }
     const fetchHospitalizationsWithPets = async () => {
       try {
+        
+
         const res = await HospitalizationListAPI();
         if (res?.data) {
           const hospitalizationsWithPets = await Promise.all(
@@ -40,14 +58,16 @@ const HospitalizationPage: React.FC = () => {
               };
             })
           );
-
           setHospitalizations(hospitalizationsWithPets);
+          sessionStorage.setItem('hospitalizations', JSON.stringify(hospitalizationsWithPets));
         } else {
           setHospitalizations([]);
         }
       } catch (error) {
         console.log("Error occurred:", error);
         setHospitalizations([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -59,69 +79,76 @@ const HospitalizationPage: React.FC = () => {
     hospitalization.petName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  if (loading) {
+    return (
+      <div className="p-6 flex justify-center items-center">
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold text-pink-600 mb-4">
-        Pet Hospitalization Status
-      </h1>
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        placeholder="Search by pet name..."
-      />
-      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden mt-4">
-        <thead className="bg-pink-200">
-          <tr>
-            <th className="py-2 px-4 text-left">Hospitalization ID</th>
-            <th className="py-2 px-4 text-left">Pet Name</th>
-            <th className="py-2 px-4 text-left">Admission Date</th>
-            <th className="py-2 px-4 text-left">Discharge Date</th>
-            <th className="py-2 px-4 text-left">Kennel</th>
-            <th className="py-2 px-4 text-left">Total Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredHospitalizations.map((hospitalization, index) => (
-            <tr
-              key={index}
-              className={
-                index % 2 === 0 ? "even:bg-pink-50 odd:bg-pink-100" : ""
-              }
-            >
-              <td className="py-2 px-4">{hospitalization.hospitalizationId}</td>
-              <td className="py-2 px-4">
-                <Link
-                  to={`/${CUSTOMER_DASHBOARD}/${HOSPITALIZATION}/${hospitalization.hospitalizationId}`}
-                  className="text-custom-pink hover:text-custom-darkPink underline"
-                >
-                  {hospitalization.petName}
-                </Link>
-              </td>
-
-              <td className="py-2 px-4">{hospitalization.admissionDate}</td>
-              <td className="py-2 px-4">
-                {hospitalization.dischargeDate || "N/A"}
-              </td>
-              <td className="py-2 px-4">
-                <Link
-                  to={`/${CUSTOMER_DASHBOARD}/${KENNEL}/${hospitalization.kennelId}`}
-                  className="text-custom-pink hover:text-custom-darkPink underline"
-                >
-                  {hospitalization.kennelId}
-                </Link>
-              </td>
-              <td className="py-2 px-4">
-                {calculateTotalCost(
-                  String(hospitalization.admissionDate),
-                  String(hospitalization.dischargeDate),
-                  50
-                ).toFixed(2)}{" "}
-                $
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
+        <h1 className="text-3xl font-bold text-white">
+          Pet Hospitalization Status
+        </h1>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          placeholder="Search by pet name..."
+        />
+      </div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableCaption>A list of your recent hospitalizations.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Hospitalization ID</TableHead>
+              <TableHead>Pet Name</TableHead>
+              <TableHead>Admission Date</TableHead>
+              <TableHead>Discharge Date</TableHead>
+              <TableHead>Kennel</TableHead>
+              <TableHead>Total Cost</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredHospitalizations.map((hospitalization, index) => (
+              <TableRow key={index} className="even:bg-pink-50 odd:bg-pink-100">
+                <TableCell className="font-medium">{hospitalization.hospitalizationId}</TableCell>
+                <TableCell>
+                  <Link
+                    to={`/${CUSTOMER_DASHBOARD}/${HOSPITALIZATION}/${hospitalization.hospitalizationId}`}
+                    className="text-custom-pink hover:text-custom-darkPink underline"
+                  >
+                    {hospitalization.petName}
+                  </Link>
+                </TableCell>
+                <TableCell>{hospitalization.admissionDate}</TableCell>
+                <TableCell>{hospitalization.dischargeDate || "N/A"}</TableCell>
+                <TableCell>
+                  <Link
+                    to={`/${KENNEL}/${hospitalization.kennelId}`}
+                    className="text-custom-pink hover:text-custom-darkPink underline"
+                  >
+                    {hospitalization.kennelId}
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  {calculateTotalCost(
+                    String(hospitalization.admissionDate),
+                    String(hospitalization.dischargeDate),
+                    50
+                  ).toFixed(2)}{" "}
+                  $
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 };

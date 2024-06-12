@@ -12,3 +12,11 @@ export const serviceGetAPI = async () => {
         handleError(error);
     }
 }
+export const serviceGetByIdAPI = async (id: number) => {
+    try {
+        const data = await axios.get<ServiceGet>(`${api}/${id}`);
+        return data;
+    } catch (error) {
+        handleError(error);
+    }
+}

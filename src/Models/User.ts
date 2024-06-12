@@ -18,3 +18,13 @@ export type UserGet = {
     email: string,
     imageURL: string
 };
+export type UserInfo = {
+    address: string,
+    country: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string,
+    gender: string,
+    userName: string,
+}

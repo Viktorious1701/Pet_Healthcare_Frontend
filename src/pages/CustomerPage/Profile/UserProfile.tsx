@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   Table,
@@ -8,7 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { getUserProfile } from '@/Services/UserService';
+import { UserInfo } from '@/Models/User';
+import { useAuth } from '@/Context/useAuth';
+import Modal from './Modal'; // Make sure to import the Modal component
 
 const UserProfileWrapper = styled.div`
   padding: 1rem;
@@ -24,11 +27,12 @@ const ProfileSection = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 2rem;
-   border-radius: 10px;
+  border-radius: 10px;
   background-color: #32ddac;
   min-width: 200px;
   min-height: 200px;
 `;
+
 const Avatar = styled.img`
   width: 100px;
   height: 100px;
@@ -61,8 +65,47 @@ const InfoTableData = styled(TableCell)`
 `;
 
 const UserProfile: React.FC = () => {
+  const [userInfo, setUser] = useState<UserInfo | undefined>(undefined);
+  const [showModal, setShowModal] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) {
+      // If user is not defined, set userInfo to undefined and return early
+      setUser(undefined);
+      return;
+    }
+
+    const fetchUserProfile = async () => {
+      // Reset state before fetching new data
+
+      const data = await getUserProfile();
+
+      if (data?.data?.email === user.email) {
+        // Only set userInfo if the emails match
+        setUser(data.data);
+        // Store user info in session storage
+        sessionStorage.setItem('userInfo', JSON.stringify(data.data));
+      } else {
+        setUser(undefined); // Clear userInfo if emails do not match
+        setShowModal(true); // Show modal if data is missing
+      }
+    };
+
+    fetchUserProfile();
+
+    return () => {
+      setUser(undefined);
+    };
+  }, [user]); // Include user in the dependency array
+
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+
   return (
     <UserProfileWrapper>
+      {showModal && <Modal message="Data is missing. Please refresh the page." onRefresh={handleRefresh} />}
       <ProfileSection>
         <Avatar src="https://via.placeholder.com/100" alt="User Avatar" />
       </ProfileSection>
@@ -70,21 +113,25 @@ const UserProfile: React.FC = () => {
         <TableHeader>
           <InfoTableRow>
             <InfoTableHeader>Name</InfoTableHeader>
-            <InfoTableData>John Doe</InfoTableData>
+            <InfoTableData>{userInfo?.firstName} {userInfo?.lastName}</InfoTableData>
           </InfoTableRow>
         </TableHeader>
         <TableBody>
           <InfoTableRow>
             <InfoTableHeader>Email</InfoTableHeader>
-            <InfoTableData>john.doe@example.com</InfoTableData>
+            <InfoTableData>{userInfo?.email}</InfoTableData>
           </InfoTableRow>
           <InfoTableRow>
             <InfoTableHeader>Location</InfoTableHeader>
-            <InfoTableData>New York, USA</InfoTableData>
+            <InfoTableData>{userInfo?.address}</InfoTableData>
           </InfoTableRow>
           <InfoTableRow>
-            <InfoTableHeader>Joined</InfoTableHeader>
-            <InfoTableData>January 2021</InfoTableData>
+            <InfoTableHeader>Gender</InfoTableHeader>
+            <InfoTableData>{userInfo?.gender ? "Male" : "Female"}</InfoTableData>
+          </InfoTableRow>
+          <InfoTableRow>
+            <InfoTableHeader>Phone Contact</InfoTableHeader>
+            <InfoTableData>{userInfo?.phoneNumber || "N/A"}</InfoTableData>
           </InfoTableRow>
         </TableBody>
       </UserInfoTable>

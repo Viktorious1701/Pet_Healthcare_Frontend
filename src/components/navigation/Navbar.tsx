@@ -19,7 +19,7 @@ const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
   const role = user?.role || "0";
-  console.log("role is ", role);
+ 
   let path = "";
   switch (role) {
     case "Admin":
