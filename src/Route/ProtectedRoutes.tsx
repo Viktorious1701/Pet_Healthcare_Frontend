@@ -11,7 +11,6 @@ type Props = {
 const ProtectedRoutes = ({ children, allowedRoles = [] }: Props) => {
   const location = useLocation();
   const { isLoggedIn, user } = useAuth();
-  console.log( user?.role);
   if (!isLoggedIn()) {
     return <Navigate to={`/${LOGIN}`} state={{ from: location }} replace />;
   }
