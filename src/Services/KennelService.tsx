@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Kennel } from "@/Models/Kennel";
+import { Kennel, KennelPost } from "@/Models/Kennel";
 import { handleError } from "@/Helpers/ErrorHandler";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/Kennel";
@@ -22,3 +22,21 @@ export const kennelGetAPI = async () => {
     handleError(error);
   }
 };
+
+export const kennelPostAPI = async () => {
+  try {
+    const data = await axios.post<KennelPost>(api);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export const kennelUpdateAPI = async (kennelId: number) => {
+  try {
+    const data = await axios.put<KennelPost>(api + `${kennelId}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}
