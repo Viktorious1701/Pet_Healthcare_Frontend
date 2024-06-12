@@ -67,41 +67,49 @@ const InfoTableData = styled(TableCell)`
 const UserProfile: React.FC = () => {
   const [userInfo, setUser] = useState<UserInfo | undefined>(undefined);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) {
-      // If user is not defined, set userInfo to undefined and return early
-      setUser(undefined);
-      return;
-    }
-
     const fetchUserProfile = async () => {
-      // Reset state before fetching new data
-
-      const data = await getUserProfile();
-
-      if (data?.data?.email === user.email) {
-        // Only set userInfo if the emails match
-        setUser(data.data);
-        // Store user info in session storage
-        sessionStorage.setItem('userInfo', JSON.stringify(data.data));
-      } else {
-        setUser(undefined); // Clear userInfo if emails do not match
-        setShowModal(true); // Show modal if data is missing
+      try {
+        setIsLoading(true);
+        if (user) {
+          const data = await getUserProfile();
+          if (data?.data?.email === user.email) {
+            setUser(data.data);
+            sessionStorage.setItem('userInfo', JSON.stringify(data.data));
+          } else {
+            setUser(undefined);
+            setShowModal(true);
+          }
+        } else {
+          setUser(undefined);
+          setShowModal(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        setUser(undefined);
+        setShowModal(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchUserProfile();
-
-    return () => {
-      setUser(undefined);
-    };
-  }, [user]); // Include user in the dependency array
+  }, [user]);
 
   const handleRefresh = () => {
     window.location.reload();
   };
+
+  if (isLoading) {
+    return (
+      <UserProfileWrapper>
+        <p>Loading...</p>
+      </UserProfileWrapper>
+    );
+  }
 
   return (
     <UserProfileWrapper>
