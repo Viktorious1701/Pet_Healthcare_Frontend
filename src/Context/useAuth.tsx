@@ -169,7 +169,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.clear();
     sessionStorage.clear();
     setUser(null);
-    setToken("");
+    setToken(null);
     navigate(`/${HOME_PAGE}`);
   };
 
