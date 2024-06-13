@@ -40,8 +40,8 @@ const KennelManagement = () => {
     <div className="w-screen m-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item container xs={6} spacing={2}>
-            <Grid item xs={6}>
+          <Grid item container md={6} spacing={2}>
+            <Grid item md={6}>
               <Card className="h-full">
                 <CardHeader className="justify-between">
                   <div className="flex-col gap-5 p-4">
@@ -57,7 +57,7 @@ const KennelManagement = () => {
                 </CardHeader>
               </Card>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item md={6}>
               <Card className="h-full">
                 <CardHeader className="justify-between">
                   <div className="flex-col gap-5 p-4">
@@ -73,7 +73,7 @@ const KennelManagement = () => {
                 </CardHeader>
               </Card>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item md={6}>
               <Card className="h-full">
                 <CardHeader className="justify-between">
                   <div className="flex-col gap-5 p-4">
@@ -89,7 +89,7 @@ const KennelManagement = () => {
                 </CardHeader>
               </Card>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item md={6}>
               <Card className="h-full">
                 <CardHeader className="justify-between">
                   <div className="flex-col gap-5 p-4">
@@ -106,7 +106,7 @@ const KennelManagement = () => {
               </Card>
             </Grid>
           </Grid>
-          <Grid item container xs={6}>
+          <Grid item container md={6}>
             <Card className="h-full w-full">
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">
@@ -145,7 +145,7 @@ const KennelManagement = () => {
               </CardHeader>
             </Card>
           </Grid>
-          <Grid item container xs={12}>
+          <Grid item container md={12}>
             <Card className="h-full w-full">
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">
@@ -154,7 +154,7 @@ const KennelManagement = () => {
                     <KennelAddModal></KennelAddModal>
                   </div>
                   <div>
-                    <KennelDataGrid kennels={kennels}></KennelDataGrid>
+                    <KennelDataGrid kennels={kennels} setKennels={setKennels}></KennelDataGrid>
                   </div>
                 </div>
               </CardHeader>

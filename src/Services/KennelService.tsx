@@ -17,26 +17,41 @@ export const getKennelById = async (kennelId: string) => {
 export const kennelGetAPI = async () => {
   try {
     const data = await axios.get<Kennel[]>(api);
-    return data;  
+    return data;
   } catch (error) {
     handleError(error);
   }
 };
 
-export const kennelPostAPI = async () => {
+export const kennelPostAPI = async (
+  description: string,
+  dailyCost: number
+) => {
   try {
-    const data = await axios.post<KennelPost>(api);
+    const data = await axios.post<KennelPost>(api, {
+      description: description,
+      capacity: 1,
+      dailyCost: dailyCost,
+    });
     return data;
   } catch (error) {
     handleError(error);
   }
-}
+};
 
-export const kennelUpdateAPI = async (kennelId: number) => {
+export const kennelUpdateAPI = async (
+  kennelId: number,
+  description: string,
+  dailyCost: number
+) => {
   try {
-    const data = await axios.put<KennelPost>(api + `${kennelId}`);
+    const data = await axios.put<KennelPost>(api + `/${kennelId}`, {
+      description: description,
+      capacity: 1,
+      dailyCost: dailyCost,
+    });
     return data;
   } catch (error) {
     handleError(error);
   }
-}
+};
