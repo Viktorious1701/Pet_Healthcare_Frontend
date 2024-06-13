@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import SidebarComponent, { SidebarItem } from "../../components/sidebar/SidebarComponent";
 import { HomeIcon, Calendar, Settings, Hospital, User, DoorOpen } from "lucide-react"; // Import the User icon
 import {
@@ -14,9 +14,13 @@ import {
 const CustomerSidebar = () => {
   const [activePath, setActivePath] = useState(`/${CUSTOMER_PAGE}/${CUSTOMER_PET_LIST}`);
   const navigate = useNavigate();
+  const location = useLocation();
+  // Reset activePath when the location changes
+  useEffect(() => {
+    setActivePath(location.pathname);
+  }, [location.pathname]);
 
   const handleNavigation = (path: string) => {
-    setActivePath(path);
     navigate(path);
   };
 

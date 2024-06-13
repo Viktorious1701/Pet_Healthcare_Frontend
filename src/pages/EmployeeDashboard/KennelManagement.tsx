@@ -2,54 +2,14 @@ import { Kennel } from "@/Models/Kennel";
 import { kennelGetAPI } from "@/Services/KennelService";
 import {
   Box,
-  Chip,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
+  Grid
 } from "@mui/material";
 import { Card, CardHeader } from "@nextui-org/card";
 import { PieChart } from "@mui/x-charts/PieChart";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
 import KennelAddModal from "./KennelAddModal";
-
-interface Column {
-  id: "kennelId" | "description" | "capacity" | "dailyCost" | "isAvailable";
-  label: string;
-  minWidth?: number;
-  align?: "right";
-}
-
-const columns: readonly Column[] = [
-  { id: "kennelId", label: "KennelID", minWidth: 200 },
-  { id: "description", label: "Description", minWidth: 400 },
-  {
-    id: "capacity",
-    label: "Capacity",
-    minWidth: 250,
-    align: "right",
-  },
-  {
-    id: "dailyCost",
-    label: "Daily Cost",
-    minWidth: 300,
-    align: "right",
-  },
-  {
-    id: "isAvailable",
-    label: "Availability",
-    minWidth: 300,
-    align: "right",
-  },
-];
+import KennelDataGrid from "./KennelDataGrid";
 
 const KennelManagement = () => {
   const [kennels, setKennels] = useState<Kennel[]>([]);
@@ -59,20 +19,6 @@ const KennelManagement = () => {
   const occupiedKennels = kennels.filter(
     (kennel) => !kennel.isAvailable
   ).length;
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (_event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
   const getKennels = async () => {
     kennelGetAPI()
@@ -208,78 +154,7 @@ const KennelManagement = () => {
                     <KennelAddModal></KennelAddModal>
                   </div>
                   <div>
-                    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-                      <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table">
-                          <TableHead>
-                            <TableRow>
-                              {columns.map((column) => (
-                                <TableCell
-                                  key={column.id}
-                                  align={column.align}
-                                  style={{ minWidth: column.minWidth }}
-                                >
-                                  {column.label}
-                                </TableCell>
-                              ))}
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {kennels
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((kennel) => {
-                                return (
-                                  <TableRow
-                                    hover
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    key={kennel.kennelId}
-                                  >
-                                    {columns.map((column) => {
-                                      const value = kennel[column.id];
-                                      if (column.label === "Availability") {
-                                        return (
-                                          <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                          >
-                                            <Chip
-                                              icon={(value == true) ? <EventAvailableIcon /> : <EventBusyIcon />}
-                                              label={value.toString()}
-                                              color={(value == true) ? "success" : "warning"}
-                                            />
-                                          </TableCell>
-                                        );
-                                      } else {
-                                        return (
-                                          <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                          >
-                                            {value}
-                                          </TableCell>
-                                        );
-                                      }
-                                    })}
-                                  </TableRow>
-                                );
-                              })}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                      <TablePagination
-                        rowsPerPageOptions={[5, 10]}
-                        component="div"
-                        count={kennels.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                      />
-                    </Paper>
+                    <KennelDataGrid kennels={kennels}></KennelDataGrid>
                   </div>
                 </div>
               </CardHeader>

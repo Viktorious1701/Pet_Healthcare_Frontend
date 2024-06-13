@@ -4,7 +4,15 @@ import { Button } from "@/components/ui/button";
 import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
 import { PetHealthTrack as PetHealthTrackDTO} from "@/Models/PetHealthTrack";
 import { format } from "date-fns";
-
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 const PetHealthTrack: React.FC = () => {
   const { hospitalizationId } = useParams<{ hospitalizationId: string }>();
   console.log(hospitalizationId);
@@ -19,11 +27,19 @@ const PetHealthTrack: React.FC = () => {
   const itemsPerPage = 5; // Adjust as needed
 
   useEffect(() => {
+    setLoading(true);
+    const storedPetHealthTrack = sessionStorage.getItem("petHealthTrack");
+    if(storedPetHealthTrack){
+      setHealthTrack(JSON.parse(storedPetHealthTrack));
+      setLoading(false);
+      return;
+    }
     const fetchHealthTrack = async () => {
       try {
         if (hospitalizationId) {
           const data = await getPetHealthTrackByHospitalizationId(hospitalizationId);
           setHealthTrack(data);
+          sessionStorage.setItem("petHealthTrack", JSON.stringify(data));
         }
       } catch (error) {
         setError("Error fetching pet health track.");
@@ -64,54 +80,75 @@ const PetHealthTrack: React.FC = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1 pl-6">
-        <div className="p-2">
-          <div className="box-style p-4">
-            <div className="col p-3">
-              <Button onClick={() => navigate(-1)} className="mb-4 bg-custom-darkPink text-custom-lightGrey">
-                Go Back
-              </Button>
-              <div className="mb-4">
-                <label htmlFor="statusFilter" className="mr-2">Filter by Status:</label>
-                <select
-                  id="statusFilter"
-                  value={statusFilter || ''}
-                  onChange={(e) => setStatusFilter(e.target.value as string || null)}
-                >
-                  <option value="">All</option>
-                  <option value={0}>Healthy</option>
-                  <option value={1}>Sick</option>
-                  <option value={2}>Injured</option>
-                </select>
-
-              </div>
-              <h1 className="text-3xl font-bold text-pink-600 mb-4">Health Track</h1>
-              <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                <thead className="bg-pink-200">
-                  <tr>
-                    <th className="py-2 px-4 text-left">Date</th>
-                    <th className="py-2 px-4 text-left">Description</th>
-                    <th className="py-2 px-4 text-left">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentItems.map((entry, index) => (
-                    <tr key={index} className={index % 2 === 0 ? "even:bg-pink-50" : "odd:bg-pink-100"}>
-                      <td className="py-2 px-4">{entry.date ? format(new Date(entry.date), "MM/dd/yyyy") : "-"}</td>
-                      <td className="py-2 px-4">{entry.description}</td>
-                      <td className="py-2 px-4">{getStatusString(String(entry.status))}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {/* Pagination */}
-              <div className="mt-4 flex justify-between">
-                <Button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1 || currentPage === 0}>Previous</Button>
-                <Button onClick={() => paginate(currentPage + 1)} disabled={currentPage === Math.ceil(filteredHealthTrack.length / itemsPerPage + 1) }>Next</Button> {/* add number 1 if items are 0 for division */}
-              </div>
-            </div>
-          </div>
+    <div className="p-6">
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
+        <h1 className="text-3xl font-bold text-white">Pet Health Track</h1>
+        <div className="flex items-center">
+        <Button
+            onClick={() => navigate(-1)}
+            className="mr-4 bg-custom-darkPink text-custom-lightGrey"
+          >
+            Go Back
+          </Button>
+          <label htmlFor="statusFilter" className="mr-2 text-white">
+            Filter by Status:
+          </label>
+          <select
+            id="statusFilter"
+            value={statusFilter || ""}
+            onChange={(e) => setStatusFilter(e.target.value as string || null)}
+            className="rounded-md px-2 py-1"
+          >
+            <option value="">All</option>
+            <option value="0">Healthy</option>
+            <option value="1">Sick</option>
+            <option value="2">Injured</option>
+          </select>
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableCaption>A list of your pet's health track.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentItems.map((entry, index) => (
+              <TableRow
+                key={index}
+                className="even:bg-pink-50 odd:bg-pink-100"
+              >
+                <TableCell>
+                  {entry.date ? format(new Date(entry.date), "MM/dd/yyyy") : "-"}
+                </TableCell>
+                <TableCell>{entry.description}</TableCell>
+                <TableCell>{getStatusString(String(entry.status))}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {/* Pagination */}
+        <div className="mt-4 flex justify-between">
+          <Button
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1 || currentPage === 0}
+          >
+            Previous
+          </Button>
+          <Button
+            onClick={() => paginate(currentPage + 1)}
+            disabled={
+              currentPage ===
+              Math.ceil(filteredHealthTrack.length / itemsPerPage + 1)
+            }
+          >
+            Next
+          </Button>{" "}
+          {/* add number 1 if items are 0 for division */}
         </div>
       </div>
     </div>

@@ -13,11 +13,19 @@ const KennelPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    const storedKennelDetails = sessionStorage.getItem("kennelDetails");
+    if (storedKennelDetails) {
+      setKennelDetails(JSON.parse(storedKennelDetails));
+      setLoading(false);
+      return;
+    }
     const fetchKennelDetails = async () => {
       try {
         if (kennelId) {
           const data = await getKennelById(kennelId);
           setKennelDetails(data);
+          sessionStorage.setItem("kennelDetails", JSON.stringify(data));
         }
       } catch (err) {
         setError("Error fetching kennel details.");
