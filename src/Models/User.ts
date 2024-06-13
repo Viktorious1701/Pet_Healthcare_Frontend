@@ -2,6 +2,7 @@ export type UserProfileToken = {
     userName: string;
     email: string;
     token: string;
+    refreshToken: string;
 };
 
 export type UserProfile = {

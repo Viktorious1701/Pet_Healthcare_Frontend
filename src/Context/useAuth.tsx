@@ -28,6 +28,8 @@ import {
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
+  refreshToken: string | null;
+  // refresh: () => void;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (username: string, password: string) => void;
   forgotUser: (email: string) => void;
@@ -49,6 +51,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 export const UserProvider = ({ children }: Props) => {
   const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -63,6 +66,39 @@ export const UserProvider = ({ children }: Props) => {
     setIsReady(true);
   }, []);
 
+  // const refresh = async () => {
+  //   // Retrieve the current token and refresh token from local storage
+  //   const token = localStorage.getItem('token');
+  //   const refreshToken = localStorage.getItem('refreshToken');
+  
+  //   if (!token || !refreshToken) {
+  //     console.error('Token or refresh token not found');
+  //     return;
+  //   }
+  
+  //   try {
+  //     // Make the API call to refresh the token
+  //     const response = await axios.post('https://pethealthcaresystem.azurewebsites.net/api/account/generate-new-jwt-token', {
+  //       Token: token,
+  //       RefreshToken: refreshToken
+  //     });
+  
+  //     // Extract the new token and refresh token from the response
+  //     const { token: newToken, refreshToken: newRefreshToken } = response.data;
+  
+  //     // Update local storage with the new tokens
+  //     localStorage.setItem('token', newToken);
+  //     localStorage.setItem('refreshToken', newRefreshToken);
+  
+  //     // Update axios default headers with the new token
+  //     axios.defaults.headers.common['Authorization'] = 'Bearer ' + newToken;
+  
+  //     console.log('Token refreshed successfully');
+  //   } catch (error) {
+  //     console.error('Error refreshing token:', error);
+  //   }
+  // };
+
   const registerUser = async (
     email: string,
     username: string,
@@ -72,6 +108,7 @@ export const UserProvider = ({ children }: Props) => {
       .then((res: any) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
+          localStorage.setItem("refreshToken", res?.data.refreshToken);
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
@@ -79,6 +116,7 @@ export const UserProvider = ({ children }: Props) => {
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
+          setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
           toast.success("Login Success!");
 
@@ -93,6 +131,7 @@ export const UserProvider = ({ children }: Props) => {
       .then((res: any) => {
         if (res) {
           localStorage.setItem("token", res?.data.token);
+          localStorage.setItem("refreshToken", res?.data.refreshToken);
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
@@ -100,6 +139,7 @@ export const UserProvider = ({ children }: Props) => {
           };
           localStorage.setItem("user", JSON.stringify(userObj));
           setToken(res?.data.token!);
+          setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
           toast.success("Login Success!");
 
@@ -170,6 +210,7 @@ export const UserProvider = ({ children }: Props) => {
     sessionStorage.clear();
     setUser(null);
     setToken(null);
+    localStorage.clear();
     navigate(`/${HOME_PAGE}`);
   };
 
@@ -179,6 +220,8 @@ export const UserProvider = ({ children }: Props) => {
         loginUser,
         user,
         token,
+        refreshToken,
+        // refresh,
         logout,
         isLoggedIn,
         registerUser,
