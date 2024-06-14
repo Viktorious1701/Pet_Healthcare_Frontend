@@ -1,5 +1,5 @@
 import { Kennel } from "@/Models/Kennel";
-import { kennelUpdateAPI } from "@/Services/KennelService";
+import { kennelDeleteAPI, kennelUpdateAPI } from "@/Services/KennelService";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -17,11 +17,13 @@ import { toast } from "react-toastify";
 interface KennelDataGridProps {
   kennels: Kennel[];
   setKennels: (kennels: Kennel[]) => void;
+  onKennelDelete: (kennel: Kennel) => void;
 }
 
 const KennelDataGrid: React.FC<KennelDataGridProps> = ({
   kennels,
   setKennels,
+  onKennelDelete
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -30,9 +32,28 @@ const KennelDataGrid: React.FC<KennelDataGridProps> = ({
     description: string,
     dailyCost: number
   ) => {
-    kennelUpdateAPI(kennelId, description, dailyCost).catch((e) => {
-      toast.error("Server error occured", e);
-    });
+    kennelUpdateAPI(kennelId, description, dailyCost)
+      .then((res) => {
+        if (res?.data) {
+          toast.success("Kennel " + `${kennelId}` + " is updated");
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occured", e);
+      });
+  };
+
+  const handleKennelDelete = (kennelId: number) => {
+    kennelDeleteAPI(kennelId)
+      .then((res) => {
+        if (res?.data) {
+          onKennelDelete(res.data);
+          toast.success("Kennel " + `${kennelId}` + " is deleted");
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occured", e);
+      });
   };
 
   const handleEditClick = (id: GridRowId) => () => {
@@ -44,7 +65,7 @@ const KennelDataGrid: React.FC<KennelDataGridProps> = ({
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    kennels.filter((row) => row.kennelId !== id);
+    handleKennelDelete(Number(id));
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -84,6 +105,10 @@ const KennelDataGrid: React.FC<KennelDataGridProps> = ({
       field: "description",
       headerName: "Description",
       width: 400,
+      preProcessEditCellProps: (params) => {
+        const hasError = params.props.value.length <= 0;
+        return { ...params.props, error: hasError };
+      },
       editable: true,
     },
     {
@@ -97,6 +122,10 @@ const KennelDataGrid: React.FC<KennelDataGridProps> = ({
       headerName: "Daily Cost",
       width: 100,
       type: "number",
+      preProcessEditCellProps: (params) => {
+        const hasError = params.props.value <= 0;
+        return { ...params.props, error: hasError };
+      },
       editable: true,
     },
     {

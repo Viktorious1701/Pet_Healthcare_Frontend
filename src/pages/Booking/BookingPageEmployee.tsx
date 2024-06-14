@@ -48,7 +48,7 @@ const BookingPageEmployee = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   const getSlots = async (date: string) => {
-    slotGetAPI(date)
+    await slotGetAPI(date)
       .then((res) => {
         if (res?.data) {
           setSlots(res?.data);
