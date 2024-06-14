@@ -9,6 +9,7 @@ import { createContext, useEffect, useState } from "react";
 import {
   forgotPasswordAPI,
   loginAPI,
+  refreshTokenAPI,
   registerAPI,
   resetPasswordAPI,
 } from "../Services/AuthService";
@@ -20,7 +21,6 @@ import {
   EMPLOYEE_DASHBOARD,
   HOME_PAGE,
   LOGIN,
-  RESET_PASS,
   VET_DASHBOARD,
 } from "@/Route/router-const";
 //import { ErrorOption } from "react-hook-form";
@@ -29,7 +29,7 @@ type UserContextType = {
   user: UserProfile | null;
   token: string | null;
   refreshToken: string | null;
-  // refresh: () => void;
+  refresh: () => void;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (username: string, password: string) => void;
   forgotUser: (email: string) => void;
@@ -58,46 +58,58 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-    if (user && token) {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (user && token && refreshToken) {
       setUser(JSON.parse(user));
       setToken(token);
+      setRefreshToken(refreshToken);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
     setIsReady(true);
   }, []);
 
-  // const refresh = async () => {
-  //   // Retrieve the current token and refresh token from local storage
-  //   const token = localStorage.getItem('token');
-  //   const refreshToken = localStorage.getItem('refreshToken');
-  
-  //   if (!token || !refreshToken) {
-  //     console.error('Token or refresh token not found');
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Make the API call to refresh the token
-  //     const response = await axios.post('https://pethealthcaresystem.azurewebsites.net/api/account/generate-new-jwt-token', {
-  //       Token: token,
-  //       RefreshToken: refreshToken
-  //     });
-  
-  //     // Extract the new token and refresh token from the response
-  //     const { token: newToken, refreshToken: newRefreshToken } = response.data;
-  
-  //     // Update local storage with the new tokens
-  //     localStorage.setItem('token', newToken);
-  //     localStorage.setItem('refreshToken', newRefreshToken);
-  
-  //     // Update axios default headers with the new token
-  //     axios.defaults.headers.common['Authorization'] = 'Bearer ' + newToken;
-  
-  //     console.log('Token refreshed successfully');
-  //   } catch (error) {
-  //     console.error('Error refreshing token:', error);
-  //   }
-  // };
+  const refresh = async () => {
+    if (!token || !refreshToken) return;
+    try {
+      const res: any = await refreshTokenAPI(token, refreshToken);
+      if (res) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+        const userObj = {
+          userName: res.data.userName,
+          email: res.data.email,
+          role: res.data.role,
+        };
+        localStorage.setItem("user", JSON.stringify(userObj));
+        setToken(res.data.token);
+        setRefreshToken(res.data.refreshToken);
+        setUser(userObj);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
+      }
+    } catch (e) {
+      toast.warning("Session expired. Please log in again.");
+      logout();
+    }
+  };
+
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      response => response,
+      async error => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          await refresh();
+          originalRequest.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+          return axios(originalRequest);
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [refresh]);
 
   const registerUser = async (
     email: string,
@@ -167,7 +179,7 @@ export const UserProvider = ({ children }: Props) => {
       .then((res: any) => {
         if (res) {
           toast.success("Email sent Success!");
-          navigate(`/${RESET_PASS}`);
+          // navigate(`/${RESET_PASS}`);
         }
       })
       .catch((e) => toast.warning("Server error occurred", e));
@@ -206,10 +218,11 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("user");
     setUser(null);
-    setToken(null);
+    setToken("");
+    setRefreshToken("");
     localStorage.clear();
     navigate(`/${HOME_PAGE}`);
   };
@@ -217,11 +230,11 @@ export const UserProvider = ({ children }: Props) => {
   return (
     <UserContext.Provider
       value={{
+        refresh,
         loginUser,
         user,
         token,
         refreshToken,
-        // refresh,
         logout,
         isLoggedIn,
         registerUser,

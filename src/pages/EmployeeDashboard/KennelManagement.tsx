@@ -1,4 +1,4 @@
-import { Kennel } from "@/Models/Kennel";
+import { Kennel, KennelPost } from "@/Models/Kennel";
 import { kennelGetAPI } from "@/Services/KennelService";
 import {
   Box,
@@ -13,6 +13,9 @@ import KennelDataGrid from "./KennelDataGrid";
 
 const KennelManagement = () => {
   const [kennels, setKennels] = useState<Kennel[]>([]);
+  const [kennelAdd, setKennelAdd] = useState<KennelPost>();
+  const [kennelDelete, setKennelDelete] = useState<Kennel>();
+
   const availableKennels = kennels.filter(
     (kennel) => kennel.isAvailable
   ).length;
@@ -21,20 +24,28 @@ const KennelManagement = () => {
   ).length;
 
   const getKennels = async () => {
-    kennelGetAPI()
+    await kennelGetAPI()
       .then((res) => {
         if (res?.data) {
           setKennels(res.data);
         }
       })
       .catch((e) => {
-        toast.warning("Server error occured", e);
+        toast.error("Server error occured", e);
       });
   };
 
+  const handleKennelAdd = (kennel: KennelPost) => {
+    setKennelAdd(kennel);
+  }
+
+  const handleKennelDelete = (kennel: Kennel) => {
+    setKennelDelete(kennel);
+  }
+
   useEffect(() => {
     getKennels();
-  }, []);
+  }, [kennelAdd, kennelDelete]);
 
   return (
     <div className="w-screen m-10">
@@ -111,7 +122,7 @@ const KennelManagement = () => {
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">
                   <div className="flex flex-col gap-1 items-start justify-center">
-                    <h2 className="text-xl text-default-600">Total kennels</h2>
+                    <h2 className="text-xl text-default-600">Kennel Availability</h2>
                   </div>
                   <div>
                     <PieChart
@@ -151,10 +162,10 @@ const KennelManagement = () => {
                 <div className="flex-col gap-5 p-4">
                   <div className="flex flex-rol gap-1 items-start justify-between mb-4">
                     <h1 className="text-2xl text-black font-bold">Kennels</h1>
-                    <KennelAddModal></KennelAddModal>
+                    <KennelAddModal onKennelAdded={handleKennelAdd}></KennelAddModal>
                   </div>
                   <div>
-                    <KennelDataGrid kennels={kennels} setKennels={setKennels}></KennelDataGrid>
+                    <KennelDataGrid onKennelDelete={handleKennelDelete} kennels={kennels} setKennels={setKennels}></KennelDataGrid>
                   </div>
                 </div>
               </CardHeader>

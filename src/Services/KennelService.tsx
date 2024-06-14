@@ -2,7 +2,7 @@ import axios from "axios";
 import { Kennel, KennelPost } from "@/Models/Kennel";
 import { handleError } from "@/Helpers/ErrorHandler";
 
-const api = "https://pethealthcaresystem.azurewebsites.net/api/Kennel";
+const api = "https://pethealthcaresystem.azurewebsites.net/api/kennel";
 
 export const getKennelById = async (kennelId: string) => {
   try {
@@ -51,6 +51,17 @@ export const kennelUpdateAPI = async (
       dailyCost: dailyCost,
     });
     return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const kennelDeleteAPI = async (
+  kennelId: number
+) => {
+  try {
+    const data = await axios.delete(api + `/${kennelId}`);
+    return data;  
   } catch (error) {
     handleError(error);
   }

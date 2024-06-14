@@ -1,3 +1,4 @@
+import { KennelPost } from "@/Models/Kennel";
 import { kennelPostAPI } from "@/Services/KennelService";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -12,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { BookText, DollarSign, MemoryStick } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 interface KennelFormValues {
@@ -20,14 +22,22 @@ interface KennelFormValues {
   dailyCost: number;
 }
 
+interface KennelAddModalProps {
+  onKennelAdded: (kennel: KennelPost) => void;
+}
+
 const validationSchema = Yup.object().shape({
   description: Yup.string().required("description is required"),
-  capacity: Yup.number().required("capacity is required"),
-  dailyCost: Yup.number().required("daily cost is required"),
+  capacity: Yup.number()
+    .required("Capacity is required")
+    .min(1, "Capacity must be greater than zero"),
+  dailyCost: Yup.number()
+    .required("Daily cost is required")
+    .min(0.01, "Daily cost must be greater than zero"),
 });
 
-const KennelAddModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const KennelAddModal: React.FC<KennelAddModalProps> = ({ onKennelAdded }) => {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
@@ -35,20 +45,32 @@ const KennelAddModal = () => {
     formState: { errors },
   } = useForm<KennelFormValues>({ resolver: yupResolver(validationSchema) });
 
-  const onSubmit = (data: KennelFormValues) => {
-    console.log(data);
+  const handleKennelAdd = (kennel: KennelPost | any) => {
+    onKennelAdded(kennel);
+  }
+
+  const onSubmit = async (data: KennelFormValues) => {
+    const kennel = kennelPostAPI(data.description, data.dailyCost);
     reset({
-      description: '',
+      description: "",
       capacity: 0,
-      dailyCost: 0
-    })
+      dailyCost: 0,
+    });
+    toast.success("Kennel added successfully");
+    onClose();
+    handleKennelAdd(kennel);
   };
   return (
     <>
       <Button onPress={onOpen} className="bg-custom-pink text-md text-white">
         Add a new kennel
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpenChange={onOpenChange}
+        placement="top-center"
+      >
         <ModalContent>
           {(onClose) => (
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,7 +119,7 @@ const KennelAddModal = () => {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" type="submit" onPress={onClose}>
+                <Button color="primary" type="submit">
                   Create
                 </Button>
               </ModalFooter>

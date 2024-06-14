@@ -34,7 +34,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         }
       })
       .catch((e) => {
-        toast.error(e);
+        toast.error("Server error occured", e);
       });
   };
 

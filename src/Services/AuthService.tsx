@@ -55,7 +55,22 @@ export const resetPasswordAPI = async (
       token: token,
       email: email,
       password: password,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+    });
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const refreshTokenAPI = async (
+  token: string,
+  refreshToken: string
+) => {
+  try {
+    const data = axios.post<UserProfileToken>(api + 'account/generate-new-jwt-token', {
+      token: token,
+      refreshToken: refreshToken
     });
     return data;
   } catch (error) {
