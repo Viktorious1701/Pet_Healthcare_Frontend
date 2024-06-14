@@ -1,4 +1,4 @@
-import { COMING_SOON, SETTINGS_PROFILE } from '@/Route/router-const'
+import { COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
 import {
   IconCalendarWeek,
   IconDashboard,
@@ -25,16 +25,16 @@ export const sidelinks: SideLink[] = [
       icon: <IconDashboard size={18} />,
     },
     {
+      title: 'Schedule',
+      label: '',
+      href: `${SCHEDULE_VET}`,
+      icon: <IconCalendarWeek size={18} />,
+    },
+    {
       title: 'Profile',
       label: '',
       href: `${COMING_SOON}`,
       icon: <IconUser size={18} />,
-    },
-    {
-      title: 'Schedule',
-      label: '',
-      href: `${COMING_SOON}`,
-      icon: <IconCalendarWeek size={18} />,
     },
     {
       title: 'Setting',

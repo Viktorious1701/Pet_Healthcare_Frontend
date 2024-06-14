@@ -6,7 +6,6 @@ import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST, CUSTOMER_PET_UPDATE } from "@/Ro
 import { petsOfCustomerAPI } from "@/Services/PetService";
 import { useAuth } from "@/Context/useAuth";
 import { PetGet } from "@/Models/Pet";
-import logo from "@/assets/kitty.jpg"; // Placeholder image
 
 const PetList: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<PetGet[]>([]);
@@ -74,11 +73,11 @@ const PetList: React.FC = () => {
               newImages[pet.id] = imageUrl;
             } catch (error) {
               console.log("Error fetching image for pet: ", pet.id, error);
-              newImages[pet.id] = logo; // Use placeholder image if fetch fails
+              newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if fetch fails
             }
           }
         } else {
-          newImages[pet.id] = logo; // Use placeholder image if no imageUrl
+          newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if no imageUrl
         }
       })
     );
@@ -119,7 +118,7 @@ const PetList: React.FC = () => {
                 key={pet.id}
                 className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
-                <img src={images[pet.id] || logo} alt={pet.name} className="w-full h-48 object-cover" />
+                <img src={images[pet.id] || "https://via.placeholder.com/100"} alt={pet.name} className="w-full h-48 object-cover" />
                 <div className="p-4 text-center">
                   <h4 className="text-xl font-bold">{pet.name}</h4>
                   <p className="text-sm text-custom-dark">{pet.species}</p>
