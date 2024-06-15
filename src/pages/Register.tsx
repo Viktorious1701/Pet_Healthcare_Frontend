@@ -40,14 +40,14 @@ const Register = () => {
     registerUser(form.email, form.userName, form.password);
   };
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="relative min-h-screen flex items-center justify-center bg-[--background]">
       <img
         src={PetCare}
         alt="Pet care"
         className="absolute w-full h-full object-cover"
       />
       <form
-        className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
+        className="w-full max-w-md p-8 bg-[--review-card] bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg"
         onSubmit={handleSubmit(handleLogin)}
       >
         <Card>
