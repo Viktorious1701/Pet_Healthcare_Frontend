@@ -47,6 +47,7 @@ export const VET_APPOINTMENT = "vet-appointment"
 export const COMING_SOON = "coming-soon"
 export const SETTINGS_PROFILE = "settings_profile"
 export const SCHEDULE_VET = "schedule-vet"
+export const APPOINTMENT_DETAILS = "appointment-details"
 
 
 

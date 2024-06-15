@@ -62,7 +62,8 @@ import {
   SETTINGS_PROFILE,
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
-  SCHEDULE_VET
+  SCHEDULE_VET,
+  APPOINTMENT_DETAILS
 } from './router-const';
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
@@ -236,9 +237,9 @@ const RouterComponent = () => {
               }),
             },
             {
-              path: 'apps',
+              path: `${APPOINTMENT_DETAILS}`,
               lazy: async () => ({
-                Component: (await import('@/pages/VetDashboard/apps')).default,
+                Component: (await import('@/pages/VetDashboard/appointment_details')).default,
               }),
             },
             {

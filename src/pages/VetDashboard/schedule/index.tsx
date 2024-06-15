@@ -16,6 +16,9 @@ import { UserNav } from "@/components/vet_components/user-nav";
 import { useTheme } from "@/components/vet_components/theme-provider"; // replace with the actual path
 import "./Theme.css";
 
+import { useNavigate } from 'react-router-dom';
+import { APPOINTMENT_DETAILS } from "@/Route/router-const";
+
 const locales = {
   "en-US": enUS,
 };
@@ -32,6 +35,12 @@ const localizer = dateFnsLocalizer({
 });
 
 const App: FC = () => {
+  const navigate = useNavigate();
+
+  const handleSelectEvent = () => {
+    navigate(`/vet/${APPOINTMENT_DETAILS}`);
+  };
+
   const [events] = useState<Event[]>([
     {
       title: "Learn cool stuff",
@@ -62,6 +71,7 @@ const App: FC = () => {
           events={events}
           localizer={localizer}
           style={calendarStyle}
+          onSelectEvent={handleSelectEvent}
         />
       </LayoutBody>
     </Layout>
