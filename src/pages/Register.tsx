@@ -47,7 +47,7 @@ const Register = () => {
         className="absolute w-full h-full object-cover"
       />
       <form
-        className="w-full max-w-md p-8 bg-white bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-20"
+        className="w-full max-w-md p-8 bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-50"
         onSubmit={handleSubmit(handleLogin)}
       >
         <Card>

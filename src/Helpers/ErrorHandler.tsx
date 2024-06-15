@@ -1,13 +1,11 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-var */
 /* eslint-disable prefer-const */
-import { useAuth } from "@/Context/useAuth";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleError = async (error: any) => {
-    const { refresh } = useAuth();
     if (isAxiosError(error)) {
 
         var err = error.response;
@@ -25,7 +23,6 @@ export const handleError = async (error: any) => {
             toast.warning(err.data);
         }
         else if (err?.status == 401) {
-            await refresh();
             toast.warning("Please login");
             window.history.pushState({}, "LoginPage", "/login");
         }
