@@ -71,13 +71,13 @@ import {
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
-import KennelManagement from '@/pages/EmployeeDashboard/KennelManagement';
+import KennelManagement from '@/pages/EmployeeDashboard/kennel/KennelManagement';
 import React from 'react';
 import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
 
 import PaymentPage from '@/pages/PaymentPage';
-import HospitalizationManagement from '@/pages/EmployeeDashboard/HospitalizedPets/HospitalizationManagement';
+import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -293,7 +293,14 @@ const RouterComponent = () => {
               <EmployeeDashboard />
             </ProtectedRoutes>
           ),
+          errorElement: <GeneralError />,
           children: [
+            {
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/EmployeeDashboard/dashboard/index')).default,
+              }),
+            },
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
@@ -309,7 +316,11 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_HOSPITALIZED_PETS}`,
               element: <HospitalizationManagement />,
-            }
+            },
+            {
+              path: `${SETTINGS}`,
+              element: <AccountSettings />, // Component for account settings
+            },
           ],
         },
         // Main routes

@@ -1,5 +1,4 @@
-import { Hospitalization } from "@/Models/Hospitalization";
-import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from "@/Services/HospitalizationService";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -11,8 +10,11 @@ import {
   GridRowModesModel,
 } from "@mui/x-data-grid";
 import { CircleX, DeleteIcon, EditIcon, SaveIcon } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { toast } from "react-toastify";
+import { Hospitalization } from "@/Models/Hospitalization";
+import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from "@/Services/HospitalizationService";
+import { getPetById } from "@/Services/PetService";
 
 interface HospitalizationDataGridProps {
   hospitalizations: Hospitalization[];
@@ -22,10 +24,34 @@ interface HospitalizationDataGridProps {
 
 const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
   hospitalizations,
-  setHospitalizations,
   onHospitalizationDelete,
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([]);
+
+  useEffect(() => {
+    const fetchPetNames = async () => {
+      const updatedHospitalizations = await Promise.all(
+        hospitalizations.map(async (hospitalization) => {
+          if (!hospitalization.petName) {
+            try {
+              const petData = await getPetById(hospitalization.petId.toString());
+              return {
+                ...hospitalization,
+                petName: petData?.data.name,
+              };
+            } catch (error) {
+              console.error(`Failed to fetch pet name for petId: ${hospitalization.petId}`);
+            }
+          }
+          return hospitalization;
+        })
+      );
+      setHospitalizationsWithPetNames(updatedHospitalizations);
+    };
+
+    fetchPetNames();
+  }, [hospitalizations]);
 
   const handleHospitalizationUpdate = (
     hospitalizationId: number,
@@ -84,10 +110,10 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       updatedRow.hospitalizationId,
       updatedRow.dischargeDate
     );
-    const updatedHospitalizations = hospitalizations.map((row) =>
+    const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
       row.hospitalizationId === updatedRow.hospitalizationId ? updatedRow : row
     );
-    setHospitalizations(updatedHospitalizations);
+    setHospitalizationsWithPetNames(updatedHospitalizations);
     return newRow;
   };
 
@@ -192,7 +218,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
     >
       <DataGrid
         columns={columns}
-        rows={hospitalizations}
+        rows={hospitalizationsWithPetNames}
         editMode="row"
         getRowId={(row) => row.hospitalizationId}
         rowModesModel={rowModesModel}

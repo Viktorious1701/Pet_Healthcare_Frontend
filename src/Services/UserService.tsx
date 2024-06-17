@@ -70,3 +70,11 @@ export const userDeleteAPI = async (userId: string) => {
     handleError(error);
   }
 };
+export const userGetByIdAPI = async (userId: string) => {
+  try {
+    const data = await axios.get<UserInfo>(api + `${userId}`);
+    return data.data;
+  } catch (error) {
+    handleError(error);
+  }
+}

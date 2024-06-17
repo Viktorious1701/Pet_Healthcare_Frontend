@@ -154,7 +154,7 @@ export const UserProvider = ({ children }: Props) => {
     }, 1000 * 60 * 25); // 25 mins
 
     return () => clearInterval(interval);
-  }, [refreshToken]);
+  }, [refreshToken, token]);
 
   const registerUser = async (
     email: string,
