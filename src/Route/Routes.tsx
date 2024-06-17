@@ -62,9 +62,12 @@ import {
   SETTINGS_PROFILE,
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
+  ADMIN_ACCOUNTS,
   SCHEDULE_VET,
-  ADMIN_ACCOUNTS
+  EMPLOYEE_HOSPITALIZED_PETS,
+  APPOINTMENT_DETAILS
 } from './router-const';
+
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
@@ -73,6 +76,8 @@ import React from 'react';
 import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
 
+import PaymentPage from '@/pages/PaymentPage';
+import HospitalizationManagement from '@/pages/EmployeeDashboard/HospitalizedPets/HospitalizationManagement';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -232,6 +237,10 @@ const RouterComponent = () => {
           ],
         },
         {
+          path:  `/test`,
+          element: <PaymentPage/>,
+        },
+        {
           path: `/${CUSTOMER_DASHBOARD}`,
           element: (
             <ProtectedRoutes allowedRoles={['Customer']}>
@@ -296,6 +305,10 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_KENNELS}`,
               element: <KennelManagement />
+            },
+            {
+              path: `${EMPLOYEE_HOSPITALIZED_PETS}`,
+              element: <HospitalizationManagement />,
             }
           ],
         },

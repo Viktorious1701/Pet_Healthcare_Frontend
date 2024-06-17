@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/table";
 import { getUserProfile } from '@/Services/UserService';
 import { UserInfo } from '@/Models/User';
-import { useAuth } from '@/Context/useAuth';
-import Modal from './Modal'; // Make sure to import the Modal component
 
 const UserProfileWrapper = styled.div`
   padding: 1rem;
@@ -66,42 +64,42 @@ const InfoTableData = styled(TableCell)`
 
 const UserProfile: React.FC = () => {
   const [userInfo, setUser] = useState<UserInfo | undefined>(undefined);
-  const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add loading state
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         setIsLoading(true);
-        if (user) {
-          const data = await getUserProfile();
-          if (data?.data?.email === user.email) {
-            setUser(data.data);
-            sessionStorage.setItem('userInfo', JSON.stringify(data.data));
+        const data = await getUserProfile();
+        console.log("data",data);
+        if (data) {
+          setUser(data);
+          sessionStorage.setItem('userInfo', JSON.stringify(data));
+        } else {
+          // If data is not available from API, try to retrieve from sessionStorage
+          const storedUserInfo = sessionStorage.getItem('userInfo');
+          if (storedUserInfo) {
+            setUser(JSON.parse(storedUserInfo));
           } else {
             setUser(undefined);
-            setShowModal(true);
           }
-        } else {
-          setUser(undefined);
-          setShowModal(true);
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
-        setUser(undefined);
-        setShowModal(true);
+        // If error occurs, try to retrieve from sessionStorage
+        const storedUserInfo = sessionStorage.getItem('userInfo');
+        if (storedUserInfo) {
+          setUser(JSON.parse(storedUserInfo));
+        } else {
+          setUser(undefined);
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchUserProfile();
-  }, [user]);
-
-  const handleRefresh = () => {
-    window.location.reload();
-  };
+  }, []);
 
   if (isLoading) {
     return (
@@ -113,7 +111,6 @@ const UserProfile: React.FC = () => {
 
   return (
     <UserProfileWrapper>
-      {showModal && <Modal message="Data is missing. Please refresh the page." onRefresh={handleRefresh} />}
       <ProfileSection>
         <Avatar src="https://via.placeholder.com/100" alt="User Avatar" />
       </ProfileSection>

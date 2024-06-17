@@ -45,6 +45,7 @@ const KennelAddModal: React.FC<KennelAddModalProps> = ({ onKennelAdded }) => {
     formState: { errors },
   } = useForm<KennelFormValues>({ resolver: yupResolver(validationSchema) });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleKennelAdd = (kennel: KennelPost | any) => {
     onKennelAdded(kennel);
   }

@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/custom/button';
 import Paw from '@/assets/Paw2.svg';
+import { Link } from 'react-router-dom';
 
 const NotFound = () => {
+  const navigate = useNavigate();
   return (
     <div className='h-svh'>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
@@ -14,11 +16,14 @@ const NotFound = () => {
           had its name changed, or is temporarily unavailable.
         </p>
         <div className='mt-6 flex gap-4'>
-          <Link to="/">
-            <Button variant='outline'>
-              Go to Homepage
+            <Button variant='outline' onClick={() => navigate(-1)}>
+              Go back
             </Button>
-          </Link>
+            <Link to={"/"}>
+            <Button variant='outline'>
+              Go to homepage
+            </Button>
+            </Link>
         </div>
       </div>
     </div>

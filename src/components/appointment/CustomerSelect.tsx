@@ -23,7 +23,6 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userList, setUserList] = useState<UserGet[]>([]);
-
   const [selectedCustomer, setSelectedCustomer] = useState<string>("");
 
   const getCustomers = async () => {
@@ -34,7 +33,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
         }
       })
       .catch((e) => {
-        toast.error("Server error occured", e);
+        toast.error("Server error occurred", e);
       });
   };
 
@@ -52,7 +51,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
 
   const handleSubmit = () => {
     if (selectedCustomer === "") {
-      toast.warning("pls select a customer");
+      toast.warning("Please select a customer");
       return;
     }
     onSelectCustomer(selectedCustomer);
@@ -61,25 +60,28 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
   const filteredUsers = userList.filter((user) =>
     user.userName.toString().includes(searchTerm)
   );
+
   return (
     <div>
       <div className="flex justify-between mx-10 mb-6">
-        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <Button className="ml-bg-custom-darkBlue text-white text-md" onClick={handleSubmit}>Confirm</Button>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} className="bg-white border-2 border-custom-darkBlue p-2 rounded-md shadow-lg"/>
+        <Button className="ml-2 bg-custom-darkBlue text-white text-md" onClick={handleSubmit}>Confirm</Button>
       </div>
       <Divider />
-      <div className="flex items-center mx-10">
+      <div className="flex items-center mx-10 mt-4">
         <Card className="shadow-none">
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <p className="text-tiny uppercase font-bold">Selected Customer</p>
           </CardHeader>
-          <CardBody className="">
+          <CardBody className="pt-2">
             {selectedCustomer}
           </CardBody>
         </Card>
-        <Button className="bg-custom-lightCrimson text-white text-md" onClick={handleCancel}>
-          Cancel
-        </Button>
+        {selectedCustomer && (
+          <Button className="ml-4 bg-custom-lightCrimson text-white text-md" onClick={handleCancel}>
+            Cancel
+          </Button>
+        )}
       </div>
       <Divider />
       <div className="m-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
