@@ -30,7 +30,7 @@ const steps = [
   },
   {
     label: "Select Pet, Service and Vet",
-  }
+  },
 ];
 
 const BookingPageEmployee = () => {
@@ -101,7 +101,7 @@ const BookingPageEmployee = () => {
       bookRef.current?.scrollIntoView({
         behavior: "smooth",
       });
-      handleNext()
+      handleNext();
     }
   };
 
@@ -110,7 +110,7 @@ const BookingPageEmployee = () => {
     dateRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-    handleNext()
+    handleNext();
   };
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
@@ -163,15 +163,11 @@ const BookingPageEmployee = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-
   return (
-    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden mr-72">
-      <div className="absolute z-50 right-10 top-1/3">
-        <Box sx={{ maxWidth: 400 }}>
-          <Stepper activeStep={activeStep} orientation="vertical">
+    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4">
+        <Box sx={{ maxWidth: 400, mx: "auto" }}>
+          <Stepper activeStep={activeStep} orientation="horizontal">
             {steps.map((step, index) => (
               <Step key={step.label}>
                 <StepLabel
@@ -188,90 +184,97 @@ const BookingPageEmployee = () => {
           </Stepper>
         </Box>
       </div>
-      <div className="w-full">
-        {/* First div */}
-        <div
-          ref={containerRef}
-          className="w-full flex-shrink-0 flex justify-center h-screen"
-        >
-          <div className="pt-20 flex justify-center">
-            <CustomerSelect onSelectCustomer={handleCustomerSelect} />
-          </div>
-        </div>
 
-        {/* Second div */}
-        <div
-          ref={dateRef}
-          className="w-full flex-shrink-0 flex justify-center h-screen"
-        >
-          <div className="mt-20 pt-20 flex justify-center">
-            <div className="bg-white rounded-md shadow-md p-6 mr-8">
-              <CalendarComponent onDateChange={handleDateChange} />
-              <Button
-                className="mt-4 text-white text-md bg-custom-darkBlue"
-                onClick={handleBookingCancel}
-              >
-                Back To Customer Selection
-              </Button>
+      <div className="h-100 p-0 m-y-20 border-tran bg-blue">
+        <div className="w-full">
+          {/* First div */}
+          <div
+            ref={containerRef}
+            className="w-full flex-shrink-0 flex justify-center h-screen"
+          >
+            <div className="pt-20 flex justify-center">
+              <CustomerSelect onSelectCustomer={handleCustomerSelect} />
             </div>
-            <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
-              {selectedDate ? (
-                <div className="p-6">
-                  <div className="flex justify-between items-center gap-5 mb-4">
-                    <h2 className="text-lg font-semibold">
-                      Available Time Slots
-                    </h2>
-                    <ArrowRightFromLine
-                      className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
-                      onClick={handleReset}
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 gap-2">
-                    {renderTimeSlots()}
-                  </div>
-                  {selectedSlot && (
-                    <button
-                      className="bg-custom-darkBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                      onClick={handleBooking}
+          </div>
+          {/* Second div */}
+          {selectedCustomer && (
+            <div
+              ref={dateRef}
+              className="w-full flex-shrink-0 flex justify-center h-screen"
+            >
+              <div className="mt-20 pt-20 flex justify-center shadow-md">
+                <div className="bg-white rounded-md p-6 mr-8">
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <h2 className="text-lg font-semibold">
+                        Customer: {selectedCustomer}
+                      </h2>
+                    </div>
+                    <Button
+                      className={`text-white text-md bg-custom-darkBlue ${!selectedCustomer ? 'hidden' : ''}`}
+                      onClick={handleBookingCancel}
                     >
-                      Confirm Booking
-                    </button>
+                      Cancel
+                    </Button>
+                  </div>
+                  <CalendarComponent onDateChange={handleDateChange} />
+                </div>
+                <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
+                  {selectedDate ? (
+                    <div className="p-6">
+                      <div className="flex justify-between items-center gap-5 mb-4">
+                        <h2 className="text-lg font-semibold">
+                          Available Time Slots
+                        </h2>
+                        <ArrowRightFromLine
+                          className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
+                          onClick={handleReset}
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 gap-2">
+                        {renderTimeSlots()}
+                      </div>
+                      {selectedSlot && (
+                        <button
+                          className="bg-custom-darkBlue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                          onClick={handleBooking}
+                        >
+                          Confirm Booking
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="p-10">
+                      <h2 className="text-lg font-semibold">Date Selection </h2>
+                      <p className="mt-4">
+                        Please select a date to <br />
+                        view available time slots.
+                      </p>
+                    </div>
                   )}
                 </div>
-              ) : (
-                <div className="p-10">
-                  <h2 className="text-lg font-semibold">Date Selection </h2>
-                  <p className="mt-4">
-                    Please select a date to <br />
-                    view available time slots.
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
+          )}{" "}
+          {/* Third div */}
+          <div
+            ref={bookRef}
+            className="w-full flex-shrink-0 flex justify-center h-screen"
+          >
+            {selectedDate && selectedSlot && (
+              <div className="flex justify-center w-full">
+                <BookingForm
+                  date={selectedDate}
+                  slot={selectedSlot.slotId}
+                  userName={String(selectedCustomer)}
+                  onCancel={handleBookingCancel}
+                />
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Third div */}
-        <div
-          ref={bookRef}
-          className="w-full flex-shrink-0 flex justify-center h-screen"
-        >
-          {selectedDate && selectedSlot && (
-            <div className="flex justify-center w-full">
-              <BookingForm
-                date={selectedDate}
-                slot={selectedSlot.slotId}
-                userName={String(selectedCustomer)}
-                onCancel={handleBookingCancel}
-              />
-            </div>
-          )}
-        </div>
       </div>
-      <br />
-      <br />
     </div>
   );
 };
-
 export default BookingPageEmployee;

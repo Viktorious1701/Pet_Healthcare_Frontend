@@ -18,7 +18,7 @@ export default function SidebarComponent({ children }: SidebarProps) {
     const { user } = useAuth();
     return (
       <aside
-        className={`left-0 top-0 h-screen bg-white border-r shadow-sm ${
+        className={`left-0 top-0 h-screen min-h-screen bg-white border-r shadow-sm ${
           expanded ? "w-64" : "w-20"
         } transition-all duration-300`}
       >

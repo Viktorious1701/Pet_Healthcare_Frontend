@@ -31,7 +31,7 @@ const KennelManagement = () => {
         }
       })
       .catch((e) => {
-        toast.error("Server error occured", e);
+        toast.error("Server error occurred", e);
       });
   };
 
@@ -48,79 +48,30 @@ const KennelManagement = () => {
   }, [kennelAdd, kennelDelete]);
 
   return (
-    <div className="w-screen m-10">
+    <div className=" m-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item container md={6} spacing={2}>
-            <Grid item md={6}>
-              <Card className="h-full">
-                <CardHeader className="justify-between">
-                  <div className="flex-col gap-5 p-4">
-                    <div className="flex flex-col gap-1 items-start justify-center">
-                      <h2 className="text-xl text-default-600">
-                        Total kennels
-                      </h2>
-                    </div>
-                    <div>
-                      <h1 className="text-4xl">{kennels.length}</h1>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            </Grid>
-            <Grid item md={6}>
-              <Card className="h-full">
-                <CardHeader className="justify-between">
-                  <div className="flex-col gap-5 p-4">
-                    <div className="flex flex-col gap-1 items-start justify-center">
-                      <h2 className="text-xl text-default-600">
-                        Total kennels
-                      </h2>
-                    </div>
-                    <div>
-                      <h1 className="text-4xl">{kennels.length}</h1>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            </Grid>
-            <Grid item md={6}>
-              <Card className="h-full">
-                <CardHeader className="justify-between">
-                  <div className="flex-col gap-5 p-4">
-                    <div className="flex flex-col gap-1 items-start justify-center">
-                      <h2 className="text-xl text-default-600">
-                        Total kennels
-                      </h2>
-                    </div>
-                    <div>
-                      <h1 className="text-4xl">{kennels.length}</h1>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            </Grid>
-            <Grid item md={6}>
-              <Card className="h-full">
-                <CardHeader className="justify-between">
-                  <div className="flex-col gap-5 p-4">
-                    <div className="flex flex-col gap-1 items-start justify-center">
-                      <h2 className="text-xl text-default-600">
-                        Total kennels
-                      </h2>
-                    </div>
-                    <div>
-                      <h1 className="text-4xl">{kennels.length}</h1>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            </Grid>
-          </Grid>
-          <Grid item container md={6}>
+          {/* Total Kennels Card */}
+          <Grid item xs={12} md={3}>
             <Card className="h-full w-full">
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">
+                  <div className="flex flex-col gap-1 items-start justify-center">
+                    <h2 className="text-xl text-default-600">Total Kennels</h2>
+                  </div>
+                  <div>
+                    <h1 className="text-4xl">{kennels.length}</h1>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
+          </Grid>
+
+          {/* Kennel Availability Pie Chart */}
+          <Grid item xs={12} md={9}>
+            <Card className="h-full w-full">
+              <CardHeader className="justify-between">
+                <div className="flex flex-col p-4">
                   <div className="flex flex-col gap-1 items-start justify-center">
                     <h2 className="text-xl text-default-600">Kennel Availability</h2>
                   </div>
@@ -132,13 +83,13 @@ const KennelManagement = () => {
                             {
                               id: 0,
                               value: availableKennels,
-                              label: "available",
-                              color: "green"  
+                              label: "Available",
+                              color: "green"
                             },
                             {
                               id: 1,
                               value: occupiedKennels,
-                              label: "occupied",
+                              label: "Occupied",
                               color: "orange"
                             },
                           ],
@@ -148,7 +99,7 @@ const KennelManagement = () => {
                           cornerRadius: 5,
                         },
                       ]}
-                      width={600}
+                      width={400}
                       height={200}
                     />
                   </div>
@@ -156,16 +107,18 @@ const KennelManagement = () => {
               </CardHeader>
             </Card>
           </Grid>
-          <Grid item container md={12}>
+
+          {/* Kennel Data Grid */}
+          <Grid item xs={12}>
             <Card className="h-full w-full">
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">
-                  <div className="flex flex-rol gap-1 items-start justify-between mb-4">
+                  <div className="flex flex-row gap-1 items-start justify-between mb-4">
                     <h1 className="text-2xl text-black font-bold">Kennels</h1>
-                    <KennelAddModal onKennelAdded={handleKennelAdd}></KennelAddModal>
+                    <KennelAddModal onKennelAdded={handleKennelAdd} />
                   </div>
                   <div>
-                    <KennelDataGrid onKennelDelete={handleKennelDelete} kennels={kennels} setKennels={setKennels}></KennelDataGrid>
+                    <KennelDataGrid onKennelDelete={handleKennelDelete} kennels={kennels} setKennels={setKennels} />
                   </div>
                 </div>
               </CardHeader>
