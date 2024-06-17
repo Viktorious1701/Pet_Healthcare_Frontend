@@ -1,9 +1,10 @@
-import { COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
+import { ADMIN_ACCOUNTS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
 import {
   IconCalendarWeek,
   IconDashboard,
   IconSettings,
   IconUser,
+  IconUsers,
 } from '@tabler/icons-react'
 
 export interface NavLink {
@@ -23,6 +24,12 @@ export const sidelinks: SideLink[] = [
       label: '',
       href: '',
       icon: <IconDashboard size={18} />,
+    },
+    {
+      title: 'Accounts',
+      label: '',
+      href: `${ADMIN_ACCOUNTS}`,
+      icon: <IconUsers size={18} />,
     },
     {
       title: 'Schedule',

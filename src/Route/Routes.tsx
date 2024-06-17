@@ -62,7 +62,8 @@ import {
   SETTINGS_PROFILE,
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
-  SCHEDULE_VET
+  SCHEDULE_VET,
+  ADMIN_ACCOUNTS
 } from './router-const';
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
@@ -160,6 +161,12 @@ const RouterComponent = () => {
               path: 'apps',
               lazy: async () => ({
                 Component: (await import('@/pages/AdminDashboard/apps')).default,
+              }),
+            },
+            {
+              path: `${ADMIN_ACCOUNTS}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/accounts/index')).default,
               }),
             },
             {

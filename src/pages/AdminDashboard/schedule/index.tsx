@@ -10,10 +10,10 @@ import { startOfHour } from "date-fns";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
-import ThemeSwitch from "@/components/vet_components/theme-switch";
-import { UserNav } from "@/components/vet_components/user-nav";
+import ThemeSwitch from "@/components/admin_components/theme-switch";
+import { UserNav } from "@/components/admin_components/user-nav";
 
-import { useTheme } from "@/components/vet_components/theme-provider"; // replace with the actual path
+import { useTheme } from "@/components/admin_components/theme-provider"; // replace with the actual path
 import "./Theme.css";
 
 const locales = {

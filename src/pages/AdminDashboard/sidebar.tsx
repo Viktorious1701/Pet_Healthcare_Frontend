@@ -49,8 +49,8 @@ export default function Sidebar2({
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
-              <span className='font-medium'>Vet Dashboard</span>
-              <span className='text-xs'>Vet services dashboard.</span>
+              <span className='font-medium'>Admin Dashboard</span>
+              <span className='text-xs'>Admin services dashboard.</span>
             </div>
           </div>
 

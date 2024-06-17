@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const handleError = async (error: any) => {
     if (isAxiosError(error)) {
-
         var err = error.response;
         if (Array.isArray(err?.data.errors)) {
             for (let val of err?.data.errors) {

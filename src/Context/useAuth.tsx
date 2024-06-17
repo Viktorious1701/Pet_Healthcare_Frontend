@@ -60,7 +60,6 @@ export const UserProvider = ({ children }: Props) => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     const refreshToken = localStorage.getItem("refreshToken");
-    toast.info("Token not authorized yet");
     if (user && token && refreshToken) {
       toast.success("Token Authorized");
       
@@ -99,8 +98,7 @@ export const UserProvider = ({ children }: Props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       refresh(String(token), String(refreshToken));
-      toast.success("Token Refreshed");
-    }, 30000); // 30 seconds
+    }, 1000 * 60 * 25); // 25 mins
 
     return () => clearInterval(interval);
   }, [refreshToken]);

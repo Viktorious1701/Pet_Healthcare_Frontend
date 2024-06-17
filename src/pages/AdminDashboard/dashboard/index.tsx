@@ -6,11 +6,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Search } from '@/components/vet_components/search'
+import { Search } from '@/components/admin_components/search'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { TopNav } from '@/components/vet_components/top-nav'
-import { UserNav } from '@/components/vet_components/user-nav'
+import ThemeSwitch from '@/components/admin_components/theme-switch'
+import { TopNav } from '@/components/admin_components/top-nav'
+import { UserNav } from '@/components/admin_components/user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import { RecentSales } from './components/recent-sales'
 import { Overview } from './components/overview'
@@ -186,22 +186,22 @@ export default function Dashboard() {
 const topNav = [
   {
     title: 'Overview',
-    href: 'dashboard/overview',
+    href: '',
     isActive: true,
   },
   {
     title: 'Customers',
-    href: 'dashboard/customers',
+    href: '',
     isActive: false,
   },
   {
     title: 'Products',
-    href: 'dashboard/products',
+    href: '',
     isActive: false,
   },
   {
     title: 'Settings',
-    href: 'dashboard/settings',
+    href: '',
     isActive: false,
   },
 ]

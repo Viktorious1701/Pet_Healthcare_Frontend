@@ -20,12 +20,16 @@ export type UserGet = {
     imageURL: string
 };
 export type UserInfo = {
+    userId: string,
+    role: string,
     address: string,
     country: string,
     email: string,
     firstName: string,
     lastName: string,
     phoneNumber: string,
-    gender: string,
+    gender: boolean,
     userName: string,
+    isActive: boolean,
+    imageURL: string
 }
