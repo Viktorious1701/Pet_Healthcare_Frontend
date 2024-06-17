@@ -20,6 +20,7 @@ export const ADMIN_ACCOUNT_PAGE = "accounts"
 export const ADMIN_OVERVIEW = "admin-overview"
 export const ADMIN_HOSPITALIZATION = "admin-hospitalization"
 export const ADMIN_APPOINTMENT = "admin-appointment"
+export const ADMIN_ACCOUNTS = "admin-accounts"
 
 
 

@@ -29,7 +29,7 @@ type UserContextType = {
   user: UserProfile | null;
   token: string | null;
   refreshToken: string | null;
-  refresh: () => void;
+  refresh: (token: string, refreshToken: string) => void;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (username: string, password: string) => void;
   forgotUser: (email: string) => void;
@@ -54,62 +54,54 @@ export const UserProvider = ({ children }: Props) => {
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     const refreshToken = localStorage.getItem("refreshToken");
     if (user && token && refreshToken) {
+      toast.success("Token Authorized");
+      
       setUser(JSON.parse(user));
       setToken(token);
       setRefreshToken(refreshToken);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
     setIsReady(true);
-  }, []);
+  }, [loggedIn]);
 
-  const refresh = async () => {
-    if (!token || !refreshToken) return;
-    try {
-      const res: any = await refreshTokenAPI(token, refreshToken);
-      if (res) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        const userObj = {
-          userName: res.data.userName,
-          email: res.data.email,
-          role: res.data.role,
-        };
-        localStorage.setItem("user", JSON.stringify(userObj));
-        setToken(res.data.token);
-        setRefreshToken(res.data.refreshToken);
-        setUser(userObj);
-        axios.defaults.headers.common["Authorization"] = `Bearer ${res.data.token}`;
-      }
-    } catch (e) {
-      toast.warning("Session expired. Please log in again.");
-      logout();
-    }
+  const refresh = async (token: string, refreshToken: string) => {
+    await refreshTokenAPI(token, refreshToken)
+      .then((res: any) => {
+        if (res) {
+          localStorage.setItem("token", res?.data.token);
+          localStorage.setItem("refreshToken", res?.data.refreshToken);
+          const userObj = {
+            userName: res?.data.userName,
+            email: res?.data.email,
+            role: res?.data.role,
+          };
+          localStorage.setItem("user", JSON.stringify(userObj));
+          setToken(res?.data.token!);
+          setRefreshToken(res?.data.refreshToken!);
+          setUser(userObj!);
+          toast.success("Token Authorized");
+          axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("token");
+        }
+      })
+      .catch((e) => {
+        toast.warning("Session expired, pls login again", e);
+      });
   };
 
   useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
-      response => response,
-      async error => {
-        const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
-          await refresh();
-          originalRequest.headers["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
-          return axios(originalRequest);
-        }
-        return Promise.reject(error);
-      }
-    );
-    return () => {
-      axios.interceptors.response.eject(interceptor);
-    };
-  }, [refresh]);
+    const interval = setInterval(() => {
+      refresh(String(token), String(refreshToken));
+    }, 1000 * 60 * 25); // 25 mins
+
+    return () => clearInterval(interval);
+  }, [refreshToken]);
 
   const registerUser = async (
     email: string,
@@ -130,6 +122,7 @@ export const UserProvider = ({ children }: Props) => {
           setToken(res?.data.token!);
           setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
+          setLoggedIn(true);
           toast.success("Login Success!");
 
           navigate(`/${HOME_PAGE}`);
@@ -153,6 +146,7 @@ export const UserProvider = ({ children }: Props) => {
           setToken(res?.data.token!);
           setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
+          setLoggedIn(true);
           toast.success("Login Success!");
 
           switch (userObj.role) {

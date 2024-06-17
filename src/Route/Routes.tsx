@@ -2,7 +2,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from "@/App";
 import ProtectedRoutes from './ProtectedRoutes';
-import Dashboard from "@/pages/AdminDashboard/Dashboard";
+// import Dashboard from "@/pages/AdminDashboard/Dashboard";
 import Accounts from "@/pages/AdminDashboard/Accounts";
 import AppointmentDashboard from "@/pages/AdminDashboard/AppointmentDashboard";
 import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
@@ -63,13 +63,14 @@ import {
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
   SCHEDULE_VET,
-  APPOINTMENT_DETAILS
+  ADMIN_ACCOUNTS
 } from './router-const';
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
 import KennelManagement from '@/pages/EmployeeDashboard/KennelManagement';
 import React from 'react';
+import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
 
 
@@ -122,7 +123,7 @@ const RouterComponent = () => {
           path: `${ADMIN_DASHBOARD}`,
           element: (
             <ProtectedRoutes allowedRoles={['Admin']}>
-              <Dashboard />
+              <ProtectedAdminDashboard />
             </ProtectedRoutes>
           ),
           children: [
@@ -137,6 +138,96 @@ const RouterComponent = () => {
             {
               path: `${ADMIN_HOSPITALIZATION}`,
               element: <Hospitalization />,
+            },
+            {
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/AdminDashboard/dashboard/index')).default,
+              }),
+            },
+            {
+              path: 'tasks',
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/tasks')).default,
+              }),
+            },
+            {
+              path: 'chats',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: 'apps',
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/apps')).default,
+              }),
+            },
+            {
+              path: `${ADMIN_ACCOUNTS}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/accounts/index')).default,
+              }),
+            },
+            {
+              path: `${SCHEDULE_VET}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/schedule')).default,
+              }),
+            },
+            {
+              path: `${COMING_SOON}`,
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path:  `${SETTINGS_PROFILE}`,
+              lazy: async () => ({
+                Component: (await import('../pages/AdminDashboard/settings')).default,
+              }),
+              errorElement: <GeneralError />,
+              children: [
+                {
+                  index: true,
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/profile')).default,
+                  }),
+                },
+                {
+                  path: 'account',
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/account')).default,
+                  }),
+                },
+                {
+                  path: 'appearance',
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/appearance')).default,
+                  }),
+                },
+                {
+                  path: 'notifications',
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/notifications'))
+                      .default,
+                  }),
+                },
+                {
+                  path: 'display',
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/display')).default,
+                  }),
+                },
+                {
+                  path: 'error-example',
+                  lazy: async () => ({
+                    Component: (await import('../pages/AdminDashboard/settings/error-example'))
+                      .default,
+                  }),
+                  errorElement: <GeneralError className='h-[50svh]' minimal />,
+                },
+              ],
             },
           ],
         },
