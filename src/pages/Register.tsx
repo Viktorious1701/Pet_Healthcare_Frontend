@@ -40,7 +40,7 @@ const Register = () => {
     registerUser(form.email, form.userName, form.password);
   };
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="relative min-h-screen flex items-center justify-center bg-[--background]">
       <img
         src={PetCare}
         alt="Pet care"

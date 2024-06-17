@@ -328,9 +328,9 @@ const RouterComponent = () => {
               }),
             },
             {
-              path: 'apps',
+              path: `${APPOINTMENT_DETAILS}`,
               lazy: async () => ({
-                Component: (await import('@/pages/VetDashboard/apps')).default,
+                Component: (await import('@/pages/VetDashboard/appointment_details/index')).default,
               }),
             },
             {

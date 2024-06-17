@@ -4,7 +4,7 @@
 
   @layer base {
     :root {
-      --background: #F3F4F6;
+      --background: rgb(255, 255, 255);
       --foreground: 222.2 84% 4.9%;
 
       --card: 0 0% 100%;
@@ -33,6 +33,17 @@
       --ring: 222.2 84% 4.9%;
 
       --radius: 0.5rem;
+
+      --nav-header: #f3f4f67c;
+
+      --hero-text: #1F2937;
+      --hero-button: rgb(255, 255, 255);
+      --nav-button: rgba(255, 255, 255, 0.829);
+
+      --review-card: rgb(255, 255, 255);
+
+      --footer: rgb(243 244 246);
+
     }
 
     .dark {
@@ -63,6 +74,16 @@
       --border: 217.2 32.6% 17.5%;
       --input: 217.2 32.6% 17.5%;
       --ring: 212.7 26.8% 83.9%;
+
+      --nav-header: #42424296;
+      
+      --hero-text: #e0e0e0;
+      --hero-button: rgba(82, 82, 82, 0.87);
+      --nav-button: #414141cc;
+
+      --review-card: rgb(0, 0, 0);
+
+      --footer: rgba(58, 58, 58, 0.438);
     }
   }
 

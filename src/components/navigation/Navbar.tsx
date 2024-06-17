@@ -8,18 +8,26 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger
+  DropdownTrigger,
 } from "@nextui-org/react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import {ADMIN_DASHBOARD, CUSTOMER_DASHBOARD, EMPLOYEE_DASHBOARD, LOGIN, REGISTER, SETTINGS as SETTINGS, VET_DASHBOARD } from "@/Route/router-const";
-
+import {
+  ADMIN_DASHBOARD,
+  CUSTOMER_DASHBOARD,
+  EMPLOYEE_DASHBOARD,
+  LOGIN,
+  REGISTER,
+  SETTINGS as SETTINGS,
+  VET_DASHBOARD,
+} from "@/Route/router-const";
+import ThemeSwitch from "../vet_components/theme-switch";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
   const role = user?.role || "0";
- 
+
   let path = "";
   switch (role) {
     case "Admin":
@@ -28,10 +36,10 @@ const Navbar = () => {
     case "Employee":
       path = EMPLOYEE_DASHBOARD;
       break;
-      case "Vet":
+    case "Vet":
       path = VET_DASHBOARD;
       break;
-      case "Customer": 
+    case "Customer":
       path = CUSTOMER_DASHBOARD;
       break;
     default:
@@ -54,7 +62,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[#F3F4F6] pb-8  justify-between ">
+    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8  justify-between ">
       <div className="flex">
         <img
           src={Paw}
@@ -64,13 +72,16 @@ const Navbar = () => {
         <Header />
       </div>
       {isLoggedIn() ? (
-        <div className="mr-[3rem]">
+        <div className="mr-[3rem] flex items-center justify-start flex-row">
+          <div className="mr-5">
+            <ThemeSwitch />
+          </div>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
                 isBordered
                 as="button"
-                className="transition-transform mt-[2.25rem] justify-self-end"
+                className="transition-transform justify-self-end"
                 color="secondary"
                 name="Jason Hughes"
                 size="sm"
@@ -78,7 +89,11 @@ const Navbar = () => {
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat">
-              <DropdownItem key="profile" className="h-14 gap-2" textValue="profile">
+              <DropdownItem
+                key="profile"
+                className="h-14 gap-2"
+                textValue="profile"
+              >
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
@@ -95,16 +110,19 @@ const Navbar = () => {
           </Dropdown>
         </div>
       ) : (
-        <div className="mr-[3rem]">
+        <div className="mr-[3rem] flex items-center">
+          <div className="mr-5">
+            <ThemeSwitch />
+          </div>
           <Button
-            className="bg-[#DB2777] mt-[2.25rem] justify-self-end mr-3"
+            className="bg-[#DB2777] justify-self-end mr-3"
             onClick={handleLoginClick}
           >
             Login
           </Button>
 
           <Button
-            className="bg-[#DB2777] mt-[2.25rem] justify-self-end"
+            className="bg-[#DB2777] justify-self-end"
             onClick={handleRegisterClick}
           >
             Register

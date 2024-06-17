@@ -32,21 +32,21 @@ const Home = () => {
         {/* Hero Section */}
         <section
           id="hero"
-          className="bg-[#F9FAFB] py-[8rem] mt-[6rem]"
+          className="bg-[--background] py-[8rem] mt-[6rem]"
         >
           <div className="px-4">
             <div className="flex flex-col md:flex-row items-center justify-center">
               <div className="mb-8 md:mb-0">
-                <h1 className="text-6xl md:text-[8rem] font-bold text-[#1F2937] mb-4 text-center font-mont">
+                <h1 className="text-6xl md:text-[8rem] font-bold text-[--hero-text] mb-4 text-center font-mont">
                   Pamper Your Pet
                 </h1>
-                <p className="text-lg md:text-[1.4rem] text-[#4B5563] mb-8 mt-[3rem] text-center font-roboto">
+                <p className="text-lg md:text-[1.4rem] text-[--hero-text] mb-8 mt-[3rem] text-center font-roboto">
                   Discover top-tier pet care services designed to keep your furry friends happy and healthy.
                 </p>
                 <div className="text-center space-x-8 mt-[4rem]">
                   <Button
                     color="primary"
-                    className="bg-white text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
+                    className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
                   >
                     <Link
                       to={`/${APPOINTMENT}`}
@@ -57,7 +57,7 @@ const Home = () => {
                   </Button>
                   <Button
                     color="primary"
-                    className="bg-white text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
+                    className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
                   >
                     <Link
                       to={`/${CONTACT}`}
@@ -81,7 +81,7 @@ const Home = () => {
             <h1 className="text-[4rem] font-bold mb-2 text-pink font-mont">
               Our Services
             </h1>
-            <p className="text-[1.3rem] font-roboto font-[100] text-[#4B5563]">
+            <p className="text-[1.3rem] font-roboto font-[100] text-[--hero-text]">
               From grooming to boarding, we offer a comprehensive range of services to cater to 
               <br />
               your pet's every need.
@@ -115,7 +115,7 @@ const Home = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-[7rem] bg-[#F9FAFB] rounded-lg shadow">
+        <section id="about" className="py-[7rem] bg-[--background] rounded-lg shadow">
           <div className="flex justify-center gap-[10rem]">
             <div className="m-2">
               <img
@@ -127,10 +127,10 @@ const Home = () => {
             <div className="flex flex-col justify-center items-center gap-[1rem]">
               <h3 className="text-[4rem] font-bold font-mont">About Us</h3>
               <div className="space-x-4">
-                <h4 className="text-lg font-roboto font-[100] text-[#4B5563] text-[1.5rem] text-center">
+                <h4 className="text-lg font-roboto font-[100] text-[--hero-text] text-[1.5rem] text-center">
                   We take care of your pets' condition and provide top-tier treatment
                 </h4>
-                <p className="text-base mt-4 font-roboto font-[100] text-[#4B5563] text-center">
+                <p className="text-base mt-4 font-roboto font-[100] text-[--hero-text] text-center">
                   At our pet care center, we believe in providing comprehensive health services for your pets.
                   <br />
                   Our experienced veterinarians have been serving the community since the early 2000s,
@@ -163,7 +163,7 @@ const Home = () => {
             <h2 className="text-[2.5rem] font-bold mb-6 font-mont">
               Book an Appointment
             </h2>
-            <p className="text-[1.25rem] mb-6 font-roboto font-[100] text-[#4B5563]">
+            <p className="text-[1.25rem] mb-6 font-roboto font-[100] text-[--hero-text]">
               Schedule an appointment with our experienced veterinarians today.
             </p>
             <motion.button
@@ -184,21 +184,21 @@ const Home = () => {
         {/* Veterinarian Section */}
         <section
           id="veterinarian"
-          className="py-[7rem] bg-[#F9FAFB] text-center"
+          className="py-[7rem] bg-[--background] text-center"
         >
           <h2 className="text-[3rem] font-bold text-pink mb-[4rem] font-mont">
             Meet Our Veterinarians
           </h2>
           <div className="flex flex-wrap justify-center gap-8">
             {["Dr. Jane Doe", "Dr. Johnny Sins", "Dr. Alice Brown"].map((vet, index) => (
-              <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white rounded-lg shadow">
+              <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-4 bg-[--background] rounded-lg shadow">
                 <img
                   src={`https://via.placeholder.com/150?text=${vet.split(' ').join('+')}`}
                   alt={`Vet ${index + 1}`}
                   className="rounded-full w-24 h-24 mx-auto mb-4"
                 />
                 <h3 className="text-xl font-semibold mb-2">{vet}</h3>
-                <p className="text-base">
+                <p className="text-[--hero-text]">
                   {index === 0 && "Specialist in Small Animals"}
                   {index === 1 && "Expert in Exotic Pets"}
                   {index === 2 && "Veterinary Surgeon"}
@@ -240,28 +240,21 @@ const Home = () => {
                 {Array.from({ length: 5 }).map((_, index) => (
                   <CarouselItem key={index} className="basis-1/3 p-1">
                     <div className="p-1">
-                      <div className="testimonial wrp bg-white p-8 rounded-lg shadow-md select-none">
+                      <div className="testimonial wrp bg-[--review-card] p-8 rounded-lg shadow-md select-none">
                         <img
                           src={logo}
                           alt=""
                           className="rounded-full w-16 h-16 mx-auto mb-4"
                         />
-                        <div className="product__rating flex justify-center mb-4">
-                          <span className="fa fa-star checked text-yellow-400"></span>
-                          <span className="fa fa-star checked text-yellow-400"></span>
-                          <span className="fa fa-star checked text-yellow-400"></span>
-                          <span className="fa fa-star text-gray-400"></span>
-                          <span className="fa fa-star text-gray-400"></span>
-                        </div>
-                        <p className="text-gray-700 text-center mb-4 select-none">
+                        <p className="text-[--hero-text] text-center mb-4 select-none">
                           Simply dummy text of the printing and typesetting
                           industry. Lorem Ipsum simply dummy text of the printing
                           and typesetting industry. Lorem Ipsum has been.
                         </p>
-                        <h3 className="text-xl font-semibold text-center mb-2 select-none">
+                        <h3 className="text-xl text-[--hero-text] font-semibold text-center mb-2 select-none">
                           Sara Taylor
                         </h3>
-                        <p className="text-gray-600 text-center select-none">Consumer</p>
+                        <p className="text-[--hero-text] text-center select-none">Consumer</p>
                       </div>
                     </div>
                   </CarouselItem>
