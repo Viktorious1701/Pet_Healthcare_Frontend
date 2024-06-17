@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import SearchBar from "@/components/navigation/SearchBar";
-import { HospitalizationListAPI } from "@/Services/HospitalizationService";
+import { hospitalizationListAPI } from "@/Services/HospitalizationService";
 import { getPetById } from "@/Services/PetService";
 import { Hospitalization } from "@/Models/Hospitalization";
 import { CUSTOMER_DASHBOARD, HOSPITALIZATION, KENNEL } from "@/Route/router-const";
@@ -47,7 +47,7 @@ const HospitalizationPage: React.FC = () => {
       try {
         
 
-        const res = await HospitalizationListAPI();
+        const res = await hospitalizationListAPI();
         if (res?.data) {
           const hospitalizationsWithPets = await Promise.all(
             res.data.map(async (hospitalization: Hospitalization) => {

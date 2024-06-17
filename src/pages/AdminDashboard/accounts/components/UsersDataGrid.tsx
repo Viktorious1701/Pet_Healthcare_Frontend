@@ -27,13 +27,13 @@ const countries = [
 
 interface UsersDataGridProps {
   users: UserInfo[];
-  setUsers: (users: UserInfo[]) => void;
   onUserDelete: (user: UserInfo) => void;
+  onUserUpdate: (user: UserInfo) => void;
 }
 
 const UsersDataGrid: React.FC<UsersDataGridProps> = ({
   users,
-  setUsers,
+  onUserUpdate,
   onUserDelete,
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
@@ -64,6 +64,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
     )
       .then((res) => {
         if (res?.data) {
+          onUserUpdate(res.data);
           toast.success("User " + `${userName}` + " is updated");
         }
       })
@@ -93,10 +94,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id: GridRowId) => () => {
-    console.log(id);
-
-    // handleUserDelete(id.toString());
+  const handleDeleteClick = (id: GridRowId) => async () => {
+    await handleUserDelete(id.toString());
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -110,11 +109,11 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
     setRowModesModel(newRowModesModel);
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = newRow as UserInfo;
+  const processRowUpdate = async (newRow: GridRowModel, oldRow: GridRowModel) => {
+    const updatedRow = newRow as UserInfo
     console.log(updatedRow);
-
-    handleUserUpdate(
+    
+    await handleUserUpdate(
       updatedRow.userId,
       updatedRow.address,
       updatedRow.country,
@@ -126,11 +125,17 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
       updatedRow.userName,
       updatedRow.isActive
     );
-    // const updatedUsers = users.map((row) =>
-    //   row.userId === updatedRow.userId ? updatedRow : row
-    // );
-    setUsers(users);
-    return newRow;
+
+    if (newRow.isActive !== oldRow.isActive || newRow.gender !== oldRow.gender || newRow.country !== oldRow.country) {
+      return newRow;
+    }
+
+    return users;
+  };
+
+  const handleProcessRowUpdateError = (error: any) => {
+    // toast.error(error.message);
+    error;
   };
 
   const columns: GridColDef[] = [
@@ -304,11 +309,12 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
           columns={columns}
           rows={users}
           editMode="row"
-          getRowId={(row) => row.userId}
           rowModesModel={rowModesModel}
           onRowModesModelChange={handleRowModesModelChange}
           processRowUpdate={processRowUpdate}
+          onProcessRowUpdateError={handleProcessRowUpdateError}
           pageSizeOptions={[5, 10, 25, 100]}
+          getRowId={(row) => row.userId}
         />
       </Box>
     </>

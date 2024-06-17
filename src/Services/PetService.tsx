@@ -1,4 +1,5 @@
 import { handleError } from "@/Helpers/ErrorHandler";
+import axiosInstance from "@/Helpers/axiosInstance";
 import axios from "axios";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/pet";
@@ -7,7 +8,7 @@ export const petsOfCustomerAPI = async (
     username: string
 ) => {
     try {
-        const data = await axios.get(api + `/user-pet/${username}`);
+        const data = await axiosInstance.get(api + `/user-pet/${username}`);
         return data;    
     } catch (error) {
         handleError(error)
@@ -25,7 +26,7 @@ export const updatePetData = async (
     }
 ) => {
     try {
-        const data = await axios.put(api + `/${petId}`, petData);
+        const data = await axiosInstance.put(api + `/${petId}`, petData);
         return data;
     } catch (error) {
         handleError(error)
@@ -34,7 +35,7 @@ export const updatePetData = async (
 
 export const getPetById = async (petId: string) => {
     try {
-      const data = await axios.get(api + `/${petId}`);
+      const data = await axiosInstance.get(api + `/${petId}`);
       return data;
     } catch (error) {
       handleError(error);

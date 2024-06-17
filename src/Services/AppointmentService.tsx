@@ -1,4 +1,5 @@
 import { handleError } from "@/Helpers/ErrorHandler";
+import axiosInstance from "@/Helpers/axiosInstance";
 import {
   AppointmentAvailableVets,
   AppointmentBook,
@@ -14,7 +15,7 @@ export const appointmentAvailableVetsAPI = async (
   slotId: number
 ) => {
   try {
-    const data = await axios.get<AppointmentAvailableVets[]>(
+    const data = await axiosInstance.get<AppointmentAvailableVets[]>(
       api + `/available-vets?date=${date}&slotId=${slotId}`
     );
     return data;
@@ -25,7 +26,7 @@ export const appointmentAvailableVetsAPI = async (
 
 export const appointmentCustomerAPI = async (username: string) => {
   try {
-    const data = await axios.get<AppointmentGet[]>(
+    const data = await axiosInstance.get<AppointmentGet[]>(
       api + `/customer/${username}`
     );
     return data;
@@ -43,7 +44,7 @@ export const appointmentBookAPI = async (
   date: string
 ) => {
   try {
-    const data = await axios.post<AppointmentBook>(api + "/book", {
+    const data = await axiosInstance.post<AppointmentBook>(api + "/book", {
       customerUserName: customerUserName,
       petId: petId,
       vetUserName: vetUserName,
@@ -63,7 +64,7 @@ export const appointmentRateAPI = async (
   comment: string
 ) => {
   try {
-    const data = await axios.put<AppointmentRating>(
+    const data = await axiosInstance.put<AppointmentRating>(
       api + `/rate/${appointmentId}`,
       {
         rating: rating,
@@ -78,7 +79,7 @@ export const appointmentRateAPI = async (
 
 export const appointmentCheckInAPI = async (appointmentId: number) => {
   try {
-    const data = await axios.put(api + `/check-in/${appointmentId}`);
+    const data = await axiosInstance.put(api + `/check-in/${appointmentId}`);
     return data;
   } catch (error) {
     handleError(error);
