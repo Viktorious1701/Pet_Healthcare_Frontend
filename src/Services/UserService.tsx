@@ -37,7 +37,7 @@ export const userUpdateAPI = async (
   userId: string,
   address: string,
   country: string,
-  // email: string,
+  email: string,
   firstName: string,
   lastName: string,
   phoneNumber: string,
@@ -46,10 +46,10 @@ export const userUpdateAPI = async (
   isActive: boolean
 ) => {
   try {
-    const data = await axiosInstance.put<UserInfo>(api + `update-profile/${userId}`, {
+    const data = await axiosInstance.put(api + `update-profile/${userId}`, {
       address: address,
       country: country,
-    //   email: email,
+      email: email,
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber,

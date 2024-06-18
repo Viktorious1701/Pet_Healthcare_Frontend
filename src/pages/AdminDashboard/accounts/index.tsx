@@ -1,10 +1,5 @@
 import { Button } from "@/components/custom/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search } from "@/components/admin_components/search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ThemeSwitch from "@/components/admin_components/theme-switch";
@@ -16,8 +11,7 @@ import { useEffect, useState } from "react";
 import { userGetAllAPI } from "@/Services/UserService";
 import { toast } from "react-toastify";
 import UsersDataGrid from "./components/UsersDataGrid";
-
-
+import UserAddDialog from "./components/UserAddDialog";
 
 const Accounts = () => {
   const [users, setUsers] = useState<UserInfo[]>([]);
@@ -40,15 +34,15 @@ const Accounts = () => {
 
   const handleUserAdd = (user: UserInfo) => {
     setUserAdd(user);
-  }
+  };
 
   const handleUserDelete = (user: UserInfo) => {
     setUserDelete(user);
-  }
+  };
 
   const handleUserUpdate = (user: UserInfo) => {
     setUserUpdate(user);
-  }
+  };
 
   useEffect(() => {
     getAllUsers();
@@ -137,7 +131,9 @@ const Accounts = () => {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{activeUsers / users.length * 100}%</div>
+                  <div className="text-2xl font-bold">
+                    {(activeUsers / users.length) * 100}%
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +180.1% from last month
                   </p>
@@ -197,11 +193,16 @@ const Accounts = () => {
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-12">
-                <CardHeader>
+                <CardHeader className="flex flex-row justify-between">
                   <CardTitle>Accounts</CardTitle>
+                  <UserAddDialog></UserAddDialog>
                 </CardHeader>
                 <CardContent className="px-2">
-                    <UsersDataGrid onUserUpdate={handleUserUpdate} onUserDelete={handleUserDelete} users={users} />
+                  <UsersDataGrid
+                    onUserUpdate={handleUserUpdate}
+                    onUserDelete={handleUserDelete}
+                    users={users}
+                  />
                 </CardContent>
               </Card>
             </div>
