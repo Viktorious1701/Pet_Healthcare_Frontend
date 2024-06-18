@@ -63,10 +63,14 @@ import {
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
   ADMIN_ACCOUNTS,
+  ADMIN_ACCOUNTS,
   SCHEDULE_VET,
   EMPLOYEE_HOSPITALIZED_PETS,
   APPOINTMENT_DETAILS
+  EMPLOYEE_HOSPITALIZED_PETS,
+  APPOINTMENT_DETAILS
 } from './router-const';
+
 
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
@@ -187,7 +191,7 @@ const RouterComponent = () => {
               }),
             },
             {
-              path:  `${SETTINGS_PROFILE}`,
+              path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
                 Component: (await import('../pages/AdminDashboard/settings')).default,
               }),
@@ -237,8 +241,12 @@ const RouterComponent = () => {
           ],
         },
         {
-          path:  `/test`,
-          element: <PaymentPage/>,
+          path: `/test`,
+          element: <PaymentPage />,
+        },
+        {
+          path: `/test`,
+          element: <PaymentPage />,
         },
         {
           path: `/${CUSTOMER_DASHBOARD}`,
@@ -370,7 +378,7 @@ const RouterComponent = () => {
               }),
             },
             {
-              path:  `${SETTINGS_PROFILE}`,
+              path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
                 Component: (await import('../pages/VetDashboard/settings')).default,
               }),
@@ -437,7 +445,7 @@ const RouterComponent = () => {
           path: `${HOSPITALIZATION}/:petName`,
           element: <PetHealthTrack />,
         },
-        
+
         {
 
           path: `${KENNEL}/:kennelId`,

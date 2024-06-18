@@ -1,4 +1,5 @@
 import { handleError } from "@/Helpers/ErrorHandler";
+import axiosInstance from "@/Helpers/axiosInstance";
 import { UserGet, UserInfo } from "@/Models/User";
 import axios from "axios";
 
@@ -6,7 +7,7 @@ const api = "https://pethealthcaresystem.azurewebsites.net/api/admin/";
 
 export const customerGetAPI = async (role: string) => {
   try {
-    const data = await axios.get<UserGet[]>(api + `users/role/${role}`);
+    const data = await axiosInstance.get<UserGet[]>(api + `users/role/${role}`);
     return data;
   } catch (error) {
     handleError(error);
@@ -15,7 +16,7 @@ export const customerGetAPI = async (role: string) => {
 const api1 = "https://pethealthcaresystem.azurewebsites.net/api/Account/me";
 export const getUserProfile = async () => {
   try {
-    const data = await axios.get<UserInfo>(api1);
+    const data = await axiosInstance.get<UserInfo>(api1);
 
     return data;
   } catch (error) {
@@ -25,7 +26,7 @@ export const getUserProfile = async () => {
 
 export const userGetAllAPI = async () => {
   try {
-    const data = await axios.get<UserInfo[]>(api);
+    const data = await axiosInstance.get<UserInfo[]>(api);
     return data;
   } catch (error) {
     handleError(error);
@@ -45,7 +46,7 @@ export const userUpdateAPI = async (
   isActive: boolean
 ) => {
   try {
-    const data = await axios.put<UserInfo>(api + `update-profile/${userId}`, {
+    const data = await axiosInstance.put<UserInfo>(api + `update-profile/${userId}`, {
       address: address,
       country: country,
     //   email: email,
@@ -64,7 +65,7 @@ export const userUpdateAPI = async (
 
 export const userDeleteAPI = async (userId: string) => {
   try {
-    const data = await axios.delete(api + `${userId}`);
+    const data = await axiosInstance.delete(api + `${userId}`);
     return data;
   } catch (error) {
     handleError(error);

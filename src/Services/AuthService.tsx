@@ -1,12 +1,13 @@
 import axios from "axios";
 import { handleError } from "../Helpers/ErrorHandler";
 import { UserProfileToken } from "../Models/User";
+import axiosInstance from "@/Helpers/axiosInstance";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/";
 
 export const loginAPI = async (username: string, password: string) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "Account/login", {
+    const data = await axiosInstance.post<UserProfileToken>(api + "Account/login", {
       username: username,
       password: password,
     });
@@ -22,7 +23,7 @@ export const registerAPI = async (
   password: string
 ) => {
   try {
-    const data = await axios.post<UserProfileToken>(api + "Account/register", {
+    const data = await axiosInstance.post<UserProfileToken>(api + "Account/register", {
       email: email,
       username: username,
       password: password,
@@ -35,7 +36,7 @@ export const registerAPI = async (
 
 export const forgotPasswordAPI = async (email: string) => {
   try {
-    const data = await axios.post(api + "Account/forgot-password", {
+    const data = await axiosInstance.post(api + "Account/forgot-password", {
       email,
     });
     return data;
@@ -51,7 +52,7 @@ export const resetPasswordAPI = async (
   confirmPassword: string
 ) => {
   try {
-    const data = await axios.post(api + "Account/reset-password", {
+    const data = await axiosInstance.post(api + "Account/reset-password", {
       token: token,
       email: email,
       password: password,

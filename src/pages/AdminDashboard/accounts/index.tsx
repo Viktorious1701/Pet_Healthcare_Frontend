@@ -23,6 +23,7 @@ const Accounts = () => {
   const [users, setUsers] = useState<UserInfo[]>([]);
   const [userAdd, setUserAdd] = useState<UserInfo>();
   const [userDelete, setUserDelete] = useState<UserInfo>();
+  const [userUpdate, setUserUpdate] = useState<UserInfo>();
 
   const activeUsers = users.filter((user) => user.isActive == true).length;
   const getAllUsers = async () => {
@@ -45,9 +46,13 @@ const Accounts = () => {
     setUserDelete(user);
   }
 
+  const handleUserUpdate = (user: UserInfo) => {
+    setUserUpdate(user);
+  }
+
   useEffect(() => {
     getAllUsers();
-  }, [userAdd, userDelete]);
+  }, [userAdd, userDelete, userUpdate]);
 
   return (
     <Layout>
@@ -196,7 +201,7 @@ const Accounts = () => {
                   <CardTitle>Accounts</CardTitle>
                 </CardHeader>
                 <CardContent className="px-2">
-                    <UsersDataGrid onUserDelete={handleUserDelete} users={users} setUsers={setUsers} />
+                    <UsersDataGrid onUserUpdate={handleUserUpdate} onUserDelete={handleUserDelete} users={users} />
                 </CardContent>
               </Card>
             </div>
