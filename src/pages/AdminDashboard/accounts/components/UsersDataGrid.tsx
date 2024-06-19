@@ -14,16 +14,7 @@ import { CircleX, EditIcon, SaveIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import UserDeleteDialog from "./UserDeleteDialog";
-
-const countries = [
-  "Viet Nam",
-  "United States",
-  "Canada",
-  "Mexico",
-  "United Kingdom",
-  "Germany",
-  "France",
-];
+import { countries } from "@/Helpers/globalVariable";
 
 interface UsersDataGridProps {
   users: UserInfo[];
@@ -42,7 +33,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
     userId: string,
     address: string,
     country: string,
-    // email: string,
+    email: string,
     firstName: string,
     lastName: string,
     phoneNumber: string,
@@ -54,7 +45,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
       userId,
       address,
       country,
-      // email,
+      email,
       firstName,
       lastName,
       phoneNumber,
@@ -109,7 +100,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
     setRowModesModel(newRowModesModel);
   };
 
-  const processRowUpdate = async (newRow: GridRowModel, oldRow: GridRowModel) => {
+  const processRowUpdate = async (newRow: GridRowModel) => {
     const updatedRow = newRow as UserInfo
     console.log(updatedRow);
     
@@ -117,7 +108,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
       updatedRow.userId,
       updatedRow.address,
       updatedRow.country,
-      // updatedRow.email,
+      updatedRow.email,
       updatedRow.firstName,
       updatedRow.lastName,
       updatedRow.phoneNumber,
@@ -126,16 +117,11 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
       updatedRow.isActive
     );
 
-    if (newRow.isActive !== oldRow.isActive || newRow.gender !== oldRow.gender || newRow.country !== oldRow.country) {
-      return newRow;
-    }
-
     return users;
   };
 
   const handleProcessRowUpdateError = (error: any) => {
-    // toast.error(error.message);
-    error;
+    toast.error(error.message);
   };
 
   const columns: GridColDef[] = [
@@ -313,8 +299,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
           onRowModesModelChange={handleRowModesModelChange}
           processRowUpdate={processRowUpdate}
           onProcessRowUpdateError={handleProcessRowUpdateError}
-          pageSizeOptions={[5, 10, 25, 100]}
-          getRowId={(row) => row.userId}
+          pageSizeOptions={[5, 10, 100]}
+          getRowId={(row) => String(row.userId)}
         />
       </Box>
     </>

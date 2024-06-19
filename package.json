@@ -97,6 +97,7 @@
     "react-bootstrap": "^2.10.2",
     "react-calendar": "^5.0.0",
     "react-chartjs-2": "^5.2.0",
+    "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.5",
     "react-native-web": "^0.19.12",

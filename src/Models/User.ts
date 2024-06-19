@@ -25,6 +25,8 @@ export type UserInfo = {
     address: string,
     country: string,
     email: string,
+    rating: number,
+    yearsOfExperience: number,
     firstName: string,
     lastName: string,
     phoneNumber: string,

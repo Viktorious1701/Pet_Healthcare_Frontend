@@ -33,11 +33,48 @@ export const userGetAllAPI = async () => {
   }
 };
 
+export const userAddAPI = async (
+  role: string,
+  address: string,
+  country: string,
+  email: string,
+  rating: number,
+  yearsOfExperience: number,
+  firstName: string,
+  lastName: string,
+  phoneNumber: string,
+  gender: boolean,
+  userName: string,
+  password: string,
+  isActive: boolean
+) => {
+  try {
+    const data = await axiosInstance.post(api, {
+      role: role,
+      address: address,
+      country: country,
+      email: email,
+      rating: rating,
+      yearsOfExperience: yearsOfExperience,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      gender: gender,
+      userName: userName,
+      password: password,
+      isActive: isActive,
+    });
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const userUpdateAPI = async (
   userId: string,
   address: string,
   country: string,
-  // email: string,
+  email: string,
   firstName: string,
   lastName: string,
   phoneNumber: string,
@@ -46,10 +83,10 @@ export const userUpdateAPI = async (
   isActive: boolean
 ) => {
   try {
-    const data = await axiosInstance.put<UserInfo>(api + `update-profile/${userId}`, {
+    const data = await axiosInstance.put(api + `update-profile/${userId}`, {
       address: address,
       country: country,
-    //   email: email,
+      email: email,
       firstName: firstName,
       lastName: lastName,
       phoneNumber: phoneNumber,
