@@ -195,7 +195,7 @@ const Accounts = () => {
               <Card className="col-span-1 lg:col-span-12">
                 <CardHeader className="flex flex-row justify-between">
                   <CardTitle>Accounts</CardTitle>
-                  <UserAddDialog></UserAddDialog>
+                  <UserAddDialog onUserAdded={handleUserAdd}></UserAddDialog>
                 </CardHeader>
                 <CardContent className="px-2">
                   <UsersDataGrid

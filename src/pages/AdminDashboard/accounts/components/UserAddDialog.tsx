@@ -23,6 +23,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { UserInfo } from "@/Models/User";
+import { userAddAPI } from "@/Services/UserService";
+import { toast } from "react-toastify";
+import { countries } from "@/Helpers/globalVariable";
 
 interface UserAddFormInputs {
   role: string;
@@ -33,11 +37,16 @@ interface UserAddFormInputs {
   yearsOfExperience?: number | null;
   firstName: string;
   lastName: string;
+  phoneNumber: string;
   gender: boolean;
   address: string;
   country: string;
   //   imageURL?: string | null;
   isActive: boolean;
+}
+
+interface UserAddDialogProps {
+  onUserAdded: (user: UserInfo) => void;
 }
 
 const validationSchema = Yup.object().shape({
@@ -49,7 +58,9 @@ const validationSchema = Yup.object().shape({
     .required("Email is required"),
   rating: Yup.number()
     .nullable()
-    .transform((value, originalValue) => (originalValue.trim() === "" ? null : value))
+    .transform((value, originalValue) =>
+      originalValue.trim() === "" ? null : value
+    )
     .when("role", (role: any, schema) => {
       return role === "Vet"
         ? schema.required("Rating is required for Vets").min(0).max(5)
@@ -57,7 +68,9 @@ const validationSchema = Yup.object().shape({
     }),
   yearsOfExperience: Yup.number()
     .nullable()
-    .transform((value, originalValue) => (originalValue.trim() === "" ? null : value))
+    .transform((value, originalValue) =>
+      originalValue.trim() === "" ? null : value
+    )
     .when("role", (role: any, schema) => {
       return role === "Vet"
         ? schema.required("Years of experience is required for Vets").min(0)
@@ -65,6 +78,9 @@ const validationSchema = Yup.object().shape({
     }),
   firstName: Yup.string().required("First Name is required"),
   lastName: Yup.string().required("Last Name is required"),
+  phoneNumber: Yup.string()
+    .matches(/^0\d{9}$/, "Phone number must start with a zero and be 10 digits long")
+    .required("Phone number is required"),
   gender: Yup.boolean().required("Gender is required"),
   address: Yup.string().required("Address is required"),
   country: Yup.string().required("Country is required"),
@@ -72,17 +88,8 @@ const validationSchema = Yup.object().shape({
   isActive: Yup.boolean().required("Active status is required"),
 });
 
-const UserAddDialog = () => {
+const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const countries = [
-    "Viet Nam",
-    "United States",
-    "Canada",
-    "Mexico",
-    "United Kingdom",
-    "Germany",
-    "France",
-  ];
 
   const roles = ["Customer", "Vet", "Employee"];
 
@@ -98,8 +105,37 @@ const UserAddDialog = () => {
     setValue("role", role);
   };
 
+  const handleUserAdd = async (user: UserAddFormInputs) => {
+    await userAddAPI(
+      user.role,
+      user.address,
+      user.country,
+      user.email,
+      Number(user.rating),
+      Number(user.yearsOfExperience),
+      user.firstName,
+      user.lastName,
+      user.phoneNumber,
+      user.gender,
+      user.userName,
+      user.password,
+      user.isActive
+    )
+    .then((res) => {
+      if (res?.data) {
+        console.log(res.data);
+        
+        onUserAdded(res.data);
+        toast.success("User added successfully");
+      }
+    })
+    .catch((e) => {
+      toast.error("Server error occurred", e);
+    });
+  };
+
   const onSubmit = (data: UserAddFormInputs) => {
-    console.log(data);
+    handleUserAdd(data);
   };
 
   return (
@@ -137,7 +173,7 @@ const UserAddDialog = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            
+
             <Label htmlFor="country" className="text-right">
               Country
             </Label>
@@ -181,7 +217,7 @@ const UserAddDialog = () => {
                 className="col-span-5"
                 {...register("userName")}
               />
-              
+
               <Label htmlFor="password" className="text-right">
                 Password
               </Label>
@@ -214,7 +250,7 @@ const UserAddDialog = () => {
                 className="col-span-3"
                 {...register("email")}
               />
-              
+
               <Label htmlFor="firstName" className="text-right">
                 First Name
               </Label>
@@ -224,7 +260,7 @@ const UserAddDialog = () => {
                 className="col-span-3"
                 {...register("firstName")}
               />
-              
+
               <Label htmlFor="lastName" className="text-right">
                 Last Name
               </Label>
@@ -261,12 +297,12 @@ const UserAddDialog = () => {
                 {...register("gender")}
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="true" id="r1" />
-                  <Label htmlFor="r1">Male</Label>
+                  <RadioGroupItem value="true" />
+                  <Label>Male</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="false" id="r2" />
-                  <Label htmlFor="r2">Female</Label>
+                  <RadioGroupItem value="false" />
+                  <Label>Female</Label>
                 </div>
               </RadioGroup>
               {selectedRole === "Vet" && (
@@ -340,12 +376,21 @@ const UserAddDialog = () => {
               <Input
                 id="address"
                 placeholder="address"
-                className="col-span-8"
+                className="col-span-4"
                 {...register("address")}
               />
-              {errors.address && (
+              <Label htmlFor="phoneNumber" className="text-right">
+                Phone Number
+              </Label>
+              <Input
+                id="phoneNumber"
+                placeholder="(0...)"
+                className="col-span-3"
+                {...register("phoneNumber")}
+              />
+              {errors.phoneNumber && (
                 <p className="col-span-full text-right text-small text-red-600">
-                  {errors.address.message}
+                  {errors.phoneNumber.message}
                 </p>
               )}
             </div>

@@ -69,7 +69,7 @@ export const refreshTokenAPI = async (
   refreshToken: string
 ) => {
   try {
-    const data = axios.post<UserProfileToken>(api + 'account/generate-new-jwt-token', {
+    const data = axiosInstance.post(api + 'account/generate-new-jwt-token', {
       token: token,
       refreshToken: refreshToken
     });

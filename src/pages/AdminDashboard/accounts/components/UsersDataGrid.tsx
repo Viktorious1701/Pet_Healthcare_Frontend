@@ -14,16 +14,7 @@ import { CircleX, EditIcon, SaveIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import UserDeleteDialog from "./UserDeleteDialog";
-
-const countries = [
-  "Viet Nam",
-  "United States",
-  "Canada",
-  "Mexico",
-  "United Kingdom",
-  "Germany",
-  "France",
-];
+import { countries } from "@/Helpers/globalVariable";
 
 interface UsersDataGridProps {
   users: UserInfo[];
