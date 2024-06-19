@@ -1,0 +1,19 @@
+.dark-mode {
+  color: #fff !important;
+}
+
+.light-mode {
+  color: #000 !important;
+}
+
+.dark-mode button {
+  color: #fff; /* This will set the button text color to white in dark mode */
+}
+
+.dark-mode .rbc-day-bg.rbc-off-range-bg {
+  background-color: #222; /* This will set the background color to a darker shade in dark mode */
+}
+
+.dark-mode .rbc-day-bg.rbc-today {
+  background-color: #568ab1; /* This will set the background color to a darker shade in dark mode */
+}
