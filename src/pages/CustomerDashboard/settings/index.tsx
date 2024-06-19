@@ -13,6 +13,7 @@ import ThemeSwitch from '@/components/customer_components/theme-switch'
 import { UserNav } from '@/components/customer_components/user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import SidebarNav from './components/sidebar-nav'
+import { CUSTOMER_DASHBOARD, SETTINGS_PROFILE } from '@/Route/router-const'
 
 export default function Settings() {
   return (
@@ -55,31 +56,31 @@ const sidebarNavItems = [
   {
     title: 'Profile',
     icon: <IconUser size={18} />,
-    href: '/settings',
+    href: `/${CUSTOMER_DASHBOARD}/${SETTINGS_PROFILE}`,
   },
   {
     title: 'Account',
     icon: <IconTool size={18} />,
-    href: '/settings/account',
+    href: 'account',
   },
   {
     title: 'Appearance',
     icon: <IconPalette size={18} />,
-    href: '/settings/appearance',
+    href: 'appearance',
   },
   {
     title: 'Notifications',
     icon: <IconNotification size={18} />,
-    href: '/settings/notifications',
+    href: 'notifications',
   },
   {
     title: 'Display',
     icon: <IconBrowserCheck size={18} />,
-    href: '/settings/display',
+    href: 'display',
   },
   {
     title: 'Error Example',
     icon: <IconExclamationCircle size={18} />,
-    href: '/settings/error-example',
+    href: 'error-example',
   },
 ]

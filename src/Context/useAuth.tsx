@@ -183,6 +183,7 @@ export const UserProvider = ({ children }: Props) => {
     setToken("");
     setRefreshToken("");
     localStorage.clear();
+    sessionStorage.clear();
     navigate(`/${HOME_PAGE}`);
   };
 

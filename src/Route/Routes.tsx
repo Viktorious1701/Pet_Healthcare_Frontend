@@ -5,7 +5,7 @@ import ProtectedRoutes from './ProtectedRoutes';
 // import Dashboard from "@/pages/AdminDashboard/Dashboard";
 import Accounts from "@/pages/AdminDashboard/Accounts";
 import AppointmentDashboard from "@/pages/AdminDashboard/AppointmentDashboard";
-import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
+// import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
 import BookingPage from "@/pages/Booking/BookingPage";
 import BookingSuccess from '@/pages/Booking/BookingSuccess';
 import Home from "@/pages/Home";
@@ -23,11 +23,10 @@ import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
 import HospitalizationPage from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 import PetHealthTrackDTO from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
-import PetList from '@/pages/CustomerPage/PetProfile/PetList';
-import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
-import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
-import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
-import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
+// import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
+// import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
+// import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
+// import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 import { Resize, useWindowDimensions } from '@/components/resize';
 import { Loader } from 'lucide-react';
 import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
@@ -79,6 +78,11 @@ import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashbo
 import PaymentPage from '@/pages/PaymentPage';
 import HospitalizationManagement from '@/pages/EmployeeDashboard/HospitalizedPets/HospitalizationManagement';
 import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard';
+import Pets from '@/pages/CustomerDashboard/pets';
+import PetProfile from '@/pages/CustomerDashboard/pets/components/PetProfile';
+import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateForm';
+import Appointments from '@/pages/CustomerDashboard/appointments';
+import Hospitalization from '@/pages/CustomerDashboard/hospitalization';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -141,10 +145,10 @@ const RouterComponent = () => {
               path: `${ADMIN_APPOINTMENT}`,
               element: <AppointmentDashboard />,
             },
-            {
-              path: `${ADMIN_HOSPITALIZATION}`,
-              element: <Hospitalization />,
-            },
+            // {
+            //   path: `${ADMIN_HOSPITALIZATION}`,
+            //   element: <Hospitalization />,
+            // },
             {
               index: true,
               lazy: async () => ({
@@ -255,7 +259,7 @@ const RouterComponent = () => {
             },
             {
               path: `${CUSTOMER_PET_LIST}`,
-              element: <PetList />, // Component for pet list
+              element: <Pets />, // Component for pet list
             },
             {
               path: `${CUSTOMER_PET_LIST}/:petId`,
@@ -267,11 +271,11 @@ const RouterComponent = () => {
             },
             {
               path: `${CUSTOMER_APPOINTMENTS}`,
-              element: <AppointmentManagement />, // Component for appointment management
+              element: <Appointments />, // Component for appointment management
             },
             {
               path: `${CUSTOMER_HOSPITALIZATION_TABLE}`,
-              element: <HospitalizationTracking />, // Component for hospitalization tracking
+              element: <Hospitalization />, // Component for hospitalization tracking
             },
             {
               path: `${HOSPITALIZATION}`,
@@ -330,6 +334,7 @@ const RouterComponent = () => {
               children: [
                 {
                   index: true,
+                  path: '',
                   lazy: async () => ({
                     Component: (await import('../pages/CustomerDashboard/settings/profile')).default,
                   }),
