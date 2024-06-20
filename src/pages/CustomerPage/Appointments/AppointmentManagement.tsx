@@ -45,7 +45,10 @@ const AppointmentManagement: React.FC = () => {
 
     fetchAppointments();
   }, [username]);
-
+  //console log appointments
+  useEffect(() => {
+    console.log(appointments);
+  }, [appointments]);
   const handleRating = (id: number, rating: number) => {
     const updatedAppointments = appointments.map((appointment) =>
       appointment.appointmentId === id ? { ...appointment, rating } : appointment

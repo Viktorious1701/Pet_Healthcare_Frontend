@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Kennel, KennelPost } from "@/Models/Kennel";
 import { handleError } from "@/Helpers/ErrorHandler";
 import axiosInstance from "@/Helpers/axiosInstance";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../navigation/SearchBar";
-import { UserGet } from "@/Models/User";
+import { UserInfo } from "@/Models/User";
 import {
   Button,
   Card,
@@ -22,7 +22,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
 }) => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [userList, setUserList] = useState<UserGet[]>([]);
+  const [userList, setUserList] = useState<UserInfo[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>("");
 
   const getCustomers = async () => {

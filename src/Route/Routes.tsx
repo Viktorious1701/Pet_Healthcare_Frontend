@@ -31,7 +31,7 @@ import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/Hospit
 import { Resize, useWindowDimensions } from '@/components/resize';
 import { Loader } from 'lucide-react';
 import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
-
+import PaymentPage from '@/pages/Booking/PaymentPage';
 import {
   ABOUT_PAGE,
   ADMIN_ACCOUNT_PAGE,
@@ -65,19 +65,21 @@ import {
   SCHEDULE_VET,
   EMPLOYEE_HOSPITALIZED_PETS,
   APPOINTMENT_DETAILS,
-  CUSTOMER_PROFILE
+  PAYMENT,
+  CUSTOMER_PROFILE,
 } from './router-const';
+
 
 import HospitalizationService from '@/pages/HospitalizationService';
 import PetHealthTrack from '@/pages/CustomerPage/Hospitalization/PetHealthTrack';
 import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
-import KennelManagement from '@/pages/EmployeeDashboard/KennelManagement';
+import KennelManagement from '@/pages/EmployeeDashboard/kennel/KennelManagement';
 import React from 'react';
 import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
 
-import PaymentPage from '@/pages/PaymentPage';
-import HospitalizationManagement from '@/pages/EmployeeDashboard/HospitalizedPets/HospitalizationManagement';
+
+import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement';
 import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
@@ -188,7 +190,7 @@ const RouterComponent = () => {
               }),
             },
             {
-              path:  `${SETTINGS_PROFILE}`,
+              path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
                 Component: (await import('../pages/AdminDashboard/settings')).default,
               }),
@@ -237,9 +239,10 @@ const RouterComponent = () => {
             },
           ],
         },
+       
         {
-          path:  `/test`,
-          element: <PaymentPage/>,
+          path: `/${PAYMENT}`,
+          element: <PaymentPage />,
         },
         {
           path: `/${CUSTOMER_DASHBOARD}`,
@@ -378,7 +381,14 @@ const RouterComponent = () => {
               <EmployeeDashboard />
             </ProtectedRoutes>
           ),
+          errorElement: <GeneralError />,
           children: [
+            {
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/EmployeeDashboard/dashboard/index')).default,
+              }),
+            },
             {
               path: `${EMPLOYEE_DASHBOARD}`,
               element: <EmployeeDashboard />,
@@ -394,7 +404,11 @@ const RouterComponent = () => {
             {
               path: `${EMPLOYEE_HOSPITALIZED_PETS}`,
               element: <HospitalizationManagement />,
-            }
+            },
+            {
+              path: `${SETTINGS}`,
+              element: <AccountSettings />, // Component for account settings
+            },
           ],
         },
         // Main routes
@@ -444,7 +458,7 @@ const RouterComponent = () => {
               }),
             },
             {
-              path:  `${SETTINGS_PROFILE}`,
+              path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
                 Component: (await import('../pages/VetDashboard/settings')).default,
               }),
@@ -511,7 +525,7 @@ const RouterComponent = () => {
           path: `${HOSPITALIZATION}/:petName`,
           element: <PetHealthTrack />,
         },
-        
+
         {
 
           path: `${KENNEL}/:kennelId`,
