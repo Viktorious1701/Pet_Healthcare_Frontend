@@ -80,6 +80,7 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
                     // Send nonce to your server
                     axiosInstance.post(`https://pethealthcaresystem.azurewebsites.net/api/Payment/Checkout?appointmentId=${appointmentId}&nonce=${paymentMethodNonce}`)
                         .then(response => {
+                            console.log('Payment response:', response.data);
                             alert('Payment completed successfully!');
                             onPaymentCompleted();
                         })
