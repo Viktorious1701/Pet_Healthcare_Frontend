@@ -25,12 +25,12 @@ const AppointmentManagement: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    const storedAppointments = sessionStorage.getItem("appointments");
-    if(storedAppointments){
-      setAppointments(JSON.parse(storedAppointments));
-      setLoading(false);
-      return;
-    }
+    // const storedAppointments = sessionStorage.getItem("appointments");
+    // if(storedAppointments){
+    //   setAppointments(JSON.parse(storedAppointments));
+    //   setLoading(false);
+    //   return;
+    // }
     const fetchAppointments = async () => {
       try {
         const listAppointment = await appointmentCustomerAPI(username ?? "");
