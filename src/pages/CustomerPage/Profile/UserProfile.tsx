@@ -73,8 +73,8 @@ const UserProfile: React.FC = () => {
         const data = await getUserProfile();
         console.log("data",data);
         if (data) {
-          setUser(data);
-          sessionStorage.setItem('userInfo', JSON.stringify(data));
+          setUser(data.data);
+          sessionStorage.setItem('userInfo', JSON.stringify(data.data));
         } else {
           // If data is not available from API, try to retrieve from sessionStorage
           const storedUserInfo = sessionStorage.getItem('userInfo');

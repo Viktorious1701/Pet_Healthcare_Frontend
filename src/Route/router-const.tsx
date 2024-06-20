@@ -6,6 +6,7 @@ export const REGISTER = "register"
 export const LOGIN = "login"
 export const FORGOT_PASS = "forgot-password"
 export const APPOINTMENT = "appointment"
+export const PAYMENT = "payment"
 export const APPOINTMENT_SUCCESS = "appointment-success"
 
 export const HOSPITALIZATION_INTRO = "hospital_intro"

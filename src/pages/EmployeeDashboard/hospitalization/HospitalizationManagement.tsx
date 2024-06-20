@@ -5,13 +5,13 @@ import {
   Grid,
   Card,
   CardHeader,
-  Button,
 } from "@mui/material";
+import { Button } from "@/components/ui/button";
 import { Hospitalization, HospitalizationPost } from "@/Models/Hospitalization";
-import HospitalizationDataGrid from "./HospitalizationDataGrid";
+import HospitalizationDataGrid from "./components/HospitalizationDataGrid";
 import { hospitalizationListAPI, hospitalizationCreateAPI } from "@/Services/HospitalizationService";
 import { toast } from "react-toastify";
-import HospitalizationAddModal from "./HospitalizationAddModal";
+import HospitalizationAddModal from "./components/HospitalizationAddModal";
 
 const HospitalizationManagement = () => {
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
@@ -61,32 +61,27 @@ const HospitalizationManagement = () => {
     <div className="m-10">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          {/* Total Hospitalizations Card */}
-          <Grid item xs={12} md={12}>
+          {/* Header Section */}
+          <Grid item xs={12}>
             <Card className="h-full w-full">
-              <CardHeader className="justify-between">
-                <div className="flex-col gap-5 p-4">
-                  <div className="flex flex-col gap-1 items-start justify-center">
-                    <h2 className="text-xl text-default">Total Hospitalizations</h2>
-                    <p className="text-2xl font-bold">{hospitalizations.length}</p>
-                  </div>
-                </div>
-              </CardHeader>
+            <CardHeader
+                title="Hospitalization Management"
+                titleTypographyProps={{ variant: "h5", color: "primary" }}
+                action={
+                  <Button  onClick={openModal} className="bg-custom-pink hover:bg-custom-darkPink">
+                    Add Hospitalization
+                  </Button>
+                }
+              />
             </Card>
           </Grid>
           {/* Hospitalization Data Grid */}
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12}>
             <HospitalizationDataGrid
               hospitalizations={hospitalizations}
               setHospitalizations={setHospitalizations}
               onHospitalizationDelete={handleHospitalizationDelete}
             />
-          </Grid>
-          {/* Add Hospitalization Button */}
-          <Grid item xs={12} md={12}>
-            <Button variant="contained" color="primary" onClick={openModal}>
-              Add Hospitalization
-            </Button>
           </Grid>
         </Grid>
       </Box>

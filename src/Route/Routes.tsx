@@ -26,13 +26,12 @@ import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
 import PetList from '@/pages/CustomerPage/PetProfile/PetList';
 import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
 import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
-import CustomerDashboard from '@/pages/CustomerPage/CustomerDashboard';
 import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
 import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 import { Resize, useWindowDimensions } from '@/components/resize';
 import { Loader } from 'lucide-react';
 import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
-
+import PaymentPage from '@/pages/Booking/PaymentPage';
 import {
   ABOUT_PAGE,
   ADMIN_ACCOUNT_PAGE,
@@ -63,12 +62,11 @@ import {
   EMPLOYEE_APPOINTMENT_MANAGE,
   EMPLOYEE_KENNELS,
   ADMIN_ACCOUNTS,
-  ADMIN_ACCOUNTS,
   SCHEDULE_VET,
   EMPLOYEE_HOSPITALIZED_PETS,
-  APPOINTMENT_DETAILS
-  EMPLOYEE_HOSPITALIZED_PETS,
-  APPOINTMENT_DETAILS
+  APPOINTMENT_DETAILS,
+  PAYMENT,
+  CUSTOMER_PROFILE,
 } from './router-const';
 
 
@@ -80,8 +78,9 @@ import React from 'react';
 import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
 
-import PaymentPage from '@/pages/PaymentPage';
+
 import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement';
+import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -240,24 +239,21 @@ const RouterComponent = () => {
             },
           ],
         },
+       
         {
-          path: `/test`,
-          element: <PaymentPage />,
-        },
-        {
-          path: `/test`,
+          path: `/${PAYMENT}`,
           element: <PaymentPage />,
         },
         {
           path: `/${CUSTOMER_DASHBOARD}`,
           element: (
             <ProtectedRoutes allowedRoles={['Customer']}>
-              <CustomerDashboard />
+              <ProtectedCustomerDashboard />
             </ProtectedRoutes>
           ),
           children: [
             {
-              index: true, // Default route
+              path: `${CUSTOMER_PROFILE}`,
               element: <UserProfile />, // Default component for customer dashboard
             },
             {
@@ -291,6 +287,90 @@ const RouterComponent = () => {
             {
               path: `${SETTINGS}`,
               element: <AccountSettings />, // Component for account settings
+            },
+            {
+              index: true,
+              lazy: async () => ({
+                Component: (await import('../pages/CustomerDashboard/dashboard/index')).default,
+              }),
+            },
+            {
+              path: 'tasks',
+              lazy: async () => ({
+                Component: (await import('@/pages/CustomerDashboard/tasks')).default,
+              }),
+            },
+            {
+              path: 'chats',
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path: 'apps',
+              lazy: async () => ({
+                Component: (await import('@/pages/CustomerDashboard/apps')).default,
+              }),
+            },
+            {
+              path: `${SCHEDULE_VET}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/CustomerDashboard/schedule')).default,
+              }),
+            },
+            {
+              path: `${COMING_SOON}`,
+              lazy: async () => ({
+                Component: (await import('@/components/coming-soon')).default,
+              }),
+            },
+            {
+              path:  `${SETTINGS_PROFILE}`,
+              lazy: async () => ({
+                Component: (await import('../pages/CustomerDashboard/settings')).default,
+              }),
+              errorElement: <GeneralError />,
+              children: [
+                {
+                  index: true,
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/profile')).default,
+                  }),
+                },
+                {
+                  path: 'account',
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/account')).default,
+                  }),
+                },
+                {
+                  path: 'appearance',
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/appearance')).default,
+                  }),
+                },
+                {
+                  path: 'notifications',
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/notifications'))
+                      .default,
+                  }),
+                },
+                {
+                  path: 'display',
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/display')).default,
+                  }),
+                },
+                {
+                  path: 'error-example',
+                  lazy: async () => ({
+                    Component: (await import('../pages/CustomerDashboard/settings/error-example'))
+                      .default,
+                  }),
+                  errorElement: <GeneralError className='h-[50svh]' minimal />,
+                },
+              ],
             },
           ],
         },

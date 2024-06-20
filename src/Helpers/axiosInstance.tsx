@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { handleError } from './ErrorHandler';
@@ -57,6 +58,7 @@ axiosInstance.interceptors.response.use(
           isRefreshing = false;
           toast.warning('Session expired, please log in again');
           // Handle logout or redirect to login page
+          window.history.pushState({}, "LoginPage", "/login");
         }
       }
     }

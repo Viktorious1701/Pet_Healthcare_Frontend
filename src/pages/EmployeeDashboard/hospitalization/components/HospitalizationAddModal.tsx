@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Dialog,
@@ -6,18 +6,13 @@ import {
   DialogContent,
   DialogActions,
   Button,
-  Select,
-  MenuItem,
   FormControl,
-  InputLabel,
   TextField,
 } from "@mui/material";
-import { customerGetAPI } from "@/Services/UserService";
-import { petsOfCustomerAPI } from "@/Services/PetService";
-import { toast } from "react-toastify";
 import { HospitalizationPost } from "@/Models/Hospitalization"; // Adjust import path as per your structure
-import { UserGet } from "@/Models/User";
-import { PetGet } from "@/Models/Pet";
+import CustomerSelection from "./CustomerSelection"; // Ensure correct import path
+import PetSelection from "./PetSelection"; // Ensure correct import path
+import VetSelection from "./VetSelection"; // Ensure correct import path
 
 interface HospitalizationAddModalProps {
   open: boolean;
@@ -30,45 +25,24 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({
   onClose,
   onAddHospitalization,
 }) => {
-  const [customers, setCustomers] = useState<UserGet[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>("");
-  const [pets, setPets] = useState<PetGet[]>([]);
-  const [selectedPet, setSelectedPet] = useState<number>(0);
-  //const [vets, setVets] = useState<UserInfo[]>([]);
-  const [selectedVet, setSelectedVet] = useState<number>(0);
-  const [kennelId, setKennelId] = useState<number>(0);
+  const [selectedPet, setSelectedPet] = useState<string>("");
+  const [selectedVet, setSelectedVet] = useState<string>("");
+  const [kennelId, setKennelId] = useState<string>("");
   const [admissionDate, setAdmissionDate] = useState<string>("");
   const [dischargeDate, setDischargeDate] = useState<string>("");
 
-  useEffect(() => {
-    // Fetch customers when modal opens
-    const fetchCustomers = async () => {
-      try {
-        const res = await customerGetAPI("customer");
-        if (res?.data) {
-          setCustomers(res.data);
-        }
-      } catch (error) {
-        toast.error("Failed to fetch customers", { toastId: "fetchCustomersError", autoClose: false });
-      }
-    };
-
-    if (open) {
-      fetchCustomers();
-    }
-  }, [open]);
-
-  const handleCustomerChange = async (username: string) => {
+  const handleCustomerChange = (username: string) => {
     setSelectedCustomer(username);
-    // Fetch pets of the selected customer
-    try {
-      const res = await petsOfCustomerAPI(username);
-      if (res?.data) {
-        setPets(res.data);
-      }
-    } catch (error) {
-      toast.error(`Failed to fetch pets for customer ${username}`, { toastId: "fetchPetsError", autoClose: false });
-    }
+    setSelectedPet(""); // Reset pet selection when customer changes
+  };
+
+  const handlePetChange = (petId: string) => {
+    setSelectedPet(petId);
+  };
+
+  const handleVetChange = (username: string) => {
+    setSelectedVet(username);
   };
 
   const handleAddHospitalization = () => {
@@ -93,45 +67,30 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({
       <DialogContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <FormControl fullWidth>
-            <InputLabel>Customer</InputLabel>
-            <Select
-              value={selectedCustomer}
-              onChange={(e) => handleCustomerChange(e.target.value as string)}
-            >
-              {customers.map((customer) => (
-                <MenuItem key={customer.id} value={customer.id}>
-                  {customer.userName}
-                </MenuItem>
-              ))}
-            </Select>
+            <CustomerSelection
+              selectedCustomer={selectedCustomer}
+              onChange={handleCustomerChange}
+            />
           </FormControl>
           <FormControl fullWidth>
-            <InputLabel>Pet</InputLabel>
-            <Select
-              value={selectedPet}
-              onChange={(e) => setSelectedPet(Number(e.target.value))}
-            >
-              {pets.map((pet) => (
-                <MenuItem key={pet.id} value={pet.id}>
-                  {pet.name}
-                </MenuItem>
-              ))}
-            </Select>
+            <PetSelection
+              selectedCustomer={selectedCustomer}
+              selectedPet={selectedPet}
+              onChange={handlePetChange}
+            />
           </FormControl>
           <FormControl fullWidth>
             <TextField
               label="Kennel ID"
               type="text"
               value={kennelId}
-              onChange={(e) => setKennelId(Number(e.target.value))}
+              onChange={(e) => setKennelId(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth>
-            <TextField
-              label="Vet ID"
-              type="text"
-              value={selectedVet}
-              onChange={(e) => setSelectedVet(Number(e.target.value))}
+            <VetSelection
+              selectedVet={selectedVet}
+              onChange={handleVetChange}
             />
           </FormControl>
           <FormControl fullWidth>

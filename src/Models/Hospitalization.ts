@@ -8,9 +8,9 @@ export type Hospitalization = {
     petName?: string;  // Optional because it will be fetched later
 }
 export type HospitalizationPost = {
-    petId: number,
-    kennelId: number,
-    vetId: number,
+    petId: string,
+    kennelId: string,
+    vetId: string,
     admissionDate: string,
     dischargeDate: string,
 }

@@ -14,6 +14,7 @@ export type AppointmentRating = {
 }
 
 export type AppointmentBook = {
+    appointmentId: number,
     customerUserName: string,
     petId: number,
     vetUserName: string,

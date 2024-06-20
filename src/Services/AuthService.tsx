@@ -7,7 +7,7 @@ const api = "https://pethealthcaresystem.azurewebsites.net/api/";
 
 export const loginAPI = async (username: string, password: string) => {
   try {
-    const data = await axiosInstance.post<UserProfileToken>(api + "Account/login", {
+    const data = await axios.post<UserProfileToken>(api + "Account/login", {
       username: username,
       password: password,
     });
@@ -69,7 +69,7 @@ export const refreshTokenAPI = async (
   refreshToken: string
 ) => {
   try {
-    const data = axios.post<UserProfileToken>(api + 'account/generate-new-jwt-token', {
+    const data = axiosInstance.post(api + 'account/generate-new-jwt-token', {
       token: token,
       refreshToken: refreshToken
     });
