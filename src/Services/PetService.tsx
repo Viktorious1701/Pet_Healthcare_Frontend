@@ -1,6 +1,5 @@
 import { handleError } from "@/Helpers/ErrorHandler";
 import axiosInstance from "@/Helpers/axiosInstance";
-import axios from "axios";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/pet";
 

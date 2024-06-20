@@ -6,7 +6,7 @@ import {
   AppointmentGet,
   AppointmentRating,
 } from "@/Models/Appointment";
-import axios from "axios";
+
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
 

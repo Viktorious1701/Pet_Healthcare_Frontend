@@ -109,7 +109,7 @@ const KennelManagement = () => {
           </Grid>
 
           {/* Kennel Data Grid */}
-          <Grid item xs={12}>
+          <Grid item xs={13}>
             <Card className="h-full w-full">
               <CardHeader className="justify-between">
                 <div className="flex-col gap-5 p-4">

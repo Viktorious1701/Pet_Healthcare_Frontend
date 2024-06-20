@@ -1,13 +1,13 @@
 import { handleError } from "@/Helpers/ErrorHandler";
 import axiosInstance from "@/Helpers/axiosInstance";
-import { UserGet, UserInfo } from "@/Models/User";
+import { UserInfo } from "@/Models/User";
 import axios from "axios";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/admin/";
 
 export const customerGetAPI = async (role: string) => {
   try {
-    const data = await axiosInstance.get<UserGet[]>(api + `users/role/${role}`);
+    const data = await axiosInstance.get<UserInfo[]>(api + `users/role/${role}`);
     return data;
   } catch (error) {
     handleError(error);
@@ -108,3 +108,11 @@ export const userDeleteAPI = async (userId: string) => {
     handleError(error);
   }
 };
+export const userGetByIdAPI = async (userId: string) => {
+  try {
+    const data = await axios.get<UserInfo>(api + `${userId}`);
+    return data.data;
+  } catch (error) {
+    handleError(error);
+  }
+}

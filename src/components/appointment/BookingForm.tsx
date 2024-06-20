@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 import React, { useState, useEffect } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -34,7 +35,7 @@ interface BookingFormProps {
   date: Date;
   slot: number;
   userName: string;
-  onCancel: () => void; // New prop for onCancel function
+  onCancel: () => void;
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({
@@ -132,24 +133,21 @@ const BookingForm: React.FC<BookingFormProps> = ({
     return unfinishAppointment ? true : false;
   };
 
-  const onSubmit = (formData: FormValues) => {
+  const onSubmit = async (formData: FormValues) => {
     if (formData.petId === 0 || formData.serviceId === 0) {
       toast.warning("You must select all items");
       return;
     }
     if (user?.role === "Customer") {
       if (!isAllowBook()) {
-        handleAppointment(formData);
+        await handleAppointment(formData);
       } else {
         toast.info("You still have an unfinished appointment");
         return;
       }
     } else if (user?.role === "Employee") {
-      handleAppointment(formData);
+      await handleAppointment(formData);
     }
-    console.log(formData);
-    dispatch(setFormData(formData));
-    navigate(`/${APPOINTMENT_SUCCESS}`); // Redirect to homepage after form submission (adjust the path as needed)
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {
@@ -157,8 +155,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
   };
 
   const handleCancel = () => {
-    reset(); // Reset form fields
-    onCancel(); // Call onCancel function passed from parent component
+    reset();
+    onCancel();
   };
 
   const handleSelectPet = (petId: string) => {
@@ -173,19 +171,27 @@ const BookingForm: React.FC<BookingFormProps> = ({
     setSelectedVetUserName(vetUserName);
   };
 
-  const handleAppointment = (e: FormValues) => {
-    appointmentBookAPI(
-      e.customerUserName,
-      e.petId,
-      e.vetUserName,
-      e.slotId,
-      e.serviceId,
-      e.date
-    )
-      .then(() => {})
-      .catch((e) => {
-        toast.error(e);
-      });
+  const handleAppointment = async (formData: FormValues) => {
+    try {
+      const response = await appointmentBookAPI(
+        formData.customerUserName,
+        formData.petId,
+        formData.vetUserName,
+        formData.slotId,
+        formData.serviceId,
+        formData.date
+      );
+      const appointmentId = response?.data?.appointmentId;
+
+      if (appointmentId) {
+        dispatch(setFormData(formData));
+        navigate(`/${APPOINTMENT_SUCCESS}`, { state: { appointmentId } });
+      } else {
+        toast.error("Failed to book the appointment");
+      }
+    } catch (error) {
+      toast.error("Error booking appointment:" );
+    }
   };
 
   useEffect(() => {

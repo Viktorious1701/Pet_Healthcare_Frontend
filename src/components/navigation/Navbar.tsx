@@ -62,7 +62,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8  justify-between ">
+    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8  justify-between bg-white ">
       <div className="flex">
         <img
           src={Paw}

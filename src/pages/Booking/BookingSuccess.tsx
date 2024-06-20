@@ -1,31 +1,51 @@
 import { useAuth } from "@/Context/useAuth";
-import { APPOINTMENT, EMPLOYEE_APPOINTMENT_MANAGE, EMPLOYEE_DASHBOARD, HOME_PAGE } from "@/Route/router-const";
+import { APPOINTMENT, EMPLOYEE_APPOINTMENT_MANAGE, EMPLOYEE_DASHBOARD, PAYMENT } from "@/Route/router-const";
 import { RootState } from "@/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const BookingSuccess = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-
+  const location = useLocation();
+  const appointmentId = location.state?.appointmentId;
   const { isSubmitted } = useSelector((state: RootState) => state.formData);
+  const [showPrompt, setShowPrompt] = useState(false);
+
   if (!isSubmitted) {
     navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (user?.role === "Customer") {
-        navigate(`/${HOME_PAGE}`); // Replace '/' with the path to your homepage
-      }
-      else if (user?.role === "Employee") {
-        navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_MANAGE}`);
-      }
-    }, 3000); // Redirect to homepage after 5 seconds (adjust the time as needed)
+      setShowPrompt(true);
+    }, 3000); // Show prompt after 3 seconds (adjust the time as needed)
 
     return () => clearTimeout(timer); // Clean up the timer on component unmount
-  }, [navigate]);
+  }, []);
+
+  const handlePayment = () => {
+    if (user?.role === "Customer" && appointmentId) {
+      navigate(`/${PAYMENT}`, { state: { appointmentId } });
+    }
+  };
+
+  const handleReturnHome = () => {
+    navigate("/");
+  };
+
+  const handleEmployeeRedirect = () => {
+    if (user?.role === "Employee") {
+      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_MANAGE}`);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.role === "Employee") {
+      handleEmployeeRedirect();
+    }
+  }, [navigate, user]);
 
   return (
     <div className="bg-custom-gray min-h-screen flex items-center justify-center">
@@ -34,11 +54,27 @@ const BookingSuccess = () => {
           Booking Successful!
         </h2>
         <p className="text-gray-600 mb-6">
-          Thank you for your booking. You will be redirected to the
-          homepage shortly.
+          Thank you for your booking.
         </p>
         <div className="flex justify-center">
-          <div className="bg-custom-pink rounded-full h-8 w-8 animate-pulse"></div>
+          {!showPrompt && <div className="bg-custom-pink rounded-full h-8 w-8 animate-pulse"></div>}
+          {showPrompt && user?.role === "Customer" && (
+            <div>
+              <p className="text-gray-600 mb-6">Do you want to proceed to the payment?</p>
+              <button
+                onClick={handlePayment}
+                className="bg-custom-blue text-white py-2 px-4 rounded-md mr-2"
+              >
+                Yes
+              </button>
+              <button
+                onClick={handleReturnHome}
+                className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
+              >
+                No
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

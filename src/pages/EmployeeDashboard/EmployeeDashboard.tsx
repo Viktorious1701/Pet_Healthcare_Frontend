@@ -1,23 +1,19 @@
-//import React, { useState } from 'react';
-import EmployeeSidebar from './EmployeeSidebar';
-import { Outlet } from 'react-router-dom';
+import Sidebar from './sidebar'
+import useIsCollapsed from '@/components/hooks/use-is-collapsed'
+import EmployeeDashboardWrapper from './EmployeeDashboardWrapper'
 
-const EmployeeDashboard = () => {
-  // const [searchTerm, setSearchTerm] = useState('');
-
-  // const handleSearch = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-  //   setSearchTerm(e.target.value);
-  //   // You can add your search logic here to filter the data based on the searchTerm
-  // };
+export default function EmployeeDashboard() {
+  const [isCollapsed, setIsCollapsed] = useIsCollapsed()
 
   return (
-    <div className="min-h-screen">
-      <EmployeeSidebar />
-      <div className="ml-[220px] p-4"> {/* Match this to the sidebar width */}
-        <Outlet />
-      </div>
+    <div className='relative h-full overflow-hidden bg-background'>
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      <main
+        id='content'
+        className={`overflow-x-hidden pt-16 transition-[margin] md:overflow-y-hidden md:pt-0 ${isCollapsed ? 'md:ml-14' : 'md:ml-64'} h-full`}
+      >
+        <EmployeeDashboardWrapper />
+      </main>
     </div>
-  );
-};
-
-export default EmployeeDashboard;
+  )
+}
