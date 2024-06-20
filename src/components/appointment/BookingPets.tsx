@@ -52,7 +52,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
               alt={item.data?.name}
               className="flex-shrink-0"
               size="sm"
-              src={item.data?.imageURL}
+              src={item.data?.imageUrl}
             />
             <div className="flex flex-col">
               <span className="text-small">{item.data?.name}</span>
@@ -72,7 +72,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
               alt={pet.name}
               className="flex-shrink-0"
               size="sm"
-              src={pet.imageURL}
+              src={pet.imageUrl}
             />
             <div className="flex flex-col">
               <span className="text-small">{pet.name}</span>
