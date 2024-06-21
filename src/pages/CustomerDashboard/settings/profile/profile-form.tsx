@@ -23,7 +23,7 @@ import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { UserInfo } from "@/Models/User";
-import { getUserProfile } from "@/Services/UserService";
+import { getUserProfile, userAccountUpdateAPI } from "@/Services/UserService";
 import { countries } from "@/Helpers/globalVariable";
 
 const profileFormSchema = z.object({
@@ -47,7 +47,7 @@ const profileFormSchema = z.object({
   }),
   gender: z.boolean(),
   isActive: z.boolean(),
-  imageUrl: z.any(),
+  imageFile: z.instanceof(File).nullable(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -61,9 +61,19 @@ export default function ProfileForm() {
     mode: "onChange",
   });
   const { reset } = form;
-  function onSubmit(data: ProfileFormValues) {
+  async function onSubmit(data: ProfileFormValues) {
     console.log(data);
-
+    await handleUserUpdate(
+      data.address,
+      data.country,
+      data.firstName,
+      data.lastName,
+      data.phoneNumber,
+      data.gender,
+      data.userName,
+      data.isActive,
+      data.imageFile
+    );
     toast({
       title: "You submitted the following values:",
       description: (
@@ -74,12 +84,51 @@ export default function ProfileForm() {
     });
   }
 
+  const handleUserUpdate = async (
+    address: string,
+    country: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber: string,
+    gender: boolean,
+    userName: string,
+    isActive: boolean,
+    imageFile: File | null
+  ) => {
+    await userAccountUpdateAPI(
+      address,
+      country,
+      firstName,
+      lastName,
+      phoneNumber,
+      gender,
+      userName,
+      isActive,
+      imageFile
+    )
+      .then((res) => {
+        if (res?.data) {
+          setUser(res.data);
+          toast({
+            title: "User " + `${userName}` + " is updated",
+          });
+        }
+      })
+      .catch((e) => {
+        toast({
+          title: e,
+          description: "Server error occurred",
+        });
+      });
+  };
+
   const getUser = async () => {
     await getUserProfile()
       .then((res) => {
         if (res?.data) {
           setUser(res.data);
           setCountrySelect(res.data.country);
+          setGenderSelect(res.data.gender);
           reset({
             userName: res.data.userName,
             email: res.data.email,
@@ -96,7 +145,10 @@ export default function ProfileForm() {
         }
       })
       .catch((e) => {
-        console.log(e);
+        toast({
+          title: e,
+          description: "Server error occurred",
+        });
       });
   };
 
@@ -262,7 +314,7 @@ export default function ProfileForm() {
                     value={genderSelect ? "true" : "false"}
                     onValueChange={(value) => {
                       field.onChange(value === "true");
-                      setGenderSelect((value === "true") ? true : false);
+                      setGenderSelect(value === "true" ? true : false);
                     }}
                   >
                     <FormControl>
@@ -282,12 +334,17 @@ export default function ProfileForm() {
           />
           <FormField
             control={form.control}
-            name="imageUrl"
+            name="imageFile"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Profile Image</FormLabel>
                 <FormControl>
-                  <Input type="file" {...field} />
+                  <Input
+                    type="file"
+                    onChange={(e) => {
+                      field.onChange(e.target.files?.[0] ?? null);
+                    }}
+                  />
                 </FormControl>
                 <FormDescription>
                   This will be display as your profile image.
