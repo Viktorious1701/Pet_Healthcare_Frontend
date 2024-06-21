@@ -104,7 +104,7 @@ const AppointmentManagement: React.FC = () => {
                 hover:bg-custom-hover-darkPink 
                 active:bg-custom-active-darkPink 
                 transform transition-transform duration-300 
-                hover:scale-125 active:scale-110">Cancel</Button>
+                hover:scale-125 active:scale-110">Canceel</Button>
                 </TableCell>
                 <TableCell>
                   <select
