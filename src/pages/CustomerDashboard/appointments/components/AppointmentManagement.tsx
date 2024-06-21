@@ -100,7 +100,11 @@ const AppointmentManagement: React.FC = () => {
                 <TableCell>{appointment.status}</TableCell>
                 <TableCell>{appointment.rating}</TableCell>
                 <TableCell>
-                  <Button className="mx-1 bg-custom-darkPink">Cancel</Button>
+                <Button className="mx-1 bg-custom-darkPink 
+                hover:bg-custom-hover-darkPink 
+                active:bg-custom-active-darkPink 
+                transform transition-transform duration-300 
+                hover:scale-125 active:scale-110">Cancel</Button>
                 </TableCell>
                 <TableCell>
                   <select

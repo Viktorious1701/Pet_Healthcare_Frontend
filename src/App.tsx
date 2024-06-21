@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Outlet
 } from "react-router";
-import { UserProvider } from "./Context/useAuth";
+import { UserProvider } from "@/Context/UserContext";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Toaster } from "@/components/ui/sonner";
@@ -32,13 +32,13 @@ import { Toaster } from "@/components/ui/sonner";
 // );
 function App() {
   return (
-    <>
+    
       <UserProvider>
         <Outlet></Outlet>
         <ToastContainer></ToastContainer>
         <Toaster />
       </UserProvider>
-    </>
+
   );
 }
 
