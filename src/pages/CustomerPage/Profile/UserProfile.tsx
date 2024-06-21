@@ -71,7 +71,6 @@ const UserProfile: React.FC = () => {
       try {
         setIsLoading(true);
         const data = await getUserProfile();
-        console.log("data",data);
         if (data) {
           setUser(data.data);
           sessionStorage.setItem('userInfo', JSON.stringify(data.data));

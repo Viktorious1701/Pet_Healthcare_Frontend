@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { Link } from "react-router-dom";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/custom/button";
 import {
   Form,
@@ -41,11 +40,9 @@ const profileFormSchema = z.object({
   role: z.string(),
   address: z.string(),
   country: z.string(),
-  rating: z.number(),
-  yearsOfExperience: z.number().nonnegative(),
   firstName: z.string(),
   lastName: z.string(),
-  phoneNumber: z.string().refine((val) => /^[0-9]+$/.test(val), {
+  phoneNumber: z.string().refine((val) => val === "" || /^[0-9]+$/.test(val), {
     message: "Phone number must contain only digits.",
   }),
   gender: z.boolean(),
@@ -57,28 +54,16 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfileForm() {
   const [user, setUser] = useState<UserInfo>();
+  const [countrySelect, setCountrySelect] = useState(user?.country);
+  const [genderSelect, setGenderSelect] = useState(user?.gender);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: "onChange",
-    defaultValues: {
-      userName: user?.userName,
-      email: user?.email,
-      userId: user?.userId,
-      role: user?.role,
-      address: user?.address,
-      country: user?.country,
-      rating: user?.rating,
-      yearsOfExperience: user?.yearsOfExperience,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      phoneNumber: user?.phoneNumber,
-      gender: user?.gender,
-      isActive: user?.isActive,
-      imageUrl: user?.imageUrl,
-    },
   });
-
+  const { reset } = form;
   function onSubmit(data: ProfileFormValues) {
+    console.log(data);
+
     toast({
       title: "You submitted the following values:",
       description: (
@@ -94,6 +79,20 @@ export default function ProfileForm() {
       .then((res) => {
         if (res?.data) {
           setUser(res.data);
+          setCountrySelect(res.data.country);
+          reset({
+            userName: res.data.userName,
+            email: res.data.email,
+            userId: res.data.userId,
+            role: res.data.role,
+            address: res.data.address,
+            country: res.data.country,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+            gender: res.data.gender,
+            isActive: res.data.isActive,
+          });
         }
       })
       .catch((e) => {
@@ -104,6 +103,10 @@ export default function ProfileForm() {
   useEffect(() => {
     getUser();
   }, []);
+
+  if (!user) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <Form {...form}>
@@ -205,7 +208,13 @@ export default function ProfileForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
-                <Select onValueChange={field.onChange}>
+                <Select
+                  value={countrySelect}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setCountrySelect(value);
+                  }}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue />
@@ -249,7 +258,13 @@ export default function ProfileForm() {
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Select onValueChange={(e) => field.onChange(e === "true")}>
+                  <Select
+                    value={genderSelect ? "true" : "false"}
+                    onValueChange={(value) => {
+                      field.onChange(value === "true");
+                      setGenderSelect((value === "true") ? true : false);
+                    }}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue />

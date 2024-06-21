@@ -1,7 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import {
   Select,
@@ -12,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Dialog,
   DialogContent,
@@ -27,85 +23,90 @@ import { UserInfo } from "@/Models/User";
 import { userAddAPI } from "@/Services/UserService";
 import { toast } from "react-toastify";
 import { countries } from "@/Helpers/globalVariable";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 
-interface UserAddFormInputs {
-  role: string;
-  userName: string;
-  password: string;
-  email: string;
-  rating?: number | null;
-  yearsOfExperience?: number | null;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  gender: boolean;
-  address: string;
-  country: string;
-  //   imageURL?: string | null;
-  isActive: boolean;
-}
+const profileFormSchema = z
+  .object({
+    userName: z
+      .string()
+      .min(2, {
+        message: "Username must be at least 2 characters.",
+      })
+      .max(30, {
+        message: "Username must not be longer than 30 characters.",
+      }),
+    email: z.string().email(),
+    userId: z.string(),
+    role: z.string(),
+    address: z.string(),
+    country: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    phoneNumber: z
+      .string()
+      .refine((val) => val === "" || /^[0-9]+$/.test(val), {
+        message: "Phone number must contain only digits.",
+      }),
+    gender: z.boolean(),
+    password: z.string(),
+    isActive: z.boolean(),
+    imageUrl: z.any(),
+    rating: z.number().min(0).max(5).optional(),
+    yearsOfExperience: z.number().nonnegative().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.role === "Vet") {
+        return (
+          data.rating !== undefined && data.yearsOfExperience !== undefined
+        );
+      }
+      return true;
+    },
+    {
+      message: "Rating and Years of Experience are required for Vet role",
+      path: ["rating", "yearsOfExperience"],
+    }
+  );
+
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 interface UserAddDialogProps {
   onUserAdded: (user: UserInfo) => void;
 }
 
-const validationSchema = Yup.object().shape({
-  role: Yup.string().required("Role is required"),
-  userName: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
-  email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
-  rating: Yup.number()
-    .nullable()
-    .transform((value, originalValue) =>
-      originalValue.trim() === "" ? null : value
-    )
-    .when("role", (role: any, schema) => {
-      return role === "Vet"
-        ? schema.required("Rating is required for Vets").min(0).max(5)
-        : schema.nullable();
-    }),
-  yearsOfExperience: Yup.number()
-    .nullable()
-    .transform((value, originalValue) =>
-      originalValue.trim() === "" ? null : value
-    )
-    .when("role", (role: any, schema) => {
-      return role === "Vet"
-        ? schema.required("Years of experience is required for Vets").min(0)
-        : schema.nullable();
-    }),
-  firstName: Yup.string().required("First Name is required"),
-  lastName: Yup.string().required("Last Name is required"),
-  phoneNumber: Yup.string()
-    .matches(/^0\d{9}$/, "Phone number must start with a zero and be 10 digits long")
-    .required("Phone number is required"),
-  gender: Yup.boolean().required("Gender is required"),
-  address: Yup.string().required("Address is required"),
-  country: Yup.string().required("Country is required"),
-  //   imageURL: Yup.string().url("Invalid URL format").nullable(),
-  isActive: Yup.boolean().required("Active status is required"),
-});
-
 const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
   const [selectedRole, setSelectedRole] = useState<string>("");
-
   const roles = ["Customer", "Vet", "Employee"];
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    mode: "onChange",
+    defaultValues: {
+      userName: "",
+      email: "",
+      address: "",
+      country: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      gender: true,
+      isActive: true,
+      password: "", // Don't pre-fill the password for security reasons
+    },
+  });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<UserAddFormInputs>({ resolver: yupResolver(validationSchema) });
-
-  const handleRoleChange = (role: string) => {
-    setSelectedRole(role);
-    setValue("role", role);
-  };
-
-  const handleUserAdd = async (user: UserAddFormInputs) => {
+  const handleUserAdd = async (user: ProfileFormValues) => {
     await userAddAPI(
       user.role,
       user.address,
@@ -121,22 +122,23 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
       user.password,
       user.isActive
     )
-    .then((res) => {
-      if (res?.data) {
-        console.log(res.data);
-        
-        onUserAdded(res.data);
-        toast.success("User added successfully");
-      }
-    })
-    .catch((e) => {
-      toast.error("Server error occurred", e);
-    });
+      .then((res) => {
+        if (res?.data) {
+          console.log(res.data);
+
+          onUserAdded(res.data);
+          toast.success("User added successfully");
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occurred", e);
+      });
   };
 
-  const onSubmit = (data: UserAddFormInputs) => {
-    handleUserAdd(data);
-  };
+  function onSubmit(data: ProfileFormValues) {
+    console.log(data);
+    // handleUserAdd(data);
+  }
 
   return (
     <Dialog>
@@ -145,7 +147,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
           Add a new User
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-screen-lg bg-white">
+      <DialogContent className="sm:max-w-screen-md bg-white">
         <DialogHeader>
           <DialogTitle>Add a new user profile</DialogTitle>
           <DialogDescription>
@@ -153,250 +155,274 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
             done.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12 items-center gap-2">
-            <Label htmlFor="role" className="text-right">
-              Role
-            </Label>
-            <Select {...register("role")} onValueChange={handleRoleChange}>
-              <SelectTrigger className="col-span-5">
-                <SelectValue placeholder="Select a role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Roles</SelectLabel>
-                  {roles.map((role) => (
-                    <SelectItem key={role} value={role}>
-                      {role.charAt(0).toUpperCase() + role.slice(1)}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-
-            <Label htmlFor="country" className="text-right">
-              Country
-            </Label>
-            <Select
-              {...register("country")}
-              onValueChange={(value) => setValue("country", value)}
-            >
-              <SelectTrigger className="col-span-5">
-                <SelectValue placeholder="Select a country" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Countries</SelectLabel>
-                  {countries.map((country) => (
-                    <SelectItem key={country} value={country}>
-                      {country}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.role && (
-              <p className="col-span-6 text-right text-small text-red-600">
-                {errors.role.message}
-              </p>
-            )}
-            {errors.country && (
-              <p className="col-span-6 text-right text-small text-red-600">
-                {errors.country.message}
-              </p>
-            )}
-          </div>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-12 items-center gap-2">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input
-                id="username"
-                placeholder="username"
-                className="col-span-5"
-                {...register("userName")}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 h-[80vh] overflow-y-auto"
+          >
+            <div className="grid grid-cols-2 gap-2">
+              <FormField
+                control={form.control}
+                name="userName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is the user public display name. It can be a real
+                      name or a pseudonym.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-
-              <Label htmlFor="password" className="text-right">
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                className="col-span-5"
-                {...register("password")}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      We don't have support for changing your email yet.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.userName && (
-                <p className="col-span-6 text-right text-small text-red-600">
-                  {errors.userName.message}
-                </p>
-              )}
-              {errors.password && (
-                <p className="col-span-6 text-right text-small text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
             </div>
-            <div className="grid grid-cols-12 items-center gap-2">
-              <Label htmlFor="email" className="text-right">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="••••••••"
-                className="col-span-3"
-                {...register("email")}
-              />
 
-              <Label htmlFor="firstName" className="text-right">
-                First Name
-              </Label>
-              <Input
-                id="firstName"
-                placeholder="John"
-                className="col-span-3"
-                {...register("firstName")}
+            <div className="grid grid-cols-3 gap-2">
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setSelectedRole(value);
+                        }}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {roles.map((role) => (
+                            <SelectItem key={role} value={role}>
+                              {role}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-
-              <Label htmlFor="lastName" className="text-right">
-                Last Name
-              </Label>
-              <Input
-                id="lastName"
-                placeholder="Doe"
-                className="col-span-3"
-                {...register("lastName")}
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.email && (
-                <p className="col-span-4 text-right text-small text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-              {errors.firstName && (
-                <p className="col-span-4 text-right text-small text-red-600">
-                  {errors.firstName.message}
-                </p>
-              )}
-              {errors.lastName && (
-                <p className="col-span-4 text-right text-small text-red-600">
-                  {errors.lastName.message}
-                </p>
-              )}
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <div className="grid grid-cols-12 items-center gap-2">
-              <Label htmlFor="gender" className="text-right">
-                Gender
-              </Label>
-              <RadioGroup
-                defaultValue="true"
-                className="col-span-1"
-                onValueChange={(value) => setValue("gender", value === "true")}
-                {...register("gender")}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="true" />
-                  <Label>Male</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="false" />
-                  <Label>Female</Label>
-                </div>
-              </RadioGroup>
-              {selectedRole === "Vet" && (
-                <>
-                  <Label htmlFor="rating" className="text-right">
-                    Rating
-                  </Label>
-                  <Input
-                    id="rating"
-                    type="number"
-                    placeholder="0-5"
-                    min={1}
-                    max={5}
-                    className="col-span-4"
-                    {...register("rating")}
-                  />
-
-                  <Label htmlFor="yearsOfExperience" className="text-right">
-                    Years of Experience
-                  </Label>
-                  <Input
-                    id="yearsOfExperience"
-                    type="number"
-                    placeholder="years"
-                    min={0}
-                    className="col-span-4"
-                    {...register("yearsOfExperience")}
-                  />
-                  {errors.rating && (
-                    <p className="col-span-7 text-right text-small text-red-600">
-                      {errors.rating.message}
-                    </p>
+            {selectedRole === "Vet" && (
+              <div className="grid grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="rating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Ratings</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={1}
+                          max={5}
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(
+                              value.target.value
+                                ? Number(value.target.value)
+                                : null
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        If it is a new vet account, it should be 5.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                  {errors.yearsOfExperience && (
-                    <p className="col-span-5 text-right text-small text-red-600">
-                      {errors.yearsOfExperience.message}
-                    </p>
+                />
+                <FormField
+                  control={form.control}
+                  name="yearsOfExperience"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Years Of Experience</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={1}
+                          {...field}
+                          onChange={(value) =>
+                            field.onChange(
+                              value.target.value
+                                ? Number(value.target.value)
+                                : null
+                            )
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>Vet's senority.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                </>
-              )}
-              {errors.gender && (
-                <p className="col-span-full text-right text-small text-red-600">
-                  {errors.gender.message}
-                </p>
-              )}
-            </div>
-            <div className="grid grid-cols-12 items-center gap-2">
-              <Label htmlFor="isActive" className="text-right">
-                Is Active
-              </Label>
-              <RadioGroup
-                defaultValue="true"
-                className="col-span-2"
-                onValueChange={(value) =>
-                  setValue("isActive", value === "true")
-                }
-                {...register("isActive")}
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="true" id="r1" />
-                  <Label htmlFor="r1">Active</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="false" id="r2" />
-                  <Label htmlFor="r2">Inactive</Label>
-                </div>
-              </RadioGroup>
-              <Label htmlFor="address" className="text-right">
-                Address
-              </Label>
-              <Input
-                id="address"
-                placeholder="address"
-                className="col-span-4"
-                {...register("address")}
+                />
+              </div>
+            )}
+            <div className="grid grid-cols-2 gap-2">
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Phone number should follow format: (09...)
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <Label htmlFor="phoneNumber" className="text-right">
-                Phone Number
-              </Label>
-              <Input
-                id="phoneNumber"
-                placeholder="(0...)"
-                className="col-span-3"
-                {...register("phoneNumber")}
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Country</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country} value={country}>
+                            {country}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>Your nationality.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.phoneNumber && (
-                <p className="col-span-full text-right text-small text-red-600">
-                  {errors.phoneNumber.message}
-                </p>
-              )}
             </div>
-          </div>
-          <Button type="submit">Add User</Button>
-        </form>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Textarea className="resize-none" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Is optional to provide your address.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Gender</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(value === "true");
+                        }}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="true">Male</SelectItem>
+                          <SelectItem value="false">Female</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Profile Image</FormLabel>
+                    <FormControl>
+                      <Input type="file" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This will be display as your profile image.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button type="submit">Create User</Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
