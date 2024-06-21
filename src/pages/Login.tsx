@@ -16,7 +16,7 @@ import PetCare from "../assets/petcare.jpg";
 import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
-import {Checkbox} from "@nextui-org/react";
+import { Checkbox } from "@nextui-org/react";
 import { useState } from "react";
 import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
 
@@ -97,7 +97,7 @@ const Login = () => {
                 Login
               </Button>
               <div className="flex justify-center pt-2 w-[90%] mx-auto">
-                <Divider className="w-full"/>
+                <Divider className="w-full" />
               </div>
               <div className="text-center">
                 Don't have an account? &nbsp;

@@ -70,30 +70,30 @@ const ForgotPassword = () => {
                 {errors.email ? <p>{errors.email.message}</p> : ""}
               </div>
               <div className="flex justify-between">
-                <Link 
-                    to="/login" 
-                    className="flex-1 mr-2 px-4 py-2 text-sm font-bold text-white bg-[#DB2777] rounded hover:bg-[#9B1B5A] transition-colors duration-200 inline-flex items-center justify-center"
+                <Link
+                  to="/login"
+                  className="flex-1 mr-2 px-4 py-2 text-sm font-bold text-white bg-[#DB2777] rounded hover:bg-[#9B1B5A] transition-colors duration-200 inline-flex items-center justify-center"
                 >
-                    Go Back to Login
+                  Go Back to Login
                 </Link>
                 <Button className="flex-1" type="submit">
-                    Reset Password
+                  Reset Password
                 </Button>
-                </div>
+              </div>
               <div className="flex justify-center pt-2 w-[90%] mx-auto">
-                <Divider className="w-full"/>
+                <Divider className="w-full" />
               </div>
               <div className="flex flex-col items-center mt-4 text-[1rem]">
                 <p>
-                    Don't have an account?{' '}
+                  Don't have an account?{' '}
                 </p>
-                <Link 
-                    to="/register" 
-                    className="text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200 mt-3 text-[1.2rem]"
+                <Link
+                  to="/register"
+                  className="text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200 mt-3 text-[1.2rem]"
                 >
-                    Create Account
+                  Create Account
                 </Link>
-                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
