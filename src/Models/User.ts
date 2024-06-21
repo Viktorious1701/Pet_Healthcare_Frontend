@@ -33,5 +33,5 @@ export type UserInfo = {
     gender: boolean,
     userName: string,
     isActive: boolean,
-    imageURL: string
+    imageUrl: any
 }

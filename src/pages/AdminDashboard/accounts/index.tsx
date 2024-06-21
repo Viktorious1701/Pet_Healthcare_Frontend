@@ -43,6 +43,7 @@ const Accounts = () => {
   const handleUserUpdate = (user: UserInfo) => {
     setUserUpdate(user);
   };
+
   useEffect(() => {
     getAllUsers();
   }, [userAdd, userDelete, userUpdate]);

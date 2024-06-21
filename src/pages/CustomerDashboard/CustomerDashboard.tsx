@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from './sidebar'
 import useIsCollapsed from '@/components/hooks/use-is-collapsed'
 
-export default function AdminDashboard() {
+export default function CustomerDashboard() {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed()
   return (
     <div className='relative h-full overflow-hidden bg-background'>

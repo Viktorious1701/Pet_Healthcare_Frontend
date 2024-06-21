@@ -1,7 +1,6 @@
-import { z } from 'zod'
-import { Link } from 'react-router-dom'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { Button } from '@/components/custom/button'
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/custom/button";
 import {
   Form,
   FormControl,
@@ -10,89 +9,116 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { toast } from '@/components/ui/use-toast'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { UserInfo } from "@/Models/User";
+import { getUserProfile } from "@/Services/UserService";
+import { countries } from "@/Helpers/globalVariable";
 
 const profileFormSchema = z.object({
-  username: z
+  userName: z
     .string()
     .min(2, {
-      message: 'Username must be at least 2 characters.',
+      message: "Username must be at least 2 characters.",
     })
     .max(30, {
-      message: 'Username must not be longer than 30 characters.',
+      message: "Username must not be longer than 30 characters.",
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' }),
-      })
-    )
-    .optional(),
-})
+  email: z.string().email(),
+  userId: z.string(),
+  role: z.string(),
+  address: z.string(),
+  country: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  phoneNumber: z.string().refine((val) => val === "" || /^[0-9]+$/.test(val), {
+    message: "Phone number must contain only digits.",
+  }),
+  gender: z.boolean(),
+  isActive: z.boolean(),
+  imageUrl: z.any(),
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
-
-// This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  bio: 'I own a computer.',
-  urls: [
-    { value: 'https://shadcn.com' },
-    { value: 'http://twitter.com/shadcn' },
-  ],
-}
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfileForm() {
+  const [user, setUser] = useState<UserInfo>();
+  const [countrySelect, setCountrySelect] = useState(user?.country);
+  const [genderSelect, setGenderSelect] = useState(user?.gender);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: 'onChange',
-  })
-
-  const { fields, append } = useFieldArray({
-    name: 'urls',
-    control: form.control,
-  })
-
+    mode: "onChange",
+  });
+  const { reset } = form;
   function onSubmit(data: ProfileFormValues) {
+    console.log(data);
+
     toast({
-      title: 'You submitted the following values:',
+      title: "You submitted the following values:",
       description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
-    })
+    });
+  }
+
+  const getUser = async () => {
+    await getUserProfile()
+      .then((res) => {
+        if (res?.data) {
+          setUser(res.data);
+          setCountrySelect(res.data.country);
+          reset({
+            userName: res.data.userName,
+            email: res.data.email,
+            userId: res.data.userId,
+            role: res.data.role,
+            address: res.data.address,
+            country: res.data.country,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+            gender: res.data.gender,
+            isActive: res.data.isActive,
+          });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  if (!user) {
+    return <p>Loading...</p>;
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name='username'
+          name="userName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder='shadcn' {...field} />
+                <Input {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name. It can be your real name or a
@@ -104,85 +130,175 @@ export default function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name='email'
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Select a verified email to display' />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value='m@example.com'>m@example.com</SelectItem>
-                  <SelectItem value='m@google.com'>m@google.com</SelectItem>
-                  <SelectItem value='m@support.com'>m@support.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{' '}
-                <Link to='/examples/forms'>email settings</Link>.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='bio'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder='Tell us a little bit about yourself'
-                  className='resize-none'
-                  {...field}
-                />
+                <Input readOnly {...field} />
               </FormControl>
               <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
+                We don't have support for changing your email yet.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`urls.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && 'sr-only')}>
-                    URLs
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && 'sr-only')}>
-                    Add links to your website, blog, or social media profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <Button
-            type='button'
-            variant='outline'
-            size='sm'
-            className='mt-2'
-            onClick={() => append({ value: '' })}
-          >
-            Add URL
-          </Button>
+        <div className="grid grid-cols-3 gap-2">
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <FormControl>
+                  <Input readOnly {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <Button type='submit'>Update profile</Button>
+        <div className="grid grid-cols-2 gap-2">
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormDescription>
+                  Phone number should follow format: (09...)
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Country</FormLabel>
+                <Select
+                  value={countrySelect}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setCountrySelect(value);
+                  }}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country} value={country}>
+                        {country}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormDescription>Your nationality.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Address</FormLabel>
+              <FormControl>
+                <Textarea className="resize-none" {...field} />
+              </FormControl>
+              <FormDescription>
+                Is optional to provide your address.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="grid grid-cols-2 gap-2">
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <Select
+                    value={genderSelect ? "true" : "false"}
+                    onValueChange={(value) => {
+                      field.onChange(value === "true");
+                      setGenderSelect((value === "true") ? true : false);
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="true">Male</SelectItem>
+                      <SelectItem value="false">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Profile Image</FormLabel>
+                <FormControl>
+                  <Input type="file" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This will be display as your profile image.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button type="submit">Update profile</Button>
       </form>
     </Form>
-  )
+  );
 }
