@@ -4,7 +4,7 @@ import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/customer_components/theme-switch";
 import { TopNav } from "@/components/customer_components/top-nav";
 import { UserNav } from "@/components/customer_components/user-nav";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PetList from "./components/PetList";
 
@@ -46,13 +46,7 @@ const Pets = () => {
           <TabsContent value="overview" className="space-y-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-12">
-                {/* <CardHeader className="flex flex-row justify-between">
-                  <CardTitle>Pets</CardTitle>
-                </CardHeader> */}
                 <PetList />
-                {/* <CardContent className="px-2">
-                    
-                </CardContent> */}
               </Card>
             </div>
           </TabsContent>
