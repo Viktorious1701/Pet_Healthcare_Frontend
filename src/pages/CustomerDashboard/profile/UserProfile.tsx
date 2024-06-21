@@ -16,7 +16,7 @@ const UserProfileWrapper = styled.div`
   background-color: #f4f4f4; /* lightGrey */
   display: flex;
   align-items: start;
-  min-height: 100vh;
+  max-height: 69vh;
 `;
 
 const ProfileSection = styled.div`
@@ -109,9 +109,9 @@ const UserProfile: React.FC = () => {
   }
 
   return (
-    <UserProfileWrapper>
+    <UserProfileWrapper className='h-screen'>
       <ProfileSection>
-        <Avatar src="https://via.placeholder.com/100" alt="User Avatar" />
+        <Avatar src={(userInfo?.imageUrl) ? userInfo.imageUrl : "https://via.placeholder.com/100"} alt="User Avatar" />
       </ProfileSection>
       <UserInfoTable>
         <TableHeader>

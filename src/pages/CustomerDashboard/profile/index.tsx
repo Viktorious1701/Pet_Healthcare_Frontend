@@ -49,7 +49,7 @@ const Profile = () => {
                 {/* <CardHeader className="flex flex-row justify-between">
                   
                 </CardHeader> */}
-                <CardContent className="px-2">
+                <CardContent className="px-2 h-[70vh]">
                   <UserProfile/>
                 </CardContent>
               </Card>
