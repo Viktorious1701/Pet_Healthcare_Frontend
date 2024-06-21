@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { handleError } from './ErrorHandler';
@@ -39,6 +40,7 @@ axiosInstance.interceptors.response.use(
 
       if (token && refreshToken) {
         try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const res: any = await refreshTokenAPI(token, refreshToken);
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('refreshToken', res.data.refreshToken);

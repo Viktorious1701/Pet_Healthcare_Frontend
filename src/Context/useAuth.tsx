@@ -12,7 +12,7 @@ import {
   registerAPI,
   resetPasswordAPI,
 } from "../Services/AuthService";
-import { toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 import React from "react";
 // import axios from "axios";
 import {
@@ -20,10 +20,10 @@ import {
   EMPLOYEE_DASHBOARD,
   HOME_PAGE,
   LOGIN,
-  VET_DASHBOARD,
 } from "@/Route/router-const";
 import axiosInstance from "@/Helpers/axiosInstance";
 //import { ErrorOption } from "react-hook-form";
+import "@/../app/globals.css"
 
 type UserContextType = {
   user: UserProfile | null;
@@ -63,7 +63,8 @@ export const UserProvider = ({ children }: Props) => {
       setUser(JSON.parse(user));
       setToken(token);
       setRefreshToken(refreshToken);
-      axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + token;
+      axiosInstance.defaults.headers.common["Authorization"] =
+        "Bearer " + token;
     }
     setIsReady(true);
   }, [loggedIn]);
@@ -88,12 +89,23 @@ export const UserProvider = ({ children }: Props) => {
           setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
           setLoggedIn(true);
-          toast.success("Login Success!");
+          toast("Login Success!", {
+            type: "success",
+            style: {
+              backgroundColor: "var(--background)", // Pastel green
+              color: "var(--hero-text)",
+              outline: "2px solid #77dd77",
+            },
+          } as any);
 
           navigate(`/${HOME_PAGE}`);
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) =>
+        toast("Server error occurred", {
+          description: e,
+        })
+      );
   };
 
   const loginUser = async (username: string, password: string) => {
@@ -112,7 +124,14 @@ export const UserProvider = ({ children }: Props) => {
           setRefreshToken(res?.data.refreshToken!);
           setUser(userObj!);
           setLoggedIn(true);
-          toast.success("Login Success!");
+          toast("Login Success!", {
+            type: "success",
+            style: {
+              backgroundColor: "var(--background)", // Pastel green
+              color: "var(--hero-text)",
+              outline: "2px solid #77dd77",
+            },
+          } as any);
 
           switch (userObj.role) {
             case "Admin":
@@ -122,7 +141,7 @@ export const UserProvider = ({ children }: Props) => {
               navigate(`/${EMPLOYEE_DASHBOARD}`);
               break;
             case "Vet":
-              navigate(`/${VET_DASHBOARD}`);
+              navigate(`/${HOME_PAGE}`);
               break;
             default:
               navigate(`/${HOME_PAGE}`);
@@ -130,18 +149,26 @@ export const UserProvider = ({ children }: Props) => {
           }
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) =>
+        toast("Server error occurred", {
+          description: e,
+        })
+      );
   };
 
   const forgotUser = async (email: string) => {
     await forgotPasswordAPI(email)
       .then((res: any) => {
         if (res) {
-          toast.success("Email sent Success!");
+          toast("Email sent Success!");
           // navigate(`/${RESET_PASS}`);
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) =>
+        toast("Server error occurred", {
+          description: e,
+        })
+      );
   };
 
   const resetUser = async (
@@ -153,11 +180,15 @@ export const UserProvider = ({ children }: Props) => {
     await resetPasswordAPI(token, email, password, confirmPassword)
       .then((res: any) => {
         if (res) {
-          toast.success("Password reset Successfully");
+          toast("Password reset Successfully");
           navigate(`/${LOGIN}`);
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) =>
+        toast("Server error occurred", {
+          description: e,
+        })
+      );
   };
 
   // This function is used to reset the password but not yet implemented
@@ -166,10 +197,14 @@ export const UserProvider = ({ children }: Props) => {
       .post("http://localhost:5000/api/auth/forgot-password", { email })
       .then((res) => {
         if (res) {
-          toast.success("Password reset link sent to your email");
+          toast("Password reset link sent to your email");
         }
       })
-      .catch((e) => toast.warning("Server error occurred", e));
+      .catch((e) =>
+        toast("Server error occurred", {
+          description: e,
+        })
+      );
   };
 
   const isLoggedIn = () => {
@@ -188,22 +223,25 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   return (
-    <UserContext.Provider
-      value={{
-        loginUser,
-        user,
-        token,
-        refreshToken,
-        logout,
-        isLoggedIn,
-        registerUser,
-        forgotUser,
-        resetUser,
-        resetPassword,
-      }}
-    >
-      {isReady ? children : null}
-    </UserContext.Provider>
+    <>
+      <Toaster />
+      <UserContext.Provider
+        value={{
+          loginUser,
+          user,
+          token,
+          refreshToken,
+          logout,
+          isLoggedIn,
+          registerUser,
+          forgotUser,
+          resetUser,
+          resetPassword,
+        }}
+      >
+        {isReady ? children : null}
+      </UserContext.Provider>
+    </>
   );
 };
 

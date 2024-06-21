@@ -7,6 +7,7 @@ import {
 import { UserProvider } from "./Context/useAuth";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from "@/components/ui/sonner";
 
 // const router = createBrowserRouter(
 //   createRoutesFromElements(
@@ -35,6 +36,7 @@ function App() {
       <UserProvider>
         <Outlet></Outlet>
         <ToastContainer></ToastContainer>
+        <Toaster />
       </UserProvider>
     </>
   );

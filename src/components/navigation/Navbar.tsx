@@ -1,16 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
-import { Button } from "@/components/ui/button";
 import Paw from "@/assets/Paw2.svg";
 import { useAuth } from "@/Context/useAuth";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/custom/button";
 import {
-  Avatar,
-  Dropdown,
-  DropdownItem,
   DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import {
   ADMIN_DASHBOARD,
@@ -18,8 +22,8 @@ import {
   EMPLOYEE_DASHBOARD,
   LOGIN,
   REGISTER,
-  SETTINGS as SETTINGS,
   VET_DASHBOARD,
+  SETTINGS_PROFILE,
 } from "@/Route/router-const";
 import ThemeSwitch from "../vet_components/theme-switch";
 
@@ -54,15 +58,22 @@ const Navbar = () => {
   };
 
   const navigateToUserProfile = () => {
-    navigate(`/${path}/${SETTINGS}`);
+    navigate(`/${path}/${SETTINGS_PROFILE}`);
   };
 
   const navigateToDashboard = () => {
     navigate(`/${path}`);
   };
 
+  const dashboardNames = {
+    Admin: "Admin Dashboard",
+    Employee: "Employee Dashboard",
+    Vet: "Vet Dashboard",
+    Customer: "Customer Dashboard",
+  };
+
   return (
-    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8  justify-between ">
+    <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8  justify-between bg-white ">
       <div className="flex">
         <img
           src={Paw}
@@ -76,18 +87,7 @@ const Navbar = () => {
           <div className="mr-5">
             <ThemeSwitch />
           </div>
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform justify-self-end"
-                color="secondary"
-                name="Jason Hughes"
-                size="sm"
-                src=""
-              />
-            </DropdownTrigger>
+          {/* <Dropdown placement="bottom-end">
             <DropdownMenu aria-label="Profile Actions" variant="flat">
               <DropdownItem
                 key="profile"
@@ -97,17 +97,59 @@ const Navbar = () => {
                 <p className="font-semibold">Signed in as</p>
                 <p className="font-semibold">{user?.email}</p>
               </DropdownItem>
+              <DropdownItem key="dashboard" onClick={navigateToDashboard}>
+                {(user &&
+                  user.role &&
+                  dashboardNames[user.role as keyof typeof dashboardNames]) ||
+                  "My Dashboard"}
+              </DropdownItem>
               <DropdownItem key="userProfile" onClick={navigateToUserProfile}>
                 User Profile
-              </DropdownItem>
-              <DropdownItem key="dashboard" onClick={navigateToDashboard}>
-                My Dashboard
               </DropdownItem>
               <DropdownItem key="logout" color="danger" onClick={logout}>
                 Log Out
               </DropdownItem>
             </DropdownMenu>
-          </Dropdown>
+          </Dropdown> */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                  <AvatarFallback>{user?.userName?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                </Avatar>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">{user?.userName}</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                  {user?.email}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem key="dashboard" onClick={navigateToDashboard}>
+                {(user &&
+                  user.role &&
+                  dashboardNames[user.role as keyof typeof dashboardNames]) ||
+                  "My Dashboard"}
+                  <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuItem key="userProfile" onClick={navigateToUserProfile}>
+                  Settings
+                  <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem key="logout" color="danger" onClick={logout}>
+                Log out
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       ) : (
         <div className="mr-[3rem] flex items-center">

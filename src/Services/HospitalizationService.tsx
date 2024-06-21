@@ -1,3 +1,4 @@
+import { HospitalizationPost } from "@/Models/Hospitalization";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -38,3 +39,12 @@ export const hospitalizationDeleteAPI = async (hospitalizationId: number) => {
     throw error;
   }
 };
+export const hospitalizationCreateAPI = async (newHospitalization: HospitalizationPost) => {
+    try {
+        const data = await axios.post(api + `/Hospitalization`, newHospitalization);
+        return data;
+    } catch (error) {
+        toast.error("Failed to add hospitalization");
+        throw error;
+    }
+}

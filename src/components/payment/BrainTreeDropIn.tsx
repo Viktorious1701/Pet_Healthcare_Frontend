@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import dropin, { Dropin } from "braintree-web-drop-in";
 import { Button } from "reactstrap";
-import axios from 'axios';
+
+import axiosInstance from '@/Helpers/axiosInstance';
 
 interface BraintreeDropInProps {
     show: boolean;
@@ -19,7 +20,7 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
     useEffect(() => {
         const generateToken = async () => {
             try {
-                const response = await axios.get('https://localhost:7227/api/Payment/GenerateToken');
+                const response = await axiosInstance.get('https://pethealthcaresystem.azurewebsites.net/api/Payment/GenerateToken');
                 setClientToken(response.data.data);
             } catch (error) {
                 console.error('Token generation error:', error);
@@ -77,8 +78,9 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
                     console.log("payment method nonce", paymentMethodNonce);
 
                     // Send nonce to your server
-                    axios.post(`https://localhost:7227/api/Payment/Checkout?appointmentId=1&nonce=${paymentMethodNonce}`)
+                    axiosInstance.post(`https://pethealthcaresystem.azurewebsites.net/api/Payment/Checkout?appointmentId=${appointmentId}&nonce=${paymentMethodNonce}`)
                         .then(response => {
+                            console.log('Payment response:', response.data);
                             alert('Payment completed successfully!');
                             onPaymentCompleted();
                         })

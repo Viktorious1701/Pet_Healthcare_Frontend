@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer, Event } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -18,14 +18,19 @@ import "./Theme.css";
 
 import { useNavigate } from 'react-router-dom';
 import { APPOINTMENT_DETAILS } from "@/Route/router-const";
+import { appointmentVetAPI } from "@/Services/AppointmentService";
+import Sonner from "@/components/vet_components/sonner";
 
 const locales = {
   "en-US": enUS,
 };
 const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1);
 const now = new Date();
+console.log(now);
 const start = endOfHour(now);
+console.log(start);
 const end = addHours(start, 2);
+console.log(end);
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -36,18 +41,28 @@ const localizer = dateFnsLocalizer({
 
 const App: FC = () => {
   const navigate = useNavigate();
+  const [events, setEvents] = useState<Event[]>([]);
+  
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      const vetId = 'your-vet-id'; // replace with your vet id
+      const appointments = await appointmentVetAPI(vetId);
+      if (appointments) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const newEvents = appointments.map((appointment: any) => ({
+          title: appointment.service,
+          start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
+          end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
+        }));
+        setEvents(newEvents);
+      }
+    };
+    fetchAppointments();
+  }, []);
 
   const handleSelectEvent = () => {
     navigate(`/vet/${APPOINTMENT_DETAILS}`);
   };
-
-  const [events] = useState<Event[]>([
-    {
-      title: "Learn cool stuff",
-      start,
-      end,
-    },
-  ]);
 
   const { theme } = useTheme();
   const calendarStyle =
@@ -61,6 +76,7 @@ const App: FC = () => {
       {/* ===== Top Heading ===== */}
       <LayoutHeader>
         <div className="ml-auto flex items-center space-x-4">
+          <Sonner />
           <ThemeSwitch />
           <UserNav />
         </div>
