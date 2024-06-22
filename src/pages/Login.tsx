@@ -1,24 +1,19 @@
-import { Divider } from '@nextui-org/react';
-import {
-  Card,
-  CardContent,
-  CardTitle,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "@/../app/globals.css";
-import PetCare from "../assets/petcare.jpg";
+import PetCare from "../assets/petcare.png";
+//import PetCare from "../assets/dogs-7808115_1280.png";
 import { useAuth } from "../Context/useAuth";
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
-import { Checkbox } from "@nextui-org/react";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
+import { useState } from "react";
+import { IconEye, IconEyeOff } from "@tabler/icons-react";
+import Paw from "@/assets/Paw2.svg";
 
 type LoginFormInputs = {
   userName: string;
@@ -26,8 +21,8 @@ type LoginFormInputs = {
 };
 
 const validationSchema = Yup.object().shape({
-  userName: Yup.string().required('Username is required'),
-  password: Yup.string().required('Password is required'),
+  userName: Yup.string().required("Username is required"),
+  password: Yup.string().required("Password is required"),
 });
 
 const Login = () => {
@@ -42,76 +37,106 @@ const Login = () => {
     loginUser(data.userName, data.password);
   };
 
-  const [isSelected] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-      <img src={PetCare} alt="Pet care" className="absolute w-full h-full object-cover" />
-      <form
-        className="w-full max-w-md p-8 bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-50"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Login</CardTitle>
-            <CardDescription>
-              Enter your email and password to login to your account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  placeholder="username"
-                  type="username"
-                  {...register("userName")}
-                  autoComplete="new-password"
-                />
-                {errors.userName && <p>{errors.userName.message}</p>}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  placeholder="••••••••"
-                  type="password"
-                  {...register("password")}
-                  autoComplete="new-password"
-                />
-                {errors.password ? <p>{errors.password.message}</p> : ""}
-              </div>
-              <div className="flex justify-between">
-                <Checkbox defaultSelected={isSelected} size="sm">
-                  Remember me
-                </Checkbox>
-                <Link
-                  to={`/${FORGOT_PASS}`}
-                  className="text-sm text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
-              <Button className="w-full" type="submit">
-                Login
-              </Button>
-              <div className="flex justify-center pt-2 w-[90%] mx-auto">
-                <Divider className="w-full" />
-              </div>
-              <div className="text-center">
-                Don't have an account? &nbsp;
-                <Link
-                  to={`/${REGISTER}`}
-                  className="font-bold text-sm text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
-                >
-                  Register
-                </Link>
-              </div>
+    <div className="grid grid-cols-5 min-h-screen">
+      <div className="col-span-2 flex items-center justify-center bg-[var(--background)]">
+        <form
+          className="w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto" // Added overflow-auto for scrolling
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Card>
+            <div className="flex items-center ml-[1.5rem]">
+              <img src={Paw} alt="Paw" className="w-20 h-30 mr-4 text-[#DB2777]" />{" "}
+              {/* Adjust w-32 h-32 for size */}
+              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">Pet88</span>
             </div>
-          </CardContent>
-        </Card>
-      </form>
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6">
+                SIGN IN
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* Username and Password Inputs */}
+                <div className="space-y-2 mb-6">
+                  <Label htmlFor="username" className="text-xl font-normal">
+                    Username
+                  </Label>
+                  <Input
+                    id="username"
+                    placeholder="username"
+                    type="username"
+                    {...register("userName")}
+                    autoComplete="new-password"
+                    className="py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
+                  />
+                  {errors.userName && <p>{errors.userName.message}</p>}
+                </div>
+                <div className="space-y-2 mb-6 ">
+                  <Label htmlFor="password" className="text-xl font-normal">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      placeholder="••••••••"
+                      type={showPassword ? "text" : "password"}
+                      {...register("password")}
+                      autoComplete="new-password"
+                      className="py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? (
+                        <IconEye stroke={2} />
+                      ) : (
+                        <IconEyeOff stroke={2} />
+                      )}
+                    </button>
+                  </div>
+                  {errors.password && <p>{errors.password.message}</p>}
+                </div>
+                <Button
+                  className="w-full bg-[#DB2777] text-white py-4 text-lg mt-4"
+                  type="submit"
+                >
+                  Login
+                </Button>
+                {/* Links */}
+                <div className="mt-auto">
+                  <div className="pt-[20rem] md:pt-[5rem] lg:pt-[10rem] xl:pt-[20rem] text-base sm:text-lg md:text-xl font-light font-mont">
+                    Don't have an account? &nbsp;
+                    <Link
+                      to={`/${REGISTER}`}
+                      className="font-mont font-medium text-base sm:text-lg md:text-xl text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
+                    >
+                      Create one.
+                    </Link>
+                  </div>
+                  <Link
+                    to={`/${FORGOT_PASS}`}
+                    className="font-mont font-medium text-base sm:text-lg md:text-xl text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
+                  >
+                    I forgot my password
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </form>
+      </div>
+      <div className="col-span-3 flex items-center justify-center bg-gray-100">
+        <img
+          src={PetCare}
+          alt="Pet care"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
   );
 };

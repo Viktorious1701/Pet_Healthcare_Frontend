@@ -135,15 +135,15 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen bg-custom-gray">
+    <div className="bg-cover bg-center min-h-screen bg-[--background]">
       <Navbar />
       <div ref={containerRef} className="flex overflow-x-hidden w-full">
         <div className="w-full flex-shrink-0 flex justify-center">
           <div className="pt-20 mt-20 flex justify-center">
-            <div className="bg-white rounded-md shadow-md p-6 mr-8">
+            <div className="bg-[--background] rounded-md shadow-md p-6 mr-8">
               <CalendarComponent onDateChange={handleDateChange} />
             </div>
-            <div className="bg-white rounded-md shadow-md p-6 max-w-md mx-auto">
+            <div className="bg-[--background] rounded-md shadow-md p-6 max-w-md mx-auto">
               {selectedDate ? (
                 <div className="p-6">
                   {/* Add arrow button to hide slots and reset date */}
@@ -152,7 +152,7 @@ const BookingPage = () => {
                       Available Time Slots
                     </h2>
                     <ArrowRightFromLine
-                      className="h-6 w-6 text-gray-500 cursor-pointer transform hover:scale-110"
+                      className="h-6 w-6 text-[--hero-text] cursor-pointer transform hover:scale-110"
                       onClick={handleReset}
                     />
                   </div>

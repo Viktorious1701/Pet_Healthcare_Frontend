@@ -17,7 +17,7 @@ const HospitalizationService = () => {
         {/* Hero Section */}
         <section
           id="hero"
-          className="bg-[#F9FAFB] py-[8rem] mt-[6rem]"
+          className="bg-[--background] py-[8rem] mt-[6rem]"
         >
           <div className="px-4">
             <div className="flex flex-col md:flex-row items-center justify-center">
