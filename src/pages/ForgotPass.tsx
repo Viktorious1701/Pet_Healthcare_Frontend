@@ -2,7 +2,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,8 +13,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useAuth } from "../Context/useAuth";
 import { Link } from 'react-router-dom';
-import PetCare from "../assets/petcare.jpg";
-import { Divider } from "@nextui-org/react";
+import PetCare from "../assets/pet-basic.jpg";
+import { LOGIN } from "@/Route/router-const";
+import Paw from "@/assets/Paw2.svg";
 
 type ForgotPasswordFormInputs = {
   email: string;
@@ -38,66 +38,68 @@ const ForgotPassword = () => {
     forgotUser(form.email);
   };
 
-  return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-      <img
-        src={PetCare}
-        alt="Pet care"
-        className="absolute w-full h-full object-cover"
-      />
-      <form
-        className="w-full max-w-md p-8 bg-opacity-20 rounded shadow-md z-10 backdrop-filter backdrop-blur-lg border border-white border-opacity-50"
-        onSubmit={handleSubmit(handleForgotPassword)}
-      >
-        <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Forgot Password</CardTitle>
-            <CardDescription>
-              Enter your email to reset your password
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  placeholder="email"
-                  type="email"
-                  {...register("email")}
-                  autoComplete="email"
-                />
-                {errors.email ? <p>{errors.email.message}</p> : ""}
-              </div>
-              <div className="flex justify-between">
-                <Link
-                  to="/login"
-                  className="flex-1 mr-2 px-4 py-2 text-sm font-bold text-white bg-[#DB2777] rounded hover:bg-[#9B1B5A] transition-colors duration-200 inline-flex items-center justify-center"
+ return (
+    <div className="grid grid-cols-5 min-h-screen">
+      <div className="col-span-2 flex items-center justify-center bg-[var(--background)]">
+        <form
+          className="w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto"
+          onSubmit={handleSubmit(handleForgotPassword)}
+        >
+          <Card>
+          <div className="flex items-center ml-[1.5rem]">
+              <img src={Paw} alt="Paw" className="w-20 h-30 mr-4 text-[#DB2777]" />
+              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">Pet88</span>
+            </div>
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-4xl font-bold mt-10 md:mt-16 lg:mt-56 mb-2">
+                FORGOT PASSWORD
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2 mb-6">
+                  <Label htmlFor="email" className="text-xl font-normal">
+                    Email
+                  </Label>
+                  <Input
+                    id="email"
+                    placeholder="email@example.com"
+                    type="email"
+                    {...register("email")}
+                    autoComplete="email"
+                    className="py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
+                  />
+                  {errors.email && <p>{errors.email.message}</p>}
+                </div>
+                <Button
+                  className="w-full bg-[#DB2777] text-white py-4 text-lg mt-1"
+                  type="submit"
                 >
-                  Go Back to Login
-                </Link>
-                <Button className="flex-1" type="submit">
                   Reset Password
                 </Button>
+                <div className="mt-auto">
+                  <div className="pt-[22rem] md:pt-[4rem] lg:pt-[8rem] xl:pt-[22rem] text-base sm:text-lg md:text-xl font-light font-mont">
+                  Back to &nbsp;
+                    <Link
+                      to={`/${LOGIN}`}
+                      className="font-mont font-medium text-base sm:text-lg md:text-xl text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
+                    >
+                      login
+                    </Link>
+                  </div>
+                </div>
               </div>
-              <div className="flex justify-center pt-2 w-[90%] mx-auto">
-                <Divider className="w-full" />
-              </div>
-              <div className="flex flex-col items-center mt-4 text-[1rem]">
-                <p>
-                  Don't have an account?{' '}
-                </p>
-                <Link
-                  to="/register"
-                  className="text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200 mt-3 text-[1.2rem]"
-                >
-                  Create Account
-                </Link>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
+            </CardContent>
+          </Card>
+        </form>
+      </div>
+      <div className="col-span-3 flex items-center justify-center bg-gray-100">
+        <img
+          src={PetCare}
+          alt="Pet care"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
   );
 };

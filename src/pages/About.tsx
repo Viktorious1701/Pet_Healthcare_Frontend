@@ -39,7 +39,7 @@ const SECTION_DATA = [
 ]
 
 const Section = ({ title, items }: { title: string, items: Array<{ image: string, alt: string, title: string, description: string }> }) => (
-  <section className="bg-white dark:bg-zinc-800 py-4">
+  <section className="bg-[--background] py-4">
     <div className="container mx-auto text-center">
       <h2 className="text-3xl font-bold mb-8">{title}</h2>
       <div className="flex justify-around flex-wrap">
@@ -56,7 +56,7 @@ const Section = ({ title, items }: { title: string, items: Array<{ image: string
 )
 
 const GallerySection = ({ title, images }: { title: string, images: string[] }) => (
-  <section className="bg-zinc-100 dark:bg-zinc-900">
+  <section className="bg-[--background]">
     <div className="container mx-auto text-center">
       <h2 className="text-3xl font-bold mb-8">{title}</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -69,7 +69,7 @@ const GallerySection = ({ title, images }: { title: string, images: string[] }) 
 )
 
 const About = () => (
-  <div className="min-h-screen bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100">
+  <div className="min-h-screen bg-[--background] text-[--hero-text]">
     <Navbar />
     <div className="pt-[8rem]">
       <Section
