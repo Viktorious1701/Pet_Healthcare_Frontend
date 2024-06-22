@@ -39,7 +39,7 @@ const Pets = () => {
           <div className="w-full overflow-x-scroll pb-2">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">Pet Details</TabsTrigger>
+              <TabsTrigger value="analytics">Pet Medical Records</TabsTrigger>
               <TabsTrigger value="notifications">Settings</TabsTrigger>
             </TabsList>
           </div>

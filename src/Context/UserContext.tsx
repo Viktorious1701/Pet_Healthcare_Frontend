@@ -175,6 +175,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
+    sessionStorage.clear();
     axiosInstance.defaults.headers.common['Authorization'] = '';
     navigate(`/${HOME_PAGE}`);
   };

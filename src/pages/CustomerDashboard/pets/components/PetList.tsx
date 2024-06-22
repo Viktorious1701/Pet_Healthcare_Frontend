@@ -25,13 +25,13 @@ const PetList: React.FC = () => {
     if (user?.userName) {
       await petsOfCustomerAPI(user.userName)
         .then((res) => {
-          if (res?.data) {
-            setPetProfiles(res.data);
-            setFilteredPetProfiles(res.data);
-            // console.log("Pet profiles: ", res.data);
-          } else {
+          if (res?.data === "User doesn't have any pets") {
             setPetProfiles([]);
             setFilteredPetProfiles([]);
+          } else {
+            setPetProfiles(res?.data);
+            setFilteredPetProfiles(res?.data);
+            sessionStorage.setItem("pets", JSON.stringify(res?.data));
           }
         })
         .catch((err) => {
@@ -111,7 +111,7 @@ const PetList: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="text-white font-bold">No pets found</div>
+            <div className="text-black font-bold">No pets found</div>
           )}
         </div>
       )}

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import SearchBar from "@/components/navigation/SearchBar";
 import { hospitalizationListAPI } from "@/Services/HospitalizationService";
-import { getPetById } from "@/Services/PetService";
 import { Hospitalization } from "@/Models/Hospitalization";
 import {
   CUSTOMER_DASHBOARD,
@@ -19,6 +18,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PetGet } from "@/Models/Pet";
+import { petsOfCustomerAPI } from "@/Services/PetService";
+import { useAuth } from "@/Context/useAuth";
+import { toast } from "sonner";
 
 const calculateTotalCost = (
   admissionDate: string,
@@ -35,52 +38,68 @@ const calculateTotalCost = (
 };
 
 const HospitalizationPage: React.FC = () => {
+  const { user } = useAuth();
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>(
     []
   );
+  const [pets, setPets] = useState<PetGet[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchHospitalizationsWithPets = async () => {
-    try {
-      const res = await hospitalizationListAPI();
+  const getPets = async () => {
+    await petsOfCustomerAPI(String(user?.userName))
+    .then((res) => {
       if (res?.data) {
-        const hospitalizationsWithPets = await Promise.all(
-          res.data.map(async (hospitalization: Hospitalization) => {
-            const petRes = await getPetById(hospitalization.petId.toString());
-            return {
-              ...hospitalization,
-              petName: petRes?.data?.name, // Assuming the pet object has a 'name' field
-            };
-          })
-        );
-        setHospitalizations(hospitalizationsWithPets);
-        sessionStorage.setItem(
-          "hospitalizations",
-          JSON.stringify(hospitalizationsWithPets)
-        );
-      } else {
-        setHospitalizations([]);
+        setPets(res.data);
       }
-    } catch (error) {
-      console.log("Error occurred:", error);
-      setHospitalizations([]);
-    } finally {
-      setLoading(false);
-    }
+    })
+    .catch((e) => {
+      toast.error("Server error occurred", e);
+    })
+  }
+
+  const getHospitalization = async () => {
+    await hospitalizationListAPI()
+      .then((res) => {
+        if (res?.data) {
+          const hospitalizationsWithPets = res.data?.map(
+            (hospitalization: Hospitalization) => {
+              const petRes = pets?.find((pet) => hospitalization.petId == pet.id);
+              return {
+                ...hospitalization,
+                petName: petRes?.name, // Assuming the pet object has a 'name' field
+              };
+            }
+          );
+          setHospitalizations(hospitalizationsWithPets);
+          sessionStorage.setItem("hospitalizations", JSON.stringify(hospitalizationsWithPets));
+        } else {
+          setHospitalizations([]);
+        }
+      })
+      .catch((error) => {
+        console.log("Error occurred:", error);
+        setHospitalizations([]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
     setLoading(true);
     const storedHospitalizations = sessionStorage.getItem("hospitalizations");
+    // const storedPets = sessionStorage.getItem("pets");
     if (storedHospitalizations) {
       setHospitalizations(JSON.parse(storedHospitalizations));
       setLoading(false);
-      return;
-    }
-
-    fetchHospitalizationsWithPets();
+    } 
+    getPets();
   }, []);
+
+  useEffect(() => {
+    getHospitalization();
+  }, [pets])
 
   // Filter hospitalizations based on search term
   const filteredHospitalizations = hospitalizations.filter((hospitalization) =>
