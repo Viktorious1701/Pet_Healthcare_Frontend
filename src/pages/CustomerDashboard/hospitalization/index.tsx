@@ -1,4 +1,4 @@
-import { Button } from "@/components/custom/button";
+
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
 import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/customer_components/theme-switch";
@@ -27,9 +27,6 @@ const Hospitalization = () => {
           <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
             Appointments
           </h1>
-          <div className="flex items-center space-x-2">
-            <Button>Download</Button>
-          </div>
         </div>
         <Tabs
           orientation="vertical"
