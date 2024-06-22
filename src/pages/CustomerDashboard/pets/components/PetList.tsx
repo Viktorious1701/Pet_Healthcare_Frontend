@@ -22,9 +22,9 @@ const PetList: React.FC = () => {
   if (!user) return;
   const getPets = async () => {
     setLoading(true);
-    try {
-      if (user?.userName) {
-        await petsOfCustomerAPI(user.userName).then((res) => {
+    if (user?.userName) {
+      await petsOfCustomerAPI(user.userName)
+        .then((res) => {
           if (res?.data) {
             setPetProfiles(res.data);
             setFilteredPetProfiles(res.data);
@@ -33,14 +33,19 @@ const PetList: React.FC = () => {
             setPetProfiles([]);
             setFilteredPetProfiles([]);
           }
-        }
-      } catch (err) {
-        console.log("Pets not found or owner not found ", err);
-        setPetProfiles([]);
-        setFilteredPetProfiles([]);
-      }
+        })
+        .catch((err) => {
+          console.log("Pets not found or owner not found ", err);
+          setPetProfiles([]);
+          setFilteredPetProfiles([]);
+        });
       setLoading(false);
-    };
+    }
+  };
+
+  useEffect(() => {
+    getPets();
+  }, []);
 
   useEffect(() => {
     const filteredProfiles = petProfiles.filter((pet) =>
@@ -52,7 +57,6 @@ const PetList: React.FC = () => {
   const handleViewProfile = (id: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
   };
-
 
   return (
     <div className="py-6 px-4 rounded-lg shadow-lg">
@@ -78,7 +82,11 @@ const PetList: React.FC = () => {
                 className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
                 <img
-                  src={(pet.imageUrl) ? pet.imageUrl : "https://via.placeholder.com/100"}
+                  src={
+                    pet.imageUrl
+                      ? pet.imageUrl
+                      : "https://via.placeholder.com/100"
+                  }
                   alt={pet.name}
                   className="w-full h-48 object-cover"
                 />
