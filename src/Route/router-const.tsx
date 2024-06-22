@@ -30,7 +30,7 @@ export const CUSTOMER_DASHBOARD = "customer"
 export const CUSTOMER_FEEDBACK = "customer-feedback"
 export const CUSTOMER_APPOINTMENTS = "customer-appoinments"
 export const CUSTOMER_PROFILE = "customer-profile"
-
+export const REFUND = "refund"
 export const CUSTOMER_PET_LIST = "customer-pets"
 export const CUSTOMER_PET_UPDATE = "customer-pet-update"
 export const CUSTOMER_HOSPITALIZATION_TABLE = "customer-hospitalization"

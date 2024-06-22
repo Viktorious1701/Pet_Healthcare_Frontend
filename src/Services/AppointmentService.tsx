@@ -22,7 +22,16 @@ export const appointmentAvailableVetsAPI = async (
     handleError(error);
   }
 };
-
+export const getAppointmentByIdAPI = async (appointmentId: number) => {
+  try {
+    const data = await axiosInstance.get<AppointmentGet>(
+      api + `/${appointmentId}`
+    );
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}
 export const appointmentCustomerAPI = async (username: string) => {
   try {
     const data = await axiosInstance.get<AppointmentGet[]>(
