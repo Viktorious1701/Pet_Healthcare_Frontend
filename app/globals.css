@@ -7,7 +7,7 @@
       --background: rgb(255, 255, 255);
       --foreground: 222.2 84% 4.9%;
 
-      --card: 0 0% 100%;
+      --card: rgb(255, 255, 255);
       --card-foreground: 222.2 84% 4.9%;
 
       --popover: 0 0% 100%;
@@ -34,7 +34,7 @@
 
       --radius: 0.5rem;
 
-      --nav-header: #f3f4f67c;
+      --nav-header: #7575757c;
 
       --hero-text: #1F2937;
       --hero-button: rgb(255, 255, 255);
@@ -47,10 +47,10 @@
     }
 
     .dark {
-      --background: hsl(222, 84%, 5%);
+      --background: hsl(0, 0%, 8%);
       --foreground: 210 40% 98%;
 
-      --card: 222.2 84% 4.9%;
+      --card: hsl(0, 0%, 8%);
       --card-foreground: 210 40% 98%;
 
       --popover: 222.2 84% 4.9%;
@@ -75,7 +75,7 @@
       --input: 217.2 32.6% 17.5%;
       --ring: 212.7 26.8% 83.9%;
 
-      --nav-header: #42424296;
+      --nav-header: #3d3d3d96;
       
       --hero-text: #e0e0e0;
       --hero-button: rgba(82, 82, 82, 0.87);
@@ -103,4 +103,8 @@
     100% {
       width: 0;
     }
+  }
+
+  .bg-important {
+    background-color: var(--background) !important;
   }

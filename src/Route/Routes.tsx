@@ -66,6 +66,7 @@ import {
   APPOINTMENT_DETAILS,
   PAYMENT,
   CUSTOMER_PROFILE,
+  REFUND,
 } from './router-const';
 
 
@@ -86,6 +87,7 @@ import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateFo
 import Appointments from '@/pages/CustomerDashboard/appointments';
 import Hospitalization from '@/pages/CustomerDashboard/hospitalization';
 import Profile from '@/pages/CustomerDashboard/profile';
+import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -274,6 +276,10 @@ const RouterComponent = () => {
               element: <PetUpdateForm />,
             },
             {
+              path: `${REFUND}/:appointmentId`,
+              element: <CancelAppointment />,
+            },
+            {
               path: `${CUSTOMER_APPOINTMENTS}`,
               element: <Appointments />, // Component for appointment management
             },
@@ -292,6 +298,16 @@ const RouterComponent = () => {
             {
               path: `${SETTINGS}`,
               element: <AccountSettings />, // Component for account settings
+            },
+            {
+              path: `${HOSPITALIZATION}/:petName`,
+              element: <PetHealthTrack />,
+            },
+    
+            {
+    
+              path: `${KENNEL}/:kennelId`,
+              element: <KennelPage />,
             },
             {
               index: true,
@@ -527,16 +543,7 @@ const RouterComponent = () => {
           path: `${HOSPITALIZATION}`,
           element: <HospitalizationPage />,
         },
-        {
-          path: `${HOSPITALIZATION}/:petName`,
-          element: <PetHealthTrack />,
-        },
-
-        {
-
-          path: `${KENNEL}/:kennelId`,
-          element: <KennelPage />,
-        },
+       
         {
           path: '/500',
           element: <GeneralError />,

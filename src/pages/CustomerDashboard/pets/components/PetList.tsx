@@ -33,19 +33,14 @@ const PetList: React.FC = () => {
             setPetProfiles([]);
             setFilteredPetProfiles([]);
           }
-        });
+        }
+      } catch (err) {
+        console.log("Pets not found or owner not found ", err);
+        setPetProfiles([]);
+        setFilteredPetProfiles([]);
       }
-    } catch (err) {
-      console.log("Pets not found or owner not found ", err);
-      setPetProfiles([]);
-      setFilteredPetProfiles([]);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getPets();
-  }, [user]);
+      setLoading(false);
+    };
 
   useEffect(() => {
     const filteredProfiles = petProfiles.filter((pet) =>
@@ -57,6 +52,7 @@ const PetList: React.FC = () => {
   const handleViewProfile = (id: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
   };
+
 
   return (
     <div className="py-6 px-4 rounded-lg shadow-lg">

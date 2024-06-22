@@ -20,9 +20,9 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
       <h2>Select a Date</h2>
 
       <div className="flex justify-center items-center bg-custom-gray">
-        <div className="bg-custom-lightGrey rounded-md shadow-md p-6">
+        <div className="bg-[--background] shadow-md p-6">
           <Calendar
-            className="w-full p-2 border border-gray-300 rounded-md bg-custom-lightGrey"
+            className="w-full p-2 border border-gray-300 rounded-md bg-[--background]"
             onChange={handleDateChange}
           />
         </div>

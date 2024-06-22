@@ -4,7 +4,7 @@ import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/customer_components/theme-switch";
 import { TopNav } from "@/components/customer_components/top-nav";
 import { UserNav } from "@/components/customer_components/user-nav";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AppointmentManagement from "./components/AppointmentManagement";
 

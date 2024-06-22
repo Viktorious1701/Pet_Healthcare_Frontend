@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import {
@@ -109,34 +110,34 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
     },
   });
 
-  const handleUserAdd = async (user: ProfileFormValues) => {
-    await userAddAPI(
-      user.role,
-      user.address,
-      user.country,
-      user.email,
-      Number(user.rating),
-      Number(user.yearsOfExperience),
-      user.firstName,
-      user.lastName,
-      user.phoneNumber,
-      user.gender,
-      user.userName,
-      user.password,
-      user.isActive
-    )
-      .then((res) => {
-        if (res?.data) {
-          console.log(res.data);
+  // const handleUserAdd = async (user: ProfileFormValues) => {
+  //   await userAddAPI(
+  //     user.role,
+  //     user.address,
+  //     user.country,
+  //     user.email,
+  //     Number(user.rating),
+  //     Number(user.yearsOfExperience),
+  //     user.firstName,
+  //     user.lastName,
+  //     user.phoneNumber,
+  //     user.gender,
+  //     user.userName,
+  //     user.password,
+  //     user.isActive
+  //   )
+  //     .then((res) => {
+  //       if (res?.data) {
+  //         console.log(res.data);
 
-          onUserAdded(res.data);
-          toast.success("User added successfully");
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
+  //         onUserAdded(res.data);
+  //         toast.success("User added successfully");
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       toast.error("Server error occurred", e);
+  //     });
+  // };
 
   const handleReset = () => {
     form.reset();
