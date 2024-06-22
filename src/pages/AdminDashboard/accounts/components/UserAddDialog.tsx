@@ -46,19 +46,24 @@ const profileFormSchema = z
         message: "Username must not be longer than 30 characters.",
       }),
     email: z.string().email(),
-    userId: z.string(),
     role: z.string(),
     address: z.string(),
     country: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
+    firstName: z.string().min(2, {
+      message: "First name must be at least 2 characters.",
+    }),
+    lastName: z.string().min(2, {
+      message: "Last name must be at least 2 characters.",
+    }),
     phoneNumber: z
       .string()
       .refine((val) => val === "" || /^[0-9]+$/.test(val), {
         message: "Phone number must contain only digits.",
       }),
     gender: z.boolean(),
-    password: z.string(),
+    password: z.string().min(2, {
+      message: "Password must be at least 2 characters.",
+    }),
     isActive: z.boolean(),
     imageUrl: z.any(),
     rating: z.number().min(0).max(5).optional(),
@@ -94,14 +99,14 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
     defaultValues: {
       userName: "",
       email: "",
-      address: "",
-      country: "",
+      phoneNumber: "",
       firstName: "",
       lastName: "",
-      phoneNumber: "",
-      gender: true,
+      country: "",
+      address: "",
       isActive: true,
       password: "", // Don't pre-fill the password for security reasons
+      // imageUrl: null
     },
   });
 
@@ -134,9 +139,13 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
   //     });
   // };
 
+  const handleReset = () => {
+    form.reset();
+  };
+
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
-    // handleUserAdd(data);
+    handleUserAdd(data);
   }
 
   return (
@@ -159,6 +168,22 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8 h-[80vh] overflow-y-auto"
           >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    We don't have support for changing your email yet.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
@@ -179,15 +204,15 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input type="password" {...field} />
                     </FormControl>
                     <FormDescription>
-                      We don't have support for changing your email yet.
+                      Make sure to create a secure password.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -344,7 +369,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
                           <SelectValue />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="overflow-y-auto">
                         {countries.map((country) => (
                           <SelectItem key={country} value={country}>
                             {country}
@@ -419,7 +444,18 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
                 )}
               />
             </div>
-            <Button type="submit">Create User</Button>
+            <div className="grid grid-cols-6 gap-2">
+              <Button type="submit" className="bg-custom-lightPink">
+                Create User
+              </Button>
+              <Button
+                type="reset"
+                className="bg-custom-gray"
+                onClick={handleReset}
+              >
+                Cancel
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

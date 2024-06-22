@@ -29,7 +29,7 @@ import KennelPage from '@/pages/CustomerPage/Hospitalization/Kennel';
 // import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 import { Resize, useWindowDimensions } from '@/components/resize';
 import { Loader } from 'lucide-react';
-import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
+// import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
 import PaymentPage from '@/pages/Booking/PaymentPage';
 import {
   ABOUT_PAGE,
@@ -86,6 +86,7 @@ import PetProfile from '@/pages/CustomerDashboard/pets/components/PetProfile';
 import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateForm';
 import Appointments from '@/pages/CustomerDashboard/appointments';
 import Hospitalization from '@/pages/CustomerDashboard/hospitalization';
+import Profile from '@/pages/CustomerDashboard/profile';
 import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
@@ -260,7 +261,7 @@ const RouterComponent = () => {
           children: [
             {
               path: `${CUSTOMER_PROFILE}`,
-              element: <UserProfile />, // Default component for customer dashboard
+              element: <Profile />, // Default component for customer dashboard
             },
             {
               path: `${CUSTOMER_PET_LIST}`,
