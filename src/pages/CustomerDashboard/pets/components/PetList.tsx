@@ -20,23 +20,24 @@ const PetList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<{ [key: string]: string }>({});
 
-  if (!user) return;
-  const getPets = async () => {
-    setLoading(true);
-    try {
-      const storedList = sessionStorage.getItem("petProfiles");
-      if (storedList) {
-        const parsedList = JSON.parse(storedList);
-        if (Array.isArray(parsedList)) {
-          setPetProfiles(parsedList);
-          setFilteredPetProfiles(parsedList);
-          fetchImages(parsedList);
+  useEffect(() => {
+    const getPets = async () => {
+      if (!user) return;
+      setLoading(true);
+      try {
+        const storedList = sessionStorage.getItem("petProfiles");
+        if (storedList) {
+          const parsedList = JSON.parse(storedList);
+          if (Array.isArray(parsedList)) {
+            setPetProfiles(parsedList);
+            setFilteredPetProfiles(parsedList);
+            fetchImages(parsedList);
+          }
+          setLoading(false);
+          return;
         }
-        setLoading(false);
-        return;
-      }
-      if (user?.userName) {
-        await petsOfCustomerAPI(user.userName).then((res) => {
+        if (user?.userName) {
+          const res = await petsOfCustomerAPI(user.userName);
           if (res?.data) {
             setPetProfiles(res.data);
             setFilteredPetProfiles(res.data);
@@ -47,47 +48,45 @@ const PetList: React.FC = () => {
             setPetProfiles([]);
             setFilteredPetProfiles([]);
           }
-        });
+        }
+      } catch (err) {
+        console.log("Pets not found or owner not found ", err);
+        setPetProfiles([]);
+        setFilteredPetProfiles([]);
       }
-    } catch (err) {
-      console.log("Pets not found or owner not found ", err);
-      setPetProfiles([]);
-      setFilteredPetProfiles([]);
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    };
 
-  useEffect(() => {
+    const fetchImages = async (pets: PetGet[]) => {
+      const newImages: { [key: string]: string } = {};
+      await Promise.all(
+        pets.map(async (pet) => {
+          if (pet.imageUrl) {
+            if (pet.imageUrl.startsWith("http")) {
+              // If imageUrl starts with 'http', it's already a valid URL
+              newImages[pet.id] = pet.imageUrl;
+            } else {
+              try {
+                // If imageUrl is a local file path, you need to handle it differently
+                const file = await fetch(pet.imageUrl);
+                const blob = await file.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                newImages[pet.id] = imageUrl;
+              } catch (error) {
+                console.log("Error fetching image for pet: ", pet.id, error);
+                newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if fetch fails
+              }
+            }
+          } else {
+            newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if no imageUrl
+          }
+        })
+      );
+      setImages(newImages);
+    };
+
     getPets();
   }, [user]);
-
-  const fetchImages = async (pets: PetGet[]) => {
-    const newImages: { [key: string]: string } = {};
-    await Promise.all(
-      pets.map(async (pet) => {
-        if (pet.imageUrl) {
-          if (pet.imageUrl.startsWith("http")) {
-            // If imageUrl starts with 'http', it's already a valid URL
-            newImages[pet.id] = pet.imageUrl;
-          } else {
-            try {
-              // If imageUrl is a local file path, you need to handle it differently
-              const file = await fetch(pet.imageUrl);
-              const blob = await file.blob();
-              const imageUrl = URL.createObjectURL(blob);
-              newImages[pet.id] = imageUrl;
-            } catch (error) {
-              console.log("Error fetching image for pet: ", pet.id, error);
-              newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if fetch fails
-            }
-          }
-        } else {
-          newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if no imageUrl
-        }
-      })
-    );
-    setImages(newImages);
-  };
 
   useEffect(() => {
     const filteredProfiles = petProfiles.filter((pet) =>
@@ -99,6 +98,7 @@ const PetList: React.FC = () => {
   const handleViewProfile = (id: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
   };
+
 
   return (
     <div className="py-6 px-4 rounded-lg shadow-lg">

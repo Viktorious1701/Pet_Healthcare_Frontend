@@ -13,6 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router";
+import { CUSTOMER_DASHBOARD, REFUND } from "@/Route/router-const";
 
 const AppointmentManagement: React.FC = () => {
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
@@ -58,7 +60,10 @@ const AppointmentManagement: React.FC = () => {
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
   const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
   const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
-
+  const navigate = useNavigate();
+  const handleCanceling = (appointmentId: string) => {
+    navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`);
+  }
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -100,11 +105,12 @@ const AppointmentManagement: React.FC = () => {
                 <TableCell>{appointment.status}</TableCell>
                 <TableCell>{appointment.rating}</TableCell>
                 <TableCell>
-                <Button className="mx-1 bg-custom-darkPink 
-                hover:bg-custom-hover-darkPink 
-                active:bg-custom-active-darkPink 
-                transform transition-transform duration-300 
-                hover:scale-125 active:scale-110">Cancel</Button>
+                <Button
+              className="mx-1 bg-custom-darkPink hover:bg-custom-hover-darkPink active:bg-custom-active-darkPink transform transition-transform duration-300 hover:scale-125 active:scale-110"
+              onClick={() => handleCanceling(String(appointment.appointmentId))}
+            >
+              Cancel
+            </Button>
                 </TableCell>
                 <TableCell>
                   <select

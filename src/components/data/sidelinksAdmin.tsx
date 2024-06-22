@@ -6,6 +6,7 @@ import {
   IconUser,
   IconUsers,
 } from '@tabler/icons-react'
+import { DoorClosed } from 'lucide-react'
 
 export interface NavLink {
   title: string
@@ -49,6 +50,12 @@ export const sidelinks: SideLink[] = [
       href: `${SETTINGS_PROFILE}`,
       icon: <IconSettings size={18} />,
     },
+    {
+      title: 'Back to Home',
+      label: '',
+      href: `/`,
+      icon: <DoorClosed size={18} />,
+    }
   // {
   //   title: 'Dashboard',
   //   label: '',
