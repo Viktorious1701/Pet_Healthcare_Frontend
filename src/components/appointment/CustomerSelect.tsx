@@ -104,9 +104,9 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({
                   alt="Card background"
                   className="object-cover rounded-xl"
                   src={
-                    user.imageURL !== ""
+                    user.imageUrl !== ""
                       ? "https://nextui.org/images/hero-card-complete.jpeg"
-                      : user.imageURL
+                      : user.imageUrl
                   }
                   width={270}
                 />
