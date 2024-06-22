@@ -7,8 +7,15 @@ import { UserNav } from "@/components/customer_components/user-nav";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PetList from "./components/PetList";
+import { useNavigate } from "react-router";
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from "@/Route/router-const";
 
 const Pets = () => {
+  const navigate = useNavigate();
+    const handleAdd = () => {
+      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_ADD}`);
+      console.log("Add a pet profile");
+    };
   return (
     <Layout className="h-screen">
       {/* ===== Top Heading ===== */}
@@ -28,7 +35,12 @@ const Pets = () => {
             Your Pets
           </h1>
           <div className="flex items-center space-x-2">
-            <Button>Download</Button>
+            <Button
+              onClick={handleAdd}
+              className="bg-custom-pink hover:scale-110 transform transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded"
+            >
+              Add a pet profile
+            </Button>
           </div>
         </div>
         <Tabs
@@ -39,8 +51,6 @@ const Pets = () => {
           <div className="w-full overflow-x-scroll pb-2">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">Pet Details</TabsTrigger>
-              <TabsTrigger value="notifications">Settings</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="overview" className="space-y-4">

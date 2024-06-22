@@ -33,6 +33,7 @@ export const CUSTOMER_PROFILE = "customer-profile"
 export const REFUND = "refund"
 export const CUSTOMER_PET_LIST = "customer-pets"
 export const CUSTOMER_PET_UPDATE = "customer-pet-update"
+export const CUSTOMER_PET_ADD = "customer-pet-add"
 export const CUSTOMER_HOSPITALIZATION_TABLE = "customer-hospitalization"
 export const CUSTOMER_VACCINATIONS = "customer-vaccination"
 

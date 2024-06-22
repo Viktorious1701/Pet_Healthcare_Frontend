@@ -1,4 +1,3 @@
-import { Button } from '@/components/custom/button'
 import {
   Card,
   CardContent,
@@ -36,9 +35,7 @@ export default function Dashboard() {
           <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
             Welcome, {user?.userName}
           </h1>
-          <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
-          </div>
+        
         </div>
         <Tabs
           orientation='vertical'

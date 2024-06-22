@@ -67,6 +67,7 @@ import {
   PAYMENT,
   CUSTOMER_PROFILE,
   REFUND,
+  CUSTOMER_PET_ADD,
 } from './router-const';
 
 
@@ -88,6 +89,7 @@ import Appointments from '@/pages/CustomerDashboard/appointments';
 import Hospitalization from '@/pages/CustomerDashboard/hospitalization';
 import Profile from '@/pages/CustomerDashboard/profile';
 import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment';
+import AddAPetProfile from '@/pages/CustomerDashboard/pets/components/AddAPetProfile';
 
 const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
@@ -270,6 +272,10 @@ const RouterComponent = () => {
             {
               path: `${CUSTOMER_PET_LIST}/:petId`,
               element: <PetProfile />, // Component for pet profile
+            },
+            {
+              path: `${CUSTOMER_PET_ADD}`,
+              element: <AddAPetProfile />,
             },
             {
               path: `${CUSTOMER_PET_UPDATE}/:petId`,

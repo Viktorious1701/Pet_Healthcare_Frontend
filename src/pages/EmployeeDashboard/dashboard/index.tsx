@@ -1,4 +1,3 @@
-import { Button } from '@/components/custom/button'
 import {
   Card,
   CardContent,
@@ -14,7 +13,6 @@ import { Overview } from './components/overview'
 export default function Dashboard() {
   return (
     <Layout>
-      {/* ===== Top Heading ===== */}
 
       {/* ===== Main ===== */}
       <LayoutBody className='space-y-4'>
@@ -22,9 +20,7 @@ export default function Dashboard() {
           <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
             Dashboard
           </h1>
-          <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
-          </div>
+    
         </div>
         <Tabs
           orientation='vertical'
