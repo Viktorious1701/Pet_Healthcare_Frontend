@@ -6,7 +6,7 @@ import { Outlet, useLocation } from "react-router";
 import { UserProvider } from "@/Context/UserContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from 'sonner'
 import PreLoader from "./components/preloader/PreLoader";
 import { useEffect, useState } from "react";
 
@@ -50,14 +50,12 @@ function App() {
   }, [location.pathname]); // Dependency on pathname ensures the effect runs when the route changes
 
   return (
-    <>
-      {showPreLoader && <PreLoader />}
       <UserProvider>
+      {showPreLoader && <PreLoader />}
         <Outlet></Outlet>
         <ToastContainer></ToastContainer>
         <Toaster />
       </UserProvider>
-    </>
   );
 }
 
