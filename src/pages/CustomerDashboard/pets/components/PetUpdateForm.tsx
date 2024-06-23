@@ -15,9 +15,8 @@ const PetUpdateForm: React.FC = () => {
     breed: "",
     gender: false,
     weight: 0,
-    imageUrl: ""
   });
-  // const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const PetUpdateForm: React.FC = () => {
           const response = await getPetById(petId);
           if (response?.data) {
             const petData = response.data;
-            console.log("petData in update", petData.imageUrl);
             setEditPet(petData);
             setFormValues({
               petId: petData.id,
@@ -36,7 +34,6 @@ const PetUpdateForm: React.FC = () => {
               breed: petData.breed,
               weight: petData.weight,
               gender: petData.gender,
-              imageUrl:  "" // change this to petData.imageUrl
             });
           }
         } catch (err) {
@@ -55,26 +52,11 @@ const PetUpdateForm: React.FC = () => {
     });
   };
 
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formValues && petId) {
       try {
-        const dataToUpdate = { ...formValues };
-        // Commenting out the imageUrl update
-        // if (imagePreview) {
-        //   dataToUpdate.imageUrl = imagePreview;
-        // }
+        const dataToUpdate = { imageFile, ...formValues };
         console.log("dataToUpdate", dataToUpdate);
         await updatePetData(parseInt(petId, 10), dataToUpdate);
         alert("Pet information updated successfully.");
@@ -103,7 +85,10 @@ const PetUpdateForm: React.FC = () => {
           <form onSubmit={handleSave} className="grid grid-cols-2 gap-4">
             <div>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Name
                 </label>
                 <input
@@ -116,7 +101,10 @@ const PetUpdateForm: React.FC = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="species" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="species"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Species
                 </label>
                 <input
@@ -129,7 +117,10 @@ const PetUpdateForm: React.FC = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="breed" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="breed"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Breed
                 </label>
                 <input
@@ -142,7 +133,10 @@ const PetUpdateForm: React.FC = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="gender" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="gender"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Gender
                 </label>
                 <select
@@ -157,7 +151,10 @@ const PetUpdateForm: React.FC = () => {
                 </select>
               </div>
               <div className="mb-4">
-                <label htmlFor="weight" className="block text-gray-700 font-bold mb-2">
+                <label
+                  htmlFor="weight"
+                  className="block text-gray-700 font-bold mb-2"
+                >
                   Weight
                 </label>
                 <input
@@ -171,37 +168,20 @@ const PetUpdateForm: React.FC = () => {
               </div>
             </div>
             <div>
-              {/* Commenting out the image upload section */}
-              {/* <div className="mb-4">
-                <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
-                  Choose Image
+              <div className="mb-4">
+                <label
+                  htmlFor="imageFile"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Pet Profile Image
                 </label>
                 <input
                   type="file"
-                  id="image"
-                  name="image"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="block mx-auto mb-4 max-w-full h-auto"
-                />
-              )} */}
-              <div className="mb-4">
-                <label htmlFor="imageURL" className="block text-gray-700 font-bold mb-2">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  id="imageURL"
-                  name="imageURL"
-                  value={formValues.imageUrl}
-                  onChange={handleInputChange}
+                  id="imageFile"
+                  name="imageFile"
+                  onChange={(e) => {
+                    setImageFile(e.target.files?.[0] ?? null);
+                  }}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   readOnly
                 />
@@ -216,7 +196,9 @@ const PetUpdateForm: React.FC = () => {
               </button>
               <button
                 type="button"
-                onClick={() => navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)}
+                onClick={() =>
+                  navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)
+                }
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Cancel

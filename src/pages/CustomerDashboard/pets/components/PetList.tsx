@@ -18,75 +18,34 @@ const PetList: React.FC = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
-  const [images, setImages] = useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
-    const getPets = async () => {
-      if (!user) return;
-      setLoading(true);
-      try {
-        const storedList = sessionStorage.getItem("petProfiles");
-        if (storedList) {
-          const parsedList = JSON.parse(storedList);
-          if (Array.isArray(parsedList)) {
-            setPetProfiles(parsedList);
-            setFilteredPetProfiles(parsedList);
-            fetchImages(parsedList);
-          }
-          setLoading(false);
-          return;
-        }
-        if (user?.userName) {
-          const res = await petsOfCustomerAPI(user.userName);
+  if (!user) return;
+  const getPets = async () => {
+    setLoading(true);
+    if (user?.userName) {
+      await petsOfCustomerAPI(user.userName)
+        .then((res) => {
           if (res?.data) {
             setPetProfiles(res.data);
             setFilteredPetProfiles(res.data);
-            console.log("Pet profiles: ", res.data);
-            sessionStorage.setItem("petProfiles", JSON.stringify(res.data));
-            fetchImages(res.data);
+            // console.log("Pet profiles: ", res.data);
           } else {
             setPetProfiles([]);
             setFilteredPetProfiles([]);
           }
-        }
-      } catch (err) {
-        console.log("Pets not found or owner not found ", err);
-        setPetProfiles([]);
-        setFilteredPetProfiles([]);
-      }
-      setLoading(false);
-    };
-
-    const fetchImages = async (pets: PetGet[]) => {
-      const newImages: { [key: string]: string } = {};
-      await Promise.all(
-        pets.map(async (pet) => {
-          if (pet.imageUrl) {
-            if (pet.imageUrl.startsWith("http")) {
-              // If imageUrl starts with 'http', it's already a valid URL
-              newImages[pet.id] = pet.imageUrl;
-            } else {
-              try {
-                // If imageUrl is a local file path, you need to handle it differently
-                const file = await fetch(pet.imageUrl);
-                const blob = await file.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                newImages[pet.id] = imageUrl;
-              } catch (error) {
-                console.log("Error fetching image for pet: ", pet.id, error);
-                newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if fetch fails
-              }
-            }
-          } else {
-            newImages[pet.id] = "https://via.placeholder.com/100"; // Use placeholder image if no imageUrl
-          }
         })
-      );
-      setImages(newImages);
-    };
+        .catch((err) => {
+          console.log("Pets not found or owner not found ", err);
+          setPetProfiles([]);
+          setFilteredPetProfiles([]);
+        });
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     getPets();
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     const filteredProfiles = petProfiles.filter((pet) =>
@@ -98,7 +57,6 @@ const PetList: React.FC = () => {
   const handleViewProfile = (id: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
   };
-
 
   return (
     <div className="py-6 px-4 rounded-lg shadow-lg">
@@ -124,9 +82,13 @@ const PetList: React.FC = () => {
                 className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
                 <img
-                  src={images[pet.id] || "https://via.placeholder.com/100"}
+                  src={
+                    pet.imageUrl
+                      ? pet.imageUrl
+                      : "https://via.placeholder.com/100"
+                  }
                   alt={pet.name}
-                  className="w-full h-32 object-cover"
+                  className="w-full h-48 object-cover"
                 />
                 <div className="p-4 text-center">
                   <h4 className="text-xl font-bold">{pet.name}</h4>

@@ -4,20 +4,13 @@ import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/customer_components/theme-switch";
 import { TopNav } from "@/components/customer_components/top-nav";
 import { UserNav } from "@/components/customer_components/user-nav";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PetList from "./components/PetList";
-import { useNavigate } from "react-router";
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from "@/Route/router-const";
+import UserProfile from "./UserProfile";
 
-const Pets = () => {
-  const navigate = useNavigate();
-    const handleAdd = () => {
-      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_ADD}`);
-      console.log("Add a pet profile");
-    };
+const Profile = () => {
   return (
-    <Layout className="h-screen">
+    <Layout>
       {/* ===== Top Heading ===== */}
       <LayoutHeader>
         <TopNav links={topNav} />
@@ -32,15 +25,10 @@ const Pets = () => {
       <LayoutBody className="space-y-4">
         <div className="flex items-center justify-between space-y-2">
           <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-            Your Pets
+            User Profile
           </h1>
           <div className="flex items-center space-x-2">
-            <Button
-              onClick={handleAdd}
-              className="bg-custom-pink hover:scale-110 transform transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded"
-            >
-              Add a pet profile
-            </Button>
+            <Button>Download</Button>
           </div>
         </div>
         <Tabs
@@ -51,12 +39,19 @@ const Pets = () => {
           <div className="w-full overflow-x-scroll pb-2">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics">User Details</TabsTrigger>
+              <TabsTrigger value="notifications">Settings</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-12">
-                <PetList />
+                {/* <CardHeader className="flex flex-row justify-between">
+                  
+                </CardHeader> */}
+                <CardContent className="px-2 h-[70vh]">
+                  <UserProfile/>
+                </CardContent>
               </Card>
             </div>
           </TabsContent>
@@ -89,4 +84,4 @@ const topNav = [
   },
 ];
 
-export default Pets;
+export default Profile;
