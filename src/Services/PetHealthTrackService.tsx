@@ -13,10 +13,10 @@ export const getPetHealthTrackByHospitalizationId = async (hospitalizationId: st
     throw error;
   }
 };
-export const getAllPetHealthTracks = async (): Promise<PetHealthTrack[]> => {
+export const getAllPetHealthTracks = async () => {
   try {
-    const response = await axiosInstance.get<PetHealthTrack[]>(`${apiBaseURL}`);
-    return response.data;
+    const data = await axiosInstance.get<PetHealthTrack[]>(`${apiBaseURL}`);
+    return data;
   } catch (error) {
     console.error("Error fetching pet health tracks:", error);
     throw error;
