@@ -26,9 +26,17 @@ import {
   SETTINGS_PROFILE,
 } from "@/Route/router-const";
 import ThemeSwitch from "../vet_components/theme-switch";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
+  
+  const { navigateToLogin } = useAuthNavigation();
+  const handleClick = () => {
+    logout;
+    navigateToLogin();
+    
+  }
   const navigate = useNavigate();
   const role = user?.role || "0";
 
@@ -144,7 +152,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem key="logout" color="danger" onClick={logout}>
+              <DropdownMenuItem key="logout" color="danger" onClick={handleClick}>
                 Log out
                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>

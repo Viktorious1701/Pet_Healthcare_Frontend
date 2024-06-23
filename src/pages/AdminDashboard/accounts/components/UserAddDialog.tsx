@@ -143,7 +143,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
 
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
-    handleUserAdd(data);
+   // handleUserAdd(data);
   }
 
   return (

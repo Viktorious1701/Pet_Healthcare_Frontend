@@ -16,6 +16,11 @@ import { useNavigate } from 'react-router';
 
 export function UserNav() {
   const { user, logout } = useAuth();
+  const { navigateToLogin } = useAuthNavigation();
+  const handleClick = () => {
+    logout;
+    navigateToLogin();
+  }
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
     navigate(`/employee/${path}`)
@@ -56,7 +61,7 @@ export function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>
+        <DropdownMenuItem onClick={handleClick}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

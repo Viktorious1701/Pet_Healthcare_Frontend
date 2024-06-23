@@ -1,15 +1,16 @@
 export interface PetHealthTrack {
   petHealthTrackId: number;
-  hospitalizationId?: number;
-  description?: string;
-  date?: Date;
-  status?: PetStatus;
+  hospitalizationId: number;
+  description: string;
+  date: Date;
+  status: number;
 }
 
 export enum PetStatus {
-  Healthy = "Healthy",
-  Sick = "Sick",
-  Injured = "Injured",
+  Severe = "Severe",
+  Recovering = "Recovering",
+  Normal = "Normal",
+  Good = "Good"
 }
 
 // Function to get the display string for a given PetStatus
