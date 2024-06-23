@@ -1,5 +1,5 @@
+import axiosInstance from "@/Helpers/axiosInstance";
 import { HospitalizationPost } from "@/Models/Hospitalization";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 
@@ -7,7 +7,7 @@ const api = "https://pethealthcaresystem.azurewebsites.net/api";
 
 export const hospitalizationListAPI = async () => {
   try {
-    const data = await axios.get(api + `/Hospitalization`);
+    const data = await axiosInstance.get(api + `/hospitalization`);
     return data;
   } catch (error) {
     toast.error("Failed to fetch hospitalizations");
@@ -20,7 +20,7 @@ export const hospitalizationUpdateAPI = async (
   dischargeDate: string
 ) => {
   try {
-    const data = await axios.put(api + `/Hospitalization/${hospitalizationId}`, {
+    const data = await axiosInstance.put(api + `/Hospitalization/${hospitalizationId}`, {
       dischargeDate,
     });
     return data;
@@ -32,7 +32,7 @@ export const hospitalizationUpdateAPI = async (
 
 export const hospitalizationDeleteAPI = async (hospitalizationId: number) => {
   try {
-    const data = await axios.delete(api + `/Hospitalization/${hospitalizationId}`);
+    const data = await axiosInstance.delete(api + `/Hospitalization/${hospitalizationId}`);
     return data;
   } catch (error) {
     toast.error("Failed to delete hospitalization");
@@ -41,7 +41,7 @@ export const hospitalizationDeleteAPI = async (hospitalizationId: number) => {
 };
 export const hospitalizationCreateAPI = async (newHospitalization: HospitalizationPost) => {
     try {
-        const data = await axios.post(api + `/Hospitalization`, newHospitalization);
+        const data = await axiosInstance.post(api + `/Hospitalization`, newHospitalization);
         return data;
     } catch (error) {
         toast.error("Failed to add hospitalization");

@@ -131,7 +131,7 @@ const PetList: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="text-white font-bold">No pets found</div>
+            <div className="text-black font-bold">No pets found</div>
           )}
         </div>
       )}

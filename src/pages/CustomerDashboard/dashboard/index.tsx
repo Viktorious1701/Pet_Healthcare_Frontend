@@ -11,12 +11,36 @@ import ThemeSwitch from '@/components/customer_components/theme-switch'
 import { TopNav } from '@/components/customer_components/top-nav'
 import { UserNav } from '@/components/customer_components/user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { RecentSales } from './components/recent-sales'
 import { Overview } from './components/overview'
 import { useAuth } from '@/Context/useAuth'
+import IncomingAppointments from './components/incoming-appointments'
+import { useEffect, useState } from 'react'
+import { AppointmentGet } from '@/Models/Appointment'
+import { appointmentCustomerAPI } from '@/Services/AppointmentService'
+import { toast } from 'sonner'
 
 export default function Dashboard() {
   const {user} = useAuth();
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  
+  const getTodayAppointments = async () => {
+    await appointmentCustomerAPI(String(user?.userName))
+    .then((res) => {
+      if (res?.data) {
+        // setAppointments(res.data.filter((appointment) => appointment.date === Date.now().toLocaleString()));
+        setAppointments(res.data);
+      }
+    })
+    .catch((e) => {
+      toast.error("Server error occurred", e);
+    })
+  };
+
+  useEffect(() => {
+    getTodayAppointments();
+  }, []);
+
+  console.log(appointments);
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
@@ -165,13 +189,13 @@ export default function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Incoming Appointments</CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    This is your appointments for today.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RecentSales />
+                  <IncomingAppointments appointments={appointments} />
                 </CardContent>
               </Card>
             </div>
