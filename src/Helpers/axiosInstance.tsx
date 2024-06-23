@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner'
 import { handleError } from './ErrorHandler';
 import { refreshTokenAPI } from '@/Services/AuthService';
 
@@ -57,7 +57,11 @@ axiosInstance.interceptors.response.use(
         } catch (err) {
           handleError(err);
           isRefreshing = false;
-          toast.warning('Session expired, please log in again');
+          // toast.warning('Session expired, please log in again');
+          toast("Session expired, please log in again", {
+            type: "warning",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          } as any);
           // Handle logout or redirect to login page
           window.history.pushState({}, "LoginPage", "/login");
         }

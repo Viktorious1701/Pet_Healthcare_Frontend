@@ -8,7 +8,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { lightPinkTheme } from "./components/resize/theme.tsx";
 import { ThemeProvider } from '@/components/vet_components/theme-provider.tsx';
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "sonner"
 import { UserProvider } from "./Context/UserContext.tsx";
 
 const root = ReactDOM.createRoot(

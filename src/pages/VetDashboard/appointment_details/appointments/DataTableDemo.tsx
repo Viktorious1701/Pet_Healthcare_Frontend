@@ -1,6 +1,8 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-refresh/only-export-components */
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,11 +14,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -25,8 +26,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -34,70 +34,76 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import {
+  appointmentGetVetIdAPI,
+  appointmentVetAPI,
+} from "@/Services/AppointmentService";
+import { AppointmentGet } from "@/Models/Appointment";
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-]
+// Adjustments to switch from Payment to Appointment data model
+export type Appointment = {
+  appointmentId: number;
+  customer: string;
+  pet: string;
+  vet: string;
+  slotStartTime: string; // Ensure data passed to this is a string
+  slotEndTime: string; // Ensure data passed to this is a string
+  service: string;
+  date: string;
+  totalCost: number;
+  status: string;
+  cancellationDate?: string;
+  refundAmount?: number;
+  rating?: number;
+  comment?: string;
+};
 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+// Adjust the columns definition to match the Appointment data model
+export const columns: ColumnDef<Appointment>[] = [
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+    accessorKey: "service",
+    header: "Service",
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div className="capitalize">{row.getValue("service")}</div>
     ),
-    enableSorting: false,
-    enableHiding: false,
+  },
+  {
+    accessorKey: "customer",
+    header: "Customer",
+    cell: ({ row }) => <div>{row.getValue("customer")}</div>,
+  },
+  {
+    accessorKey: "pet",
+    header: "Pet",
+    cell: ({ row }) => <div>{row.getValue("pet")}</div>,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
   },
   {
     accessorKey: "status",
@@ -106,41 +112,27 @@ export const columns: ColumnDef<Payment>[] = [
       <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
 
-      // Format the amount as a dollar amount
+  {
+    accessorKey: "totalCost",
+    header: () => <div className="text-right">Total Cost</div>,
+    cell: ({ row }) => {
+      const totalCost = parseFloat(row.getValue("totalCost"));
+
+      // Format the totalCost as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
-      }).format(amount)
+      }).format(totalCost);
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const appointment = row.original;
 
       return (
         <DropdownMenu>
@@ -152,32 +144,77 @@ export const columns: ColumnDef<Payment>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  appointment.appointmentId.toString()
+                )
+              }
+            >
+              Copy appointment ID
+            </DropdownMenuItem>
+            <DropdownMenuItem>View appointment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
+// Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<Appointment[]>([]); // State to hold fetched data
+
+  // Function to fetch appointments and update state
+  const fetchAppointmentsAndUpdateState = async () => {
+    try {
+      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const vetId = (response as unknown as { userId: string }).userId; // Type assertion
+      if (vetId) {
+        const appointments: AppointmentGet[] | undefined =
+          await appointmentVetAPI(vetId); // Fetch appointments
+        if (appointments) {
+          const formattedAppointments: Appointment[] = appointments.map(
+            (appointment) => ({
+              appointmentId: appointment.appointmentId,
+              customer: appointment.customer,
+              pet: appointment.pet,
+              vet: appointment.vet,
+              slotStartTime: appointment.slotStartTime.toString(),
+              slotEndTime: appointment.slotEndTime.toString(),
+              service: appointment.service,
+              date: appointment.date,
+              totalCost: appointment.totalCost,
+              cancellationDate: appointment.cancellationDate,
+              refundAmount: appointment.refundAmount,
+              rating: appointment.rating,
+              comment: appointment.comment,
+              status: appointment.status,
+            })
+          );
+          setData(formattedAppointments); // Update state with fetched data
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch appointments:", error);
+    }
+  };
+
+  // Use useEffect to fetch data on component mount
+  React.useEffect(() => {
+    fetchAppointmentsAndUpdateState();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   const table = useReactTable({
-    data,
+    data, // Use state variable for data
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -193,19 +230,12 @@ export function DataTableDemo() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <span className="flex-1 text-[2rem] font-mont font-semibold ">APPOINTMENTS</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -228,7 +258,7 @@ export function DataTableDemo() {
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -248,7 +278,7 @@ export function DataTableDemo() {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -308,5 +338,5 @@ export function DataTableDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }
