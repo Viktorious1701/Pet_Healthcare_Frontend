@@ -52,11 +52,14 @@ function App() {
   return (
     <>
       {showPreLoader && <PreLoader />}
+    <>
+      {showPreLoader && <PreLoader />}
       <UserProvider>
         <Outlet></Outlet>
         <ToastContainer></ToastContainer>
         <Toaster />
       </UserProvider>
+    </>
     </>
   );
 }

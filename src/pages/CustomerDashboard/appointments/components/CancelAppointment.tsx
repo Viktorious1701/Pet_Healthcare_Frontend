@@ -30,6 +30,7 @@ const CancelAppointment: React.FC = () => {
 
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
+     
       try {
         const res = await getAppointmentByIdAPI(Number(appointmentId));
         if (res?.data) {
@@ -67,9 +68,10 @@ const CancelAppointment: React.FC = () => {
 
   const handleRefund = async () => {
     console.log(`Processing refund for appointment ID: ${appointment?.appointmentId}`);
-    navigate("/refund-status");
+    navigate("/customer");
     // Logic for processing the refund based on appointment details
-    const refund  = await refundApi(appointment?.appointmentId || 0);
+    const refundId = appointment?.appointmentId || 0;
+    const refund  = await refundApi(refundId);
     console.log("Refund status: ", refund);
     if (refund.status === 200 ) {
       navigate("/refund-status");

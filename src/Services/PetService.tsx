@@ -52,3 +52,11 @@ export const getPetById = async (petId: string) => {
     handleError(error);
   }
 };
+export const AddAPetAPI = async () => {
+  try {
+    const data = await axiosInstance.post(api);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}
