@@ -19,8 +19,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { UserInfo } from "@/Models/User";
-import { userAddAPI } from "@/Services/UserService";
-import { toast } from "react-toastify";
 import { countries } from "@/Helpers/globalVariable";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -90,7 +88,7 @@ interface UserAddDialogProps {
   onUserAdded: (user: UserInfo) => void;
 }
 
-const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
+const UserAddDialog: React.FC<UserAddDialogProps> = () => {
   const [selectedRole, setSelectedRole] = useState<string>("");
   const roles = ["Customer", "Vet", "Employee"];
   const form = useForm<ProfileFormValues>({

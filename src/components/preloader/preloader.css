@@ -1,0 +1,31 @@
+.preloader {
+    height: 100vh;
+    width: 100%;
+    background: var(--background);
+    color: var(--hero-text);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 55;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.preloader .texts-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 280px;
+    font-size: 20px;
+    font-weight: 800;
+    overflow: hidden;
+    color: var(--hero-text);
+}
+
+.paw {
+    overflow: hidden;
+}

@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import "@/../app/globals.css";
 import PetCare from "../assets/Register.jpg";
 import { useAuth } from "@/Context/useAuth";
 import { useForm } from "react-hook-form";
