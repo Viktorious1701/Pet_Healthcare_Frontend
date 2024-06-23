@@ -25,7 +25,7 @@ const Hospitalization = () => {
       <LayoutBody className="space-y-4">
         <div className="flex items-center justify-between space-y-2">
           <h1 className="text-2xl font-bold tracking-tight md:text-3xl">
-            Appointments
+            Hospitalization
           </h1>
         </div>
         <Tabs
@@ -36,7 +36,7 @@ const Hospitalization = () => {
           <div className="w-full overflow-x-scroll pb-2">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics">Appointment Details</TabsTrigger>
+              <TabsTrigger value="analytics">Hospitalization Details</TabsTrigger>
               <TabsTrigger value="notifications">Settings</TabsTrigger>
             </TabsList>
           </div>

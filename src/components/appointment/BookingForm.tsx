@@ -11,7 +11,7 @@ import {
   appointmentBookAPI,
   appointmentCustomerAPI,
 } from "@/Services/AppointmentService";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import { serviceGetAPI } from "@/Services/ServiceService";
 import { ServiceGet } from "@/Models/Service";
