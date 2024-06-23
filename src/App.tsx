@@ -24,7 +24,7 @@ function App() {
   }, [location.pathname]);
 
   return (
-      <UserProvider>
+    <>
       {showPreLoader && <PreLoader />}
       <Outlet />
       <ToastContainer />
