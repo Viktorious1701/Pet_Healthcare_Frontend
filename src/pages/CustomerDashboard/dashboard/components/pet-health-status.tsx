@@ -45,7 +45,10 @@ const PetHealthStatus: React.FC<PetHealthStatusProps> = ({
           <div className="dark:bg-gray-900 rounded-lg shadow-lg w-full">
             <div className="p-3">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50 flex justify-between">
-                {petHealthTrack.description}
+                {petHealthTrack.petName}
+                <span className="text-sm font-bold text-gray-900 dark:text-gray-50">
+                  {petHealthTrack.description}
+                </span>
               </h3>
               <div className="flex justify-between">
                 <p className="text-gray-500 dark:text-gray-400 ">

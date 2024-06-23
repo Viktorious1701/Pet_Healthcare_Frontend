@@ -18,14 +18,14 @@ import { AppointmentGet } from '@/Models/Appointment'
 import { appointmentCustomerAPI } from '@/Services/AppointmentService'
 import { toast } from 'sonner'
 import PetHealthStatus from './components/pet-health-status'
-import { getAllPetHealthTracks } from '@/Services/PetHealthTrackService'
+import { getUserPetHealthTracks } from '@/Services/PetHealthTrackService'
 import { PetHealthTrack } from '@/Models/PetHealthTrack'
 
 export default function Dashboard() {
   const {user} = useAuth();
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
   const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([]);
-  
+
   const getAppointments = async () => {
     await appointmentCustomerAPI(String(user?.userName))
     .then((res) => {
@@ -39,7 +39,7 @@ export default function Dashboard() {
   };
 
   const getPetHealthTracks = async () => {
-    await getAllPetHealthTracks()
+    await getUserPetHealthTracks()
     .then((res) => {
       if (res.data) {
         console.log(res.data);
