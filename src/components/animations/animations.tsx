@@ -10,120 +10,101 @@ export const preLoaderAnim = (): void => {
   gsap.set(".paw", { scale: 1.5 }); // Makes the paw icon 50% larger than its original size
 
   tl.to("body", {
-    duration: 0.1,
-    css: { overflowY: "hidden" },
+    duration: 0.05, // Reduced from 0.1
+    css: { overflowY: "scroll" },
     ease: "power3.inOut",
   })
-    // .to(".landing", {
-    //   duration: 0.05,
-    //   css: { overflowY: "hidden", height: "100vh", padding: "40px" }, // Increased padding
-    //   ease: "power3.inOut",
-    // })
     .to(".texts-container", {
-      duration: 0,
+      duration: 0, // Remains the same as it's already instant
       opacity: 1,
       ease: "Power3.easeOut",
     })
-    // Adjusting the .from method for the paw icon
     .from(".paw", {
-      duration: 1.5,
-      delay: 0, // Slightly after the text to ensure a smooth sequence
+      duration: 0.75, // Reduced from 1.5
+      delay: 0, // Remains the same
       y: 70,
       skewY: 10,
-      opacity: 0, // Start with the paw icon hidden
+      opacity: 0,
       ease: "Power3.easeOut",
     })
     .to(".paw", {
-      opacity: 1, // Animate to fully visible as part of the entrance
+      opacity: 1, // This part of the animation is more about visibility, duration adjustment not required
       ease: "Power3.easeOut",
     })
-    // Adjust the delay here to match the paw's appearance
     .from(".texts-container span", {
-      duration: 1.4,
-      delay: -1.25, // Adjusted to match the paw's start of visibility
+      duration: 0.7, // Reduced from 1.4
+      delay: -0.625, // Adjusted to half of -1.25
       y: 70,
       skewY: 10,
-      stagger: 0.4,
+      stagger: 0.2, // Reduced stagger time to maintain faster animation flow
       ease: "Power3.easeOut",
       onStart: function () {
-        // Dynamically adjust the margin or padding for spacing
-        gsap.set(".texts-container span", { marginRight: "4px" }); // Adjust as needed
+        gsap.set(".texts-container span", { marginRight: "4px" });
       },
     })
     .to(".paw", {
-      duration: 1.5,
-      y: 0, // Move down
-      opacity: 0, // Then make it invisible again
+      duration: 0.75, // Reduced from 1.5
+      y: 0,
+      opacity: 0,
       ease: "Power3.easeIn",
     })
     .to(".texts-container span", {
-      duration: 1,
+      duration: 0.5, // Reduced from 1
       y: 70,
       skewY: -20,
-      stagger: 0.2,
+      stagger: 0.1, // Reduced stagger time to maintain faster animation flow
       ease: "Power3.easeOut",
     })
-    // .to(".landing", {
-    //   duration: 0.1,
-    //   css: { overflowY: "hidden", height: "unset" },
-    // })
     .to("body", {
-      duration: 0.1,
+      duration: 0.1, // Reduced from 0.2
+      delay: -0.5, // Reduced delay to make the sequence faster
       css: { overflowY: "scroll" },
       ease: "power3.inOut",
     })
-    // .from(".landing__top .sub", {
-    //   duration: 1,
-    //   opacity: 0,
-    //   y: 80,
-    //   ease: "expo.easeOut",
-    // })
     .to(
       ".preloader",
       {
-        duration: 1.5,
+        duration: 0.75, // Reduced from 1.5
         height: "0vh",
         ease: "Power3.easeOut",
-        onComplete: mobileLanding,
       },
-      "-=2"
-    )
-    // .from(".landing__main .text", {
-    //   duration: 2,
-    //   y: 10,
-    //   opacity: 0,
-    //   stagger: {
-    //     amount: 2,
-    //   },
-    //   ease: "power3.easeInOut",
-    // })
-    // .from(".links .item", {
-    //   duration: 0.5,
-    //   opacity: 0,
-    //   delay: window.innerWidth < 763 ? -3 : -0.6,
-    //   stagger: {
-    //     amount: 0.5,
-    //   },
-    //   ease: "expo.easeOut",
-    //   onComplete: animateMainShape,
-    // })
-    // .from(".main-circle", {
-    //   duration: 1,
-    //   opacity: 0,
-    //   ease: "power3.easeInOut",
-    //   onComplete: animateShapes,
-    // })
-    // .from(".shapes .shape", {
-    //   duration: 1,
-    //   opacity: 0,
-    //   delay: -1,
-    //   ease: "power3.easeInOut",
-    //   stagger: 1,
-    // })
-    // .to(".preloader", {
-    //   duration: 0,
-    //   css: { display: "none" },
-    // });
+    ); // Adjusted the overlap to make the sequence faster
+  // .from(".landing__main .text", {
+  //   duration: 2,
+  //   y: 10,
+  //   opacity: 0,
+  //   stagger: {
+  //     amount: 2,
+  //   },
+  //   ease: "power3.easeInOut",
+  // })
+  // .from(".links .item", {
+  //   duration: 0.5,
+  //   opacity: 0,
+  //   delay: window.innerWidth < 763 ? -3 : -0.6,
+  //   stagger: {
+  //     amount: 0.5,
+  //   },
+  //   ease: "expo.easeOut",
+  //   onComplete: animateMainShape,
+  // })
+  // .from(".main-circle", {
+  //   duration: 1,
+  //   opacity: 0,
+  //   ease: "power3.easeInOut",
+  //   onComplete: animateShapes,
+  // })
+  // .from(".shapes .shape", {
+  //   duration: 1,
+  //   opacity: 0,
+  //   delay: -1,
+  //   ease: "power3.easeInOut",
+  //   stagger: 1,
+  // })
+  // .to(".preloader", {
+  //   duration: 0,
+  //   css: { display: "none" },
+  // });
 };
 
 export const openMenu = (): void => {

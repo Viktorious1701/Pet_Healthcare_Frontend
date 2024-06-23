@@ -45,15 +45,17 @@ const App: FC = () => {
   
   useEffect(() => {
     const fetchAppointments = async () => {
-      const vetId = 'your-vet-id'; // replace with your vet id
+      const vetId = '7e3fcb0f-11cd-4945-8d9a-84b6c717f94a';
       const appointments = await appointmentVetAPI(vetId);
+      console.log(appointments);
       if (appointments) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const newEvents = appointments.map((appointment: any) => ({
-          title: appointment.service,
+        const newEvents = appointments.map((appointment) => ({
+          title: appointment.service, // Assuming 'service' is a string that can serve as the title
           start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
           end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
+          status: appointment.status,
         }));
+        console.log(newEvents);
         setEvents(newEvents);
       }
     };
