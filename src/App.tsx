@@ -1,5 +1,6 @@
 // App.tsx
 import "./index.css";
+import "@/../app/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Outlet, useLocation } from "react-router";
 import { UserProvider } from "@/Context/UserContext";

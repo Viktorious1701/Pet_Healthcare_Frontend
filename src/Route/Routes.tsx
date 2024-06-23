@@ -1,9 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import App from "@/App";
 import ProtectedRoutes from "./ProtectedRoutes";
 // import Dashboard from "@/pages/AdminDashboard/Dashboard";
-import Accounts from "@/pages/AdminDashboard/Accounts";
-import AppointmentDashboard from "@/pages/AdminDashboard/AppointmentDashboard";
 // import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
 import BookingPage from "@/pages/Booking/BookingPage";
 import BookingSuccess from "@/pages/Booking/BookingSuccess";
@@ -11,8 +8,6 @@ import AccountSettings from "@/pages/AccountSettings";
 import NotFound from "@/pages/Errors/NotFound";
 import GeneralError from "@/pages/Errors/general-error";
 import MaintenanceError from "@/pages/Errors/maintenance-error";
-import ForgotPassword from "@/pages/ForgotPass";
-import ResetPass from "@/pages/ResetPass";
 import EmployeeDashboard from "@/pages/EmployeeDashboard/EmployeeDashboard";
 import HospitalizationPage from "@/pages/CustomerPage/Hospitalization/HospitalizationPage";
 import PetHealthTrackDTO from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
@@ -24,7 +19,6 @@ import KennelPage from "@/pages/CustomerPage/Hospitalization/Kennel";
 import { Resize, useWindowDimensions } from "@/components/resize";
 import { Loader } from "lucide-react";
 // import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
-import PaymentPage from "@/pages/Booking/PaymentPage";
 import {
   ABOUT_PAGE,
   ADMIN_ACCOUNT_PAGE,
@@ -80,7 +74,6 @@ import Hospitalization from "@/pages/CustomerDashboard/hospitalization";
 import Profile from "@/pages/CustomerDashboard/profile";
 import CancelAppointment from "../pages/CustomerDashboard/appointments/components/CancelAppointment";
 import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
-import Register from "@/pages/Register";
 
 const ProtectedVetDashboard = React.lazy(
   () => import("../pages/VetDashboard/ProtectedVetDashboard")
@@ -130,7 +123,6 @@ const RouterComponent = () => {
           }),
         },
         {
-          element: <Register />,
           path: `${REGISTER}`,
           lazy: async () => ({
             Component: (await import("@/pages/Register")).default,
@@ -143,10 +135,9 @@ const RouterComponent = () => {
           }),
         },
         {
-          element: <ResetPass />,
           path: `${RESET_PASS}`,
           lazy: async () => ({
-            Component: (await import("@/pages/HospitalizationService")).default,
+            Component: (await import("@/pages/ResetPass")).default,
           }),
         },
         {
@@ -159,11 +150,15 @@ const RouterComponent = () => {
           children: [
             {
               path: `${ADMIN_ACCOUNT_PAGE}`,
-              element: <Accounts />,
+              lazy: async () => ({
+                Component: (await import("@/pages/AdminDashboard/Accounts")).default,
+              }),
             },
             {
               path: `${ADMIN_APPOINTMENT}`,
-              element: <AppointmentDashboard />,
+              lazy: async () => ({
+                Component: (await import("@/pages/AdminDashboard/AppointmentDashboard")).default,
+              }),
             },
             // {
             //   path: `${ADMIN_HOSPITALIZATION}`,
@@ -175,26 +170,6 @@ const RouterComponent = () => {
                 Component: (
                   await import("../pages/AdminDashboard/dashboard/index")
                 ).default,
-              }),
-            },
-            {
-              path: "tasks",
-              lazy: async () => ({
-                Component: (await import("@/pages/AdminDashboard/tasks"))
-                  .default,
-              }),
-            },
-            {
-              path: "chats",
-              lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
-              }),
-            },
-            {
-              path: "apps",
-              lazy: async () => ({
-                Component: (await import("@/pages/AdminDashboard/apps"))
-                  .default,
               }),
             },
             {
@@ -288,7 +263,9 @@ const RouterComponent = () => {
 
         {
           path: `/${PAYMENT}`,
-          element: <PaymentPage />,
+          lazy: async () => ({
+            Component: (await import("@/pages/Booking/PaymentPage")).default,
+          }),
         },
         {
           path: `/${CUSTOMER_DASHBOARD}`,
@@ -357,26 +334,6 @@ const RouterComponent = () => {
                 Component: (
                   await import("../pages/CustomerDashboard/dashboard/index")
                 ).default,
-              }),
-            },
-            {
-              path: "tasks",
-              lazy: async () => ({
-                Component: (await import("@/pages/CustomerDashboard/tasks"))
-                  .default,
-              }),
-            },
-            {
-              path: "chats",
-              lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
-              }),
-            },
-            {
-              path: "apps",
-              lazy: async () => ({
-                Component: (await import("@/pages/CustomerDashboard/apps"))
-                  .default,
               }),
             },
             {
@@ -520,18 +477,6 @@ const RouterComponent = () => {
               lazy: async () => ({
                 Component: (await import("../pages/VetDashboard/dashboard"))
                   .default,
-              }),
-            },
-            {
-              path: "tasks",
-              lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/tasks")).default,
-              }),
-            },
-            {
-              path: "chats",
-              lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
               }),
             },
             {
