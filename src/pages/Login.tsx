@@ -14,6 +14,7 @@ import { FORGOT_PASS, REGISTER } from "@/Route/router-const";
 import { useState } from "react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import Paw from "@/assets/Paw2.svg";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
 
 type LoginFormInputs = {
   userName: string;
@@ -27,6 +28,7 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
   const { loginUser } = useAuth();
+  const { navigateToHome } = useAuthNavigation();
   const {
     register,
     handleSubmit,
@@ -35,6 +37,7 @@ const Login = () => {
 
   const onSubmit = (data: LoginFormInputs) => {
     loginUser(data.userName, data.password);
+    navigateToHome();
   };
 
   const [showPassword, setShowPassword] = useState(false);

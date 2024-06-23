@@ -17,6 +17,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { LOGIN } from "@/Route/router-const";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
 
 type ResetPasswordFormInputs = {
   password: string;
@@ -71,9 +72,10 @@ const ResetPass: React.FC = () => {
 
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
-
+  const { navigateToLogin } = useAuthNavigation();
   const handleResetPassword = (form: ResetPasswordFormInputs) => {
     resetUser(token, email, form.password, form.confirmPassword);
+    navigateToLogin();
   };
 
   return (
