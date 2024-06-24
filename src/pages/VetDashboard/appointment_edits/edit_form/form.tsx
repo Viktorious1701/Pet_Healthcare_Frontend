@@ -1,4 +1,4 @@
-import { AppointmentGet } from "@/Models/Appointment";
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   appointmentGetVetIdAPI,
   appointmentVetAPI,
@@ -6,40 +6,78 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const AppointmentForm: React.FC<> = () => {
-  const { appointmentId } = useParams(); // Step 2: Extract appointmentId from URL
+const AppointmentForm = () => {
+  // State to hold the matching appointment
+  // eslint-disable-next-line no-empty-pattern
+  const [] = useState<{
+    appointmentId: string;
+  } | null>(null);
+  // Additional state variables for appointment details
+  const [appointmentDetails, setAppointmentDetails] = useState({
+    appointmentId: 0,
+    cancellationDate: "",
+    comments: "",
+    customer: "",
+    date: "",
+    paymentStatus: "",
+    pet: "",
+    rating: 0,
+    refundAmount: 0,
+    service: "",
+    slotEndTime: 0,
+    slotStartTime: 0,
+    status: "",
+    totalCost: 0,
+  });
+
+  const { appointmentId: urlAppointmentId } = useParams<{
+    appointmentId: string;
+  }>(); // Extract appointmentId from URL
 
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
       try {
         const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+        console.log(response);
         const vetId = (response as unknown as { userId: string }).userId; // Type assertion
-        if (vetId) {
-          const appointmentId: number | undefined =
-          await appointmentVetAPI(vetId); // Fetch appointments
-          if (appointmentDetails) {
+        const fetchedDetails = await appointmentVetAPI(vetId); // Fetch appointments
+        console.log(fetchedDetails);
+        if (fetchedDetails && fetchedDetails.length > 0) {
+          // Find the appointment that matches the ID from the URL
+          const matchingAppointment = fetchedDetails.find(
+            (appointment) =>
+              appointment.appointmentId.toString() === urlAppointmentId
+          );
+
+          if (matchingAppointment) {
+            console.log(matchingAppointment.appointmentId); // Do something with the matching appointment
+            console.log(matchingAppointment);
             // Update your form state with these details
-            setAppointmentId(appointmentDetails.appointmentId);
-            setCancellationDate(appointmentDetails.cancellationDate);
-            setComments(appointmentDetails.comments);
-            setCustomer(appointmentDetails.customer);
-            setDate(appointmentDetails.date);
-            setPaymentStatus(appointmentDetails.paymentStatus);
-            setPet(appointmentDetails.pet);
-            setRating(appointmentDetails.rating);
-            setRefundAmount(appointmentDetails.refundAmount);
-            setService(appointmentDetails.service);
-            setSlotEndTime(appointmentDetails.slotEndTime);
-            setSlotStartTime(appointmentDetails.slotStartTime);
-            setStatus(appointmentDetails.status);
-            setTotalCost(appointmentDetails.totalCost);
-            setVet(appointmentDetails.vet);
+            setAppointmentDetails({
+              appointmentId: matchingAppointment.appointmentId,
+              cancellationDate: matchingAppointment.cancellationDate,
+              comments: matchingAppointment.comment,
+              customer: matchingAppointment.customer,
+              date: matchingAppointment.date,
+              paymentStatus: matchingAppointment.paymentStatus,
+              pet: matchingAppointment.pet,
+              rating: matchingAppointment.rating,
+              refundAmount: matchingAppointment.refundAmount,
+              service: matchingAppointment.service,
+              slotEndTime: matchingAppointment.slotEndTime,
+              slotStartTime: matchingAppointment.slotStartTime,
+              status: matchingAppointment.status,
+              totalCost: matchingAppointment.totalCost,
+            });
           } else {
-            console.error("Appointment not found");
+            console.log("No matching appointment found");
           }
+        } else {
+          // Handle the case where details is undefined
+          console.error("Appointment details are undefined");
         }
       } catch (error) {
         console.error("Failed to fetch appointment details:", error);
@@ -47,14 +85,14 @@ const AppointmentForm: React.FC<> = () => {
     };
 
     fetchAppointmentDetails();
-  }, [appointmentId]); // Dependency array to re-run the effect if appointmentId changes
+  }, [urlAppointmentId]); // Dependency array updated to re-fetch if appointmentId changes
 
   return (
     <form className="w-full p-10 bg-opacity-20 z-10 overflow-auto">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-4xl font-bold mb-6">
-            Edit Appointment
+            View Appointment
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -70,7 +108,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="appointmentId"
                 type="text"
                 readOnly
-                value={appointmentId} // Set the value to the state variable
+                value={appointmentDetails.appointmentId ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -82,6 +120,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="customer"
                 type="text"
                 readOnly
+                value={appointmentDetails.customer ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -93,6 +132,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="date"
                 type="date"
                 readOnly
+                value={appointmentDetails.date ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -107,6 +147,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="cancellationDate"
                 type="date"
                 readOnly
+                value={appointmentDetails.cancellationDate ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -117,6 +158,13 @@ const AppointmentForm: React.FC<> = () => {
               <Input
                 id="comments"
                 type="text"
+                value={appointmentDetails.comments}
+                onChange={(e) =>
+                  setAppointmentDetails({
+                    ...appointmentDetails,
+                    comments: e.target.value,
+                  })
+                }
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -131,6 +179,13 @@ const AppointmentForm: React.FC<> = () => {
               <Input
                 id="paymentStatus"
                 type="text"
+                value={appointmentDetails.paymentStatus}
+                onChange={(e) =>
+                  setAppointmentDetails({
+                    ...appointmentDetails,
+                    paymentStatus: e.target.value,
+                  })
+                }
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -142,6 +197,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="pet"
                 type="text"
                 readOnly
+                value={appointmentDetails.pet ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -160,6 +216,7 @@ const AppointmentForm: React.FC<> = () => {
               <Input
                 id="service"
                 type="text"
+                value={appointmentDetails.service ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -174,6 +231,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="slotStartTime"
                 type="time"
                 readOnly
+                value={appointmentDetails.slotStartTime ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -188,6 +246,7 @@ const AppointmentForm: React.FC<> = () => {
                 id="slotEndTime"
                 type="time"
                 readOnly
+                value={appointmentDetails.slotEndTime ?? ""}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -198,6 +257,13 @@ const AppointmentForm: React.FC<> = () => {
               <Input
                 id="status"
                 type="text"
+                value={appointmentDetails.status}
+                onChange={(e) =>
+                  setAppointmentDetails({
+                    ...appointmentDetails,
+                    status: e.target.value,
+                  })
+                }
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -209,6 +275,13 @@ const AppointmentForm: React.FC<> = () => {
                 id="totalCost"
                 type="number"
                 step="1"
+                value={appointmentDetails.totalCost}
+                onChange={(e) =>
+                  setAppointmentDetails({
+                    ...appointmentDetails,
+                    totalCost: e.target.valueAsNumber, // Use valueAsNumber for type="number"
+                  })
+                }
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
