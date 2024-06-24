@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
-import CustomerSidebar from "../CustomerSidebar";
 import { getKennelById } from "@/Services/KennelService";
 import { Kennel } from "@/Models/Kennel";
 
@@ -43,7 +42,7 @@ const KennelPage: React.FC = () => {
 
   return (
     <div className="flex">
-      <CustomerSidebar />
+      
       <div className="p-6 flex-grow">
         <Button
           onClick={() => navigate(-1)}

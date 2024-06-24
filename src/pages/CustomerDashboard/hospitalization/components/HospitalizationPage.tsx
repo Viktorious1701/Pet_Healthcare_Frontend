@@ -159,7 +159,7 @@ const HospitalizationPage: React.FC = () => {
                 <TableCell>{hospitalization.dischargeDate || "N/A"}</TableCell>
                 <TableCell>
                   <Link
-                    to={`/${KENNEL}/${hospitalization.kennelId}`}
+                    to={`/${CUSTOMER_DASHBOARD}/${KENNEL}/${hospitalization.kennelId}`}
                     className="text-custom-pink hover:text-custom-darkPink underline"
                   >
                     {hospitalization.kennelId}

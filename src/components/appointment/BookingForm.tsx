@@ -143,6 +143,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         await handleAppointment(formData);
       } else {
         toast.info("You still have an unfinished appointment");
+        
         return;
       }
     } else if (user?.role === "Employee") {

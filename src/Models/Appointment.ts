@@ -39,6 +39,7 @@ export type AppointmentGet = {
     rating: number,
     comment: string,
     status: string
+    paymentStatus: number
 }
 
 export enum AppointmentStatus {

@@ -10,7 +10,7 @@ import { lightPinkTheme } from "./components/resize/theme.tsx";
 import { ThemeProvider } from '@/components/vet_components/theme-provider.tsx';
 import { Toaster } from "sonner"
 import { UserProvider } from "./Context/UserContext.tsx";
-
+import { ToastContainer } from "react-toastify";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -24,6 +24,7 @@ root.render(
             <NextUIProvider>
               <RouterComponent />
               <Toaster />
+              <ToastContainer />
             </NextUIProvider>
           </StyledThemeProvider>
         </ThemeProvider>

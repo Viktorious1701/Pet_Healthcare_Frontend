@@ -9,7 +9,7 @@ import {
   registerAPI,
   resetPasswordAPI,
 } from '../Services/AuthService';
-import { toast } from 'sonner';
+import { toast } from 'react-toastify';
 import axiosInstance from '@/Helpers/axiosInstance';
 
 type UserContextType = {

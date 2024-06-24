@@ -28,7 +28,7 @@ export function UserNav() {
   
   const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout;
+    logout();
     navigateToLogin();
     
   }

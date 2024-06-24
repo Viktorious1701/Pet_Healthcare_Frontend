@@ -12,13 +12,14 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/Context/useAuth'
 import { useNavigate } from 'react-router';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 
 export function UserNav() {
   const { user, logout } = useAuth();
   const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout;
+    logout();
     navigateToLogin();
   }
   const navigate = useNavigate();

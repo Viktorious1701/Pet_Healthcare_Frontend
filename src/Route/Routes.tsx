@@ -75,6 +75,7 @@ import Hospitalization from "@/pages/CustomerDashboard/hospitalization";
 import Profile from "@/pages/CustomerDashboard/profile";
 import CancelAppointment from "../pages/CustomerDashboard/appointments/components/CancelAppointment";
 import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
+import NotAuthorized from "@/pages/Errors/NotAuthorized";
 
 const ProtectedVetDashboard = React.lazy(
   () => import("../pages/VetDashboard/ProtectedVetDashboard")
@@ -597,6 +598,10 @@ const RouterComponent = () => {
         {
           path: "/503",
           element: <MaintenanceError />,
+        },
+        {
+          path: "/not-authorized",
+          element: <NotAuthorized />,
         },
         {
           path: "*",
