@@ -33,7 +33,7 @@ const Navbar = () => {
   
   const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout;
+    logout();
     navigateToLogin();
     
   }

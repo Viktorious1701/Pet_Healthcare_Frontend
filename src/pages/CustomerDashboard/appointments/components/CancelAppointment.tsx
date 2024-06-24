@@ -8,6 +8,7 @@ import { differenceInDays, format } from 'date-fns';
 import styled from 'styled-components';
 import { refundApi } from "@/Services/PaymentService";
 import { CUSTOMER_APPOINTMENTS, CUSTOMER_DASHBOARD } from "@/Route/router-const";
+import { toast } from "sonner";
 
 const Wrapper = styled.div`
   margin-bottom: 10px;
@@ -34,9 +35,14 @@ const CancelAppointment: React.FC = () => {
       try {
         const res = await getAppointmentByIdAPI(Number(appointmentId));
         if (res?.data) {
-            if(res.data.status === null || res.data.status !== "Boooked")
+            if(res.data.status === null || res.data.status !== "Boooked" )
             {
-              alert("Appointment is already cancelled");
+              toast.info("Appointment is in the booking process");
+              navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
+            }
+            else if(res.data.paymentStatus === null || res.data.paymentStatus !== 1)
+            {
+              toast.info("Appointment is not paid yet, Please Contact Us via phone to cancel the appointment.");
               navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
             }
           setAppointment(res.data);
@@ -68,16 +74,18 @@ const CancelAppointment: React.FC = () => {
 
   const handleRefund = async () => {
     console.log(`Processing refund for appointment ID: ${appointment?.appointmentId}`);
-    navigate("/customer");
+    
     // Logic for processing the refund based on appointment details
     const refundId = appointment?.appointmentId || 0;
-    const refund  = await refundApi(refundId);
-    console.log("Refund status: ", refund);
-    if (refund.status === 200 ) {
-      navigate("/refund-status");
-    } else {
-      // Handle refund processing error
-      alert("Error processing refund. Please try again later.");
+    try {
+      const refund  = await refundApi(refundId);
+      navigate("/customer");
+      if(refund)
+        toast("Refund processed successfully.");
+      else
+        toast("Error processing refund. Please try again later.");
+    } catch (error) {
+      toast("Error processing refund. Please try again later.");
       navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`)
     }
   };

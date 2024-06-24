@@ -3,7 +3,6 @@ import "./index.css";
 import "@/../app/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PreLoader from "./components/preloader/PreLoader";
 import { useEffect, useState } from "react";
@@ -27,7 +26,7 @@ function App() {
     <>
       {showPreLoader && <PreLoader />}
       <Outlet />
-      <ToastContainer />
+      
     </>
   );
 }
