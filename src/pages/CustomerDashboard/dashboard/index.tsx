@@ -18,14 +18,14 @@ import { AppointmentGet } from '@/Models/Appointment'
 import { appointmentCustomerAPI } from '@/Services/AppointmentService'
 import { toast } from 'sonner'
 import PetHealthStatus from './components/pet-health-status'
-import { getAllPetHealthTracks } from '@/Services/PetHealthTrackService'
+import { getUserPetHealthTracks } from '@/Services/PetHealthTrackService'
 import { PetHealthTrack } from '@/Models/PetHealthTrack'
 
 export default function Dashboard() {
   const {user} = useAuth();
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
   const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([]);
-  
+
   const getAppointments = async () => {
     await appointmentCustomerAPI(String(user?.userName))
     .then((res) => {
@@ -39,11 +39,9 @@ export default function Dashboard() {
   };
 
   const getPetHealthTracks = async () => {
-    await getAllPetHealthTracks()
+    await getUserPetHealthTracks()
     .then((res) => {
       if (res.data) {
-        console.log(res.data);
-        
         setPetHealthTracks(res.data);
       }
     })
@@ -57,7 +55,6 @@ export default function Dashboard() {
     getPetHealthTracks();
   }, []);
 
-  console.log(appointments);
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
@@ -196,8 +193,8 @@ export default function Dashboard() {
               </Card>
             </div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-4 overflow-y-auto'>
-                <CardHeader>
+              <Card className='col-span-1 lg:col-span-4 h-[58vh] overflow-y-scroll'>
+                <CardHeader className='sticky top-0'>
                   <CardTitle>Track Your Pet's Health Status</CardTitle>
                   <CardDescription>
                     This information is updated everyday, keep track of the latest status here.
@@ -207,11 +204,11 @@ export default function Dashboard() {
                   <PetHealthStatus petHealthTracks={petHealthTracks}/>
                 </CardContent>
               </Card>
-              <Card className='col-span-1 lg:col-span-3 min-h-[58vh]'>
+              <Card className='col-span-1 lg:col-span-3 overflow-y-scroll'>
                 <CardHeader>
                   <CardTitle>Incoming Appointments</CardTitle>
                   <CardDescription>
-                    This is your appointments for today.
+                    This is your appointments for incoming days.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

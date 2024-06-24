@@ -23,7 +23,7 @@ const IncomingAppointments: React.FC<IncomingAppointmentsProps> = ({
   appointments,
 }) => {
   appointments = appointments.filter(
-    (appointment) => new Date(appointment.date) >= now
+    (appointment) => new Date(appointment.date) <= now
   );
   return (
     <div className="space-y-2">
