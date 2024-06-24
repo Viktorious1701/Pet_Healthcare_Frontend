@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
 "use client";
@@ -40,6 +41,8 @@ import {
   appointmentVetAPI,
 } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
+import { useNavigate } from "react-router-dom"; // Updated import
+import { APPOINTMENT_DETAILS, APPOINTMENT_EDIT } from "@/Route/router-const";
 
 // Adjustments to switch from Payment to Appointment data model
 export type Appointment = {
@@ -134,6 +137,15 @@ export const columns: ColumnDef<Appointment>[] = [
     cell: ({ row }) => {
       const appointment = row.original;
 
+      const navigate = useNavigate();
+
+      const openAppointmentEditForm = (appointmentId: number) => {
+        // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
+        const targetPath = `/vet/appointment-edit/${appointmentId}`;
+        console.log(`Navigating to: ${targetPath}`);
+        navigate(targetPath);
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -154,7 +166,11 @@ export const columns: ColumnDef<Appointment>[] = [
             >
               Copy appointment ID
             </DropdownMenuItem>
-            <DropdownMenuItem>View appointment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => openAppointmentEditForm(appointment.appointmentId)}
+            >
+              View appointment details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -235,7 +251,9 @@ export function DataTableDemo() {
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <span className="flex-1 text-[2rem] font-mont font-semibold ">APPOINTMENTS</span>
+        <span className="flex-1 text-[2rem] font-mont font-semibold ">
+          APPOINTMENTS
+        </span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

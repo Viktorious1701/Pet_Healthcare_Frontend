@@ -56,6 +56,7 @@ import {
   CUSTOMER_PROFILE,
   REFUND,
   CUSTOMER_PET_ADD,
+  APPOINTMENT_EDIT,
 } from "./router-const";
 
 import PetHealthTrack from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
@@ -485,6 +486,13 @@ const RouterComponent = () => {
                 Component: (
                   await import("@/pages/VetDashboard/appointment_details/index")
                 ).default,
+              }),
+            },
+            {
+              path: `${APPOINTMENT_EDIT}/:appointmentId`,
+              lazy: async () => ({
+                Component: (await import("@/pages/VetDashboard/appointment_edits/index"))
+                  .default,
               }),
             },
             {
