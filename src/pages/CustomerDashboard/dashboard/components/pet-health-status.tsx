@@ -37,7 +37,7 @@ const now = new Date();
 const PetHealthStatus: React.FC<PetHealthStatusProps> = ({
   petHealthTracks,
 }) => {
-  petHealthTracks = petHealthTracks.filter((petHealthTrack) => new Date(petHealthTrack.date).getDate() == now.getDate());
+  petHealthTracks = petHealthTracks.filter((petHealthTrack) => new Date(petHealthTrack.dateOnly).getDate() == now.getDate())
   
   return (
     <div className="space-y-4">
@@ -53,11 +53,16 @@ const PetHealthStatus: React.FC<PetHealthStatusProps> = ({
               className="rounded-t-lg"
             />
             <CardContent className="mt-2">
-              <Typography gutterBottom variant="h5" component="div" className="flex justify-between">
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                className="flex justify-between"
+              >
                 {petHealthTrack.petName}
                 <Badge
                   variant="default"
-                  className={`${getStatusBadge(petHealthTrack.status)}`} 
+                  className={`${getStatusBadge(petHealthTrack.status)}`}
                 >
                   {getHealthBadge(petHealthTrack.status)}
                 </Badge>
