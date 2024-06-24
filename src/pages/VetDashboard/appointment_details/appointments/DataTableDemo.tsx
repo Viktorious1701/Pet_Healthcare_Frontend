@@ -42,7 +42,6 @@ import {
 } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
 import { useNavigate } from "react-router-dom"; // Updated import
-import { APPOINTMENT_DETAILS, APPOINTMENT_EDIT } from "@/Route/router-const";
 
 // Adjustments to switch from Payment to Appointment data model
 export type Appointment = {

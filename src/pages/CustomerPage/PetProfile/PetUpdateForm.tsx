@@ -76,7 +76,7 @@ const PetUpdateForm: React.FC = () => {
         //   dataToUpdate.imageUrl = imagePreview;
         // }
         console.log("dataToUpdate", dataToUpdate);
-        await updatePetData(parseInt(petId, 10), dataToUpdate);
+        await updatePetData(parseInt(petId, 10), { ...dataToUpdate, imageFile: null });
         alert("Pet information updated successfully.");
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
       } catch (err) {

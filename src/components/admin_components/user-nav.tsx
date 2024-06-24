@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/Context/useAuth'
 import { useAuthNavigation } from '@/Context/useAuthNavigation';
-import { log } from 'console';
 
 export function UserNav() {
   const { user, logout } = useAuth();
