@@ -24,7 +24,6 @@ export type AppointmentBook = {
 }
 
 export type AppointmentGet = {
-    paymentStatus: string
     appointmentId: number,
     customer: string,
     pet: string,

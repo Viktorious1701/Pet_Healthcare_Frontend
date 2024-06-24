@@ -171,6 +171,11 @@ export const columns: ColumnDef<Appointment>[] = [
             >
               View appointment details
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => openAppointmentEditForm(appointment.appointmentId)}
+            >
+              Add diagnosis
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
