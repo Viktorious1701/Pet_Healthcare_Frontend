@@ -16,7 +16,7 @@ import KennelPage from "@/pages/CustomerPage/Hospitalization/Kennel";
 // import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
 // import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
 // import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
-import { Resize, useWindowDimensions } from "@/components/resize";
+//import { Resize, useWindowDimensions } from "@/components/resize";
 import { Loader } from "lucide-react";
 // import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
 import {

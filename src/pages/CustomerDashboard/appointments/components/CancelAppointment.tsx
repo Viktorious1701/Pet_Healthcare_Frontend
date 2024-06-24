@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
@@ -78,15 +79,16 @@ const CancelAppointment: React.FC = () => {
     // Logic for processing the refund based on appointment details
     const refundId = appointment?.appointmentId || 0;
     try {
-      const refund  = await refundApi(refundId);
+      const refund = await refundApi(refundId);
       navigate("/customer");
-      if(refund)
-        toast("Refund processed successfully.");
-      else
-        toast("Error processing refund. Please try again later.");
-    } catch (error) {
-      toast("Error processing refund. Please try again later.");
-      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`)
+      if (refund) {
+      toast("Refund processed successfully.");
+      } else {
+      toast("Error processing refund. Please try again in about 24-48 hours.");
+      }
+    } catch (error: any) {
+      toast(`Error processing refund: ${error.message}`);
+      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
     }
   };
 
