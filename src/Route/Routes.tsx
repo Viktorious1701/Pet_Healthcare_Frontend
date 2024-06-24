@@ -82,10 +82,10 @@ const ProtectedVetDashboard = React.lazy(
 );
 
 const RouterComponent = () => {
-  const { width } = useWindowDimensions();
-  if (width <= 900) {
-    return <Resize />;
-  }
+  // const { width } = useWindowDimensions();
+  // if (width <= 900) {
+  //   return <Resize />;
+  // }
 
   const router = createBrowserRouter([
     {

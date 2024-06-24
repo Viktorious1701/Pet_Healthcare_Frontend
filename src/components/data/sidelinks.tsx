@@ -1,7 +1,8 @@
-import { COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
+import { APPOINTMENT_DETAILS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
 import {
   IconCalendarWeek,
   IconDashboard,
+  IconListCheck,
   IconSettings,
   IconUser,
 } from '@tabler/icons-react'
@@ -29,6 +30,12 @@ export const sidelinks: SideLink[] = [
       label: '',
       href: `${SCHEDULE_VET}`,
       icon: <IconCalendarWeek size={18} />,
+    },
+    {
+      title: 'Appointment',
+      label: '',
+      href: `${APPOINTMENT_DETAILS}`,
+      icon: <IconListCheck size={18} />,
     },
     {
       title: 'Profile',

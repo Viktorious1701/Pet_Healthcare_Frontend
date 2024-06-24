@@ -9,7 +9,6 @@ import {
 import { Search } from '@/components/vet_components/search'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { TopNav } from '@/components/vet_components/top-nav'
 import { UserNav } from '@/components/vet_components/user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import { RecentSales } from './components/recent-sales'
@@ -20,7 +19,7 @@ export default function Dashboard() {
     <Layout>
       {/* ===== Top Heading ===== */}
       <LayoutHeader>
-        <TopNav links={topNav} />
+        {/* <TopNav links={topNav} /> */}
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
           <ThemeSwitch />
@@ -35,7 +34,7 @@ export default function Dashboard() {
             Dashboard
           </h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            <Button className="bg-[#DB2777]">Download</Button>
           </div>
         </div>
         <Tabs
@@ -166,7 +165,7 @@ export default function Dashboard() {
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Recent Appointments</CardTitle>
                   <CardDescription>
                     You made 265 sales this month.
                   </CardDescription>
@@ -183,25 +182,25 @@ export default function Dashboard() {
   )
 }
 
-const topNav = [
-  {
-    title: 'Overview',
-    href: 'dashboard/overview',
-    isActive: true,
-  },
-  {
-    title: 'Customers',
-    href: 'dashboard/customers',
-    isActive: false,
-  },
-  {
-    title: 'Products',
-    href: 'dashboard/products',
-    isActive: false,
-  },
-  {
-    title: 'Settings',
-    href: 'dashboard/settings',
-    isActive: false,
-  },
-]
+// const topNav = [
+//   {
+//     title: 'Overview',
+//     href: 'dashboard/overview',
+//     isActive: true,
+//   },
+//   {
+//     title: 'Customers',
+//     href: 'dashboard/customers',
+//     isActive: false,
+//   },
+//   {
+//     title: 'Products',
+//     href: 'dashboard/products',
+//     isActive: false,
+//   },
+//   {
+//     title: 'Settings',
+//     href: 'dashboard/settings',
+//     isActive: false,
+//   },
+// ]
