@@ -37,7 +37,8 @@ const PetHealthTrack: React.FC = () => {
     const fetchHealthTrack = async () => {
       try {
         if (hospitalizationId) {
-          const data = await getPetHealthTrackByHospitalizationId(hospitalizationId);
+          const response = await getPetHealthTrackByHospitalizationId(Number(hospitalizationId));
+          const data = response.data;
           setHealthTrack(data);
           sessionStorage.setItem("petHealthTrack", JSON.stringify(data));
         }
