@@ -12,6 +12,7 @@ export const getPetHealthTrackByHospitalizationId = async (hospitalizationId: nu
     throw error;
   }
 };
+
 export const getUserPetHealthTracks = async () => {
   try {
     const data = await axiosInstance.get<PetHealthTrack[]>(`${apiBaseURL}/user`);

@@ -15,5 +15,13 @@
 }
 
 .dark-mode .rbc-day-bg.rbc-today {
-  background-color: #568ab1; /* This will set the background color to a darker shade in dark mode */
+  background-color: rgba(173, 0, 78, 0.836)/* This will set the background color to a darker shade in dark mode */
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  background-color: #ad004e; /* This will set the background color to a darker shade in dark mode */
+}
+
+.rbc-today {
+  background-color: #ad004e5d;
 }

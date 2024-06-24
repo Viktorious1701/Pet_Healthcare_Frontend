@@ -2,7 +2,6 @@
 // UserContext.tsx
 
 import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserProfile } from '../Models/User';
 import {
   forgotPasswordAPI,
@@ -10,32 +9,24 @@ import {
   registerAPI,
   resetPasswordAPI,
 } from '../Services/AuthService';
-import { toast } from 'sonner';
-import {
-  ADMIN_DASHBOARD,
-  EMPLOYEE_DASHBOARD,
-  HOME_PAGE,
-  LOGIN,
-} from '@/Route/router-const';
+import { toast } from 'react-toastify';
 import axiosInstance from '@/Helpers/axiosInstance';
 
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
   refreshToken: string | null;
-  registerUser: (email: string, username: string, password: string) => Promise<void>;
-  loginUser: (username: string, password: string) => Promise<void>;
+  registerUser: (email: string, username: string, password: string) => Promise<UserProfile | null>;
+  loginUser: (username: string, password: string) => Promise<UserProfile | null>;
   forgotUser: (email: string) => Promise<void>;
   resetUser: (token: string, email: string, password: string, confirmPassword: string) => Promise<void>;
   logout: () => void;
   isLoggedIn: () => boolean;
   resetPassword: (email: string) => Promise<void>;
 };
-
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const navigate = useNavigate();
   const [token, setToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -79,18 +70,18 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         updateAuthState(userData);
         toast('Registration Successful!', {
-          
           style: {
             backgroundColor: 'var(--background)',
             color: 'var(--hero-text)',
             outline: '2px solid #77dd77',
           },
         });
-        navigate(`/${HOME_PAGE}`);
+        return userData.user;
       }
     } catch (e) {
       toast('Server error occurred');
     }
+    return null;
   };
 
   const loginUser = async (username: string, password: string) => {
@@ -114,24 +105,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             outline: '2px solid #77dd77',
           },
         });
-        switch (userData.user.role) {
-          case 'Admin':
-            navigate(`/${ADMIN_DASHBOARD}`);
-            break;
-          case 'Employee':
-            navigate(`/${EMPLOYEE_DASHBOARD}`);
-            break;
-          case 'Vet':
-          default:
-            navigate(`/${HOME_PAGE}`);
-            break;
-        }
+        return userData.user;
       }
     } catch (e) {
       toast('Server error occurred');
     }
+    return null;
   };
-
   const forgotUser = async (email: string) => {
       try {
           const res = await forgotPasswordAPI(email);
@@ -148,7 +128,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await resetPasswordAPI(token, email, password, confirmPassword);
       if (res) {
         toast('Password reset Successfully');
-        navigate(`/${LOGIN}`);
+      
       }
     } catch (e) {
       toast('Server error occurred',);
@@ -177,7 +157,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('refreshToken');
     sessionStorage.clear();
     axiosInstance.defaults.headers.common['Authorization'] = '';
-    navigate(`/${HOME_PAGE}`);
+    
   };
 
   const contextValue: UserContextType = {

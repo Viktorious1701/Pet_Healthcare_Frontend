@@ -26,9 +26,17 @@ import {
   SETTINGS_PROFILE,
 } from "@/Route/router-const";
 import ThemeSwitch from "../vet_components/theme-switch";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
 
 const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
+  
+  const { navigateToLogin } = useAuthNavigation();
+  const handleClick = () => {
+    logout();
+    navigateToLogin();
+    
+  }
   const navigate = useNavigate();
   const role = user?.role || "0";
 
@@ -74,7 +82,7 @@ const Navbar = () => {
 
   return (
     <div className="fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8 justify-between">
-      <div className="flex">
+      <div className="flex items-center">
         <img
           src={Paw}
           className="ml-[3rem] mt-[2rem] w-[50px] h-[50px]"
@@ -83,7 +91,7 @@ const Navbar = () => {
         <Header />
       </div>
       {isLoggedIn() ? (
-        <div className="mr-[3rem] flex items-center justify-start flex-row">
+        <div className="flex items-start mt-[2.25rem] mr-[3rem]">
           <div className="mr-5">
             <ThemeSwitch />
           </div>
@@ -113,10 +121,10 @@ const Navbar = () => {
           </Dropdown> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                <Avatar className="h-8 w-8">
+              <Button variant="ghost" className="relative h-10 w-10 rounded-full bg-[--avatar]">
+                <Avatar className="h-10 w-10 bg-[--avatar]">
                   <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                  <AvatarFallback>{user?.userName?.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <AvatarFallback className="bg-[--avatar]">{user?.userName?.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -144,7 +152,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem key="logout" color="danger" onClick={logout}>
+              <DropdownMenuItem key="logout" color="danger" onClick={handleClick}>
                 Log out
                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>

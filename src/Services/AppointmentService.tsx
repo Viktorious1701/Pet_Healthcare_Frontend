@@ -8,6 +8,7 @@ import {
 } from "@/Models/Appointment";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
+const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
 
 export const appointmentAvailableVetsAPI = async (
   date: string,
@@ -31,7 +32,7 @@ export const getAppointmentByIdAPI = async (appointmentId: number) => {
   } catch (error) {
     handleError(error);
   }
-}
+};
 export const appointmentCustomerAPI = async (username: string) => {
   try {
     const data = await axiosInstance.get<AppointmentGet[]>(
@@ -103,4 +104,15 @@ export const appointmentVetAPI = async (vetId: string) => {
   } catch (error) {
     handleError(error);
   }
-}
+};
+
+export const appointmentGetVetIdAPI = async () => {
+  try {
+    const response = await axiosInstance.get<string>(
+      apiGetVet + `/Account/me`
+    );
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};

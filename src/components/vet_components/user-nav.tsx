@@ -19,11 +19,19 @@ import {
   VET_DASHBOARD,
 } from "@/Route/router-const";
 import { useAuth } from "@/Context/useAuth";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
 
 export function UserNav() {
   const location = useLocation();
 
   const { user, logout } = useAuth();
+  
+  const { navigateToLogin } = useAuthNavigation();
+  const handleClick = () => {
+    logout();
+    navigateToLogin();
+    
+  }
   const navigate = useNavigate();
   const role = user?.role || "0";
 
@@ -113,7 +121,7 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem key="logout" color="danger" onClick={logout}>
+        <DropdownMenuItem key="logout" color="danger" onClick={handleClick}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

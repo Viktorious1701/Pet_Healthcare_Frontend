@@ -8,8 +8,9 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { lightPinkTheme } from "./components/resize/theme.tsx";
 import { ThemeProvider } from '@/components/vet_components/theme-provider.tsx';
-import { Toaster } from "@/components/ui/sonner"
-
+import { Toaster } from "sonner"
+import { UserProvider } from "./Context/UserContext.tsx";
+import { ToastContainer } from "react-toastify";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -17,14 +18,17 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <StyledThemeProvider theme={lightPinkTheme}>
-          <NextUIProvider>
-            <RouterComponent />
-            <Toaster />
-          </NextUIProvider>
-        </StyledThemeProvider>
-      </ThemeProvider>
+      <UserProvider>
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <StyledThemeProvider theme={lightPinkTheme}>
+            <NextUIProvider>
+              <RouterComponent />
+              <Toaster />
+              <ToastContainer />
+            </NextUIProvider>
+          </StyledThemeProvider>
+        </ThemeProvider>
+      </UserProvider>
     </React.StrictMode>
   </Provider>
 );

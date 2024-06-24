@@ -34,6 +34,19 @@ const getHealthBadge = (status: number) => {
 };
 const now = new Date();
 console.log(now);
+=======
+    switch (status) {
+      case 0:
+        return "Severe";
+      case 1:
+        return "Recovering";
+      case 2:
+        return "Normal";
+      case 3:
+        return "Good";
+    }
+  };
+const now = new Date();
 
 const PetHealthStatus: React.FC<PetHealthStatusProps> = ({
   petHealthTracks,

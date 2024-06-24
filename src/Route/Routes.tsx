@@ -56,6 +56,7 @@ import {
   CUSTOMER_PROFILE,
   REFUND,
   CUSTOMER_PET_ADD,
+  APPOINTMENT_EDIT,
 } from "./router-const";
 
 import PetHealthTrack from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
@@ -74,6 +75,7 @@ import Hospitalization from "@/pages/CustomerDashboard/hospitalization";
 import Profile from "@/pages/CustomerDashboard/profile";
 import CancelAppointment from "../pages/CustomerDashboard/appointments/components/CancelAppointment";
 import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
+import NotAuthorized from "@/pages/Errors/NotAuthorized";
 
 const ProtectedVetDashboard = React.lazy(
   () => import("../pages/VetDashboard/ProtectedVetDashboard")
@@ -488,6 +490,13 @@ const RouterComponent = () => {
               }),
             },
             {
+              path: `${APPOINTMENT_EDIT}/:appointmentId`,
+              lazy: async () => ({
+                Component: (await import("@/pages/VetDashboard/appointment_edits/index"))
+                  .default,
+              }),
+            },
+            {
               path: `${SCHEDULE_VET}`,
               lazy: async () => ({
                 Component: (await import("@/pages/VetDashboard/schedule"))
@@ -589,6 +598,10 @@ const RouterComponent = () => {
         {
           path: "/503",
           element: <MaintenanceError />,
+        },
+        {
+          path: "/not-authorized",
+          element: <NotAuthorized />,
         },
         {
           path: "*",
