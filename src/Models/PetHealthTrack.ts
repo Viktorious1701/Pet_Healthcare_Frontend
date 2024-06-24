@@ -1,6 +1,7 @@
 export interface PetHealthTrack {
   petHealthTrackId: number;
   petName: string;
+  petImage: string;
   hospitalizationId: number;
   description: string;
   date: Date;

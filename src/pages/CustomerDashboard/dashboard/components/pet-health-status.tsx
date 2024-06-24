@@ -1,5 +1,7 @@
 import { PetHealthTrack } from "@/Models/PetHealthTrack";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { CardMedia, Typography } from "@mui/material";
 
 interface PetHealthStatusProps {
   petHealthTracks: PetHealthTrack[];
@@ -19,50 +21,53 @@ const getStatusBadge = (status: number) => {
 };
 
 const getHealthBadge = (status: number) => {
-    switch (status) {
-      case 0:
-        return "Severe";
-      case 1:
-        return "Recovering";
-      case 2:
-        return "Normal";
-      case 3:
-        return "Good";
-    }
-  };
+  switch (status) {
+    case 0:
+      return "Severe";
+    case 1:
+      return "Recovering";
+    case 2:
+      return "Normal";
+    case 3:
+      return "Good";
+  }
+};
 const now = new Date();
+console.log(now);
 
 const PetHealthStatus: React.FC<PetHealthStatusProps> = ({
   petHealthTracks,
 }) => {
+  petHealthTracks = petHealthTracks.filter((petHealthTrack) => new Date(petHealthTrack.date).getDate() == now.getDate());
+  
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {petHealthTracks.map((petHealthTrack) => (
         <div
           key={petHealthTrack.petHealthTrackId}
-          className="flex items-center bg-ye"
+          className="flex items-center"
         >
-          <div className="dark:bg-gray-900 rounded-lg shadow-lg w-full">
-            <div className="p-3">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50 flex justify-between">
+          <Card className="bg-white shadow-lg w-full">
+            <CardMedia
+              sx={{ height: 110 }}
+              image={petHealthTrack.petImage}
+              className="rounded-t-lg"
+            />
+            <CardContent className="mt-2">
+              <Typography gutterBottom variant="h5" component="div" className="flex justify-between">
                 {petHealthTrack.petName}
-                <span className="text-sm font-bold text-gray-900 dark:text-gray-50">
-                  {petHealthTrack.description}
-                </span>
-              </h3>
-              <div className="flex justify-between">
-                <p className="text-gray-500 dark:text-gray-400 ">
-                  {petHealthTrack.date.toString()}
-                </p>
                 <Badge
                   variant="default"
-                  className={getStatusBadge(petHealthTrack.status)}
+                  className={`${getStatusBadge(petHealthTrack.status)}`} 
                 >
                   {getHealthBadge(petHealthTrack.status)}
                 </Badge>
-              </div>
-            </div>
-          </div>
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {petHealthTrack.description}
+              </Typography>
+            </CardContent>
+          </Card>
         </div>
       ))}
     </div>
