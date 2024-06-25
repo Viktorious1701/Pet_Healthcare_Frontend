@@ -10,19 +10,21 @@ import { startOfHour } from "date-fns";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
-import ThemeSwitch from "@/components/admin_components/theme-switch";
-import { UserNav } from "@/components/admin_components/user-nav";
+import ThemeSwitch from "@/components/vet_components/theme-switch";
+import { UserNav } from "@/components/customer_components/user-nav";
 
-import { useTheme } from "@/components/admin_components/theme-provider"; // replace with the actual path
-import "./Theme.css";
+import { useTheme } from "@/components/customer_components/theme-provider"; // Replace with the actual path to your theme provider hook or context
+import "./Theme.css"; // Ensure this imports styles for dark and light mode
 
 const locales = {
   "en-US": enUS,
 };
+
 const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1);
 const now = new Date();
 const start = endOfHour(now);
 const end = addHours(start, 2);
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -41,10 +43,14 @@ const App: FC = () => {
   ]);
 
   const { theme } = useTheme();
-  const calendarStyle =
-    theme === "dark"
-      ? { height: "100vh", backgroundColor: "--background", color: "#fff" }
-      : { height: "100vh", color: "#000" };
+
+  // Define styles based on the theme
+  const calendarStyle = {
+    height: "100vh",
+    backgroundColor: theme === "dark" ? "#1a202c" : "#edf2f7", // Adjust background color based on theme
+    color: theme === "dark" ? "#fff" : "#000", // Adjust text color based on theme
+  };
+
   const themeClass = theme === "dark" ? "dark-mode" : "light-mode";
 
   return (

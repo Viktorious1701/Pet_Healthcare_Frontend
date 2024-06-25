@@ -22,6 +22,7 @@ import { PetGet } from "@/Models/Pet";
 import { petsOfCustomerAPI } from "@/Services/PetService";
 import { useAuth } from "@/Context/useAuth";
 import { toast } from "sonner";
+import { useTheme } from '@/components/vet_components/theme-provider'; // Assuming a custom hook for theme management
 
 const calculateTotalCost = (
   admissionDate: string,
@@ -39,9 +40,8 @@ const calculateTotalCost = (
 
 const HospitalizationPage: React.FC = () => {
   const { user } = useAuth();
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>(
-    []
-  );
+  const { theme } = useTheme(); // Assuming a custom hook to get the current theme
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
   const [pets, setPets] = useState<PetGet[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -89,7 +89,6 @@ const HospitalizationPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     const storedHospitalizations = sessionStorage.getItem("hospitalizations");
-    // const storedPets = sessionStorage.getItem("pets");
     if (storedHospitalizations) {
       setHospitalizations(JSON.parse(storedHospitalizations));
       setLoading(false);
@@ -99,7 +98,7 @@ const HospitalizationPage: React.FC = () => {
 
   useEffect(() => {
     getHospitalization();
-  }, [pets])
+  }, [pets]);
 
   // Filter hospitalizations based on search term
   const filteredHospitalizations = hospitalizations.filter((hospitalization) =>
@@ -117,8 +116,8 @@ const HospitalizationPage: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
+    <div className={`p-6 ${theme === 'dark' ? 'bg-custom-darkGray text-white' : 'bg-white text-black'}`}>
+      <div className={`bg-pink-600 flex items-center justify-between rounded-md p-2 ${theme === 'dark' ? 'bg-custom-darkPink' : ''}`}>
         <h1 className="text-3xl font-bold text-white">
           Pet Hospitalization Status
         </h1>
@@ -143,14 +142,14 @@ const HospitalizationPage: React.FC = () => {
           </TableHeader>
           <TableBody>
             {filteredHospitalizations.map((hospitalization, index) => (
-              <TableRow key={index} className="even:bg-pink-50 odd:bg-pink-100">
+              <TableRow key={index} className={`${index % 2 === 0 ? 'even:bg-pink-50' : 'odd:bg-pink-100'}`}>
                 <TableCell className="font-medium">
                   {hospitalization.hospitalizationId}
                 </TableCell>
                 <TableCell>
                   <Link
                     to={`/${CUSTOMER_DASHBOARD}/${HOSPITALIZATION}/${hospitalization.hospitalizationId}`}
-                    className="text-custom-pink hover:text-custom-darkPink underline"
+                    className={`${theme === 'dark' ? 'text-custom-lightGray' : 'text-custom-pink'} hover:text-custom-darkPink underline`}
                   >
                     {hospitalization.petName}
                   </Link>
@@ -160,7 +159,7 @@ const HospitalizationPage: React.FC = () => {
                 <TableCell>
                   <Link
                     to={`/${CUSTOMER_DASHBOARD}/${KENNEL}/${hospitalization.kennelId}`}
-                    className="text-custom-pink hover:text-custom-darkPink underline"
+                    className={`${theme === 'dark' ? 'text-custom-lightGray' : 'text-custom-pink'} hover:text-custom-darkPink underline`}
                   >
                     {hospitalization.kennelId}
                   </Link>

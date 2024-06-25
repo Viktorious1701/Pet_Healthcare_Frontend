@@ -38,7 +38,7 @@ const CancelAppointment: React.FC = () => {
         if (res?.data) {
             if(res.data.status === null || res.data.status !== "Boooked" )
             {
-              toast.info("Appointment is in the booking process");
+              toast.info("Appointment is in either done or cancelled state, You can't cancel this appointment.");
               navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
             }
             else if(res.data.paymentStatus === null || res.data.paymentStatus !== 1)
@@ -57,7 +57,7 @@ const CancelAppointment: React.FC = () => {
     };
 
     fetchAppointmentDetails();
-  }, [appointmentId]);
+  }, [appointmentId, navigate]);
 
   const calculateRefundPolicy = (appointment: AppointmentGet) => {
     const currentDate = new Date();
@@ -87,7 +87,7 @@ const CancelAppointment: React.FC = () => {
       toast("Error processing refund. Please try again in about 24-48 hours.");
       }
     } catch (error: any) {
-      toast(`Error processing refund: ${error.message}`);
+      toast(`Error processing refund. Please try again in about 24-48 hours. ${error}`);
       navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
     }
   };
