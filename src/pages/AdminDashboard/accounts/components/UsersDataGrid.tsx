@@ -131,7 +131,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({
       sortable: true,
       filterable: true,
       editable: false,
-      flex: 2,
+      flex: 1,
     },
     {
       field: "role",
