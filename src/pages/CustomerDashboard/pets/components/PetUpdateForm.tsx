@@ -78,7 +78,7 @@ const PetUpdateForm: React.FC = () => {
   };
 
   return (
-    <div className={`flex justify-center items-center h-screen ${theme === 'dark' ? 'bg-custom-darkGray text-white ' : 'bg-white text-black'}`}>
+    <div className={`flex justify-center items-center h-screen ${theme === 'dark' ? 'bg-custom-darkGray text-white' : 'bg-white text-black'}`}>
       {editPet ? (
         <div className={`rounded-lg shadow-md p-8 w-full max-w-md ${theme === 'dark' ? 'bg-custom-darkGray' : 'bg-white'}`}>
           <h2 className={`text-2xl font-bold mb-4 text-center ${theme === 'dark' ? 'text-custom-lightPink' : 'text-pink-600'}`}>

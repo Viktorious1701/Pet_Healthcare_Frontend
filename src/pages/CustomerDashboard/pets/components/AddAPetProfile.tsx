@@ -265,6 +265,14 @@ const AddAPetProfile: React.FC = () => {
                 <span className="text-red-500">{errors.imageURL.message}</span>
               )}
             </div>
+            <Button
+              type="submit"
+              className={`bg-custom-pink hover:bg-custom-darkPink text-white font-bold py-2 px-4 rounded ${
+                theme === "dark" ? "hover:bg-pink-700" : "hover:bg-pink-600"
+              }`}
+            >
+              Add a Pet
+            </Button>
           </form>
         </div>
       </LayoutBody>
