@@ -17,10 +17,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay from "embla-carousel-autoplay";
 
-import '@fontsource-variable/montserrat';
-import '@fontsource/roboto';
+import "@fontsource-variable/montserrat";
+import "@fontsource/roboto";
 
 import { ABOUT_PAGE } from "@/Route/router-const";
 
@@ -30,10 +30,7 @@ const Home = () => {
       <Navbar />
       <main className="flex-grow mx-auto p-4 -ml-5 -mr-5">
         {/* Hero Section */}
-        <section
-          id="hero"
-          className="bg-[--background] py-[8rem] mt-[6rem]"
-        >
+        <section id="hero" className="bg-[--background] py-[8rem] mt-[6rem]">
           <div className="px-4">
             <div className="flex flex-col md:flex-row items-center justify-center">
               <div className="mb-8 md:mb-0">
@@ -41,33 +38,40 @@ const Home = () => {
                   Pamper Your Pet
                 </h1>
                 <p className="text-lg md:text-[1.4rem] text-[--hero-text] mb-8 mt-[3rem] text-center font-roboto">
-                  Discover top-tier pet care services designed to keep your furry friends happy and healthy.
+                  Discover top-tier pet care services designed to keep your
+                  furry friends happy and healthy.
                 </p>
                 <div className="text-center space-x-8 mt-[4rem]">
-                  <Button
-                    color="primary"
-                    className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
+                  <Link
+                    to={`/${APPOINTMENT}`}
+                    className="text-pink-700 hover:text-white"
                   >
-                    <Link
-                      to={`/${APPOINTMENT}`}
-                      className="text-pink-700 hover:text-white"
+                    <Button
+                      color="primary"
+                      className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
                     >
-                      Book an Appointment
-                    </Link>
-                  </Button>
-                  <Button
-                    color="primary"
-                    className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
-                  >
+                    Book an Appointment
+                    </Button>
+                  </Link>
+
+                 
                     <Link
                       to={`/${CONTACT}`}
                       className="text-pink-700 hover:text-white"
-                    >
+                    > <Button
+                    color="primary"
+                    className="bg-[--hero-button] text-pink-700 hover:bg-pink-200 px-6 py-8 text-xl"
+                  >
                       Contact Us
+                      </Button>
                     </Link>
-                  </Button>
+                  
                 </div>
-                <img src={hero} alt="Hero" className="w-[110rem] h-auto mt-[5rem]" />
+                <img
+                  src={hero}
+                  alt="Hero"
+                  className="w-[110rem] h-auto mt-[5rem]"
+                />
               </div>
             </div>
           </div>
@@ -75,20 +79,20 @@ const Home = () => {
 
         {/* Our Services Section */}
         <section id="services">
-
           {/* Welcome Section */}
           <section id="welcome" className="text-center mb-[6rem] mt-[6rem]">
             <h1 className="text-[4rem] font-bold mb-2 text-pink font-mont">
               Our Services
             </h1>
             <p className="text-[1.3rem] font-roboto font-[100] text-[--hero-text]">
-              From grooming to boarding, we offer a comprehensive range of services to cater to 
+              From grooming to boarding, we offer a comprehensive range of
+              services to cater to
               <br />
               your pet's every need.
             </p>
           </section>
 
-         {/* Category Section */}
+          {/* Category Section */}
           <section
             id="category"
             className="mb-[8rem] flex gap-10 justify-center items-center text-center"
@@ -115,7 +119,10 @@ const Home = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-[7rem] bg-[--background] rounded-lg shadow">
+        <section
+          id="about"
+          className="py-[7rem] bg-[--background] rounded-lg shadow"
+        >
           <div className="flex justify-center gap-[10rem]">
             <div className="m-2">
               <img
@@ -128,14 +135,18 @@ const Home = () => {
               <h3 className="text-[4rem] font-bold font-mont">About Us</h3>
               <div className="space-x-4">
                 <h4 className="text-lg font-roboto font-[100] text-[--hero-text] text-[1.5rem] text-center">
-                  We take care of your pets' condition and provide top-tier treatment
+                  We take care of your pets' condition and provide top-tier
+                  treatment
                 </h4>
                 <p className="text-base mt-4 font-roboto font-[100] text-[--hero-text] text-center">
-                  At our pet care center, we believe in providing comprehensive health services for your pets.
+                  At our pet care center, we believe in providing comprehensive
+                  health services for your pets.
                   <br />
-                  Our experienced veterinarians have been serving the community since the early 2000s,
+                  Our experienced veterinarians have been serving the community
+                  since the early 2000s,
                   <br />
-                  offering a range of services from routine check-ups to surgical procedures.
+                  offering a range of services from routine check-ups to
+                  surgical procedures.
                   <br />
                   We are committed to ensuring your pet's health and well-being.
                 </p>
@@ -190,21 +201,28 @@ const Home = () => {
             Meet Our Veterinarians
           </h2>
           <div className="flex flex-wrap justify-center gap-8">
-            {["Dr. Jane Doe", "Dr. Johnny Sins", "Dr. Alice Brown"].map((vet, index) => (
-              <div key={index} className="w-full md:w-1/3 lg:w-1/4 p-4 bg-[--background] rounded-lg shadow">
-                <img
-                  src={`https://via.placeholder.com/150?text=${vet.split(' ').join('+')}`}
-                  alt={`Vet ${index + 1}`}
-                  className="rounded-full w-24 h-24 mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">{vet}</h3>
-                <p className="text-[--hero-text]">
-                  {index === 0 && "Specialist in Small Animals"}
-                  {index === 1 && "Expert in Exotic Pets"}
-                  {index === 2 && "Veterinary Surgeon"}
-                </p>
-              </div>
-            ))}
+            {["Dr. Jane Doe", "Dr. Johnny Sins", "Dr. Alice Brown"].map(
+              (vet, index) => (
+                <div
+                  key={index}
+                  className="w-full md:w-1/3 lg:w-1/4 p-4 bg-[--background] rounded-lg shadow"
+                >
+                  <img
+                    src={`https://via.placeholder.com/150?text=${vet
+                      .split(" ")
+                      .join("+")}`}
+                    alt={`Vet ${index + 1}`}
+                    className="rounded-full w-24 h-24 mx-auto mb-4"
+                  />
+                  <h3 className="text-xl font-semibold mb-2">{vet}</h3>
+                  <p className="text-[--hero-text]">
+                    {index === 0 && "Specialist in Small Animals"}
+                    {index === 1 && "Expert in Exotic Pets"}
+                    {index === 2 && "Veterinary Surgeon"}
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </section>
 
@@ -221,7 +239,8 @@ const Home = () => {
                 Pet Owners' Stories
               </p>
               <h2 className="text-[#F9FAFB] text-[1.5rem] font-bold">
-                Hear from our community of pet owners and their experiences with our services.
+                Hear from our community of pet owners and their experiences with
+                our services.
               </h2>
             </div>
             <Carousel
@@ -248,13 +267,16 @@ const Home = () => {
                         />
                         <p className="text-[--hero-text] text-center mb-4 select-none">
                           Simply dummy text of the printing and typesetting
-                          industry. Lorem Ipsum simply dummy text of the printing
-                          and typesetting industry. Lorem Ipsum has been.
+                          industry. Lorem Ipsum simply dummy text of the
+                          printing and typesetting industry. Lorem Ipsum has
+                          been.
                         </p>
                         <h3 className="text-xl text-[--hero-text] font-semibold text-center mb-2 select-none">
                           Sara Taylor
                         </h3>
-                        <p className="text-[--hero-text] text-center select-none">Consumer</p>
+                        <p className="text-[--hero-text] text-center select-none">
+                          Consumer
+                        </p>
                       </div>
                     </div>
                   </CarouselItem>
