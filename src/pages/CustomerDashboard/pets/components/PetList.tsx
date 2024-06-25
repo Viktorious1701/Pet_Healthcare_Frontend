@@ -83,7 +83,7 @@ const PetList: React.FC = () => {
   };
 
   return (
-    <div className="py-6 px-4 rounded-lg shadow-lg">
+    <div className="py-6 px-4 rounded-lg shadow-lg h-[70vh]">
       <div className="bg-pink-600 flex items-center justify-between rounded-md p-2 mb-3">
         <h1 className="text-2xl font-bold text-white">Pet List</h1>
         <SearchBar
@@ -103,7 +103,7 @@ const PetList: React.FC = () => {
             filteredPetProfiles.map((pet) => (
               <div
                 key={pet.id}
-                className="bg-white shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
+                className="shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
                 <img
                   src={images[pet.id] || "https://via.placeholder.com/100"}

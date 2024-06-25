@@ -41,6 +41,9 @@ const IncomingAppointments: React.FC<IncomingAppointmentsProps> = ({
                 <p className="text-gray-500 dark:text-gray-400">
                   {appointment.slotStartTime} - {appointment.slotEndTime}
                 </p>
+                <p className="text-gray-500 dark:text-gray-400">
+                  {appointment.date}
+                </p>
                 <Badge
                   variant="default"
                   className={getStatusBadge(appointment.status)}
