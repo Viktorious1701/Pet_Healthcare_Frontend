@@ -4,7 +4,7 @@ import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { UserNav } from "@/components/customer_components/user-nav";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PetList from "./components/PetList";
 import { useNavigate } from "react-router";
 import { CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from "@/Route/router-const";

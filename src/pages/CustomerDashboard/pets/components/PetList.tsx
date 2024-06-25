@@ -104,8 +104,8 @@ const PetList: React.FC = () => {
           <Spinner animation="border" variant="primary" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6 overflow-y-auto max-h-96">
-          {filteredPetProfiles.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-y-auto max-h-96">
+          {Array.isArray(filteredPetProfiles) && filteredPetProfiles.length > 0 ? (
             filteredPetProfiles.map((pet) => (
               <div
                 key={pet.id}

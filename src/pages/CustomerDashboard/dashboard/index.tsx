@@ -34,43 +34,18 @@ export default function Dashboard() {
   const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([]);
   const [pets, setPets] = useState<PetGet[]>([]);
 
-  const getAppointments = async () => {
-    await appointmentCustomerAPI(String(user?.userName))
-      .then((res) => {
-        if (res?.data) {
-          setAppointments(res.data);
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
-
-  const getPets = async () => {
-    await petsOfCustomerAPI(String(user?.userName))
-      .then((res) => {
-        if (res?.data) {
-          setPets(res.data);
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
-
-  const getPetHealthTracks = async () => {
-    await getUserPetHealthTracks()
-      .then((res) => {
-        if (res.data) {
-          setPetHealthTracks(res.data);
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
-
   useEffect(() => {
+    const getPets = async () => {
+      await petsOfCustomerAPI(String(user?.userName))
+        .then((res) => {
+          if (res?.data) {
+            setPets(res.data);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server error occurred", e);
+        });
+    };
     const getPetHealthTracks = async () => {
       await getUserPetHealthTracks()
         .then((res) => {
@@ -164,7 +139,9 @@ export default function Dashboard() {
                   <IconTooltip />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">Regular exercise for your dog</div>
+                  <div className="text-2xl font-bold">
+                    Regular exercise for your dog
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     Regular exercise is crucial for maintaining your dog's
                     physical and mental health. It helps prevent obesity,
