@@ -42,7 +42,6 @@ import {
 } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
 import { useNavigate } from "react-router-dom"; // Updated import
-import { APPOINTMENT_DETAILS, APPOINTMENT_EDIT } from "@/Route/router-const";
 
 // Adjustments to switch from Payment to Appointment data model
 export type Appointment = {
@@ -170,6 +169,11 @@ export const columns: ColumnDef<Appointment>[] = [
               onClick={() => openAppointmentEditForm(appointment.appointmentId)}
             >
               View appointment details
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => openAppointmentEditForm(appointment.appointmentId)}
+            >
+              Add diagnosis
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

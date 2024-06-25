@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { Search } from '@/components/customer_components/search'
 import { Separator } from '@/components/ui/separator'
-import ThemeSwitch from '@/components/customer_components/theme-switch'
+import ThemeSwitch from '@/components/vet_components/theme-switch'
 import { UserNav } from '@/components/customer_components/user-nav'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import SidebarNav from './components/sidebar-nav'

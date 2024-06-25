@@ -37,7 +37,8 @@ const PetHealthTrack: React.FC = () => {
     const fetchHealthTrack = async () => {
       try {
         if (hospitalizationId) {
-          const data = await getPetHealthTrackByHospitalizationId(hospitalizationId);
+          const response = await getPetHealthTrackByHospitalizationId(Number(hospitalizationId));
+          const data = response.data;
           setHealthTrack(data);
           sessionStorage.setItem("petHealthTrack", JSON.stringify(data));
         }
@@ -123,7 +124,7 @@ const PetHealthTrack: React.FC = () => {
                 className="even:bg-pink-50 odd:bg-pink-100"
               >
                 <TableCell>
-                  {entry.date ? format(new Date(entry.date), "MM/dd/yyyy") : "-"}
+                  {entry.dateOnly ? format(new Date(entry.dateOnly), "MM/dd/yyyy") : "-"}
                 </TableCell>
                 <TableCell>{entry.description}</TableCell>
                 <TableCell>{getStatusString(String(entry.status))}</TableCell>

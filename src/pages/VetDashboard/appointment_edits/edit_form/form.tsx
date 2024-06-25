@@ -22,7 +22,7 @@ const AppointmentForm = () => {
     comments: "",
     customer: "",
     date: "",
-    paymentStatus: "",
+    paymentStatus: 0,
     pet: "",
     rating: 0,
     refundAmount: 0,
@@ -178,12 +178,12 @@ const AppointmentForm = () => {
               </Label>
               <Input
                 id="paymentStatus"
-                type="text"
+                type="number"
                 value={appointmentDetails.paymentStatus}
                 onChange={(e) =>
                   setAppointmentDetails({
                     ...appointmentDetails,
-                    paymentStatus: e.target.value,
+                    paymentStatus: Number(e.target.value),
                   })
                 }
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"

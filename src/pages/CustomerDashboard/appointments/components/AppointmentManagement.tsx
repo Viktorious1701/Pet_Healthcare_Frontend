@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Adjust the path based on your project structure
 import { appointmentCustomerAPI } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
 import { useAuth } from "@/Context/useAuth";
+import { useNavigate } from "react-router-dom";
+import { CUSTOMER_DASHBOARD, REFUND } from "@/Route/router-const";
+import { useTheme } from '@/components/vet_components/theme-provider'; // Import the useTheme hook
+
 import {
   Table,
   TableBody,
@@ -12,27 +16,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useNavigate } from "react-router";
-import { CUSTOMER_DASHBOARD, REFUND } from "@/Route/router-const";
+} from "@/components/ui/table"; // Adjust the path based on your project structure
 
 const AppointmentManagement: React.FC = () => {
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
   const { user } = useAuth();
   const username = user?.userName;
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const appointmentsPerPage = 5;
 
   useEffect(() => {
     setLoading(true);
-    // const storedAppointments = sessionStorage.getItem("appointments");
-    // if(storedAppointments){
-    //   setAppointments(JSON.parse(storedAppointments));
-    //   setLoading(false);
-    //   return;
-    // }
     const fetchAppointments = async () => {
       try {
         const listAppointment = await appointmentCustomerAPI(username ?? "");
@@ -40,7 +38,7 @@ const AppointmentManagement: React.FC = () => {
         sessionStorage.setItem("appointments", JSON.stringify(listAppointment?.data || []));
       } catch (error) {
         console.error("Error fetching appointments:", error);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -48,11 +46,10 @@ const AppointmentManagement: React.FC = () => {
     fetchAppointments();
   }, [username]);
 
-  const handleRating = (id: number, rating: number) => {
-    const updatedAppointments = appointments.map((appointment) =>
-      appointment.appointmentId === id ? { ...appointment, rating } : appointment
-    );
-    setAppointments(updatedAppointments);
+  const navigate = useNavigate();
+
+  const handleRating = (appointmentId: number) => {
+    navigate(`/${CUSTOMER_DASHBOARD}/rate/${appointmentId}`);
   };
 
   // Pagination logic
@@ -60,10 +57,11 @@ const AppointmentManagement: React.FC = () => {
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
   const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
   const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
-  const navigate = useNavigate();
+
   const handleCanceling = (appointmentId: string) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`);
-  }
+  };
+
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -75,9 +73,10 @@ const AppointmentManagement: React.FC = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
-    <div className="p-6 ">
-      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
+    <div className="p-6">
+      <div className="bg-custom-darkPink flex items-center justify-between rounded-md p-2">
         <h1 className="text-3xl font-bold text-white">
           Appointment History
         </h1>
@@ -87,56 +86,62 @@ const AppointmentManagement: React.FC = () => {
           <TableCaption>A list of your recent appointments.</TableCaption>
           <TableHeader>
             <TableRow>
+              <TableHead>Appointment ID</TableHead>
               <TableHead>Pet</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Vet</TableHead>
+              <TableHead>Slot Time</TableHead>
               <TableHead>Service</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Rating</TableHead>
+              <TableHead>Date</TableHead>
               <TableHead>Cancel</TableHead>
+              <TableHead>Payment Status</TableHead>
+              <TableHead>Total Cost</TableHead>
+              <TableHead>Rating</TableHead>
               <TableHead>Rate</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currentAppointments.map((appointment) => (
-              <TableRow key={appointment.appointmentId} className="even:bg-pink-50 odd:bg-pink-100">
+              <TableRow
+                key={appointment.appointmentId}
+                className={`${
+                  theme === 'dark' ? 'even:bg-custom-darkPink odd:bg-custom-dark' : 'even:bg-pink-50 odd:bg-pink-100'
+                }`}
+              >
+                <TableCell className="font-medium">{appointment.appointmentId}</TableCell>
                 <TableCell className="font-medium">{appointment.pet}</TableCell>
-                <TableCell>{appointment.date}</TableCell>
+                <TableCell>{appointment.vet}</TableCell>
+                <TableCell>{`${new Date(appointment.slotStartTime).toLocaleTimeString()} - ${new Date(appointment.slotEndTime).toLocaleTimeString()}`}</TableCell>
                 <TableCell>{appointment.service}</TableCell>
-                <TableCell>{appointment.status}</TableCell>
+                <TableCell>{appointment.date}</TableCell>
+                <TableCell>
+                  <Button
+                    className={`mx-1 ${theme === 'dark' ? 'bg-custom-gray' : 'bg-custom-darkPink'} hover:bg-custom-hover-darkPink active:bg-custom-active-darkPink transform transition-transform duration-300 hover:scale-125 active:scale-110`}
+                    onClick={() => handleCanceling(String(appointment.appointmentId))}
+                  >
+                    Cancel
+                  </Button>
+                </TableCell>
+                <TableCell>{appointment.paymentStatus || "Not settled"}</TableCell>
+                <TableCell>{appointment.totalCost}</TableCell>
                 <TableCell>{appointment.rating}</TableCell>
                 <TableCell>
-                <Button
-              className="mx-1 bg-custom-darkPink hover:bg-custom-hover-darkPink active:bg-custom-active-darkPink transform transition-transform duration-300 hover:scale-125 active:scale-110"
-              onClick={() => handleCanceling(String(appointment.appointmentId))}
-            >
-              Cancel
-            </Button>
-                </TableCell>
-                <TableCell>
-                  <select
-                    title="Rate this appointment"
-                    value={appointment.rating || ''}
-                    onChange={(e) => handleRating(appointment.appointmentId, parseInt(e.target.value))}
-                    className="bg-white border border-gray-300 rounded p-2"
+                  <Button
+                    onClick={() => handleRating(appointment.appointmentId)}
+                    className="bg-custom-pink hover:bg-custom-darkPink active:bg-custom-lightPink"
                   >
-                    <option value="" disabled>Select Rating</option>
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                      <option key={rating} value={rating}>
-                        {rating} ⭐
-                      </option>
-                    ))}
-                  </select>
+                    Rate
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={5}>Total Appointments</TableCell>
-              <TableCell className="text-right" colSpan={2}>{appointments.length}</TableCell>
+              <TableCell colSpan={10}>Total Appointments</TableCell>
+              <TableCell className="text-right" colSpan={1}>{appointments.length}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={7} className="text-center">
+              <TableCell colSpan={11} className="text-center">
                 <div className="flex justify-between">
                   <Button onClick={handlePreviousPage} disabled={currentPage === 1} className="bg-custom-pink">
                     Previous

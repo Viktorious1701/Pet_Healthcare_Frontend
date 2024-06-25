@@ -10,6 +10,7 @@ import {
 import { petsOfCustomerAPI } from "@/Services/PetService";
 import { useAuth } from "@/Context/useAuth";
 import { PetGet } from "@/Models/Pet";
+import { useTheme } from "@/components/vet_components/theme-provider"; // Import the useTheme hook
 
 const PetList: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<PetGet[]>([]);
@@ -19,6 +20,7 @@ const PetList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<{ [key: string]: string }>({});
+  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
 
   const fetchImages = async (pets: PetGet[]) => {
     const newImages: { [key: string]: string } = {};
@@ -72,10 +74,14 @@ const PetList: React.FC = () => {
   }, [getPets]);
 
   useEffect(() => {
-    const filteredProfiles = petProfiles.filter((pet) =>
-      pet.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPetProfiles(filteredProfiles);
+    if (Array.isArray(petProfiles)) {
+      const filteredProfiles = petProfiles.filter((pet) =>
+        pet.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredPetProfiles(filteredProfiles);
+    } else {
+      setFilteredPetProfiles([]);
+    }
   }, [petProfiles, searchTerm]);
 
   const handleViewProfile = (id: number) => {
@@ -112,17 +118,33 @@ const PetList: React.FC = () => {
                 />
                 <div className="p-4 text-center">
                   <h4 className="text-xl font-bold">{pet.name}</h4>
-                  <p className="text-sm text-custom-dark">{pet.species}</p>
+                  <p
+                    className={`${
+                      theme === "dark"
+                        ? "text-custom-lightGray"
+                        : "text-custom-dark"
+                    }`}
+                  >
+                    {pet.species}
+                  </p>
                   <div className="grid grid-cols-2 gap-2 mt-4">
                     <button
                       onClick={() => handleViewProfile(pet.id)}
-                      className="bg-custom-darkPink text-white px-4 py-2 rounded transition-colors duration-300 hover:bg-pink-700 whitespace-nowrap overflow-hidden text-ellipsis"
+                      className={`px-4 py-2 rounded transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis ${
+                        theme === "dark"
+                          ? "bg-custom-lightGray text-black border border-teal-500"
+                          : "bg-custom-darkPink text-white hover:bg-pink-700"
+                      }`}
                     >
                       View
                     </button>
                     <Link
                       to={`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_UPDATE}/${pet.id}`}
-                      className="bg-custom-lightPink text-white px-4 py-2 rounded transition-colors duration-300 hover:bg-pink-400 whitespace-nowrap overflow-hidden text-ellipsis"
+                      className={`px-4 py-2 rounded transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis ${
+                        theme === "dark"
+                          ? "bg-custom-lightGray text-black border border-teal-500"
+                          : "bg-custom-lightPink text-white hover:bg-pink-400"
+                      }`}
                     >
                       Update
                     </Link>
@@ -131,7 +153,13 @@ const PetList: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="text-black font-bold">No pets found</div>
+            <div
+              className={`${
+                theme === "dark" ? "text-white" : "text-black"
+              } font-bold`}
+            >
+              No pets found
+            </div>
           )}
         </div>
       )}

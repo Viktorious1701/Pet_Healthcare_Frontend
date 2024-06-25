@@ -1,4 +1,5 @@
 export interface PetHealthTrack {
+  date: any;
   petHealthTrackId: number;
   petName: string;
   petImage: string;

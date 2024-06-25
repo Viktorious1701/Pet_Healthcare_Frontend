@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const { nextui } = require('@nextui-org/react');
+
 export const darkMode = ["class"];
 export const content = [
   './pages/**/*.{ts,tsx}',
@@ -47,20 +48,25 @@ export const theme = {
       },
       custom: {
         pink: '#e65b9a',
-        teal: '#32ddac', // Changed from MintGreen
+        teal: '#32ddac',
         lavender: '#dd32b9',
-        lightPink: '#f58ab0', 
+        lightPink: '#f58ab0',
         darkPink: '#b0225d',
         lightGrey: '#f4f4f4',
         gray: '#b3b3b3',
         light: '#f28fb2',
         dark: '#b24975',
-  
-        lightCrimson: '#dd3245', // Renamed from crimson
+        lightCrimson: '#dd3245',
         blue: '#00d8ff',
         darkBlue: '#3730a3',
-        lightBlue: '#c7d2fe'
-        },
+        lightBlue: '#c7d2fe',
+        black: '#000000',
+        white: '#ffffff',
+        darkGray: '#1f1f1f',
+        lightGray: '#e5e5e5',
+        deepPink: '#ff1493',
+        lightCoral: '#f08080',
+      },
       accent: {
         DEFAULT: "hsl(var(--accent))",
         foreground: "hsl(var(--accent-foreground))",
@@ -97,4 +103,3 @@ export const theme = {
 };
 // eslint-disable-next-line no-undef
 export const plugins = [nextui(), require("tailwindcss-animate")];
-

@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Search } from "@/components/customer_components/search";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ThemeSwitch from "@/components/customer_components/theme-switch";
+import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { TopNav } from "@/components/customer_components/top-nav";
 import { UserNav } from "@/components/customer_components/user-nav";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
@@ -71,10 +71,32 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    const getPetHealthTracks = async () => {
+      await getUserPetHealthTracks()
+        .then((res) => {
+          if (res.data) {
+            setPetHealthTracks(res.data);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server error occurred", e);
+        });
+    };
+    const getAppointments = async () => {
+      await appointmentCustomerAPI(String(user?.userName))
+        .then((res) => {
+          if (res?.data) {
+            setAppointments(res.data);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server error occurred", e);
+        });
+    };
     getAppointments();
     getPets();
     getPetHealthTracks();
-  }, []);
+  }, [user?.userName]);
 
   return (
     <Layout>
