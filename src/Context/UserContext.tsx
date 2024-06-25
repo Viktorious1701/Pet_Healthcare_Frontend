@@ -9,7 +9,7 @@ import {
   registerAPI,
   resetPasswordAPI,
 } from '../Services/AuthService';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import axiosInstance from '@/Helpers/axiosInstance';
 
 type UserContextType = {
@@ -99,6 +99,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         updateAuthState(userData);
         toast('Login Success!', {
+          duration: 1500, // Toast will now fade out faster
           style: {
             backgroundColor: 'var(--background)',
             color: 'var(--hero-text)',
