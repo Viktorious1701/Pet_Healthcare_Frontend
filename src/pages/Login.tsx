@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
   const { loginUser } = useAuth();
-  const { navigateToHome } = useAuthNavigation();
+  const { navigateToHome, navigateToLogin } = useAuthNavigation();
   const {
     register,
     handleSubmit,
@@ -36,8 +36,11 @@ const Login = () => {
   } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
   const onSubmit = (data: LoginFormInputs) => {
-    loginUser(data.userName, data.password);
+    const result = loginUser(data.userName, data.password);
+    if(result != null)
     navigateToHome();
+    else
+    navigateToLogin();
   };
 
   const [showPassword, setShowPassword] = useState(false);

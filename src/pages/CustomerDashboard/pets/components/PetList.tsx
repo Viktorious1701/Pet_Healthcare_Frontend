@@ -74,10 +74,14 @@ const PetList: React.FC = () => {
   }, [getPets]);
 
   useEffect(() => {
-    const filteredProfiles = petProfiles.filter((pet) =>
-      pet.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPetProfiles(filteredProfiles);
+    if (Array.isArray(petProfiles)) {
+      const filteredProfiles = petProfiles.filter((pet) =>
+        pet.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredPetProfiles(filteredProfiles);
+    } else {
+      setFilteredPetProfiles([]);
+    }
   }, [petProfiles, searchTerm]);
 
   const handleViewProfile = (id: number) => {
@@ -111,7 +115,7 @@ const PetList: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-y-auto max-h-96">
-          {filteredPetProfiles.length > 0 ? (
+          {filteredPetProfiles && filteredPetProfiles.length > 0 ? (
             filteredPetProfiles.map((pet) => (
               <div
                 key={pet.id}
