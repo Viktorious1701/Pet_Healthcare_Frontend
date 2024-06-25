@@ -1,7 +1,5 @@
 import { useAuth } from "@/Context/useAuth";
-import { AppointmentDetailGet } from "@/Models/AppointmentDetail";
 import { PetGet } from "@/Models/Pet";
-import { appointmentDetailGetAPI } from "@/Services/AppointmentDetailService";
 import { petsOfCustomerAPI } from "@/Services/PetService";
 import {
   Accordion,
@@ -10,26 +8,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { CardMedia, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import PetRecordTable from "./PetRecordTable";
+import PetVaccination from "./PetVaccination";
 
 export function PetRecord() {
   const { user } = useAuth();
   const [pets, setPets] = useState<PetGet[]>([]);
-  const [appointmentDetails, setAppointmentDetails] = useState<
-    AppointmentDetailGet[]
-  >([]);
 
   const getPets = async () => {
     await petsOfCustomerAPI(String(user?.userName))
@@ -43,21 +30,8 @@ export function PetRecord() {
       });
   };
 
-  const getAppointmentDetails = async () => {
-    await appointmentDetailGetAPI()
-      .then((res) => {
-        if (res?.data) {
-          setAppointmentDetails(res.data);
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
-
   useEffect(() => {
     getPets();
-    getAppointmentDetails();
   }, []);
 
   return (
@@ -86,49 +60,8 @@ export function PetRecord() {
             </Card>
           </AccordionTrigger>
           <AccordionContent className="shadow-lg">
-            <Table className="bg-white">
-              <TableCaption>
-                A list of your pet medical record details.
-              </TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
-                  <TableHead>Vet</TableHead>
-                  <TableHead>Service</TableHead>
-                  <TableHead>Diagnosis</TableHead>
-                  <TableHead>Treatment</TableHead>
-                  <TableHead>Medication</TableHead>
-                  <TableHead className="text-right">Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {appointmentDetails
-                  .filter(
-                    (appointmentDetail) => (appointmentDetail.recordId)
-                  )
-                  .map((appointmentDetail) => (
-                    <TableRow key={appointmentDetail.appointmentDetailId}>
-                      <TableCell className="font-medium">
-                        {appointmentDetail.appointmentDetailId}
-                      </TableCell>
-                      <TableCell>{}</TableCell>
-                      <TableCell>{}</TableCell>
-                      <TableCell>{appointmentDetail.diagnosis}</TableCell>
-                      <TableCell>{appointmentDetail.medication}</TableCell>
-                      <TableCell>{appointmentDetail.treatment}</TableCell>
-                      <TableCell className="text-right">{}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={6}>Total Visits</TableCell>
-                  <TableCell className="text-right">
-                    {appointmentDetails.length}
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+            <PetVaccination petId={pet.id} />
+            <PetRecordTable petId={pet.id} />
           </AccordionContent>
         </AccordionItem>
       ))}

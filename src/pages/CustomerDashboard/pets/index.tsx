@@ -53,7 +53,6 @@ const Pets = () => {
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="medical-records">Pet Medical Records</TabsTrigger>
-              <TabsTrigger value="vaccination">Pet Vaccination History</TabsTrigger>
               <TabsTrigger value="notifications">Settings</TabsTrigger>
             </TabsList>
           </div>
@@ -65,13 +64,6 @@ const Pets = () => {
             </div>
           </TabsContent>
           <TabsContent value="medical-records" className="space-y-4 overflow-y-auto">
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-7 h-[70vh]">
-              <Card className="col-span-1 lg:col-span-12">
-                <PetRecord />
-              </Card>
-            </div>
-          </TabsContent>
-          <TabsContent value="vaccination" className="space-y-4 overflow-y-auto">
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7 h-[70vh]">
               <Card className="col-span-1 lg:col-span-12">
                 <PetRecord />
