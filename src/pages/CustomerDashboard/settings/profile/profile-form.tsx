@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { UserInfo } from "@/Models/User";
@@ -62,7 +62,6 @@ export default function ProfileForm() {
   });
   const { reset } = form;
   async function onSubmit(data: ProfileFormValues) {
-    console.log(data);
     await handleUserUpdate(
       data.address,
       data.country,
@@ -74,14 +73,31 @@ export default function ProfileForm() {
       data.isActive,
       data.imageFile
     );
-    toast({
-      title: "You submitted the following values:",
-      description: (
+    toast.info(
+      "You submitted the following values: " +
+      (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          {/* <code className="text-white">{JSON.stringify(data, null, 2)}</code> */}
+          <code className="text-white">
+            {JSON.stringify(
+              {
+                address: data.address,
+                country: data.country,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                phoneNumber: data.phoneNumber,
+                gender: data.gender,
+                userName: data.userName,
+                isActive: data.isActive,
+                imageFile: data.imageFile,
+              },
+              null,
+              2 // 2 spaces for pretty-printing
+            )}
+          </code>
         </pre>
-      ),
-    });
+      )
+    );
   }
 
   const handleUserUpdate = async (
@@ -109,16 +125,11 @@ export default function ProfileForm() {
       .then((res) => {
         if (res?.data) {
           setUser(res.data);
-          toast({
-            title: "User " + `${userName}` + " is updated",
-          });
+          toast.info("User " + `${userName}` + " is updated");
         }
       })
       .catch((e) => {
-        toast({
-          title: e,
-          description: "Server error occurred",
-        });
+        toast.error("Server error occurred", e);
       });
   };
 
@@ -145,10 +156,7 @@ export default function ProfileForm() {
         }
       })
       .catch((e) => {
-        toast({
-          title: e,
-          description: "Server error occurred",
-        });
+        toast.error("Server error occurred", e);
       });
   };
 
@@ -335,6 +343,7 @@ export default function ProfileForm() {
           <FormField
             control={form.control}
             name="imageFile"
+            defaultValue={null}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Profile Image</FormLabel>
@@ -342,7 +351,8 @@ export default function ProfileForm() {
                   <Input
                     type="file"
                     onChange={(e) => {
-                      field.onChange(e.target.files?.[0] ?? null);
+                      const file = e.target.files?.[0] || null;
+                      field.onChange(file);
                     }}
                   />
                 </FormControl>

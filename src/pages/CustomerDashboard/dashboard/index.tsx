@@ -20,11 +20,55 @@ import { toast } from "sonner";
 import PetHealthStatus from "./components/pet-health-status";
 import { getUserPetHealthTracks } from "@/Services/PetHealthTrackService";
 import { PetHealthTrack } from "@/Models/PetHealthTrack";
+import { PetGet } from "@/Models/Pet";
+import { petsOfCustomerAPI } from "@/Services/PetService";
+import {
+  IconCalendarClock,
+  IconDogBowl,
+  IconTooltip,
+} from "@tabler/icons-react";
 
 export default function Dashboard() {
   const { user } = useAuth();
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
   const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([]);
+  const [pets, setPets] = useState<PetGet[]>([]);
+
+  const getAppointments = async () => {
+    await appointmentCustomerAPI(String(user?.userName))
+      .then((res) => {
+        if (res?.data) {
+          setAppointments(res.data);
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occurred", e);
+      });
+  };
+
+  const getPets = async () => {
+    await petsOfCustomerAPI(String(user?.userName))
+      .then((res) => {
+        if (res?.data) {
+          setPets(res.data);
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occurred", e);
+      });
+  };
+
+  const getPetHealthTracks = async () => {
+    await getUserPetHealthTracks()
+      .then((res) => {
+        if (res.data) {
+          setPetHealthTracks(res.data);
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occurred", e);
+      });
+  };
 
   useEffect(() => {
     const getPetHealthTracks = async () => {
@@ -50,6 +94,7 @@ export default function Dashboard() {
         });
     };
     getAppointments();
+    getPets();
     getPetHealthTracks();
   }, [user?.userName]);
 
@@ -90,101 +135,41 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Revenue
+                    Total Booking
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                  </svg>
+                  <IconCalendarClock />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$45,231.89</div>
-                  <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                  </p>
+                  <div className="text-2xl font-bold">
+                    {appointments.length} appointments made
+                  </div>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Subscriptions
+                    Total pets
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
+                  <IconDogBowl />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+2350</div>
-                  <p className="text-xs text-muted-foreground">
-                    +180.1% from last month
-                  </p>
+                  <div className="text-2xl font-bold">{pets.length} pets</div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
-                  <p className="text-xs text-muted-foreground">
-                    +19% from last month
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
+              <Card className="col-span-2">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Active Now
+                    Today's pet care tip
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
+                  <IconTooltip />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  <div className="text-2xl font-bold">Regular exercise for your dog</div>
                   <p className="text-xs text-muted-foreground">
-                    +201 since last hour
+                    Regular exercise is crucial for maintaining your dog's
+                    physical and mental health. It helps prevent obesity,
+                    improves cardiovascular health, strengthens muscles, and
+                    enhances mood and behavior.
                   </p>
                 </CardContent>
               </Card>
@@ -192,7 +177,9 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-4 h-[58vh] overflow-y-scroll">
                 <CardHeader className="sticky top-0">
-                  <CardTitle>Track Your Pet's Health Status</CardTitle>
+                  <CardTitle>
+                    Track Your Pet's Health Status During Hospitalization
+                  </CardTitle>
                   <CardDescription>
                     This information is updated everyday, keep track of the
                     latest status here.

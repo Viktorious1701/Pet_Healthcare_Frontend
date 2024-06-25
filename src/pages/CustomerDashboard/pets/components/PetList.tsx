@@ -89,19 +89,9 @@ const PetList: React.FC = () => {
   };
 
   return (
-    <div
-      className={`py-6 px-4 rounded-lg shadow-lg ${
-        theme === "dark"
-          ? "bg-custom-darkGray text-white"
-          : "bg-white text-black"
-      }`}
-    >
-      <div
-        className={`flex items-center justify-between rounded-md p-2 mb-3 ${
-          theme === "dark" ? "bg-custom-darkPink" : "bg-pink-600"
-        }`}
-      >
-        <h1 className="text-2xl font-bold">Pet List</h1>
+    <div className="py-6 px-4 rounded-lg shadow-lg h-[70vh]">
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2 mb-3">
+        <h1 className="text-2xl font-bold text-white">Pet List</h1>
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -114,14 +104,12 @@ const PetList: React.FC = () => {
           <Spinner animation="border" variant="primary" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-y-auto max-h-96">
-          {filteredPetProfiles && filteredPetProfiles.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6 overflow-y-auto max-h-96">
+          {filteredPetProfiles.length > 0 ? (
             filteredPetProfiles.map((pet) => (
               <div
                 key={pet.id}
-                className={`shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 border border-teal-500 ${
-                  theme === "dark" ? "bg-custom-darkGray" : "bg-white"
-                }`}
+                className="shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105"
               >
                 <img
                   src={images[pet.id] || "https://via.placeholder.com/100"}
