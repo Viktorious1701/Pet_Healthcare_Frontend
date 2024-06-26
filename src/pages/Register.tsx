@@ -117,7 +117,7 @@ const Register = () => {
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                <div className="space-y-2 mb-6">
+                {/* <div className="space-y-2 mb-6">
                   <Label
                     htmlFor="confirmPassword"
                     className="text-xl font-normal"
@@ -150,7 +150,7 @@ const Register = () => {
                   {errors.confirmPassword && (
                     <p>{errors.confirmPassword.message}</p>
                   )}
-                </div>
+                </div> */}
                 <Button
                   className="w-full bg-[#DB2777] text-white py-4 text-lg mt-4"
                   type="submit"
