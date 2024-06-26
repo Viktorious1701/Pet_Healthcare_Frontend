@@ -45,7 +45,7 @@ export default function Sidebar2({
         {/* Header */}
         <LayoutHeader className='sticky top-0 justify-between px-4 py-3 shadow md:px-4'>
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-            <img src={paw} className={`transition-all ${isCollapsed ? 'h-6 w-6' : 'h-8 w-8'}`} alt='Paw' />
+            <img src={paw} className={`transition-all ${isCollapsed ? 'h-4 w-4' : 'h-8 w-8'}`} alt='Paw' />
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
