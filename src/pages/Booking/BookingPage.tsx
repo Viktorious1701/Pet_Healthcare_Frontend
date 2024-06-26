@@ -112,11 +112,15 @@ const BookingPage = () => {
     return slots?.map((slot, index) => {
       const isPast = isSlotInThePast(slot);
       slot.available = !isPast; // Update availability based on the current time
+      const isSelected = selectedSlot && selectedSlot.slotId === slot.slotId;
+  
       return (
         <div
           key={index}
           className={`p-2 rounded-md cursor-pointer ${
-            slot.available
+            isSelected
+              ? "bg-custom-darkPink text-white"
+              : slot.available
               ? "bg-custom-pink hover:bg-custom-blue text-white"
               : "bg-custom-gray text-white"
           }`}
@@ -127,6 +131,7 @@ const BookingPage = () => {
       );
     });
   };
+  
 
   const handleReset = () => {
     setSelectedDate(null);

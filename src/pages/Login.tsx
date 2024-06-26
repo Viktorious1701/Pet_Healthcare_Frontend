@@ -35,14 +35,16 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    const result = loginUser(data.userName, data.password);
-    if(result != null)
-    navigateToHome();
-    else
-    navigateToLogin();
+  const onSubmit = async (data: LoginFormInputs) => {
+    const result = await loginUser(data.userName, data.password);
+    if (result != null) {
+      console.log("result is not null", result);
+      navigateToHome();
+    } else {
+   
+      navigateToLogin();
+    }
   };
-
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -54,9 +56,15 @@ const Login = () => {
         >
           <Card>
             <div className="flex items-center ml-[1.5rem]">
-              <img src={Paw} alt="Paw" className="w-20 h-30 mr-4 text-[#DB2777]" />{" "}
+              <img
+                src={Paw}
+                alt="Paw"
+                className="w-20 h-30 mr-4 text-[#DB2777]"
+              />{" "}
               {/* Adjust w-32 h-32 for size */}
-              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">Pet88</span>
+              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">
+                Pet88
+              </span>
             </div>
             <CardHeader className="space-y-1">
               <CardTitle className="text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6">

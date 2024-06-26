@@ -4,7 +4,7 @@ import { useForm, FieldErrors } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { setFormData } from "../slices/formSlice";
-import { APPOINTMENT_SUCCESS } from "@/Route/router-const";
+import { APPOINTMENT_SUCCESS, CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from "@/Route/router-const";
 import { AppointmentAvailableVets, AppointmentGet } from "@/Models/Appointment";
 import {
   appointmentAvailableVetsAPI,
@@ -74,61 +74,12 @@ const BookingForm: React.FC<BookingFormProps> = ({
     mode: "onSubmit",
   });
 
-  const getAvailableVets = async () => {
-    appointmentAvailableVetsAPI(date.toLocaleDateString(), slot)
-      .then((res) => {
-        if (res?.data) {
-          setVets(res?.data);
-        }
-      })
-      .catch(() => {
-        toast.warning("Could not get vets data");
-      });
-  };
-
-  const getPets = async () => {
-    petsOfCustomerAPI(userName)
-      .then((res) => {
-        if (res?.data) {
-          if (res?.data === "User doesn't have any pets") {
-            return;
-          }
-          setPets(res?.data);
-        }
-      })
-      .catch(() => {
-        toast.warning("Could not get customer's pets");
-      });
-  };
-
-  const getServices = async () => {
-    serviceGetAPI()
-      .then((res) => {
-        if (res?.data) {
-          setServices(res?.data);
-        }
-      })
-      .catch(() => {
-        toast.warning("Could not get services data");
-      });
-  };
-
-  const getCustomerAppointments = async () => {
-    appointmentCustomerAPI(userName)
-      .then((res) => {
-        if (res?.data) {
-          setAppointments(res?.data);
-        }
-      })
-      .catch(() => {
-        toast.warning("Server error occured");
-      });
-  };
+ 
 
   const isAllowBook = () => {
     var unfinishAppointment = appointments.some(
       (appointment) =>
-        appointment.status === "Boooked" || appointment.status === "Processing"
+        appointment.status === "Booked" || appointment.status === "Processing"
     );
     return unfinishAppointment ? true : false;
   };
@@ -143,7 +94,6 @@ const BookingForm: React.FC<BookingFormProps> = ({
         await handleAppointment(formData);
       } else {
         toast.info("You still have an unfinished appointment");
-        
         return;
       }
     } else if (user?.role === "Employee") {
@@ -191,7 +141,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
         toast.error("Failed to book the appointment");
       }
     } catch (error) {
-      toast.error("Error booking appointment:" );
+      toast.error("Error booking appointment");
     }
   };
 
@@ -207,14 +157,28 @@ const BookingForm: React.FC<BookingFormProps> = ({
       setValue("vetUserName", selectedVetUserName);
     }
     setValue("customerUserName", userName);
-  }, [selectedPetId, selectedServiceId, selectedVetUserName]);
+  }, [selectedPetId, selectedServiceId, selectedVetUserName, setValue, userName]);
 
   useEffect(() => {
-    getAvailableVets();
-    getPets();
-    getServices();
-    getCustomerAppointments();
-  }, [date, slot]);
+    const fetchData = async () => {
+      try {
+        const [vetsRes, petsRes, servicesRes, appointmentsRes] = await Promise.all([
+          appointmentAvailableVetsAPI(date.toLocaleDateString(), slot),
+          petsOfCustomerAPI(userName),
+          serviceGetAPI(),
+          appointmentCustomerAPI(userName),
+        ]);
+  
+        if (vetsRes?.data) setVets(vetsRes.data);
+        if (petsRes?.data && petsRes.data !== "User doesn't have any pets") setPets(petsRes.data);
+        if (servicesRes?.data) setServices(servicesRes.data);
+        if (appointmentsRes?.data) setAppointments(appointmentsRes.data);
+      } catch (error) {
+        toast.warning("An error occurred while fetching data");
+      }
+    };
+    fetchData();
+  }, [date, slot, userName]);
 
   return (
     <div className="flex items-center justify-center h-full w-full">
@@ -234,7 +198,15 @@ const BookingForm: React.FC<BookingFormProps> = ({
               {pets.length > 0 ? (
                 <BookingPet pets={pets} onSelectPet={handleSelectPet} />
               ) : (
-                <p className="text-custom-blue">No available pets.</p>
+                <div className="flex flex-col items-center">
+                  <p className="text-custom-blue">No available pets.</p>
+                  <button
+                    className="mt-4 bg-custom-pink text-white px-6 py-3 rounded cursor-pointer hover: transform hover:scale-110"
+                    onClick={() => navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_ADD}`)}
+                  >
+                    Add a Pet
+                  </button>
+                </div>
               )}
             </div>
             <div className="flex flex-col mb-6 min-w-full items-center">
@@ -266,15 +238,16 @@ const BookingForm: React.FC<BookingFormProps> = ({
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-custom-lightCrimson text-white px-6 py-3 rounded cursor-pointer hover: transform hover:scale-110"
+                className="bg-custom-lightCrimson text-custom-pink font-bold py-2 px-4 rounded cursor-pointer hover: transform hover:scale-110"
               >
                 Cancel
               </button>
-              <input
+              <button
                 type="submit"
-                value="Submit"
-                className="bg-custom-pink text-white px-6 py-3 rounded cursor-pointer hover: transform hover:scale-110"
-              />
+                className="bg-custom-pink text-white font-bold py-2 px-4 rounded cursor-pointer hover: transform hover:scale-110"
+              >
+                Book
+              </button>
             </div>
           </form>
         </div>
