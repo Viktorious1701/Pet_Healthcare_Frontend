@@ -6,6 +6,7 @@ import Nav from '@/components/admin_components/nav'
 import { cn } from '@/lib/utils'
 import { sidelinks } from '@/components/data/sidelinksAdmin'
 import paw from '@/assets/Paw2.svg'
+import { useAuthNavigation } from '@/Context/useAuthNavigation'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
@@ -18,7 +19,7 @@ export default function Sidebar2({
   setIsCollapsed,
 }: SidebarProps) {
   const [navOpened, setNavOpened] = useState(false)
-
+  const {navigateToHome} = useAuthNavigation();
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {
     if (navOpened) {
@@ -44,7 +45,7 @@ export default function Sidebar2({
       <Layout>
         {/* Header */}
         <LayoutHeader className='sticky top-0 justify-between px-4 py-3 shadow md:px-4'>
-          <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
+          <div onClick={navigateToHome} className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
             <img src={paw} className={`transition-all ${isCollapsed ? 'h-6 w-6' : 'h-8 w-8'}`} alt='Paw' />
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}

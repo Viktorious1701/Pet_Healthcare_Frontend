@@ -12,6 +12,8 @@ import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { useState } from "react";
 import Paw from "@/assets/Paw2.svg";
 import { LOGIN } from "@/Route/router-const";
+import { useAuthNavigation } from "@/Context/useAuthNavigation";
+import { toast } from "sonner";
 
 type RegisterFormsInputs = {
   email: string;
@@ -27,15 +29,22 @@ const validation = Yup.object().shape({
 
 const Register = () => {
   const { registerUser } = useAuth();
-
+  const { navigateToRegister } = useAuthNavigation();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
-  const handleLogin = (form: RegisterFormsInputs) => {
-    registerUser(form.email, form.userName, form.password);
+  const handleLogin =  async(form: RegisterFormsInputs) => {
+    const result = await registerUser(form.email, form.userName, form.password);
+    if(result !== null) {
+      console.log("result is not null", result);
+    } else {
+      console.log("result is null", result);
+      toast.info("You have an confirmation mail or an account already, please check your email or login.");
+      navigateToRegister();
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false); // Added for password visibility toggle

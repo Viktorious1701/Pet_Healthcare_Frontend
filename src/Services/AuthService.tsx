@@ -2,6 +2,7 @@ import axios from "axios";
 import { handleError } from "../Helpers/ErrorHandler";
 import { UserProfileToken } from "../Models/User";
 import axiosInstance from "@/Helpers/axiosInstance";
+import { toast } from "sonner";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/";
 
@@ -30,7 +31,7 @@ export const registerAPI = async (
     });
     return data;
   } catch (error) {
-    handleError(error);
+    toast.error("Server error occurred");
   }
 };
 

@@ -25,7 +25,7 @@ export const handleError = async (error: any) => {
         description: err.data,
       });
     } else if (err) {
-      // toast.warning(err?.data);
+       toast.warning(err?.data);
     }
   }
 };

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ADMIN_DASHBOARD, EMPLOYEE_DASHBOARD, HOME_PAGE, LOGIN } from '@/Route/router-const';
+import { ADMIN_DASHBOARD, EMPLOYEE_DASHBOARD, HOME_PAGE, LOGIN, REGISTER } from '@/Route/router-const';
 
 export const useAuthNavigation = () => {
   const navigate = useNavigate();
@@ -21,6 +21,6 @@ export const useAuthNavigation = () => {
 
   const navigateToHome = () => navigate(`/${HOME_PAGE}`);
   const navigateToLogin = () => navigate(`/${LOGIN}`);
-
-  return { navigateAfterLogin, navigateToHome, navigateToLogin };
+  const navigateToRegister = () => navigate(`/${REGISTER}`);
+  return { navigateAfterLogin, navigateToHome, navigateToLogin, navigateToRegister };
 };
