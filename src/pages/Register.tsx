@@ -1,9 +1,4 @@
-import {
-  CardTitle,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -32,7 +27,7 @@ const validation = Yup.object().shape({
 
 const Register = () => {
   const { registerUser } = useAuth();
-  
+
   const {
     register,
     handleSubmit,
@@ -54,8 +49,14 @@ const Register = () => {
         >
           <Card>
             <div className="flex items-center ml-[1.5rem]">
-              <img src={Paw} alt="Paw" className="w-20 h-30 mr-4 text-[#DB2777]" />
-              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">Pet88</span>
+              <img
+                src={Paw}
+                alt="Paw"
+                className="w-20 h-30 mr-4 text-[#DB2777]"
+              />
+              <span className="text-[3.5rem] font-mont font-semibold text-[#DB2777]">
+                Pet88
+              </span>
             </div>
             <CardHeader className="space-y-1">
               <CardTitle className="text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6">
@@ -107,10 +108,48 @@ const Register = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                     >
-                      {showPassword ? <IconEye stroke={2} /> : <IconEyeOff stroke={2} />}
+                      {showPassword ? (
+                        <IconEye stroke={2} />
+                      ) : (
+                        <IconEyeOff stroke={2} />
+                      )}
                     </button>
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
+                </div>
+                <div className="space-y-2 mb-6">
+                  <Label
+                    htmlFor="confirmPassword"
+                    className="text-xl font-normal"
+                  >
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      placeholder="••••••••"
+                      type={showPassword ? "text" : "password"}
+                      {...register("confirmPassword", {
+                        validate: (value) =>
+                          value === password || "The passwords do not match",
+                      })}
+                      className="py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                    >
+                      {showPassword ? (
+                        <IconEye stroke={2} />
+                      ) : (
+                        <IconEyeOff stroke={2} />
+                      )}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && (
+                    <p>{errors.confirmPassword.message}</p>
+                  )}
                 </div>
                 <Button
                   className="w-full bg-[#DB2777] text-white py-4 text-lg mt-4"
@@ -120,7 +159,7 @@ const Register = () => {
                 </Button>
                 <div className="mt-auto">
                   <div className="pt-[16rem] md:pt-[4rem] lg:pt-[8rem] xl:pt-[16rem] text-base sm:text-lg md:text-xl font-light font-mont">
-                  Already have an account? &nbsp;
+                    Already have an account? &nbsp;
                     <Link
                       to={`/${LOGIN}`}
                       className="font-mont font-medium text-base sm:text-lg md:text-xl text-[#DB2777] hover:underline hover:text-[#9B1B5A] transition-colors duration-200"
