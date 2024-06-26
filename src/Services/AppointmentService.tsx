@@ -10,6 +10,15 @@ import {
 const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
 const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
 
+export const appointmentGetAPI = async () => {
+  try {
+    const data = await axiosInstance.get<AppointmentGet[]>(api);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export const appointmentAvailableVetsAPI = async (
   date: string,
   slotId: number
