@@ -29,7 +29,7 @@ const validation = Yup.object().shape({
 
 const Register = () => {
   const { registerUser } = useAuth();
-  const { navigateToRegister } = useAuthNavigation();
+  const { navigateToRegister, navigateToLogin } = useAuthNavigation();
   const {
     register,
     handleSubmit,
@@ -40,6 +40,7 @@ const Register = () => {
     const result = await registerUser(form.email, form.userName, form.password);
     if(result !== null) {
       console.log("result is not null", result);
+      navigateToLogin();
     } else {
       console.log("result is null", result);
       toast.info("You have an confirmation mail or an account already, please check your email or login.");
