@@ -10,8 +10,6 @@ export const customerGetAPI = async (role: string) => {
     const data = await axiosInstance.get<UserInfo[]>(
       api + `users/role/${role}`
     );
-    console.log(data.data);
-    
     return data;
   } catch (error) {
     handleError(error);

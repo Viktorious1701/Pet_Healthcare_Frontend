@@ -67,7 +67,8 @@ const BookingPageEmployee = () => {
   }, [navigate]);
 
   const handleBookingCancel = () => {
-    containerRef.current?.scrollIntoView({
+    window.scrollTo({
+      top: 0,
       behavior: "smooth",
     });
     setSelectedDate(null);
@@ -106,10 +107,10 @@ const BookingPageEmployee = () => {
   };
 
   const handleCustomerSelect = (customer: string) => {
-    setSelectedCustomer(customer);
     dateRef.current?.scrollIntoView({
       behavior: "smooth",
     });
+    setSelectedCustomer(customer);
     handleNext();
   };
 
@@ -164,7 +165,7 @@ const BookingPageEmployee = () => {
   };
 
   return (
-    <div className="bg-cover bg-center max-h-[80vh] w-full overflow-y-hidden">
+    <div className="w-full h-full overflow-y-hidden" ref={containerRef}>
       <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4">
         <Box sx={{ maxWidth: 400, mx: "auto" }}>
           <Stepper activeStep={activeStep} orientation="horizontal">
@@ -185,21 +186,21 @@ const BookingPageEmployee = () => {
         </Box>
       </div>
 
-      <div className="h-100 p-0 border-tran bg-blue">
+      <div className="pt-0 border-tran bg-blue">
         <div className="w-full">
           {/* First div */}
           <div className="w-full flex-shrink-0 flex justify-center h-screen">
-            <div className="pt-0 flex justify-center" ref={containerRef}>
+            <div className="pt-0 flex justify-center">
               <CustomerSelect onSelectCustomer={handleCustomerSelect} />
             </div>
           </div>
           {/* Second div */}
           {selectedCustomer && (
             <div
+              className="w-full flex-shrink-0 flex justify-center h-screen pt-20 my-20"
               ref={dateRef}
-              className="w-full flex-shrink-0 flex justify-center h-screen"
             >
-              <div className="mt-20 pt-20 flex justify-center shadow-md">
+              <div className="flex justify-center shadow-md">
                 <div className="bg-white rounded-md p-6 mr-8">
                   <div className="flex justify-between items-center mb-4">
                     <div>
