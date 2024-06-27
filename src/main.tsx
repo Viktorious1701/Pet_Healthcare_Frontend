@@ -11,6 +11,7 @@ import { ThemeProvider } from '@/components/vet_components/theme-provider.tsx';
 import { Toaster } from "sonner"
 import { UserProvider } from "./Context/UserContext.tsx";
 import { ToastContainer } from "react-toastify";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -25,6 +26,7 @@ root.render(
               <RouterComponent />
               <Toaster />
               <ToastContainer />
+              <SpeedInsights/>
             </NextUIProvider>
           </StyledThemeProvider>
         </ThemeProvider>
