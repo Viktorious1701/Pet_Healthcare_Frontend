@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const AppointmentForm = () => {
   // State to hold the matching appointment
@@ -91,9 +91,17 @@ const AppointmentForm = () => {
     <form className="w-full p-10 bg-opacity-20 z-10 overflow-auto">
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-4xl font-bold mb-6">
-            View Appointment
-          </CardTitle>
+          <div className="flex justify-between items-center mb-6">
+            <CardTitle className="text-4xl font-bold">
+              View Appointment
+            </CardTitle>
+            <Link
+              to="/vet/appointment-details"
+              className="bg-[#DB2777] hover:bg-[#F3AFCF] text-white text-lg font-semibold py-2 px-10 rounded transition duration-300 ease-in-out"
+            >
+              Back
+            </Link>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap -mx-3">

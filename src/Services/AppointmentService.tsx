@@ -6,9 +6,11 @@ import {
   AppointmentGet,
   AppointmentRating,
 } from "@/Models/Appointment";
+import { AppointmentDetailGet } from "@/Models/AppointmentDetail";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
 const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
+const apiAppointmentDetails = "https://pethealthcaresystem.azurewebsites.net/api/AppointmentDetail/id";
 
 export const appointmentGetAPI = async () => {
   try {
@@ -114,6 +116,17 @@ export const appointmentVetAPI = async (vetId: string) => {
     handleError(error);
   }
 };
+
+export const appointmentDetailsAPI = async (appointmentId: string) => {
+  try {
+    const response = await axiosInstance.get<AppointmentDetailGet>(
+      apiAppointmentDetails + `/${appointmentId}`
+    );
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+}
 
 export const appointmentGetVetIdAPI = async () => {
   try {

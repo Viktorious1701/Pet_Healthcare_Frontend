@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
 import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { UserNav } from "@/components/vet_components/user-nav";
-import Form from "@/pages/VetDashboard/appointment_edits/edit_form/form";
+import Form from "@/pages/VetDashboard/appointment_view/edit_form/form";
 
 const App: FC = () => {
   return (

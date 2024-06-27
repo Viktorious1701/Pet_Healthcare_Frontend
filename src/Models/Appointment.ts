@@ -41,6 +41,19 @@ export type AppointmentGet = {
     paymentStatus: number
 }
 
+export type AppointmentDetails = {
+    appointmentDetailId: number,
+    appointmentId: number,
+    recordId: number,
+    petId: number,
+    diagnosis: string,
+    treatment: string | null,
+    medication: string | null,
+    vetName: string | null,
+    service: string | null,
+    date: string
+}
+
 export enum AppointmentStatus {
     Booked = 0,
     Processing = 1,

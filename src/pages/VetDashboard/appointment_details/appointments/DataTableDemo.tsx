@@ -145,6 +145,13 @@ export const columns: ColumnDef<Appointment>[] = [
         navigate(targetPath);
       };
 
+      const openAppointmentAddForm = (appointmentId: number) => {
+        // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
+        const targetPath = `/vet/appointment-diagnosis/${appointmentId}`;
+        console.log(`Navigating to: ${targetPath}`);
+        navigate(targetPath);
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -171,7 +178,7 @@ export const columns: ColumnDef<Appointment>[] = [
               View appointment details
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => openAppointmentEditForm(appointment.appointmentId)}
+              onClick={() => openAppointmentAddForm(appointment.appointmentId)}
             >
               Add diagnosis
             </DropdownMenuItem>

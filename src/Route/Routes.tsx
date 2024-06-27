@@ -57,6 +57,7 @@ import {
   REFUND,
   CUSTOMER_PET_ADD,
   APPOINTMENT_EDIT,
+  APPOINTMENT_DIAGNOSIS,
 } from "./router-const";
 
 import PetHealthTrack from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
@@ -492,7 +493,14 @@ const RouterComponent = () => {
             {
               path: `${APPOINTMENT_EDIT}/:appointmentId`,
               lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/appointment_edits/index"))
+                Component: (await import("@/pages/VetDashboard/appointment_view/index"))
+                  .default,
+              }),
+            },
+            {
+              path: `${APPOINTMENT_DIAGNOSIS}/:appointmentId`,
+              lazy: async () => ({
+                Component: (await import("@/pages/VetDashboard/diagnosis_add/index"))
                   .default,
               }),
             },
