@@ -38,7 +38,10 @@ export default function Dashboard() {
     const getPets = async () => {
       await petsOfCustomerAPI(String(user?.userName))
         .then((res) => {
-          if (res?.data) {
+          if (res?.data === "User doesn't have any pets") {
+            setPets([]);
+          }
+          else if (res?.data) {
             setPets(res.data);
           }
         })
