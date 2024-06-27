@@ -49,27 +49,27 @@ const RecentHospitalizations: React.FC<RecentHospitalizationsProps> = ({
         >
           <Avatar className="h-9 w-9">
             <AvatarImage src="/avatars/01.png" alt="Avatar" />
-            <AvatarFallback>
-              {/* {hospitalization..slice(0, 2).toUpperCase()} */}
+            <AvatarFallback className="font-bold text-xs">
+              {hospitalization.vetName.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="ml-4 space-y-1 w-[20vw]">
+          <div className="ml-4 space-y-1 w-[25vw]">
             <p className="text-sm font-medium leading-none flex justify-between">
-              {hospitalization.petId} with {hospitalization.petId}
+              {hospitalization.petName}
               <span>
                 from {hospitalization.admissionDate} to{" "}
                 {hospitalization.dischargeDate}
               </span>
             </p>
             <p className="text-sm text-muted-foreground">
-              Hospitalized by {hospitalization.vetId}
+              Hospitalized by {hospitalization.vetName} in {hospitalization.kennelDescription}
             </p>
           </div>
           <Divider orientation="vertical" />
           <Badge
             className={
               getHospitalizationPaymentImage(hospitalization.paymentStatus) +
-              " text-white p-2 mx-2 w-[7vw]"
+              " text-white p-2 ml-auto w-[7vw]"
             }
             variant="secondary"
           >

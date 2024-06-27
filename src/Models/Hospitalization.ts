@@ -5,7 +5,9 @@ export type Hospitalization = {
     vetId: number,
     admissionDate: string,
     dischargeDate: string,
-    petName?: string;  // Optional because it will be fetched later
+    petName: string;  // Optional because it will be fetched later
+    kennelDescription: string,
+    vetName: string,
     totalCost: number;
     paymentStatus: number;
 }
