@@ -36,14 +36,16 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
-  const handleLogin =  async(form: RegisterFormsInputs) => {
+  const handleLogin = async (form: RegisterFormsInputs) => {
     const result = await registerUser(form.email, form.userName, form.password);
-    if(result !== null) {
+    if (result !== null) {
       console.log("result is not null", result);
       navigateToLogin();
     } else {
       console.log("result is null", result);
-      toast.info("You have an confirmation mail or an account already, please check your email or login.");
+      toast.info(
+        "You have an confirmation mail or an account already, please check your email or login."
+      );
       navigateToRegister();
     }
   };
@@ -69,9 +71,17 @@ const Register = () => {
               </span>
             </div>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6">
-                REGISTER
-              </CardTitle>
+              <div className="flex justify-between items-center mt-6 md:mt-16 lg:mt-36 mb-6">
+                <CardTitle className="text-4xl font-bold">
+                  REGISTER
+                </CardTitle>
+                <Link
+                  to="/"
+                  className="text-xl text-[#DB2777] font-normal hover:underline"
+                >
+                  Back to Home
+                </Link>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

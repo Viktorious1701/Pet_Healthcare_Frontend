@@ -41,7 +41,6 @@ const Login = () => {
       console.log("result is not null", result);
       navigateToHome();
     } else {
-   
       navigateToLogin();
     }
   };
@@ -67,9 +66,15 @@ const Login = () => {
               </span>
             </div>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6">
-                SIGN IN
-              </CardTitle>
+              <div className="flex justify-between items-center mt-6 md:mt-16 lg:mt-36 mb-6">
+                <CardTitle className="text-4xl font-bold">SIGN IN</CardTitle>
+                <Link
+                  to="/"
+                  className="text-xl text-[#DB2777] font-normal hover:underline"
+                >
+                  Back to Home
+                </Link>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
