@@ -6,6 +6,8 @@ export type Hospitalization = {
     admissionDate: string,
     dischargeDate: string,
     petName?: string;  // Optional because it will be fetched later
+    totalCost: number;
+    paymentStatus: number;
 }
 export type HospitalizationPost = {
     petId: string,

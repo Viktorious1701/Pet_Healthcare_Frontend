@@ -1,6 +1,7 @@
 import { AppointmentGet } from "@/Models/Appointment";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Divider } from "@mui/material";
 import React from "react";
 
 interface RecentAppointmentsProps {
@@ -10,6 +11,9 @@ const now = new Date();
 const RecentAppointments: React.FC<RecentAppointmentsProps> = ({
   appointments,
 }) => {
+  appointments = appointments.filter(
+    (appointment) => new Date(appointment.date).getMonth() === now.getMonth()
+  );
   const getAppointmentImage = (status: string) => {
     switch (status) {
       case "Booked":
@@ -45,51 +49,50 @@ const RecentAppointments: React.FC<RecentAppointmentsProps> = ({
       case 3:
         return "Failed";
     }
-  }
+  };
   return (
     <div className="space-y-8">
-      {appointments
-        .filter(
-          (appointment) =>
-            new Date(appointment.date).getMonth() === now.getMonth()
-        )
-        .map((appointment) => (
-          <div className="flex items-center" key={appointment.appointmentId}>
-            <Avatar className="h-9 w-9">
-              <AvatarImage src="/avatars/01.png" alt="Avatar" />
-              <AvatarFallback>
-                {appointment.customer.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="ml-4 space-y-1">
-              <p className="text-sm font-medium leading-none flex justify-between">
-                {appointment.customer} with {appointment.pet}
-                <span>{appointment.date}</span>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                examine by {appointment.vet} _ from {appointment.slotStartTime}{" "}
-                to {appointment.slotEndTime}
-              </p>
-            </div>
-            <Badge
-              className={
-                getAppointmentImage(appointment.status) + " text-white ml-auto p-2"
-              }
-              variant="secondary"
-            >
-              Status: {appointment.status}
-            </Badge>
-            <Badge
-              className={
-                getAppointmentPaymentImage(appointment.paymentStatus) + " text-white ml-auto p-2"
-              }
-              variant="secondary"
-            >
-              Payment: {getAppointmentPaymentStatus(appointment.paymentStatus)}
-            </Badge>
-            <div className="ml-auto font-medium">+${appointment.totalCost}</div>
+      {appointments.map((appointment) => (
+        <div className="flex items-center" key={appointment.appointmentId}>
+          <Avatar className="h-9 w-9">
+            <AvatarImage src="/avatars/01.png" alt="Avatar" />
+            <AvatarFallback>
+              {appointment.customer.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="ml-4 space-y-1 w-[16vw]">
+            <p className="text-sm font-medium leading-none flex justify-between">
+              {appointment.customer} with {appointment.pet}
+              <span>{appointment.date}</span>
+            </p>
+            <p className="text-sm text-muted-foreground">
+              examine by {appointment.vet} _ from {appointment.slotStartTime} to{" "}
+              {appointment.slotEndTime}
+            </p>
           </div>
-        ))}
+          <Divider orientation="vertical" />
+          <Badge
+            className={
+              getAppointmentImage(appointment.status) +
+              " text-white mx-2 p-2 w-[7vw]"
+            }
+            variant="secondary"
+          >
+            Status: {appointment.status}
+          </Badge>
+          <Badge
+            className={
+              getAppointmentPaymentImage(appointment.paymentStatus) +
+              " text-white p-2 w-[7vw] mr-2"
+            }
+            variant="secondary"
+          >
+            Payment:{" "}
+            {getAppointmentPaymentStatus(appointment.paymentStatus) ?? "Cash"}
+          </Badge>
+          <div className="ml-auto font-medium">+${appointment.totalCost}</div>
+        </div>
+      ))}
     </div>
   );
 };
