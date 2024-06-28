@@ -91,7 +91,7 @@ const Accounts = () => {
                   <CardTitle className="text-sm font-medium">
                     Total Users
                   </CardTitle>
-                  <IconUser/>
+                  <IconUser />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{users.length}</div>
@@ -102,7 +102,7 @@ const Accounts = () => {
                   <CardTitle className="text-sm font-medium">
                     Active Users
                   </CardTitle>
-                  <IconActivity/>
+                  <IconActivity />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
@@ -115,10 +115,22 @@ const Accounts = () => {
                   <CardTitle className="text-sm font-medium">
                     Users Roles Breakdown
                   </CardTitle>
-                  <Icon123/>
+                  <Icon123 />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+573</div>
+                  <div className="text-2xl font-bold flex justify-between">
+                    <span>
+                      {users.filter((user) => user.role === "Customer").length}{" "}
+                      Customers
+                    </span>
+                    <span>
+                      {((users.filter((user) => user.role === "Customer")
+                        .length /
+                        users.length) *
+                        100).toString().slice(0,5)}{" "}
+                      % of system accounts
+                    </span>
+                  </div>
                 </CardContent>
               </Card>
             </div>

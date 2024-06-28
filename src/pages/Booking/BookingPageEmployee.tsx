@@ -5,7 +5,7 @@ import { setUserBooking } from "@/components/slices/dateSlice";
 import { AppDispatch } from "@/store";
 import { SlotGet } from "@/Models/Slot";
 import { slotGetAPI } from "@/Services/SlotService";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import BookingForm from "@/components/appointment/BookingForm";
 import { ArrowRightFromLine } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -67,7 +67,8 @@ const BookingPageEmployee = () => {
   }, [navigate]);
 
   const handleBookingCancel = () => {
-    containerRef.current?.scrollIntoView({
+    window.scrollTo({
+      top: 0,
       behavior: "smooth",
     });
     setSelectedDate(null);
@@ -106,10 +107,10 @@ const BookingPageEmployee = () => {
   };
 
   const handleCustomerSelect = (customer: string) => {
-    setSelectedCustomer(customer);
     dateRef.current?.scrollIntoView({
       behavior: "smooth",
     });
+    setSelectedCustomer(customer);
     handleNext();
   };
 
@@ -164,7 +165,7 @@ const BookingPageEmployee = () => {
   };
 
   return (
-    <div className="bg-cover bg-center min-h-screen w-full overflow-y-hidden">
+    <div className="w-full h-full overflow-y-hidden" ref={containerRef}>
       <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4">
         <Box sx={{ maxWidth: 400, mx: "auto" }}>
           <Stepper activeStep={activeStep} orientation="horizontal">
@@ -185,24 +186,21 @@ const BookingPageEmployee = () => {
         </Box>
       </div>
 
-      <div className="h-100 p-0 m-y-20 border-tran bg-blue">
+      <div className="pt-0 border-tran bg-blue">
         <div className="w-full">
           {/* First div */}
-          <div
-            ref={containerRef}
-            className="w-full flex-shrink-0 flex justify-center h-screen"
-          >
-            <div className="pt-20 flex justify-center">
+          <div className="w-full flex-shrink-0 flex justify-center h-screen">
+            <div className="pt-0 flex justify-center">
               <CustomerSelect onSelectCustomer={handleCustomerSelect} />
             </div>
           </div>
           {/* Second div */}
           {selectedCustomer && (
             <div
+              className="w-full flex-shrink-0 flex justify-center h-screen pt-20 my-20"
               ref={dateRef}
-              className="w-full flex-shrink-0 flex justify-center h-screen"
             >
-              <div className="mt-20 pt-20 flex justify-center shadow-md">
+              <div className="flex justify-center shadow-md">
                 <div className="bg-white rounded-md p-6 mr-8">
                   <div className="flex justify-between items-center mb-4">
                     <div>
@@ -211,7 +209,9 @@ const BookingPageEmployee = () => {
                       </h2>
                     </div>
                     <Button
-                      className={`text-white text-md bg-custom-darkBlue ${!selectedCustomer ? 'hidden' : ''}`}
+                      className={`text-white text-md bg-custom-darkBlue ${
+                        !selectedCustomer ? "hidden" : ""
+                      }`}
                       onClick={handleBookingCancel}
                     >
                       Cancel
