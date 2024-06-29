@@ -1,5 +1,5 @@
-import { EMPLOYEE_APPOINTMENT_MANAGE, EMPLOYEE_KENNELS, EMPLOYEE_HOSPITALIZED_PETS } from "@/Route/router-const";
-import { IconDashboard, IconCalendarWeek, IconUser, IconHospital } from "@tabler/icons-react";
+import { EMPLOYEE_APPOINTMENT_BOOKING, EMPLOYEE_KENNELS, EMPLOYEE_HOSPITALIZED_PETS, EMPLOYEE_APPOINTMENT_MANAGE } from "@/Route/router-const";
+import { IconDashboard, IconCalendarWeek, IconUser, IconHospital, IconBook } from "@tabler/icons-react";
 import { DoorClosed } from "lucide-react";
 
 export interface NavLink {
@@ -21,7 +21,13 @@ export const sidelinks: SideLink[] = [
     icon: <IconDashboard size={18} />,
   },
   {
-    title: 'Appointments',
+    title: 'Bookings',
+    label: '',
+    href: `/employee/${EMPLOYEE_APPOINTMENT_BOOKING}`,
+    icon: <IconBook size={18} />,
+  },
+  {
+    title: 'Appointment',
     label: '',
     href: `/employee/${EMPLOYEE_APPOINTMENT_MANAGE}`,
     icon: <IconCalendarWeek size={18} />,

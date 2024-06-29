@@ -39,7 +39,8 @@ export const CUSTOMER_VACCINATIONS = "customer-vaccination"
 
 
 export const EMPLOYEE_DASHBOARD = "employee"
-export const EMPLOYEE_APPOINTMENT_MANAGE = "appointment-management"
+export const EMPLOYEE_APPOINTMENT_BOOKING = "appointment-booking"
+export const EMPLOYEE_APPOINTMENT_MANAGE = "appointment-manage"
 export const EMPLOYEE_KENNELS = "kennels"
 export const EMPLOYEE_HOSPITALIZED_PETS = "hospitalized-pets"
 export const EMPLOYEE_SCHEDULING_VETS = "scheduling-vets"

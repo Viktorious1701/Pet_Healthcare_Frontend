@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { handleError } from "../Helpers/ErrorHandler";
 import { UserProfileToken } from "../Models/User";
 import axiosInstance from "@/Helpers/axiosInstance";
-import { toast } from "sonner";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/";
 
@@ -21,17 +21,26 @@ export const loginAPI = async (username: string, password: string) => {
 export const registerAPI = async (
   email: string,
   username: string,
-  password: string
+  password: string,
+  confirmPassword: string
 ) => {
   try {
-    const data = await axiosInstance.post<UserProfileToken>(api + "Account/register", {
+    const response = await axios.post<UserProfileToken>(api + "Account/register", {
       email: email,
       username: username,
       password: password,
+      confirmPassword: confirmPassword
     });
-    return data;
-  } catch (error) {
-    toast.error("Server error occurred");
+    console.log("Data for register", response);
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      // Server returned an error response
+      throw error.response.data;
+    } else {
+      // Network error or other issues
+      throw { code: "ServerError", description: "An unexpected error occurred" };
+    }
   }
 };
 

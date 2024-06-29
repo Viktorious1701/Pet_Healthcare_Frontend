@@ -16,7 +16,7 @@ type UserContextType = {
   user: UserProfile | null;
   token: string | null;
   refreshToken: string | null;
-  registerUser: (email: string, username: string, password: string) => Promise<UserProfile | null>;
+  registerUser: (email: string, username: string, password: string, confirmPassword: string) => Promise<UserProfile | null>;
   loginUser: (username: string, password: string) => Promise<UserProfile | null>;
   forgotUser: (email: string) => Promise<void>;
   resetUser: (token: string, email: string, password: string, confirmPassword: string) => Promise<void>;
@@ -55,33 +55,31 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
   };
 
-  const registerUser = async (email: string, username: string, password: string) => {
+  const registerUser = async (email: string, username: string, password: string, confirmPassword: string) => {
     try {
-      const res = await registerAPI(email, username, password);
-      if (res) {
-        const userData = {
-          token: res.data.token,
-          refreshToken: res.data.refreshToken,
-          user: {
-            userName: res.data.userName,
-            email: res.data.email,
-            role: res.data.role,
-          },
-        };
-        updateAuthState(userData);
-        toast('Registration Successful!', {
-          style: {
-            backgroundColor: 'var(--background)',
-            color: 'var(--hero-text)',
-            outline: '2px solid #77dd77',
-          },
-        });
-        return userData.user;
+      const userData = await registerAPI(email, username, password, confirmPassword);
+      console.log('userData', userData);
+       //updateAuthState(userData);
+      toast('Registration Successful!', {
+        style: {
+          backgroundColor: 'var(--background)',
+          color: 'var(--hero-text)',
+          outline: '2px solid #77dd77',
+        },
+      });
+      return userData;
+    } catch (error: any) {
+      if (Array.isArray(error) && error.length > 0) {
+        // Handle server-side validation errors
+        const firstError = error[0];
+        toast.error(`${firstError.code}: ${firstError.description}`);
+      } else {
+        // Handle unexpected errors
+        toast.error('An unexpected error occurred');
       }
-    } catch (e) {
-      toast('Server error occurred');
+      console.error('Registration error:', error);
+      return null;
     }
-    return null;
   };
 
   const loginUser = async (username: string, password: string) => {

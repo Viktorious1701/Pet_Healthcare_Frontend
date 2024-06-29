@@ -1,5 +1,5 @@
 import { useAuth } from "@/Context/useAuth";
-import { APPOINTMENT, EMPLOYEE_APPOINTMENT_MANAGE, EMPLOYEE_DASHBOARD, PAYMENT } from "@/Route/router-const";
+import { APPOINTMENT, EMPLOYEE_APPOINTMENT_BOOKING, EMPLOYEE_DASHBOARD, PAYMENT } from "@/Route/router-const";
 import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -37,7 +37,7 @@ const BookingSuccess = () => {
 
   const handleEmployeeRedirect = () => {
     if (user?.role === "Employee") {
-      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_MANAGE}`);
+      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
     }
   };
 

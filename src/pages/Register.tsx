@@ -13,18 +13,23 @@ import { useState } from "react";
 import Paw from "@/assets/Paw2.svg";
 import { LOGIN } from "@/Route/router-const";
 import { useAuthNavigation } from "@/Context/useAuthNavigation";
-import { toast } from "sonner";
 
 type RegisterFormsInputs = {
   email: string;
   userName: string;
   password: string;
+  confirmPassword: string;
 };
 
 const validation = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
+  email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email format"),
   userName: Yup.string().required("Username is required"),
   password: Yup.string().required("Password is required"),
+  confirmPassword: Yup.string()
+    .required("Confirm Password is required")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
 });
 
 const Register = () => {
@@ -37,21 +42,23 @@ const Register = () => {
   } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
   const handleLogin = async (form: RegisterFormsInputs) => {
-    const result = await registerUser(form.email, form.userName, form.password);
+    const result = await registerUser(
+      form.email,
+      form.userName,
+      form.password,
+      form.confirmPassword
+    );
     if (result !== null) {
       console.log("result is not null", result);
       navigateToLogin();
     } else {
       console.log("result is null", result);
-      toast.info(
-        "You have an confirmation mail or an account already, please check your email or login."
-      );
       navigateToRegister();
     }
   };
 
   const [showPassword, setShowPassword] = useState(false); // Added for password visibility toggle
-
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <div className="grid grid-cols-5 min-h-screen">
       <div className="col-span-2 flex items-center justify-center bg-[var(--background)]">
@@ -72,9 +79,7 @@ const Register = () => {
             </div>
             <CardHeader className="space-y-1">
               <div className="flex justify-between items-center mt-6 md:mt-16 lg:mt-36 mb-6">
-                <CardTitle className="text-4xl font-bold">
-                  REGISTER
-                </CardTitle>
+                <CardTitle className="text-4xl font-bold">REGISTER</CardTitle>
                 <Link
                   to="/"
                   className="text-xl text-[#DB2777] font-normal hover:underline"
@@ -137,7 +142,7 @@ const Register = () => {
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                {/* <div className="space-y-2 mb-6">
+                <div className="space-y-2 mb-6">
                   <Label
                     htmlFor="confirmPassword"
                     className="text-xl font-normal"
@@ -148,19 +153,18 @@ const Register = () => {
                     <Input
                       id="confirmPassword"
                       placeholder="••••••••"
-                      type={showPassword ? "text" : "password"}
-                      {...register("confirmPassword", {
-                        validate: (value) =>
-                          value === password || "The passwords do not match",
-                      })}
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...register("confirmPassword")}
                       className="py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
                     />
                     <button
                       type="button"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                     >
-                      {showPassword ? (
+                      {showConfirmPassword ? (
                         <IconEye stroke={2} />
                       ) : (
                         <IconEyeOff stroke={2} />
@@ -170,7 +174,7 @@ const Register = () => {
                   {errors.confirmPassword && (
                     <p>{errors.confirmPassword.message}</p>
                   )}
-                </div> */}
+                </div>
                 <Button
                   className="w-full bg-[#DB2777] text-white py-4 text-lg mt-4"
                   type="submit"

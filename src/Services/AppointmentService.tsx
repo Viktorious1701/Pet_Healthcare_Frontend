@@ -8,7 +8,7 @@ import {
 } from "@/Models/Appointment";
 import { AppointmentDetailGet } from "@/Models/AppointmentDetail";
 
-const api = "https://pethealthcaresystem.azurewebsites.net/api/appointment";
+const api = "https://pethealthcaresystem.azurewebsites.net/api/Appointment";
 const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
 const apiAppointmentDetails = "https://pethealthcaresystem.azurewebsites.net/api/AppointmentDetail/id";
 
@@ -18,6 +18,17 @@ export const appointmentGetAPI = async () => {
     return data;
   } catch (error) {
     handleError(error);
+  }
+}
+
+export const deleteAppointmentByID = async (appointmentId: number) => {
+  try {
+    const data = await axiosInstance.delete(api + `/${appointmentId}`);
+    console.log("delete by id ", data);
+    return data;
+  } catch (error) {
+    handleError(error);
+    throw error;  // Rethrow the error to be caught in the calling function
   }
 }
 

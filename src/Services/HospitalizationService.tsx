@@ -1,6 +1,6 @@
 import axiosInstance from "@/Helpers/axiosInstance";
 import { HospitalizationPost } from "@/Models/Hospitalization";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api";

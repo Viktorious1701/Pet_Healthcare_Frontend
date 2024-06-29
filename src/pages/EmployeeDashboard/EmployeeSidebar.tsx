@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { HomeIcon, Calendar, Hospital, Dog } from "lucide-react";
 import {
   EMPLOYEE_DASHBOARD,
-  EMPLOYEE_APPOINTMENT_MANAGE,
+  EMPLOYEE_APPOINTMENT_BOOKING,
   EMPLOYEE_KENNELS,
   EMPLOYEE_HOSPITALIZED_PETS,
 } from "@/Route/router-const";
@@ -42,9 +42,9 @@ const EmployeeSidebar = () => {
         <SidebarItem
           icon={<Calendar size={20} />}
           text="Appointments"
-          path={`/employee/${EMPLOYEE_APPOINTMENT_MANAGE}`}
+          path={`/employee/${EMPLOYEE_APPOINTMENT_BOOKING}`}
           onClick={handleNavigation}
-          active={activePath === `/employee/${EMPLOYEE_APPOINTMENT_MANAGE}`}
+          active={activePath === `/employee/${EMPLOYEE_APPOINTMENT_BOOKING}`}
         />
         <SidebarItem
           icon={<Dog size={20} />} // Changed to a dog icon
@@ -60,7 +60,7 @@ const EmployeeSidebar = () => {
           onClick={handleNavigation}
           active={activePath === `/employee/${EMPLOYEE_HOSPITALIZED_PETS}`}
         />
-      
+
       </SidebarComponent>
     </StyledSidebar>
   );

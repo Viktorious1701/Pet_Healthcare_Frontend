@@ -9,12 +9,13 @@ import {
   GridRowModes,
   GridRowModesModel,
 } from "@mui/x-data-grid";
-import { CircleX, DeleteIcon, EditIcon, SaveIcon } from "lucide-react";
+import { CircleX, DeleteIcon, EditIcon, SaveIcon, DollarSignIcon } from "lucide-react";
 import React from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { Hospitalization } from "@/Models/Hospitalization";
 import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from "@/Services/HospitalizationService";
 import { getPetById } from "@/Services/PetService";
+import { cashoutApi } from "@/Services/PaymentService";
 
 interface HospitalizationDataGridProps {
   hospitalizations: Hospitalization[];
@@ -77,7 +78,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         }
       })
       .catch((e) => {
-        toast.error("Server error occurred", e);
+        toast.error("Fail to delete hospitalization", e);
       });
   };
 
@@ -98,6 +99,21 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true },
     });
+  };
+
+  const handleCashoutClick = (id: GridRowId, customerId: string) => async () => {
+    try {
+      const res = await cashoutApi(customerId, Number(id));
+      if (res?.data) {
+        toast.success("Cashout successful");
+        const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
+          row.hospitalizationId === id ? { ...row, totalCost: res.data.totalCost, cashedOut: true } : row
+        );
+        setHospitalizationsWithPetNames(updatedHospitalizations);
+      }
+    } catch (error) {
+      toast.error("Cashout failed");
+    }
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -126,9 +142,9 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       filterable: true,
     },
     {
-      field: "petId",
-      headerName: "Pet ID",
-      width: 150,
+      field: "petName",
+      headerName: "Pet Name",
+      width: 200,
       editable: false,
     },
     {
@@ -156,16 +172,18 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       editable: true,
     },
     {
-      field: "petName",
-      headerName: "Pet Name",
-      width: 200,
+      field: "totalCost",
+      headerName: "Total Cost",
+      width: 150,
       editable: false,
+      cellClassName: (params) =>
+        params.row.cashedOut ? 'green-cell' : '',
     },
     {
       field: "actions",
       headerName: "Actions",
       type: "actions",
-      getActions: ({ id }) => {
+      getActions: ({ id, row }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
@@ -191,7 +209,8 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         }
 
         return [
-          <GridActionsCellItem
+          <div>
+            <GridActionsCellItem
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
@@ -204,6 +223,13 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
             color="inherit"
             onClick={handleDeleteClick(id)}
           />,
+          <GridActionsCellItem
+            icon={<DollarSignIcon />}
+            label="Cashout"
+            color="inherit"
+            onClick={handleCashoutClick(id, row.customerId)}
+          />,
+          </div>
         ];
       },
     },

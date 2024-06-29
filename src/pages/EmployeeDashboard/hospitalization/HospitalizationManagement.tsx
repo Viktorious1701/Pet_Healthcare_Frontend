@@ -1,17 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Grid,
-  Card,
-  CardHeader,
-} from "@mui/material";
+import { Box, Grid, Card, CardHeader } from "@mui/material";
 import { Button } from "@/components/ui/button";
 import { Hospitalization, HospitalizationPost } from "@/Models/Hospitalization";
 import HospitalizationDataGrid from "./components/HospitalizationDataGrid";
 import { hospitalizationListAPI, hospitalizationCreateAPI } from "@/Services/HospitalizationService";
 import { toast } from "react-toastify";
 import HospitalizationAddModal from "./components/HospitalizationAddModal";
+import { getPetById } from "@/Services/PetService";
 
 const HospitalizationManagement = () => {
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
@@ -25,7 +21,18 @@ const HospitalizationManagement = () => {
     try {
       const res = await hospitalizationListAPI();
       if (res?.data) {
-        setHospitalizations(res.data);
+        const hospitalizationsWithPetInfo = await Promise.all(res.data.map(async (hospitalization: Hospitalization) => {
+          const petData = await getPetById(hospitalization.petId.toString());
+          if (petData?.data) {
+            return {
+              ...hospitalization,
+              petName: petData.data.name,
+              customerId: petData.data.customerId,
+            };
+          }
+          return hospitalization;
+        }));
+        setHospitalizations(hospitalizationsWithPetInfo);
       }
     } catch (error: any) {
       toast.error("Failed to fetch hospitalizations", error);
@@ -40,7 +47,17 @@ const HospitalizationManagement = () => {
     try {
       const res = await hospitalizationCreateAPI(newHospitalization);
       if (res?.data) {
-        setHospitalizations([...hospitalizations, res.data]);
+        const petData = await getPetById(res.data.petId.toString());
+        if (petData?.data) {
+          const newHosp = {
+            ...res.data,
+            petName: petData.data.name,
+            customerId: petData.data.customerId,
+          };
+          setHospitalizations([...hospitalizations, newHosp]);
+        } else {
+          setHospitalizations([...hospitalizations, res.data]);
+        }
         toast.success("Hospitalization added successfully");
         closeModal();
       }
@@ -64,11 +81,11 @@ const HospitalizationManagement = () => {
           {/* Header Section */}
           <Grid item xs={12}>
             <Card className="h-full w-full">
-            <CardHeader
+              <CardHeader
                 title="Hospitalization Management"
                 titleTypographyProps={{ variant: "h5", color: "primary" }}
                 action={
-                  <Button  onClick={openModal} className="bg-custom-pink hover:bg-custom-darkPink">
+                  <Button onClick={openModal} className="bg-custom-pink hover:bg-custom-darkPink">
                     Add Hospitalization
                   </Button>
                 }

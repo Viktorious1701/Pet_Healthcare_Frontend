@@ -46,7 +46,7 @@ import {
   VET_DASHBOARD,
   HOSPITALIZATION_INTRO,
   SETTINGS_PROFILE,
-  EMPLOYEE_APPOINTMENT_MANAGE,
+  EMPLOYEE_APPOINTMENT_BOOKING,
   EMPLOYEE_KENNELS,
   ADMIN_ACCOUNTS,
   SCHEDULE_VET,
@@ -57,6 +57,7 @@ import {
   REFUND,
   CUSTOMER_PET_ADD,
   APPOINTMENT_EDIT,
+  EMPLOYEE_APPOINTMENT_MANAGE,
   APPOINTMENT_DIAGNOSIS,
 } from "./router-const";
 
@@ -77,6 +78,7 @@ import Profile from "@/pages/CustomerDashboard/profile";
 import CancelAppointment from "../pages/CustomerDashboard/appointments/components/CancelAppointment";
 import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
 import NotAuthorized from "@/pages/Errors/NotAuthorized";
+import AppointmentManagement from "@/pages/EmployeeDashboard/appointment/AppointmentManagement";
 
 const ProtectedVetDashboard = React.lazy(
   () => import("../pages/VetDashboard/ProtectedVetDashboard")
@@ -448,8 +450,12 @@ const RouterComponent = () => {
               element: <EmployeeDashboard />,
             },
             {
-              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
+              path: `${EMPLOYEE_APPOINTMENT_BOOKING}`,
               element: <BookingPageEmployee />,
+            },
+            {
+              path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
+              element: <AppointmentManagement />,
             },
             {
               path: `${EMPLOYEE_KENNELS}`,

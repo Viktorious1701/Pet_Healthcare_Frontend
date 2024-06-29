@@ -110,7 +110,7 @@ const AppointmentManagement: React.FC = () => {
                 <TableCell className="font-medium">{appointment.appointmentId}</TableCell>
                 <TableCell className="font-medium">{appointment.pet}</TableCell>
                 <TableCell>{appointment.vet}</TableCell>
-                <TableCell>{`${new Date(appointment.slotStartTime).toLocaleTimeString()} - ${new Date(appointment.slotEndTime).toLocaleTimeString()}`}</TableCell>
+                <TableCell>{`${appointment.slotStartTime} - ${appointment.slotEndTime}`}</TableCell>
                 <TableCell>{appointment.service}</TableCell>
                 <TableCell>{appointment.date}</TableCell>
                 <TableCell>
