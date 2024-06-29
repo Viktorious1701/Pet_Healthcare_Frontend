@@ -7,6 +7,23 @@
     <title>Pet Healthcare System</title>
   </head>
   <body>
+    <script>
+      (function(d,t) {
+        var BASE_URL="https://chatwoot.pet88.site";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        g.defer = true;
+        g.async = true;
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'aS5jFR8ZrbLc7ZVFVV9PJBvb',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,"script");
+    </script>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
