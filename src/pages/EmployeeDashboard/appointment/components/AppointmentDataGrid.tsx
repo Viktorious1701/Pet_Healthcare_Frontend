@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -5,7 +6,7 @@ import {
   GridColDef,
   GridRowId,
 } from "@mui/x-data-grid";
-import { DeleteIcon, DollarSignIcon } from "lucide-react";
+import { DeleteIcon, DollarSignIcon, CheckIcon } from "lucide-react";
 import { toast } from "sonner";
 import { AppointmentGet } from "@/Models/Appointment";
 import { deleteAppointmentByID } from "@/Services/AppointmentService";
@@ -14,12 +15,14 @@ interface AppointmentDataGridProps {
   appointments: AppointmentGet[];
   onAppointmentDelete: (appointment: AppointmentGet) => void;
   onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void;
+  onCheckInAppointment: (appointmentId: number) => void; // Add the check-in prop
 }
 
 const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   appointments,
   onAppointmentDelete,
   onCashoutAppointment,
+  onCheckInAppointment, // Add the check-in prop
 }) => {
   const handleDeleteClick = (id: GridRowId) => () => {
     const appointmentToDelete = appointments.find(a => a.appointmentId === Number(id));
@@ -31,12 +34,9 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         })
         .catch(_error => {
           toast.error("Failed to delete appointment", _error);
-          // Returning here is optional since there's no further code execution after the catch block
         });
     }
   };
-  
-  
 
   const handleCashoutClick = (id: GridRowId) => async () => {
     const appointmentToCashout = appointments.find(a => a.appointmentId === Number(id));
@@ -47,6 +47,23 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     }
   };
 
+  const handleCheckInClick = (id: GridRowId) => () => {
+    onCheckInAppointment(Number(id));
+  };
+  const getPaymentStatus = (status: number | null) => {
+    switch (status) {
+      case 0:
+        return "Pending";
+      case 1:
+        return "Paid";
+      case 2:
+        return "Refunded";
+      case 3:
+        return "Cancelled";
+      default:
+        return "Not Settled";
+    }
+  };
   const columns: GridColDef[] = [
     {
       field: "appointmentId",
@@ -98,6 +115,19 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
       editable: false,
     },
     {
+      field: "status",
+      headerName: "Status",
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "paymentStatus",
+      headerName: "Payment Status",
+      width: 150,
+      editable: false,
+      valueGetter: (params: any) => getPaymentStatus(params.value),
+    },
+    {
       field: "actions",
       headerName: "Actions",
       type: "actions",
@@ -113,6 +143,12 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
           label="Cashout"
           color="inherit"
           onClick={handleCashoutClick(id)}
+        />,
+        <GridActionsCellItem
+          icon={<CheckIcon />}
+          label="Check In"
+          color="inherit"
+          onClick={handleCheckInClick(id)}
         />,
       ],
     },
