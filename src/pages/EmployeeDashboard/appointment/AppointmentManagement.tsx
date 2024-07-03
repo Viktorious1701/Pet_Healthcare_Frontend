@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Tooltip } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { AppointmentGet } from "@/Models/Appointment";
 import AppointmentDataGrid from "./components/AppointmentDataGrid";
 import { appointmentGetAPI, appointmentCheckInAPI } from "@/Services/AppointmentService";
@@ -17,7 +17,7 @@ const AppointmentManagement: React.FC = () => {
   const getAppointments = async () => {
     try {
       const res = await appointmentGetAPI();
-      console.log("API response:", res); // Debugging line
+    
       if (res?.data) {
         setAppointments(res.data);
       }
@@ -61,14 +61,14 @@ const AppointmentManagement: React.FC = () => {
           </Grid>
           {/* Appointment Data Grid */}
           <Grid item xs={12}>
-            <Tooltip title="Payment Status Types: Pending, Paid, Refunded, Cancelled, Not Settled">
+            
             <AppointmentDataGrid
               appointments={appointments}
               onAppointmentDelete={handleAppointmentDelete}
               onCashoutAppointment={handleCashoutAppointment}
               onCheckInAppointment={handleCheckInAppointment} // Pass the check-in handler
             />
-            </Tooltip>
+            
           </Grid>
         </Grid>
       </Box>

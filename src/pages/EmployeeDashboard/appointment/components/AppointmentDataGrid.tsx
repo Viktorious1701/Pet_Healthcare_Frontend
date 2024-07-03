@@ -51,21 +51,6 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     onCheckInAppointment(Number(id));
   };
 
-  const getPaymentStatus = (status: number | null) => {
-    switch (status) {
-      case 0:
-        return "Pending";
-      case 1:
-        return "Paid";
-      case 2:
-        return "Refunded";
-      case 3:
-        return "Cancelled";
-      default:
-        return "Not Settled";
-    }
-  };
-
   const columns: GridColDef[] = [
     {
       field: "appointmentId",
@@ -133,7 +118,6 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
       headerName: "Payment Status",
       width: 150,
       editable: false,
-      valueGetter: (params: any) => getPaymentStatus(params.value),
     },
     {
       field: "actions",
