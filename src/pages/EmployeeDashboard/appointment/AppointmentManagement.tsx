@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Grid, Tooltip } from "@mui/material";
 import { AppointmentGet } from "@/Models/Appointment";
 import AppointmentDataGrid from "./components/AppointmentDataGrid";
-import { appointmentGetAPI } from "@/Services/AppointmentService";
+import { appointmentGetAPI, appointmentCheckInAPI } from "@/Services/AppointmentService";
 import { toast } from "sonner";
-import { cashoutAppointmentApi } from "@/Services/PaymentService"
+import { cashoutAppointmentApi } from "@/Services/PaymentService";
 
-const AppointmentManagement = () => {
+const AppointmentManagement: React.FC = () => {
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
 
   useEffect(() => {
@@ -33,12 +33,21 @@ const AppointmentManagement = () => {
 
   const handleCashoutAppointment = async (appointmentId: number, customerId: string, amount: number) => {
     try {
-      // Cashout appointment
-      await cashoutAppointmentApi(customerId, appointmentId, amount)
+      await cashoutAppointmentApi(customerId, appointmentId, amount);
       toast.success(`Appointment ${appointmentId} cashed out successfully`);
       getAppointments(); // Refresh appointments after cashout
     } catch (error: any) {
       toast.error("Failed to cashout appointment", error);
+    }
+  };
+
+  const handleCheckInAppointment = async (appointmentId: number) => {
+    try {
+      await appointmentCheckInAPI(appointmentId);
+      toast.success(`Appointment ${appointmentId} checked in successfully`);
+      getAppointments(); // Refresh appointments after check-in
+    } catch (error: any) {
+      toast.error("Failed to check in appointment", error);
     }
   };
 
@@ -48,25 +57,18 @@ const AppointmentManagement = () => {
         <Grid container spacing={2}>
           {/* Header Section */}
           <Grid item xs={12}>
-            {/* <Card className="h-full w-full">
-              <CardHeader
-                title="Appointment Management"
-                titleTypographyProps={{ variant: "h5", color: "primary" }}
-                action={
-                  <Button onClick={openModal} className="bg-custom-pink hover:bg-custom-darkPink">
-                    Add Appointment
-                  </Button>
-                }
-              />
-            </Card> */}
+            {/* Add your header section here if needed */}
           </Grid>
           {/* Appointment Data Grid */}
           <Grid item xs={12}>
+            <Tooltip title="Payment Status Types: Pending, Paid, Refunded, Cancelled, Not Settled">
             <AppointmentDataGrid
               appointments={appointments}
               onAppointmentDelete={handleAppointmentDelete}
               onCashoutAppointment={handleCashoutAppointment}
+              onCheckInAppointment={handleCheckInAppointment} // Pass the check-in handler
             />
+            </Tooltip>
           </Grid>
         </Grid>
       </Box>

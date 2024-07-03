@@ -59,6 +59,7 @@ import {
   APPOINTMENT_EDIT,
   EMPLOYEE_APPOINTMENT_MANAGE,
   APPOINTMENT_DIAGNOSIS,
+  RATE,
 } from "./router-const";
 
 import PetHealthTrack from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
@@ -79,6 +80,7 @@ import CancelAppointment from "../pages/CustomerDashboard/appointments/component
 import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
 import NotAuthorized from "@/pages/Errors/NotAuthorized";
 import AppointmentManagement from "@/pages/EmployeeDashboard/appointment/AppointmentManagement";
+import RateAppointment from "@/pages/CustomerDashboard/appointments/components/RateAppointment";
 
 const ProtectedVetDashboard = React.lazy(
   () => import("../pages/VetDashboard/ProtectedVetDashboard")
@@ -283,6 +285,10 @@ const RouterComponent = () => {
             {
               path: `${CUSTOMER_PROFILE}`,
               element: <Profile />, // Default component for customer dashboard
+            },
+            {
+              path: `${RATE}/:appointmentId`,
+              element: <RateAppointment />, // Default component for customer dashboard
             },
             {
               path: `${CUSTOMER_PET_LIST}`,
