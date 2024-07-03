@@ -50,6 +50,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   const handleCheckInClick = (id: GridRowId) => () => {
     onCheckInAppointment(Number(id));
   };
+
   const getPaymentStatus = (status: number | null) => {
     switch (status) {
       case 0:
@@ -64,6 +65,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         return "Not Settled";
     }
   };
+
   const columns: GridColDef[] = [
     {
       field: "appointmentId",
@@ -71,6 +73,12 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
       width: 200,
       sortable: true,
       filterable: true,
+    },
+    {
+      field: "customer",
+      headerName: "Customer",
+      width: 200,
+      editable: false,
     },
     {
       field: "pet",
