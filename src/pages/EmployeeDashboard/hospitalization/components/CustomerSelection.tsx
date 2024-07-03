@@ -31,11 +31,10 @@ const CustomerSelection: React.FC<CustomerSelectionProps> = ({ selectedCustomer,
       try {
         const response = await customerGetAPI('customer');
         const data = response?.data;
-        console.log('Fetched users:', data); // Debugging log
-        if (Array.isArray(data)) {
+        if (data && Array.isArray(data)) {
           setUsers(data);
         } else {
-          console.error("Fetched data is not an array:", data);
+          console.error("Fetched data is not an array or is null:", data);
           setUsers([]);
         }
       } catch (error) {
@@ -46,10 +45,11 @@ const CustomerSelection: React.FC<CustomerSelectionProps> = ({ selectedCustomer,
 
     fetchUsers();
   }, []);
-  // check the users array
+
   useEffect(() => {
     console.log('Users state:', users);
   }, [users]);
+
   const handleChange = (event: SelectChangeEvent<string>) => {
     onChange(event.target.value);
   };
@@ -64,9 +64,7 @@ const CustomerSelection: React.FC<CustomerSelectionProps> = ({ selectedCustomer,
         MenuProps={MenuProps}
       >
         {users.length === 0 ? (
-          <MenuItem disabled>
-            No users available
-          </MenuItem>
+          <MenuItem disabled>No users available</MenuItem>
         ) : (
           users.map((user) => (
             <MenuItem key={user.userId} value={user.userName}>

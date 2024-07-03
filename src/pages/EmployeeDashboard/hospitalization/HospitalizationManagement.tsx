@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Hospitalization, HospitalizationPost } from "@/Models/Hospitalization";
 import HospitalizationDataGrid from "./components/HospitalizationDataGrid";
 import { hospitalizationListAPI, hospitalizationCreateAPI } from "@/Services/HospitalizationService";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import HospitalizationAddModal from "./components/HospitalizationAddModal";
 import { getPetById } from "@/Services/PetService";
 
