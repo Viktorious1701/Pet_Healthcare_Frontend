@@ -10,9 +10,10 @@ import {
   TextField,
 } from "@mui/material";
 import { HospitalizationPost } from "@/Models/Hospitalization"; // Adjust import path as per your structure
-import CustomerSelection from "./CustomerSelection"; // Ensure correct import path
-import PetSelection from "./PetSelection"; // Ensure correct import path
-import VetSelection from "./VetSelection"; // Ensure correct import path
+import CustomerSelection from "./CustomerSelection"
+import PetSelection from "./PetSelection"; 
+import VetSelection from "./VetSelection"; 
+import KennelSelection from "./KennelSelect"; 
 
 interface HospitalizationAddModalProps {
   open: boolean;
@@ -28,7 +29,7 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({
   const [selectedCustomer, setSelectedCustomer] = useState<string>("");
   const [selectedPet, setSelectedPet] = useState<string>("");
   const [selectedVet, setSelectedVet] = useState<string>("");
-  const [kennelId, setKennelId] = useState<string>("");
+  const [selectedKennel, setSelectedKennel] = useState<string>("");
   const [admissionDate, setAdmissionDate] = useState<string>("");
   const [dischargeDate, setDischargeDate] = useState<string>("");
 
@@ -45,11 +46,15 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({
     setSelectedVet(username);
   };
 
+  const handleKennelChange = (kennelId: string) => {
+    setSelectedKennel(kennelId);
+  };
+
   const handleAddHospitalization = () => {
     // Prepare new hospitalization object and pass to parent component
     const newHospitalization: HospitalizationPost = {
       petId: selectedPet,
-      kennelId: kennelId,
+      kennelId: selectedKennel,
       vetId: selectedVet,
       admissionDate: admissionDate,
       dischargeDate: dischargeDate,
@@ -80,11 +85,9 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({
             />
           </FormControl>
           <FormControl fullWidth>
-            <TextField
-              label="Kennel ID"
-              type="text"
-              value={kennelId}
-              onChange={(e) => setKennelId(e.target.value)}
+            <KennelSelection
+              selectedKennel={selectedKennel}
+              onChange={handleKennelChange}
             />
           </FormControl>
           <FormControl fullWidth>

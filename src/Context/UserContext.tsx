@@ -46,6 +46,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const updateAuthState = (userData: any) => {
+    console.log("updateAuthState", userData);
     localStorage.setItem('token', userData.token);
     localStorage.setItem('refreshToken', userData.refreshToken);
     localStorage.setItem('user', JSON.stringify(userData.user));
@@ -148,6 +149,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const isLoggedIn = () => !!user && !!token;
 
   const logout = () => {
+    console.log('logout');
     setUser(null);
     setToken(null);
     setRefreshToken(null);

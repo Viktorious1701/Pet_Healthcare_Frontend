@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { petsOfCustomerAPI } from '@/Services/PetService';
 import { PetGet } from '@/Models/Pet';
+import { toast } from 'sonner';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,14 +30,20 @@ const PetSelection: React.FC<PetSelectionProps> = ({ selectedCustomer, selectedP
 
   useEffect(() => {
     const fetchPets = async () => {
-      if (selectedCustomer) {
-        const response = await petsOfCustomerAPI(selectedCustomer);
-        const fetchedPets = response?.data ?? [];
-        console.log('Fetched pets:', fetchedPets); // Debugging log
-        setPets(fetchedPets);
+      if(selectedCustomer){
+        try {
+          const response = await petsOfCustomerAPI(selectedCustomer);
+          const petList = response?.data;
+          if(petList && Array.isArray(petList)){
+            setPets(petList);
+          }else{
+            setPets([]);
+          }
+        } catch (error) {
+          toast.error('Failed to fetch pets');
+        }
       }
-    };
-
+    }
     fetchPets();
   }, [selectedCustomer]);
 
