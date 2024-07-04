@@ -61,10 +61,27 @@ export const AddAPetAPI = async ( PetInfo:{
   gender: boolean;
   weight: number;
   imageURL: string;
+  imageFile: File | null;
 }) => {
   try {
-      const data = await axiosInstance.post(api, PetInfo);
-      return data;
+    const formData = new FormData();
+    formData.append("customerUsername", PetInfo.customerUsername);
+    formData.append("name", PetInfo.name);
+    formData.append("species", PetInfo.species);
+    formData.append("breed", PetInfo.breed);
+    formData.append("gender", PetInfo.gender.toString());
+    formData.append("weight", PetInfo.weight.toString());
+    formData.append("imageURL", PetInfo.imageURL);
+    if (PetInfo.imageFile) {
+      formData.append("imageFile", PetInfo.imageFile);
+    }
+
+    const data = await axiosInstance.post(api, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
   } catch (error) {
       handleError(error)
   }
