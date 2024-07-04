@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
-import { PetHealthTrack as PetHealthTrackDTO} from "@/Models/PetHealthTrack";
+import { PetHealthTrack as PetHealthTrackDTO } from "@/Models/PetHealthTrack";
 import { format } from "date-fns";
 import {
   Table,
@@ -13,9 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useTheme } from "@/components/vet_components/theme-provider";
 const PetHealthTrack: React.FC = () => {
   const { hospitalizationId } = useParams<{ hospitalizationId: string }>();
-  console.log(hospitalizationId);
   const navigate = useNavigate();
 
   const [healthTrack, setHealthTrack] = useState<PetHealthTrackDTO[]>([]);
@@ -23,13 +23,13 @@ const PetHealthTrack: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { theme } = useTheme();
   const itemsPerPage = 5; // Adjust as needed
 
   useEffect(() => {
     setLoading(true);
     const storedPetHealthTrack = sessionStorage.getItem("petHealthTrack");
-    if(storedPetHealthTrack){
+    if (storedPetHealthTrack) {
       setHealthTrack(JSON.parse(storedPetHealthTrack));
       setLoading(false);
       return;
@@ -57,10 +57,9 @@ const PetHealthTrack: React.FC = () => {
   if (error) return <div>{error}</div>;
 
   const filteredHealthTrack = statusFilter
-  ? healthTrack.filter((entry) => String(entry.status) === (statusFilter as string))
-  : healthTrack;
+    ? healthTrack.filter((entry) => String(entry.status) === (statusFilter as string))
+    : healthTrack;
 
-  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredHealthTrack.slice(indexOfFirstItem, indexOfLastItem);
@@ -82,23 +81,23 @@ const PetHealthTrack: React.FC = () => {
 
   return (
     <div className="p-6">
-      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2">
-        <h1 className="text-3xl font-bold text-white">Pet Health Track</h1>
+      <div className="flex items-center justify-between rounded-md p-2 bg-gray-800 text-white">
+        <h1 className="text-3xl font-bold">Pet Health Track</h1>
         <div className="flex items-center">
-        <Button
+          <Button
             onClick={() => navigate(-1)}
-            className="mr-4 bg-custom-darkPink text-custom-lightGrey"
+            className="mr-4 bg-gray-800 text-white"
           >
             Go Back
           </Button>
-          <label htmlFor="statusFilter" className="mr-2 text-white">
+          <label htmlFor="statusFilter" className="mr-2">
             Filter by Status:
           </label>
           <select
             id="statusFilter"
             value={statusFilter || ""}
             onChange={(e) => setStatusFilter(e.target.value as string || null)}
-            className="rounded-md px-2 py-1"
+            className="rounded-md px-2 py-1 bg-gray-700 text-white"
           >
             <option value="">All</option>
             <option value="0">Healthy</option>
@@ -107,7 +106,7 @@ const PetHealthTrack: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mt-4">
         <Table>
           <TableCaption>A list of your pet's health track.</TableCaption>
           <TableHeader>
@@ -121,7 +120,7 @@ const PetHealthTrack: React.FC = () => {
             {currentItems.map((entry, index) => (
               <TableRow
                 key={index}
-                className="even:bg-pink-50 odd:bg-pink-100"
+                className={`${theme === "light"? "even:bg-gray-50 odd:bg-white hover:bg-gray-200" : "even: bg-gray-700 odd:bg-slate-500"} `}
               >
                 <TableCell>
                   {entry.dateOnly ? format(new Date(entry.dateOnly), "MM/dd/yyyy") : "-"}
@@ -137,19 +136,19 @@ const PetHealthTrack: React.FC = () => {
           <Button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1 || currentPage === 0}
+            className="bg-gray-800 text-white"
           >
             Previous
           </Button>
           <Button
             onClick={() => paginate(currentPage + 1)}
             disabled={
-              currentPage ===
-              Math.ceil(filteredHealthTrack.length / itemsPerPage + 1)
+              currentPage === Math.ceil(filteredHealthTrack.length / itemsPerPage + 1)
             }
+            className="bg-gray-800 text-white"
           >
             Next
-          </Button>{" "}
-          {/* add number 1 if items are 0 for division */}
+          </Button>
         </div>
       </div>
     </div>

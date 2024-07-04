@@ -90,7 +90,7 @@ const BookingForm: React.FC<BookingFormProps> = ({
       return;
     }
     if (user?.role === "Customer") {
-      if (!isAllowBook) {
+      if (!isAllowBook || appointments.length === 0) {
         await handleAppointment(formData);
       } else {
         toast.info("You still have an unfinished appointment");

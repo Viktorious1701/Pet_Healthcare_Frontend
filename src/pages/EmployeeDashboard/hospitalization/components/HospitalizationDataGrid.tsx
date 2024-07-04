@@ -107,12 +107,12 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       if (res?.data) {
         toast.success("Cashout successful");
         const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
-          row.hospitalizationId === id ? { ...row, totalCost: res.data.totalCost, cashedOut: true } : row
+          row.hospitalizationId === id ? { ...row, totalCost: res.data.amount, cashedOut: true } : row
         );
         setHospitalizationsWithPetNames(updatedHospitalizations);
       }
     } catch (error) {
-      toast.error("Cashout failed");
+      toast.error("Cashout failed, Hospitalization has been cashed out already");
     }
   };
 
@@ -183,6 +183,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       field: "actions",
       headerName: "Actions",
       type: "actions",
+      width: 150,
       getActions: ({ id, row }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 

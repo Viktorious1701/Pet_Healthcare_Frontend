@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import { AppointmentGet } from "@/Models/Appointment";
 import AppointmentDataGrid from "./components/AppointmentDataGrid";
-import { appointmentGetAPI, appointmentCheckInAPI } from "@/Services/AppointmentService";
+import { appointmentGetAPI, appointmentCheckInAPI, appointmentFinishAPI } from "@/Services/AppointmentService";
 import { toast } from "sonner";
 import { cashoutAppointmentApi } from "@/Services/PaymentService";
 
@@ -50,7 +50,15 @@ const AppointmentManagement: React.FC = () => {
       toast.error("Failed to check in appointment", error);
     }
   };
-
+  const handleFinishAppointment = async (appointmentId: number) => {
+    try {
+      await appointmentFinishAPI(appointmentId);
+      toast.success(`Appointment ${appointmentId} finished successfully`);
+      getAppointments(); // Refresh appointments after check-in
+    } catch (error: any) {
+      toast.error("Failed to finish appointment", error);
+    }
+  }
   return (
     <div className="m-10">
       <Box sx={{ flexGrow: 1 }}>
@@ -67,6 +75,7 @@ const AppointmentManagement: React.FC = () => {
               onAppointmentDelete={handleAppointmentDelete}
               onCashoutAppointment={handleCashoutAppointment}
               onCheckInAppointment={handleCheckInAppointment} // Pass the check-in handler
+              onFinishAppointment={handleFinishAppointment}
             />
             
           </Grid>
