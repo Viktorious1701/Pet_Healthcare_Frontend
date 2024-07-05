@@ -21,6 +21,7 @@ interface HospitalizationDataGridProps {
   hospitalizations: Hospitalization[];
   setHospitalizations: (hospitalizations: Hospitalization[]) => void;
   onHospitalizationDelete: (hospitalization: Hospitalization) => void;
+  onHospitalizationCashout: (hospitalizationId: number, customerId: string) => Promise<void>;
 }
 
 const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
@@ -52,6 +53,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
     };
 
     fetchPetNames();
+    console.log(hospitalizationsWithPetNames);
   }, [hospitalizations]);
 
   const handleHospitalizationUpdate = (
@@ -107,7 +109,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       if (res?.data) {
         toast.success("Cashout successful");
         const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
-          row.hospitalizationId === id ? { ...row, totalCost: res.data.amount, cashedOut: true } : row
+          row.hospitalizationId === id ? { ...row, paymentStatus: 1, cashedOut: true } : row
         );
         setHospitalizationsWithPetNames(updatedHospitalizations);
       }
@@ -176,8 +178,13 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       headerName: "Total Cost",
       width: 150,
       editable: false,
-      cellClassName: (params) =>
-        params.row.cashedOut ? 'green-cell' : '',
+    },
+    {
+      field: "paymentStatus",
+      headerName: "Payment Status",
+      width: 150,
+      editable: false,
+      
     },
     {
       field: "actions",
