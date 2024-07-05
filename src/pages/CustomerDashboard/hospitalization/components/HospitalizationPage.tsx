@@ -22,7 +22,7 @@ import { PetGet } from "@/Models/Pet";
 import { petsOfCustomerAPI } from "@/Services/PetService";
 import { useAuth } from "@/Context/useAuth";
 import { toast } from "sonner";
-import { useTheme } from '@/components/vet_components/theme-provider'; // Assuming a custom hook for theme management
+import { useTheme } from "@/components/vet_components/theme-provider"; // Assuming a custom hook for theme management
 
 const calculateTotalCost = (
   admissionDate: string,
@@ -41,62 +41,68 @@ const calculateTotalCost = (
 const HospitalizationPage: React.FC = () => {
   const { user } = useAuth();
   const { theme } = useTheme(); // Assuming a custom hook to get the current theme
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>(
+    []
+  );
   const [pets, setPets] = useState<PetGet[]>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
-  const getPets = async () => {
-    await petsOfCustomerAPI(String(user?.userName))
-    .then((res) => {
-      if (res?.data) {
-        setPets(res.data);
-      }
-    })
-    .catch((e) => {
-      toast.error("Server error occurred", e);
-    })
-  }
-
-  const getHospitalization = async () => {
-    await hospitalizationListAPI()
-      .then((res) => {
-        if (res?.data) {
-          const hospitalizationsWithPets = res.data?.map(
-            (hospitalization: Hospitalization) => {
-              const petRes = pets?.find((pet) => hospitalization.petId == pet.id);
-              return {
-                ...hospitalization,
-                petName: petRes?.name, // Assuming the pet object has a 'name' field
-              };
-            }
-          );
-          setHospitalizations(hospitalizationsWithPets);
-          sessionStorage.setItem("hospitalizations", JSON.stringify(hospitalizationsWithPets));
-        } else {
-          setHospitalizations([]);
-        }
-      })
-      .catch((error) => {
-        console.log("Error occurred:", error);
-        setHospitalizations([]);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
     setLoading(true);
+    const getPets = async () => {
+      await petsOfCustomerAPI(String(user?.userName))
+        .then((res) => {
+          if (res?.data) {
+            setPets(res.data);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server error occurred", e);
+        });
+    };
+
     const storedHospitalizations = sessionStorage.getItem("hospitalizations");
     if (storedHospitalizations) {
       setHospitalizations(JSON.parse(storedHospitalizations));
       setLoading(false);
-    } 
+    }
     getPets();
-  }, []);
+  }, [user?.userName]);
 
   useEffect(() => {
+    const getHospitalization = async () => {
+      await hospitalizationListAPI()
+        .then((res) => {
+          if (res?.data) {
+            const hospitalizationsWithPets = res.data?.map(
+              (hospitalization: Hospitalization) => {
+                const petRes = pets?.find(
+                  (pet) => hospitalization.petId == pet.id
+                );
+                return {
+                  ...hospitalization,
+                  petName: petRes?.name, // Assuming the pet object has a 'name' field
+                };
+              }
+            );
+            setHospitalizations(hospitalizationsWithPets);
+            sessionStorage.setItem(
+              "hospitalizations",
+              JSON.stringify(hospitalizationsWithPets)
+            );
+          } else {
+            setHospitalizations([]);
+          }
+        })
+        .catch((error) => {
+          console.log("Error occurred:", error);
+          setHospitalizations([]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
     getHospitalization();
   }, [pets]);
 
@@ -116,8 +122,16 @@ const HospitalizationPage: React.FC = () => {
   }
 
   return (
-    <div className={`p-6 ${theme === 'dark' ? 'bg-custom-darkGray text-white' : 'bg-white text-black'}`}>
-      <div className={`bg-pink-600 flex items-center justify-between rounded-md p-2 ${theme === 'dark' ? 'bg-custom-darkPink' : ''}`}>
+    <div
+      className={`p-6 ${
+        theme === "dark"
+          ? "bg-custom-darkGray text-white"
+          : "bg-white text-black"
+      }`}
+    >
+      <div
+        className={`bg-gray-700 flex items-center justify-between rounded-md p-2`}
+      >
         <h1 className="text-3xl font-bold text-white">
           Pet Hospitalization Status
         </h1>
@@ -142,14 +156,21 @@ const HospitalizationPage: React.FC = () => {
           </TableHeader>
           <TableBody>
             {filteredHospitalizations.map((hospitalization, index) => (
-              <TableRow key={index} className={`${index % 2 === 0 ? 'even:bg-pink-50' : 'odd:bg-pink-100'}`}>
+              <TableRow
+                key={index}
+                className={`${
+                  index % 2 === 0 ? "even:bg-gray-100" : "odd:bg-gray-200"
+                } ${
+                  theme === "dark" ? "hover:bg-gray-500" : "hover:bg-gray-300"
+                }`}
+              >
                 <TableCell className="font-medium">
                   {hospitalization.hospitalizationId}
                 </TableCell>
                 <TableCell>
                   <Link
                     to={`/${CUSTOMER_DASHBOARD}/${HOSPITALIZATION}/${hospitalization.hospitalizationId}`}
-                    className={`${theme === 'dark' ? 'text-custom-lightGray' : 'text-custom-pink'} hover:text-custom-darkPink underline`}
+                    className="text-blue-500 hover:text-blue-700 underline"
                   >
                     {hospitalization.petName}
                   </Link>
@@ -159,7 +180,7 @@ const HospitalizationPage: React.FC = () => {
                 <TableCell>
                   <Link
                     to={`/${CUSTOMER_DASHBOARD}/${KENNEL}/${hospitalization.kennelId}`}
-                    className={`${theme === 'dark' ? 'text-custom-lightGray' : 'text-custom-pink'} hover:text-custom-darkPink underline`}
+                    className="text-blue-500 hover:text-blue-700 underline"
                   >
                     {hospitalization.kennelId}
                   </Link>

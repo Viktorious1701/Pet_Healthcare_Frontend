@@ -29,6 +29,9 @@ const AppointmentManagement: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const appointmentsPerPage = 5;
 
+  // Filter state
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
+
   useEffect(() => {
     setLoading(true);
     const fetchAppointments = async () => {
@@ -59,11 +62,19 @@ const AppointmentManagement: React.FC = () => {
   // Pagination logic
   const indexOfLastAppointment = currentPage * appointmentsPerPage;
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
-  const currentAppointments = appointments.slice(
-    indexOfFirstAppointment,
-    indexOfLastAppointment
+
+  const currentAppointments = filterStatus
+    ? appointments.filter((appointment) => appointment.status === filterStatus).slice(
+        indexOfFirstAppointment,
+        indexOfLastAppointment
+      )
+    : appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
+  const totalPages = Math.ceil(
+    (filterStatus
+      ? appointments.filter((appointment) => appointment.status === filterStatus).length
+      : appointments.length) / appointmentsPerPage
   );
-  const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
+
 
   const handleCanceling = (appointmentId: string) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`);
@@ -92,6 +103,12 @@ const AppointmentManagement: React.FC = () => {
     }
   };
 
+
+  const handleFilterChange = (status: string | null) => {
+    setFilterStatus(status);
+    setCurrentPage(1);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -100,6 +117,34 @@ const AppointmentManagement: React.FC = () => {
     <div className="p-6">
       <div className="bg-gray-700 flex items-center justify-between rounded-md p-2">
         <h1 className="text-3xl font-bold text-white">Appointment History</h1>
+
+        <div className="flex space-x-2">
+          <Button
+            className="bg-gray-700 text-white"
+            onClick={() => handleFilterChange(null)}
+          >
+            All
+          </Button>
+          <Button
+            className="bg-gray-700 text-white"
+            onClick={() => handleFilterChange("Booked")}
+          >
+            Booked
+          </Button>
+          <Button
+            className="bg-gray-700 text-white"
+            onClick={() => handleFilterChange("Done")}
+          >
+            Done
+          </Button>
+          <Button
+            className="bg-gray-700 text-white"
+            onClick={() => handleFilterChange("Cancelled")}
+          >
+            Cancelled
+          </Button>
+        </div>
+
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -147,11 +192,8 @@ const AppointmentManagement: React.FC = () => {
                   <TableCell>{appointment.rating ?? "Not Rated"}</TableCell>
                   <TableCell>
                     <Button
-                      className={`mx-1 ${
-                        theme === "dark"
-                          ? "bg-gray-500"
-                          : "bg-gray-700"
-                      } hover:bg-gray-400 active:bg-gray-600 transform transition-transform duration-300 hover:scale-125 active:scale-110`}
+                      className={`mx-1 bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500 transform transition-transform duration-300 hover:scale-105 active:scale-95`}
+
                       onClick={() =>
                         handleCanceling(String(appointment.appointmentId))
                       }
@@ -162,7 +204,7 @@ const AppointmentManagement: React.FC = () => {
                   <TableCell>
                     <Button
                       onClick={() => handleRating(appointment.appointmentId)}
-                      className="bg-gray-700 hover:bg-gray-500 active:bg-gray-400"
+                      className="bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500 transform transition-transform duration-300 hover:scale-105 active:scale-95"
                     >
                       Rate
                     </Button>
@@ -183,7 +225,7 @@ const AppointmentManagement: React.FC = () => {
                   <Button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
-                    className="bg-gray-700"
+                    className="bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500"
                   >
                     Previous
                   </Button>
@@ -193,7 +235,8 @@ const AppointmentManagement: React.FC = () => {
                   <Button
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
-                    className="bg-gray-700"
+                    className="bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500"
+
                   >
                     Next
                   </Button>

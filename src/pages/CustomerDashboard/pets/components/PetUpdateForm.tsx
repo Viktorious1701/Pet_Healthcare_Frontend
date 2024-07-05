@@ -5,7 +5,7 @@ import { getPetById, updatePetData } from "@/Services/PetService";
 import { handleError } from "@/Helpers/ErrorHandler";
 import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from "@/Route/router-const";
 import { useTheme } from "@/components/vet_components/theme-provider"; // Import useTheme hook
-
+import  {toast} from "sonner"
 const PetUpdateForm: React.FC = () => {
   const { petId } = useParams<{ petId: string }>();
   const [editPet, setEditPet] = useState<PetGet | null>(null);
@@ -61,11 +61,11 @@ const PetUpdateForm: React.FC = () => {
         const dataToUpdate = { imageFile, ...formValues };
         console.log("dataToUpdate", dataToUpdate);
         await updatePetData(parseInt(petId, 10), dataToUpdate);
-        alert("Pet information updated successfully.");
+        toast.info("Pet information updated successfully.");
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
       } catch (err) {
         handleError(err);
-        alert("An error occurred while updating pet information.");
+        toast.error("An error occurred while updating pet information.");
       }
     }
   };

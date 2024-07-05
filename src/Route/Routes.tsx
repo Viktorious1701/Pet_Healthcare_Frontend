@@ -9,9 +9,9 @@ import NotFound from "@/pages/Errors/NotFound";
 import GeneralError from "@/pages/Errors/general-error";
 import MaintenanceError from "@/pages/Errors/maintenance-error";
 import EmployeeDashboard from "@/pages/EmployeeDashboard/EmployeeDashboard";
-import HospitalizationPage from "@/pages/CustomerPage/Hospitalization/HospitalizationPage";
-import PetHealthTrackDTO from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
-import KennelPage from "@/pages/CustomerPage/Hospitalization/Kennel";
+import HospitalizationPage from "@/pages/CustomerDashboard/hospitalization/components/HospitalizationPage";
+import PetHealthTrackDTO from "@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack";
+import KennelPage from "@/pages/CustomerDashboard/hospitalization/components/Kennel";
 // import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
 // import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
 // import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
@@ -62,7 +62,7 @@ import {
   RATE,
 } from "./router-const";
 
-import PetHealthTrack from "@/pages/CustomerPage/Hospitalization/PetHealthTrack";
+import PetHealthTrack from "@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack";
 import BookingPageEmployee from "@/pages/Booking/BookingPageEmployee";
 import KennelManagement from "@/pages/EmployeeDashboard/kennel/KennelManagement";
 import React from "react";
