@@ -27,6 +27,7 @@ export type AppointmentGet = {
     appointmentId: number,
     customer: string,
     pet: string,
+    petId: number,
     vet: string,
     slotStartTime: number,
     slotEndTime: number,

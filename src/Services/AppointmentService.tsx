@@ -10,7 +10,7 @@ import { AppointmentDetailGet } from "@/Models/AppointmentDetail";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/Appointment";
 const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
-const apiAppointmentDetails = "https://pethealthcaresystem.azurewebsites.net/api/AppointmentDetail/id";
+const apiAppointmentDetails = "https://pethealthcaresystem.azurewebsites.net/api/AppointmentDetail";
 
 export const appointmentGetAPI = async () => {
   try {
@@ -144,6 +144,27 @@ export const appointmentGetVetIdAPI = async () => {
     const response = await axiosInstance.get<string>(
       apiGetVet + `/Account/me`
     );
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const appointmentCountAPI = async () => {
+  try {
+    // Assuming the endpoint to fetch all appointments is `/appointments`
+    const response = await axiosInstance.get<AppointmentGet[]>(api + `/appointments`);
+    // Count the appointments by checking the length of the array
+    const count = response.data.length;
+    return count;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const appointmentPostAPI = async (appointmentDetails: { appointmentId: number; diagnosis: string; treatment: string; medication: string; }) => {
+  try {
+    const response = await axiosInstance.post<string>(apiAppointmentDetails, appointmentDetails);
     return response.data;
   } catch (error) {
     handleError(error);

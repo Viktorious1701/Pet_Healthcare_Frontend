@@ -4,7 +4,7 @@ import { Layout, LayoutHeader } from '../custom/layout'
 import { Button } from '../custom/button'
 import Nav from './nav'
 import { cn } from '@/lib/utils'
-import { sidelinks } from '../data/sidelinks'
+import { useDynamicSideLinks } from '../data/sidelinks'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean
@@ -102,7 +102,7 @@ export default function Sidebar2({
           className={`h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
-          links={sidelinks}
+          links={useDynamicSideLinks()}
         />
 
         {/* Scrollbar width toggle button */}

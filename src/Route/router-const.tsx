@@ -54,5 +54,7 @@ export const SCHEDULE_VET = "schedule-vet"
 export const APPOINTMENT_DETAILS = "appointment-details"
 export const APPOINTMENT_EDIT = "appointment-edit"
 export const APPOINTMENT_DIAGNOSIS = "appointment-diagnosis"
+export const APPOINTMENT_MEDICAL_RECORD = "appointment-medical-record"
+export const HOSPITALIZATION_VET = "hospitalization-vet"
 
 

@@ -42,155 +42,44 @@ import {
 } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
 import { useNavigate } from "react-router-dom"; // Updated import
+import { Hospitalization as HospitalizationModel } from "@/Models/Hospitalization";
+import { hospitalizationListVetAPI } from "@/Services/HospitalizationService";
+import { useEffect, useState } from "react";
+// Remove the import statement for 'PetHealthTrack'
+import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
+import { DataTableDemo2 } from "./DataTableDemo2";
 
 // Adjustments to switch from Payment to Appointment data model
-export type Appointment = {
-  appointmentId: number;
-  customer: string;
-  pet: string;
-  vet: string;
-  slotStartTime: string; // Ensure data passed to this is a string
-  slotEndTime: string; // Ensure data passed to this is a string
-  service: string;
-  date: string;
+export type Hospitalization = {
+  hospitalizationId: number;
+  petId: number;
+  kennelId: number;
+  vetId: number;
+  admissionDate: string;
+  dischargeDate: string;
+  petName: string;
+  kennelDescription: string;
+  vetName: string;
   totalCost: number;
-  status: string;
-  cancellationDate?: string;
-  refundAmount?: number;
-  rating?: number;
-  comment?: string;
+  paymentStatus: number;
 };
 
-// Adjust the columns definition to match the Appointment data model
-export const columns: ColumnDef<Appointment>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
-  {
-    accessorKey: "service",
-    header: "Service",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("service")}</div>
-    ),
-  },
-  {
-    accessorKey: "customer",
-    header: "Customer",
-    cell: ({ row }) => <div>{row.getValue("customer")}</div>,
-  },
-  {
-    accessorKey: "pet",
-    header: "Pet",
-    cell: ({ row }) => <div>{row.getValue("pet")}</div>,
-  },
-  {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-
-  {
-    accessorKey: "totalCost",
-    header: () => <div className="text-right">Total Cost</div>,
-    cell: ({ row }) => {
-      const totalCost = parseFloat(row.getValue("totalCost"));
-
-      // Format the totalCost as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(totalCost);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const appointment = row.original;
-
-      const navigate = useNavigate();
-
-      const openAppointmentEditForm = (appointmentId: number) => {
-        // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
-        const targetPath = `/vet/appointment-edit/${appointmentId}`;
-        console.log(`Navigating to: ${targetPath}`);
-        navigate(targetPath);
-      };
-
-      const openAppointmentAddForm = (appointmentId: number) => {
-        // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
-        const targetPath = `/vet/appointment-diagnosis/${appointmentId}`;
-        console.log(`Navigating to: ${targetPath}`);
-        navigate(targetPath);
-      };
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  appointment.appointmentId.toString()
-                )
-              }
-            >
-              Copy appointment ID
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => openAppointmentEditForm(appointment.appointmentId)}
-            >
-              View appointment details
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => openAppointmentAddForm(appointment.appointmentId)}
-            >
-              Add appointment details
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+export type PetHealthTrack = {
+  petHealthTrackId: number;
+  hospitalizationId: number; // Assuming a link to the Hospitalization type
+  petName: string;
+  petImage: string;
+  description: string;
+  date: string;
+  status: number; // Consider using an enum for clarity on status values
+};
 
 // Update the DataTableDemo component to use the Appointment data model
-export function DataTableDemo() {
+export function DataTableDemo({
+  onHospitalizationSelect,
+}: {
+  onHospitalizationSelect: (id: number) => void;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -198,36 +87,34 @@ export function DataTableDemo() {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [data, setData] = React.useState<Appointment[]>([]); // State to hold fetched data
+  const [data, setData] = React.useState<Hospitalization[]>([]); // State to hold fetched data
 
   // Function to fetch appointments and update state
-  const fetchAppointmentsAndUpdateState = async () => {
+  const fetchHospitalizationsAndUpdateState = async () => {
     try {
       const response = await appointmentGetVetIdAPI(); // Fetch the vet details
-      const vetId = (response as unknown as { userId: string }).userId; // Type assertion
-      if (vetId) {
-        const appointments: AppointmentGet[] | undefined =
-          await appointmentVetAPI(vetId); // Fetch appointments
-        if (appointments) {
-          const formattedAppointments: Appointment[] = appointments.map(
-            (appointment) => ({
-              appointmentId: appointment.appointmentId,
-              customer: appointment.customer,
-              pet: appointment.pet,
-              vet: appointment.vet,
-              slotStartTime: appointment.slotStartTime.toString(),
-              slotEndTime: appointment.slotEndTime.toString(),
-              service: appointment.service,
-              date: appointment.date,
-              totalCost: appointment.totalCost,
-              cancellationDate: appointment.cancellationDate,
-              refundAmount: appointment.refundAmount,
-              rating: appointment.rating,
-              comment: appointment.comment,
-              status: appointment.status,
-            })
-          );
-          setData(formattedAppointments); // Update state with fetched data
+      const vetName = (response as unknown as { userName: string }).userName; // Type assertion
+      //console.log("vetId:", vetName);
+      if (vetName) {
+        const hospitalization: Hospitalization[] | undefined =
+          await hospitalizationListVetAPI(vetName); // Fetch appointments
+        //console.log("hospitalization:", hospitalization);
+        if (hospitalization) {
+          const formattedHospitalization: Hospitalization[] =
+            hospitalization.map((hospitalization) => ({
+              hospitalizationId: hospitalization.hospitalizationId,
+              petId: hospitalization.petId,
+              kennelId: hospitalization.kennelId,
+              vetId: hospitalization.vetId,
+              admissionDate: hospitalization.admissionDate,
+              dischargeDate: hospitalization.dischargeDate,
+              totalCost: hospitalization.totalCost,
+              paymentStatus: hospitalization.paymentStatus,
+              petName: hospitalization.petName,
+              kennelDescription: hospitalization.kennelDescription,
+              vetName: hospitalization.vetName,
+            }));
+          setData(formattedHospitalization); // Update state with fetched data
         }
       }
     } catch (error) {
@@ -237,8 +124,100 @@ export function DataTableDemo() {
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchAppointmentsAndUpdateState();
+    fetchHospitalizationsAndUpdateState();
   }, []); // Empty dependency array means this effect runs once on mount
+
+  // Adjust the columns definition to match the Appointment data model
+  const columns: ColumnDef<Hospitalization>[] = [
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
+    {
+      accessorKey: "petName",
+      header: "Pet Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("petName")}</div>
+      ),
+    },
+    {
+      accessorKey: "vetName",
+      header: "Veterinarian",
+      cell: ({ row }) => <div>{row.getValue("vetName")}</div>,
+    },
+    {
+      accessorKey: "admissionDate",
+      header: "Admission Date",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("admissionDate")}</div>
+      ),
+    },
+    {
+      accessorKey: "dischargeDate",
+      header: "Discharge Date",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("dischargeDate")}</div>
+      ),
+    },
+    {
+      accessorKey: "kennelDescription",
+      header: "Kennel Description",
+      cell: ({ row }) => <div>{row.getValue("kennelDescription")}</div>,
+    },
+    {
+      accessorKey: "totalCost",
+      header: () => <div className="text-right">Total Cost</div>,
+      cell: ({ row }) => {
+        const totalCost = parseFloat(row.getValue("totalCost"));
+
+        // Format the totalCost as a dollar amount
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(totalCost);
+
+        return <div className="text-right font-medium">{formatted}</div>;
+      },
+    },
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const hospitalization = row.original;
+
+        return (
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() =>
+                onHospitalizationSelect(hospitalization.hospitalizationId)
+              }
+            >
+              View pet health track
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
 
   const table = useReactTable({
     data, // Use state variable for data
@@ -263,7 +242,7 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <span className="flex-1 text-[2rem] font-mont font-semibold ">
-          APPOINTMENTS
+          HOSPITALIZATION
         </span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

@@ -48,6 +48,7 @@ export type Appointment = {
   appointmentId: number;
   customer: string;
   pet: string;
+  petId: number;
   vet: string;
   slotStartTime: string; // Ensure data passed to this is a string
   slotEndTime: string; // Ensure data passed to this is a string
@@ -101,6 +102,11 @@ export const columns: ColumnDef<Appointment>[] = [
     accessorKey: "pet",
     header: "Pet",
     cell: ({ row }) => <div>{row.getValue("pet")}</div>,
+  },
+  {
+    accessorKey: "petId",
+    header: "PetID",
+    cell: ({ row }) => <div>{row.getValue("petId")}</div>,
   },
   {
     accessorKey: "date",
@@ -180,7 +186,7 @@ export const columns: ColumnDef<Appointment>[] = [
             <DropdownMenuItem
               onClick={() => openAppointmentAddForm(appointment.appointmentId)}
             >
-              Add appointment details
+              Add diagnosis
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -209,12 +215,14 @@ export function DataTableDemo() {
         const appointments: AppointmentGet[] | undefined =
           await appointmentVetAPI(vetId); // Fetch appointments
         if (appointments) {
+          console.log(appointments);
           const formattedAppointments: Appointment[] = appointments.map(
             (appointment) => ({
               appointmentId: appointment.appointmentId,
               customer: appointment.customer,
               pet: appointment.pet,
               vet: appointment.vet,
+              petId: appointment.petId,
               slotStartTime: appointment.slotStartTime.toString(),
               slotEndTime: appointment.slotEndTime.toString(),
               service: appointment.service,
@@ -263,7 +271,7 @@ export function DataTableDemo() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <span className="flex-1 text-[2rem] font-mont font-semibold ">
-          APPOINTMENTS
+          MEDICAL RECORDS
         </span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

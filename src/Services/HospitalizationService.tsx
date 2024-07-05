@@ -1,5 +1,5 @@
 import axiosInstance from "@/Helpers/axiosInstance";
-import { HospitalizationPost } from "@/Models/Hospitalization";
+import { Hospitalization, HospitalizationPost } from "@/Models/Hospitalization";
 import { toast } from "sonner";
 
 
@@ -9,6 +9,18 @@ export const hospitalizationListAPI = async () => {
   try {
     const data = await axiosInstance.get(api + `/hospitalization`);
     return data;
+  } catch (error) {
+    toast.error("Failed to fetch hospitalizations");
+    throw error;
+  }
+};
+
+export const hospitalizationListVetAPI = async (vetName: string) => {
+  try {
+    const response = await axiosInstance.get<Hospitalization[]>(
+      api + `/Hospitalization/VetName${vetName}`
+    );
+    return response.data; // return actual data
   } catch (error) {
     toast.error("Failed to fetch hospitalizations");
     throw error;

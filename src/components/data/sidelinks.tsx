@@ -1,184 +1,101 @@
-import { APPOINTMENT_DETAILS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
+import { useEffect, useState } from 'react';
 import {
+  IconBuildingHospital,
   IconCalendarWeek,
   IconDashboard,
   IconListCheck,
+  IconMedicalCross,
   IconSettings,
   IconUser,
-} from '@tabler/icons-react'
+} from '@tabler/icons-react';
+import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { APPOINTMENT_DETAILS, APPOINTMENT_MEDICAL_RECORD, COMING_SOON, HOSPITALIZATION_VET, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
 
-export interface NavLink {
-  title: string
-  label?: string
-  href: string
-  icon: JSX.Element
+interface NavLink {
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
 }
 
-export interface SideLink extends NavLink {
-  sub?: NavLink[]
+interface SideLink extends NavLink {
+  sub?: NavLink[];
 }
 
-export const sidelinks: SideLink[] = [
+const appointmentCountAPI = async (): Promise<number> => {
+  try {
+    const response = await appointmentGetVetIdAPI();
+    const vetId: { userId?: string | undefined } = typeof response === 'string' ? { userId: response } : response || {};
+    //console.log('vetId:', vetId);
+    const details = await appointmentVetAPI(vetId?.userId || '');
+    //console.log('details:', details?.length);
+    // Adjusted to access a 'count' property if that's what the API returns
+    //console.log('response.data:', response.data);
+    return details?.length || 0;
+  } catch (error) {
+    console.error('Error fetching appointment count:', error);
+    return 0;
+  }
+};
+
+const useDynamicSideLinks = () => {
+  const [sidelinks, setSidelinks] = useState<SideLink[]>([
     {
       title: 'Dashboard',
-      label: '',
       href: '',
       icon: <IconDashboard size={18} />,
     },
     {
       title: 'Schedule',
-      label: '',
       href: `${SCHEDULE_VET}`,
       icon: <IconCalendarWeek size={18} />,
     },
     {
       title: 'Appointment',
-      label: '',
       href: `${APPOINTMENT_DETAILS}`,
       icon: <IconListCheck size={18} />,
+      label: '',
+    },
+    {
+      title: 'Medical Records',
+      href: `${APPOINTMENT_MEDICAL_RECORD}`,
+      icon: <IconMedicalCross size={18} />,
+    },
+    {
+      title: 'Hospitalization',
+      href: `${HOSPITALIZATION_VET}`,
+      icon: <IconBuildingHospital size={18} />,
     },
     {
       title: 'Profile',
-      label: '',
       href: `${COMING_SOON}`,
       icon: <IconUser size={18} />,
     },
     {
-      title: 'Setting',
-      label: '',
+      title: 'Settings',
       href: `${SETTINGS_PROFILE}`,
       icon: <IconSettings size={18} />,
     },
-  // {
-  //   title: 'Dashboard',
-  //   label: '',
-  //   href: '/',
-  //   icon: <IconLayoutDashboard size={18} />,
-  // },
-  // {
-  //   title: 'Tasks',
-  //   label: '3',
-  //   href: '/tasks',
-  //   icon: <IconChecklist size={18} />,
-  // },
-  // {
-  //   title: 'Chats',
-  //   label: '9',
-  //   href: '/chats',
-  //   icon: <IconMessages size={18} />,
-  // },
-  // {
-  //   title: 'Apps',
-  //   label: '',
-  //   href: '/apps',
-  //   icon: <IconApps size={18} />,
-  // },
-  // {
-  //   title: 'Authentication',
-  //   label: '',
-  //   href: '',
-  //   icon: <IconUserShield size={18} />,
-  //   sub: [
-  //     {
-  //       title: 'Sign In (email + password)',
-  //       label: '',
-  //       href: '/sign-in',
-  //       icon: <IconHexagonNumber1 size={18} />,
-  //     },
-  //     {
-  //       title: 'Sign In (Box)',
-  //       label: '',
-  //       href: '/sign-in-2',
-  //       icon: <IconHexagonNumber2 size={18} />,
-  //     },
-  //     {
-  //       title: 'Sign Up',
-  //       label: '',
-  //       href: '/sign-up',
-  //       icon: <IconHexagonNumber3 size={18} />,
-  //     },
-  //     {
-  //       title: 'Forgot Password',
-  //       label: '',
-  //       href: '/forgot-password',
-  //       icon: <IconHexagonNumber4 size={18} />,
-  //     },
-  //     {
-  //       title: 'OTP',
-  //       label: '',
-  //       href: '/otp',
-  //       icon: <IconHexagonNumber5 size={18} />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Users',
-  //   label: '',
-  //   href: '/users',
-  //   icon: <IconUsers size={18} />,
-  // },
-  // {
-  //   title: 'Requests',
-  //   label: '10',
-  //   href: '/requests',
-  //   icon: <IconRouteAltLeft size={18} />,
-  //   sub: [
-  //     {
-  //       title: 'Trucks',
-  //       label: '9',
-  //       href: '/trucks',
-  //       icon: <IconTruck size={18} />,
-  //     },
-  //     {
-  //       title: 'Cargos',
-  //       label: '',
-  //       href: '/cargos',
-  //       icon: <IconBoxSeam size={18} />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Analysis',
-  //   label: '',
-  //   href: '/analysis',
-  //   icon: <IconChartHistogram size={18} />,
-  // },
-  // {
-  //   title: 'Extra Components',
-  //   label: '',
-  //   href: '/extra-components',
-  //   icon: <IconComponents size={18} />,
-  // },
-  // {
-  //   title: 'Error Pages',
-  //   label: '',
-  //   href: '',
-  //   icon: <IconExclamationCircle size={18} />,
-  //   sub: [
-  //     {
-  //       title: 'Not Found',
-  //       label: '',
-  //       href: '/404',
-  //       icon: <IconError404 size={18} />,
-  //     },
-  //     {
-  //       title: 'Internal Server Error',
-  //       label: '',
-  //       href: '/500',
-  //       icon: <IconServerOff size={18} />,
-  //     },
-  //     {
-  //       title: 'Maintenance Error',
-  //       label: '',
-  //       href: '/503',
-  //       icon: <IconBarrierBlock size={18} />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: 'Settings',
-  //   label: '',
-  //   href: '/settings',
-  //   icon: <IconSettings size={18} />,
-  // },
-]
+  ]);
+
+  useEffect(() => {
+    const updateAppointmentCount = async () => {
+      const count = await appointmentCountAPI();
+      setSidelinks(sidelinks => sidelinks.map(link => {
+        if (link.title === 'Appointment') {
+          return { ...link, label: count.toString() };
+        }
+        return link;
+      }));
+    };
+
+    updateAppointmentCount();
+  }, []);
+
+  return sidelinks;
+};
+
+// Export the useDynamicSideLinks hook to allow external usage
+// eslint-disable-next-line react-refresh/only-export-components
+export { useDynamicSideLinks };
+export type { SideLink };

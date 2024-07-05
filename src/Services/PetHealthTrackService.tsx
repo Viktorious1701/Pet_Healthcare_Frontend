@@ -1,15 +1,17 @@
 import { PetHealthTrack } from "@/Models/PetHealthTrack";
 import axiosInstance from "@/Helpers/axiosInstance";
+import { handleError } from "@/Helpers/ErrorHandler";
 
 const apiBaseURL = "https://pethealthcaresystem.azurewebsites.net/api/PetHealthTrack";
 
 export const getPetHealthTrackByHospitalizationId = async (hospitalizationId: number) => {
   try {
-    const data = await axiosInstance.get<PetHealthTrack[]>(`${apiBaseURL}/hospitalization/${hospitalizationId}`);
-    return data;
+    const response = await axiosInstance.get<PetHealthTrack[]>(
+      apiBaseURL + `/hospitalization/${hospitalizationId}`
+    );
+    return response.data; // return actual data
   } catch (error) {
-    console.error("Error fetching pet health track:", error);
-    throw error;
+    handleError(error);
   }
 };
 

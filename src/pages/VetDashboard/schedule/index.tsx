@@ -15,7 +15,7 @@ import { useTheme } from "@/components/vet_components/theme-provider"; // replac
 import "./Theme.css";
 
 import { useNavigate } from "react-router-dom";
-import { APPOINTMENT_DETAILS } from "@/Route/router-const";
+import { APPOINTMENT_EDIT } from "@/Route/router-const";
 import {
   appointmentGetVetIdAPI,
   appointmentVetAPI,
@@ -36,6 +36,7 @@ const localizer = dateFnsLocalizer({
 const App: FC = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
+  const [appointmentId, setAppointmentId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -45,12 +46,15 @@ const App: FC = () => {
         const appointments = await appointmentVetAPI(vetId);
         console.log(appointments);
         if (appointments) {
+          setAppointmentId(appointments[0].appointmentId);
           const newEvents = appointments.map((appointment) => ({
+            id: appointment.appointmentId,
             title: appointment.service, // Assuming 'service' is a string that can serve as the title
             start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
             end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
             status: appointment.status,
           }));
+          console.log(newEvents);
           setEvents(newEvents);
         }
       }
@@ -58,9 +62,23 @@ const App: FC = () => {
     fetchAppointments();
   }, []);
 
-  const handleSelectEvent = () => {
-    navigate(`/vet/${APPOINTMENT_DETAILS}`);
+  const allEventIds = events.map(event => event.id);
+  console.log(allEventIds);
+
+  const handleSelectEvent = (selectedEvent: { id: string | number; }) => {
+    // Keep only the selected event by its id
+    console.log(selectedEvent);
+    const updatedEvents = events.filter(event => event.id === selectedEvent.id);
+  
+    // Update your state or context with the new events array
+    // This depends on how your events are stored (e.g., useState, useReducer, Redux)
+    setEvents(updatedEvents); // Assuming you have a state setter like this
+    navigate(`/vet/${APPOINTMENT_EDIT}/${selectedEvent.id || appointmentId}`);
   };
+
+  // const handleSelectEvent = () => {
+  //   navigate(`/vet/${APPOINTMENT_EDIT}/${events[0].id || appointmentId}`);
+  // };
 
   const { theme } = useTheme();
   const calendarStyle =
@@ -80,6 +98,9 @@ const App: FC = () => {
         </div>
       </LayoutHeader>
       <LayoutBody className={`flex flex-col ${themeClass}`} fixedHeight>
+        <span className="flex-1 text-[2rem] font-mont font-semibold mb-[1.2rem]">
+          SCHEDULE
+        </span>
         <Calendar
           defaultView="week"
           events={events}

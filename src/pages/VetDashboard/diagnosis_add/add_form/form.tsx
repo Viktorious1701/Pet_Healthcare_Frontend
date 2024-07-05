@@ -1,52 +1,55 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { appointmentDetailsAPI } from "@/Services/AppointmentService";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { appointmentPostAPI } from "@/Services/AppointmentService";
 
 const AppointmentForm = () => {
-  const [appointmentDetails, setAppointmentDetails] = useState({
-    appointmentId: 0,
-    diagnosis: "",
-    treatment: "",
-    medication: ""
-  });
-
+  // Extract appointmentId from URL
   const { appointmentId: urlAppointmentId } = useParams<{
     appointmentId: string;
   }>();
 
+  // Initialize form state with the appointmentId from the URL
+  const [appointmentDetails, setAppointmentDetails] = useState({
+    appointmentId: parseInt(urlAppointmentId || "", 10) || 0, // Provide a fallback empty string
+    diagnosis: "",
+    treatment: "",
+    medication: "",
+  });
+
+  // If the URL appointmentId changes, update the form state
   useEffect(() => {
-    const fetchAppointmentDetails = async () => {
-      try {
-        if (typeof urlAppointmentId === 'string') {
-          // urlAppointmentId is confirmed to be a string, safe to call appointmentDetailsAPI
-          const fetchedDetails = await appointmentDetailsAPI(urlAppointmentId);
-          if (fetchedDetails) {
-            setAppointmentDetails({
-              appointmentId: fetchedDetails.appointmentId,
-              diagnosis: fetchedDetails.diagnosis || "",
-              treatment: fetchedDetails.treatment || "",
-              medication: fetchedDetails.medication || ""
-            });
-          } else {
-            console.log("No matching appointment found");
-          }
-        } else {
-          // Handle the case where urlAppointmentId is undefined
-          console.error("Appointment ID is undefined");
-        }
-      } catch (error) {
-        console.error("Failed to fetch appointment details:", error);
-      }
-    };
-  
-    fetchAppointmentDetails();
-  }, [urlAppointmentId]); // Add urlAppointmentId as a dependency
+    setAppointmentDetails((prevState) => ({
+      ...prevState,
+      appointmentId: parseInt(urlAppointmentId || "", 10) || 0, // Provide a fallback empty string
+    }));
+  }, [urlAppointmentId]);
+
+  const handleInputChange = (e: { target: { id: unknown; value: unknown; }; }) => {
+    const { id, value } = e.target; // Use `id` to identify the input, assuming each input has a unique id corresponding to its state property
+    setAppointmentDetails(prevState => ({
+      ...prevState,
+      [String(id)]: value, // Convert `id` to a string before using it as a computed property name
+    }));
+  };
+
+  const handleAddAppointment = async () => {
+    if (!appointmentDetails.diagnosis || !appointmentDetails.treatment || !appointmentDetails.medication) {
+      alert('Please fill in all fields');
+      return;
+    }
+    const result = await appointmentPostAPI(appointmentDetails);
+    if (result) {
+      alert('Appointment added successfully');
+      // Reset form or handle success scenario
+    }
+  };
 
   return (
-    <form className="w-full p-10 bg-opacity-20 z-10 overflow-auto">
+    <form onSubmit={(e) => e.preventDefault()} className="w-full p-10 bg-opacity-20 z-10 overflow-auto">
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-4xl font-bold mb-6">
@@ -56,7 +59,10 @@ const AppointmentForm = () => {
         <CardContent>
           <div className="flex flex-wrap -mx-3">
             <div className="w-full px-3 mb-6">
-              <Label htmlFor="appointmentId" className="block text-xl font-normal">
+              <Label
+                htmlFor="appointmentId"
+                className="block text-xl font-normal"
+              >
                 Appointment ID
               </Label>
               <Input
@@ -64,6 +70,7 @@ const AppointmentForm = () => {
                 type="text"
                 readOnly
                 value={appointmentDetails.appointmentId.toString()}
+                onChange={handleInputChange}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -75,12 +82,7 @@ const AppointmentForm = () => {
                 id="diagnosis"
                 type="text"
                 value={appointmentDetails.diagnosis}
-                onChange={(e) =>
-                  setAppointmentDetails({
-                    ...appointmentDetails,
-                    diagnosis: e.target.value,
-                  })
-                }
+                onChange={handleInputChange}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -92,12 +94,7 @@ const AppointmentForm = () => {
                 id="treatment"
                 type="text"
                 value={appointmentDetails.treatment}
-                onChange={(e) =>
-                  setAppointmentDetails({
-                    ...appointmentDetails,
-                    treatment: e.target.value,
-                  })
-                }
+                onChange={handleInputChange}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
@@ -109,15 +106,15 @@ const AppointmentForm = () => {
                 id="medication"
                 type="text"
                 value={appointmentDetails.medication}
-                onChange={(e) =>
-                  setAppointmentDetails({
-                    ...appointmentDetails,
-                    medication: e.target.value,
-                  })
-                }
+                onChange={handleInputChange}
                 className="w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg"
               />
             </div>
+          </div>
+          <div className="flex justify-end mt-6">
+            <Button onClick={handleAddAppointment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Add Appointment
+            </Button>
           </div>
         </CardContent>
       </Card>

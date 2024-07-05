@@ -4,7 +4,7 @@ import { Layout, LayoutHeader } from '@/components/custom/layout'
 import { Button } from '@/components/custom/button'
 import Nav from '@/components/vet_components/nav'
 import { cn } from '@/lib/utils'
-import { sidelinks } from '@/components/data/sidelinks'
+import { useDynamicSideLinks } from '@/components/data/sidelinks'
 import paw from '@/assets/Paw2.svg'
 import { useAuthNavigation } from '@/Context/useAuthNavigation'
 
@@ -75,7 +75,7 @@ export default function Sidebar2({
           className={`h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
-          links={sidelinks}
+          links={useDynamicSideLinks()}
         />
 
         {/* Scrollbar width toggle button */}
