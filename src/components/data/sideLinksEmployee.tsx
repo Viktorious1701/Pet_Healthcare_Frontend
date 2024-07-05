@@ -39,7 +39,7 @@ export const sidelinks: SideLink[] = [
     icon: <IconUser size={18} />,
   },
   {
-    title: 'Hospitalized Pets',
+    title: 'Hospitalization',
     label: '',
     href: `/employee/${EMPLOYEE_HOSPITALIZED_PETS}`,
     icon: <IconHospital size={18} />,

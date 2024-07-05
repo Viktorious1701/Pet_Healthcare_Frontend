@@ -79,9 +79,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
   const isAllowBook = () => {
     var unfinishAppointment = appointments.some(
       (appointment) =>
-        appointment.status === "Booked" || appointment.status === "Processing"
+        appointment.status === "Boooked" || appointment.status === "Processing"
     );
-    return unfinishAppointment ? true : false;
+    return unfinishAppointment;
   };
 
   const onSubmit = async (formData: FormValues) => {
@@ -90,7 +90,8 @@ const BookingForm: React.FC<BookingFormProps> = ({
       return;
     }
     if (user?.role === "Customer") {
-      if (!isAllowBook) {
+      console.log("isAllow booking", isAllowBook());
+      if (!isAllowBook() || appointments.length === 0 ) {
         await handleAppointment(formData);
       } else {
         toast.info("You still have an unfinished appointment");

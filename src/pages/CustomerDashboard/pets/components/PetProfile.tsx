@@ -1,97 +1,131 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Card, CardContent, CardMedia, Typography, Grid, Button, CircularProgress } from "@mui/material";
 import { PetGet } from "@/Models/Pet";
 import { getPetById } from "@/Services/PetService";
 import { handleError } from "@/Helpers/ErrorHandler";
 import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from "@/Route/router-const";
-import { Button } from "@nextui-org/react";
-import { useTheme } from "@/components/vet_components/theme-provider"; // Import useTheme hook from your theme provider
+import { useTheme } from "@/components/vet_components/theme-provider";
 
 const PetProfile: React.FC = () => {
   const { petId } = useParams<{ petId: string }>();
   const navigate = useNavigate();
   const [petProfile, setPetProfile] = useState<PetGet | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { theme } = useTheme(); // Get current theme from theme provider
-
-  const fetchProfile = async () => {
-    if (petId) {
-      try {
-        const res = await getPetById(petId);
-        if (res?.data) {
-          setPetProfile(res.data);
-          sessionStorage.setItem("petProfile", JSON.stringify(res.data));
-        }
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-  };
+  const { theme } = useTheme();
 
   useEffect(() => {
-    setIsLoading(true);
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      if (petId) {
+        try {
+          const res = await getPetById(petId);
+          if (res?.data) {
+            setPetProfile(res.data);
+            sessionStorage.setItem("petProfile", JSON.stringify(res.data));
+          }
+        } catch (error) {
+          handleError(error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
     fetchProfile();
   }, [petId]);
 
   if (isLoading) {
     return (
-      <div className={`p-4 flex justify-center items-center h-full ${theme === 'dark' ? 'bg-custom-darkGray text-white' : 'bg-white text-black'}`}>
-        <h1 className="text-3xl font-bold text-custom-pink mb-4">Loading...</h1>
+      <div
+        className={`p-4 flex justify-center items-center h-full ${
+          theme === "dark" ? "bg-custom-darkGray text-white" : "bg-white text-black"
+        }`}
+      >
+        <CircularProgress />
       </div>
     );
   }
 
   if (!petProfile) {
     return (
-      <div className={`p-4 flex justify-center items-center h-full ${theme === 'dark' ? 'bg-custom-darkGray text-white' : 'bg-white text-black'}`}>
-        <h1 className="text-3xl font-bold text-custom-pink mb-4">Pet Profile Not Found</h1>
+      <div
+        className={`p-4 flex justify-center items-center h-full ${
+          theme === "dark" ? "bg-custom-darkGray text-white" : "bg-white text-black"
+        }`}
+      >
+        <Typography variant="h4">Pet Profile Not Found</Typography>
       </div>
     );
   }
 
   return (
-    <div className={`h-screen py-6 px-4 rounded-lg shadow-lg flex justify-center items-center ${theme === 'dark' ? 'bg-custom-darkGray' : 'bg-white'}`}>
-      <div className=" shadow-md rounded-lg overflow-hidden p-6 w-full max-w-3xl">
-        <h1 className={`text-3xl font-bold text-custom-pink mb-4 ${theme === 'dark' ? 'text-custom-lightPink' : ''}`}>Pet Profile</h1>
-        <img
-          src={petProfile.imageUrl}
+    <div
+      className={`h-screen py-6 px-4 flex justify-center items-center ${
+        theme === "dark" ? "bg-custom-darkGray" : "bg-white"
+      }`}
+    >
+      <Card
+        sx={{
+          maxWidth: 600,
+          backgroundColor: theme === "dark" ? "#333" : "#fff",
+          color: theme === "dark" ? "#fff" : "#000",
+        }}
+      >
+        <CardMedia
+          component="img"
+          sx={{ maxHeight: 500, objectFit: "cover", width: "100%", height: "auto", aspectRatio: '4/3' }}
+          image={petProfile.imageUrl}
           alt={petProfile.name}
-          className="w-full h-64 object-cover rounded-lg mb-4"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className={` shadow-lg rounded-lg p-4 ${theme === 'dark' ? 'text-black ' : 'text-white bg-gray-400'}`}>
-            <h2 className="text-2xl font-semibold mb-2">{petProfile.name}</h2>
-          </div>
-          <div className={` shadow-lg rounded-lg p-4 ${theme === 'dark' ? 'text-black' : 'text-white bg-gray-400'}`}>
-            <p className="text-lg">
-              <strong>Species:</strong> {petProfile.species}
-            </p>
-          </div>
-          <div className={` shadow-lg rounded-lg p-4 ${theme === 'dark' ? 'text-black' : 'text-white bg-gray-400'}`}>
-            <p className="text-lg">
-              <strong>Breed:</strong> {petProfile.breed}
-            </p>
-          </div>
-          <div className={` shadow-lg rounded-lg p-4 ${theme === 'dark' ? 'text-black' : 'text-white bg-gray-400'}`}>
-            <p className="text-lg">
-              <strong>Gender:</strong> {petProfile.gender ? "Male" : "Female"}
-            </p>
-          </div>
-          <div className={` shadow-lg rounded-lg p-4 ${theme === 'dark' ? 'text-black' : 'text-white bg-gray-400'}`}>
-            <p className="text-lg">
-              <strong>Weight:</strong> {petProfile.weight ? `${petProfile.weight} kg` : "Not Available"}
-            </p>
-          </div>
-        </div>
+        <CardContent>
+          <Typography
+            gutterBottom
+            variant="h4"
+            component="div"
+            sx={{ color: theme === "dark" ? "#ffcccb" : "#e91e63" }}
+          >
+            {petProfile.name}
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">
+                <strong>Species:</strong> {petProfile.species}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">
+                <strong>Breed:</strong> {petProfile.breed}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">
+                <strong>Gender:</strong> {petProfile.gender ? "Male" : "Female"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">
+                <strong>Weight:</strong> {petProfile.weight ? `${petProfile.weight} kg` : "Not Available"}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
         <Button
           onClick={() => navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)}
-          className={`mt-4 ${theme === 'dark' ? 'bg-custom-lightPink hover:bg-pink-700' : 'bg-custom-darkPink hover:bg-pink-700'} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+          sx={{
+            mt: 2,
+            mb: 2,
+            ml: 2,
+            backgroundColor: theme === "dark" ? "#ffcccb" : "#e91e63",
+            "&:hover": {
+              backgroundColor: theme === "dark" ? "#ff9999" : "#d81b60",
+            },
+            color: "#fff",
+          }}
         >
           Back to Pet List
         </Button>
-      </div>
+      </Card>
     </div>
   );
 };
