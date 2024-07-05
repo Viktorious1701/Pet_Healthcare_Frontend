@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -29,17 +29,19 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([]);
+  const prevHospitalizationsRef = useRef<Hospitalization[]>([]);
 
   useEffect(() => {
     const fetchPetNames = async () => {
       const updatedHospitalizations = await Promise.all(
         hospitalizations.map(async (hospitalization) => {
-          if (!hospitalization.petName) {
+          if (!hospitalization.petName || hospitalization.paymentStatus === null) {
             try {
               const petData = await getPetById(hospitalization.petId.toString());
               return {
                 ...hospitalization,
                 petName: petData?.data.name,
+                paymentStatus: hospitalization.paymentStatus === null ? 0 : hospitalization.paymentStatus,
               };
             } catch (error) {
               console.error(`Failed to fetch pet name for petId: ${hospitalization.petId}`);
@@ -51,7 +53,12 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       setHospitalizationsWithPetNames(updatedHospitalizations);
     };
 
-    fetchPetNames();
+    // Compare current and previous hospitalizations
+    if (JSON.stringify(prevHospitalizationsRef.current) !== JSON.stringify(hospitalizations)) {
+      fetchPetNames();
+      prevHospitalizationsRef.current = hospitalizations;
+    }
+
   }, [hospitalizations]);
 
   const handleHospitalizationUpdate = (
@@ -107,12 +114,12 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       if (res?.data) {
         toast.success("Cashout successful");
         const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
-          row.hospitalizationId === id ? { ...row, totalCost: res.data.totalCost, cashedOut: true } : row
+          row.hospitalizationId === id ? { ...row, paymentStatus: 1, cashedOut: true } : row
         );
         setHospitalizationsWithPetNames(updatedHospitalizations);
       }
     } catch (error) {
-      toast.error("Cashout failed");
+      toast.error("Cashout failed, Hospitalization has been cashed out already");
     }
   };
 
@@ -176,13 +183,18 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       headerName: "Total Cost",
       width: 150,
       editable: false,
-      cellClassName: (params) =>
-        params.row.cashedOut ? 'green-cell' : '',
+    },
+    {
+      field: "paymentStatus",
+      headerName: "Payment Status",
+      width: 150,
+      editable: false,
     },
     {
       field: "actions",
       headerName: "Actions",
       type: "actions",
+      width: 150,
       getActions: ({ id, row }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 

@@ -37,7 +37,7 @@ const Pets = () => {
           <div className="flex items-center space-x-2">
             <Button
               onClick={handleAdd}
-              className="bg-custom-pink hover:scale-110 transform transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded"
+              className="bg-gray-700 hover:scale-110 transform transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded"
             >
               Add a pet profile
             </Button>

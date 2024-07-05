@@ -6,5 +6,6 @@ export type PetGet = {
     breed: string,
     gender: boolean,
     weight: number,
-    imageUrl: string
+    imageUrl: string,
+    imageFile: File | null
 };

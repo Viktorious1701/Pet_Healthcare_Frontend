@@ -74,6 +74,7 @@ const HospitalizationManagement = () => {
     setIsModalOpen(false);
   };
 
+
   return (
     <div className="m-10">
       <Box sx={{ flexGrow: 1 }}>
