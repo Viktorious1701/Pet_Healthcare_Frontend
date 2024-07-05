@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Box } from "@mui/material";
 import {
   DataGrid,
@@ -29,17 +29,19 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([]);
+  const prevHospitalizationsRef = useRef<Hospitalization[]>([]);
 
   useEffect(() => {
     const fetchPetNames = async () => {
       const updatedHospitalizations = await Promise.all(
         hospitalizations.map(async (hospitalization) => {
-          if (!hospitalization.petName) {
+          if (!hospitalization.petName || hospitalization.paymentStatus === null) {
             try {
               const petData = await getPetById(hospitalization.petId.toString());
               return {
                 ...hospitalization,
                 petName: petData?.data.name,
+                paymentStatus: hospitalization.paymentStatus === null ? 0 : hospitalization.paymentStatus,
               };
             } catch (error) {
               console.error(`Failed to fetch pet name for petId: ${hospitalization.petId}`);
@@ -51,9 +53,13 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       setHospitalizationsWithPetNames(updatedHospitalizations);
     };
 
-    fetchPetNames();
-    console.log(hospitalizationsWithPetNames);
-  }, [hospitalizations, hospitalizationsWithPetNames]);
+    // Compare current and previous hospitalizations
+    if (JSON.stringify(prevHospitalizationsRef.current) !== JSON.stringify(hospitalizations)) {
+      fetchPetNames();
+      prevHospitalizationsRef.current = hospitalizations;
+    }
+
+  }, [hospitalizations]);
 
   const handleHospitalizationUpdate = (
     hospitalizationId: number,
@@ -183,7 +189,6 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       headerName: "Payment Status",
       width: 150,
       editable: false,
-      
     },
     {
       field: "actions",
