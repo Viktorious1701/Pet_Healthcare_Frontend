@@ -42,7 +42,7 @@ const KennelPage: React.FC = () => {
 
   return (
     <div className="flex">
-     
+      
       <div className="p-6 flex-grow">
         <Button
           onClick={() => navigate(-1)}

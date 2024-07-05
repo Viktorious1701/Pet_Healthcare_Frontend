@@ -20,17 +20,7 @@ export const appointmentGetAPI = async () => {
     handleError(error);
   }
 }
-export const appointmentFinishAPI = async (appointmentId: number) => {
-  try {
-    const data = await axiosInstance.put(api + `/update-appointment-status`,{
-      appointmentId: appointmentId,
-      status: "Done"
-    });
-    return data;
-  } catch (error) {
-    handleError(error);
-  }
-}
+
 export const deleteAppointmentByID = async (appointmentId: number) => {
   try {
     const data = await axiosInstance.delete(api + `/${appointmentId}`);

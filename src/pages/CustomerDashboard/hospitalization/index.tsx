@@ -1,5 +1,6 @@
 
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
+import { Search } from "@/components/customer_components/search";
 import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { UserNav } from "@/components/customer_components/user-nav";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +13,7 @@ const Hospitalization = () => {
       {/* ===== Top Heading ===== */}
       <LayoutHeader>
         <div className="ml-auto flex items-center space-x-4">
-
+          <Search />
           <ThemeSwitch />
           <UserNav />
         </div>

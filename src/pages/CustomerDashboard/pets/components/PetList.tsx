@@ -90,7 +90,7 @@ const PetList: React.FC = () => {
 
   return (
     <div className="py-6 px-4 rounded-lg shadow-lg h-[70vh]">
-      <div className="bg-gray-700 flex items-center justify-between rounded-md p-2 mb-3">
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2 mb-3">
         <h1 className="text-2xl font-bold text-white">Pet List</h1>
         <SearchBar
           searchTerm={searchTerm}
@@ -133,7 +133,7 @@ const PetList: React.FC = () => {
                       className={`px-4 py-2 rounded transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis ${
                         theme === "dark"
                           ? "bg-custom-lightGray text-black border border-teal-500"
-                          : "bg-gray-800 text-white hover:bg-pink-900"
+                          : "bg-custom-darkPink text-white hover:bg-pink-700"
                       }`}
                     >
                       View
@@ -143,7 +143,7 @@ const PetList: React.FC = () => {
                       className={`px-4 py-2 rounded transition-colors duration-300 whitespace-nowrap overflow-hidden text-ellipsis ${
                         theme === "dark"
                           ? "bg-custom-lightGray text-black border border-teal-500"
-                          : "bg-gray-600 text-white hover:bg-pink-900"
+                          : "bg-custom-lightPink text-white hover:bg-pink-400"
                       }`}
                     >
                       Update

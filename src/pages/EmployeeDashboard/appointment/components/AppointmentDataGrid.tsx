@@ -6,9 +6,7 @@ import {
   GridColDef,
   GridRowId,
 } from "@mui/x-data-grid";
-
-import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from "lucide-react";
-
+import { DeleteIcon, DollarSignIcon, CheckIcon } from "lucide-react";
 import { toast } from "sonner";
 import { AppointmentGet } from "@/Models/Appointment";
 import { deleteAppointmentByID } from "@/Services/AppointmentService";
@@ -18,8 +16,6 @@ interface AppointmentDataGridProps {
   onAppointmentDelete: (appointment: AppointmentGet) => void;
   onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void;
   onCheckInAppointment: (appointmentId: number) => void; // Add the check-in prop
-  onFinishAppointment: (appointmentId: number) => void;
-
 }
 
 const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
@@ -27,8 +23,6 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   onAppointmentDelete,
   onCashoutAppointment,
   onCheckInAppointment, // Add the check-in prop
-  onFinishAppointment,
-
 }) => {
   const handleDeleteClick = (id: GridRowId) => () => {
     const appointmentToDelete = appointments.find(a => a.appointmentId === Number(id));
@@ -44,11 +38,11 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     }
   };
 
-  const handleCashoutClick = (id: GridRowId) => () => {
+  const handleCashoutClick = (id: GridRowId) => async () => {
     const appointmentToCashout = appointments.find(a => a.appointmentId === Number(id));
+    const customer = appointmentToCashout?.customer || "";
     if (appointmentToCashout) {
-      const customer = appointmentToCashout.customer || "";
-      const amount = appointmentToCashout.totalCost || 0; // Use 0 as default if totalCost is undefined
+      const amount = appointmentToCashout.totalCost; // Assuming totalCost is used for cashout amount
       onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount);
     }
   };
@@ -57,9 +51,6 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     onCheckInAppointment(Number(id));
   };
 
-  const handleFinishClick = (id: GridRowId) => () => {
-    onFinishAppointment(Number(id));
-  }
   const columns: GridColDef[] = [
     {
       field: "appointmentId",
@@ -131,7 +122,6 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     {
       field: "actions",
       headerName: "Actions",
-      width: 200,
       type: "actions",
       getActions: ({ id }) => [
         <GridActionsCellItem
@@ -147,17 +137,10 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
           onClick={handleCashoutClick(id)}
         />,
         <GridActionsCellItem
-
-          icon={<CalendarCheck2 />}
-          label="Check In"
-          color="inherit"
-          onClick={handleCheckInClick(id)}
-        />,
-        <GridActionsCellItem
           icon={<CheckIcon />}
           label="Check In"
           color="inherit"
-          onClick={handleFinishClick(id)}
+          onClick={handleCheckInClick(id)}
         />,
       ],
     },

@@ -124,7 +124,7 @@ const PetHealthTrack: React.FC = () => {
                 className="even:bg-pink-50 odd:bg-pink-100"
               >
                 <TableCell>
-                  {entry.dateOnly ? format(new Date(entry.dateOnly), "MM/dd/yyyy") : "-"}
+                  {entry.date ? format(new Date(entry.date), "MM/dd/yyyy") : "-"}
                 </TableCell>
                 <TableCell>{entry.description}</TableCell>
                 <TableCell>{getStatusString(String(entry.status))}</TableCell>

@@ -18,26 +18,25 @@ export function PetRecord() {
   const { user } = useAuth();
   const [pets, setPets] = useState<PetGet[]>([]);
 
-  
+  const getPets = async () => {
+    await petsOfCustomerAPI(String(user?.userName))
+      .then((res) => {
+        if (res?.data) {
+          setPets(res.data);
+        }
+      })
+      .catch((e) => {
+        toast.error("Server error occurred", e);
+      });
+  };
 
   useEffect(() => {
-    const getPets = async () => {
-      await petsOfCustomerAPI(String(user?.userName))
-        .then((res) => {
-          if (res?.data) {
-            setPets(res.data);
-          }
-        })
-        .catch((e) => {
-          toast.error("Server error occurred", e);
-        });
-    };
     getPets();
-  }, [user?.userName]);
+  }, []);
 
   return (
     <Accordion type="single" collapsible className="w-full p-4">
-      <div className="bg-gray-700 flex items-center justify-between rounded-md p-2 mb-3">
+      <div className="bg-pink-600 flex items-center justify-between rounded-md p-2 mb-3">
         <h1 className="text-2xl font-bold text-white">Pet Medical Records</h1>
       </div>
       {pets.map((pet) => (
