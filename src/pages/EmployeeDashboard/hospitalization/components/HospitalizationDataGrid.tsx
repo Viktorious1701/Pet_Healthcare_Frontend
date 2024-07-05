@@ -21,7 +21,6 @@ interface HospitalizationDataGridProps {
   hospitalizations: Hospitalization[];
   setHospitalizations: (hospitalizations: Hospitalization[]) => void;
   onHospitalizationDelete: (hospitalization: Hospitalization) => void;
-  onHospitalizationCashout: (hospitalizationId: number, customerId: string) => Promise<void>;
 }
 
 const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
@@ -54,7 +53,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
 
     fetchPetNames();
     console.log(hospitalizationsWithPetNames);
-  }, [hospitalizations]);
+  }, [hospitalizations, hospitalizationsWithPetNames]);
 
   const handleHospitalizationUpdate = (
     hospitalizationId: number,

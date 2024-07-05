@@ -75,15 +75,6 @@ const HospitalizationManagement = () => {
   };
 
 
-  const handleHospitalizationCashout = async (hospitalizationId: number, customerId: string) => {
-    try {
-      await cashoutApi(customerId, hospitalizationId);
-      // Refresh the list of hospitalizations
-      await getHospitalizations();
-    } catch (error: any) {
-      throw error; // Rethrow the error to be caught in the HospitalizationDataGrid component
-    }
-  };
   return (
     <div className="m-10">
       <Box sx={{ flexGrow: 1 }}>
@@ -108,8 +99,6 @@ const HospitalizationManagement = () => {
               hospitalizations={hospitalizations}
               setHospitalizations={setHospitalizations}
               onHospitalizationDelete={handleHospitalizationDelete}
-              onHospitalizationCashout={handleHospitalizationCashout}
-            
             />
           </Grid>
         </Grid>
