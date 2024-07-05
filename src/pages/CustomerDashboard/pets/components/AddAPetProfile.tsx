@@ -20,6 +20,7 @@ interface PetInfo {
   gender: boolean;
   weight: number;
   imageURL: string;
+  imageFile: File | null;
 }
 
 const AddAPetProfile: React.FC = () => {
@@ -31,6 +32,7 @@ const AddAPetProfile: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<PetInfo>();
   const { theme } = useTheme(); // Get current theme from theme provider
 
@@ -38,6 +40,8 @@ const AddAPetProfile: React.FC = () => {
     if (username) {
       try {
         const newPet = { ...data, customerUsername: username };
+        console.log(newPet);
+        
         await AddAPetAPI(newPet);
 
         // Fetch current pets from session storage
@@ -242,17 +246,20 @@ const AddAPetProfile: React.FC = () => {
             </div>
             <div>
               <label
-                htmlFor="imageURL"
+                htmlFor="imageFile"
                 className={`block text-sm font-medium ${
                   theme === "dark" ? "text-gray-300" : "text-custom-darkPink"
                 }`}
               >
-                Image URL
+                Pet Image Profile
               </label>
               <input
-                type="text"
-                id="imageURL"
-                {...register("imageURL", { required: "Image URL is required" })}
+                type="file"
+                id="imageFile"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setValue("imageFile", file);
+                }}
                 className={`mt-1 block w-full rounded-md border ${
                   theme === "dark" ? "border-gray-700" : "border-pink-300"
                 } shadow-sm focus:border-${
@@ -261,9 +268,6 @@ const AddAPetProfile: React.FC = () => {
                   theme === "dark" ? "pink-200" : "pink-200"
                 } focus:ring-opacity-50`}
               />
-              {errors.imageURL && (
-                <span className="text-red-500">{errors.imageURL.message}</span>
-              )}
             </div>
             <Button
               type="submit"

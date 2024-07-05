@@ -62,6 +62,7 @@ const AppointmentManagement: React.FC = () => {
   // Pagination logic
   const indexOfLastAppointment = currentPage * appointmentsPerPage;
   const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+
   const currentAppointments = filterStatus
     ? appointments.filter((appointment) => appointment.status === filterStatus).slice(
         indexOfFirstAppointment,
@@ -73,6 +74,7 @@ const AppointmentManagement: React.FC = () => {
       ? appointments.filter((appointment) => appointment.status === filterStatus).length
       : appointments.length) / appointmentsPerPage
   );
+
 
   const handleCanceling = (appointmentId: string) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`);
@@ -101,6 +103,7 @@ const AppointmentManagement: React.FC = () => {
     }
   };
 
+
   const handleFilterChange = (status: string | null) => {
     setFilterStatus(status);
     setCurrentPage(1);
@@ -114,6 +117,7 @@ const AppointmentManagement: React.FC = () => {
     <div className="p-6">
       <div className="bg-gray-700 flex items-center justify-between rounded-md p-2">
         <h1 className="text-3xl font-bold text-white">Appointment History</h1>
+
         <div className="flex space-x-2">
           <Button
             className="bg-gray-700 text-white"
@@ -140,6 +144,7 @@ const AppointmentManagement: React.FC = () => {
             Cancelled
           </Button>
         </div>
+
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -188,6 +193,7 @@ const AppointmentManagement: React.FC = () => {
                   <TableCell>
                     <Button
                       className={`mx-1 bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500 transform transition-transform duration-300 hover:scale-105 active:scale-95`}
+
                       onClick={() =>
                         handleCanceling(String(appointment.appointmentId))
                       }
@@ -230,6 +236,7 @@ const AppointmentManagement: React.FC = () => {
                     onClick={handleNextPage}
                     disabled={currentPage === totalPages}
                     className="bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500"
+
                   >
                     Next
                   </Button>
