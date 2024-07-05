@@ -183,7 +183,6 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       headerName: "Payment Status",
       width: 150,
       editable: false,
-      
     },
     {
       field: "actions",
