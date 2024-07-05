@@ -17,13 +17,12 @@ const getStatusBadge = (status: string) => {
       return "bg-danger";
   }
 };
-const now = new Date();
 
 const IncomingAppointments: React.FC<IncomingAppointmentsProps> = ({
   appointments,
 }) => {
   appointments = appointments.filter(
-    (appointment) => new Date(appointment.date).getDate() >= now.getDate()
+    (appointment) => new Date(appointment.date) >= new Date()
   );
   return (
     <div className="space-y-2">
