@@ -15,19 +15,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { appointmentGetVetIdAPI } from "@/Services/AppointmentService";
-import { useNavigate } from "react-router-dom"; // Updated import
-import { hospitalizationListVetAPI } from "@/Services/HospitalizationService";
 import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
 
 export type PetHealthTrack = {
@@ -89,6 +78,7 @@ export function DataTableDemo2({
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
     fetchPetHealthTracksAndUpdateState();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]); // Now includes `id` in the dependency array
 
   const columns: ColumnDef<PetHealthTrack>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);

@@ -16,16 +16,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -38,16 +35,9 @@ import {
 } from "@/components/ui/table";
 import {
   appointmentGetVetIdAPI,
-  appointmentVetAPI,
 } from "@/Services/AppointmentService";
-import { AppointmentGet } from "@/Models/Appointment";
-import { useNavigate } from "react-router-dom"; // Updated import
-import { Hospitalization as HospitalizationModel } from "@/Models/Hospitalization";
 import { hospitalizationListVetAPI } from "@/Services/HospitalizationService";
-import { useEffect, useState } from "react";
 // Remove the import statement for 'PetHealthTrack'
-import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
-import { DataTableDemo2 } from "./DataTableDemo2";
 
 // Adjustments to switch from Payment to Appointment data model
 export type Hospitalization = {
