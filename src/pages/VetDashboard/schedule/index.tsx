@@ -100,7 +100,7 @@ const App: FC = () => {
           <UserNav />
         </div>
       </LayoutHeader>
-      <LayoutBody className={`flex flex-col ${themeClass}`} fixedHeight>
+      <LayoutBody className={`flex flex-col max-h-screen overflow-y-auto ${themeClass}`} fixedHeight>
         <span className="flex-1 text-[2rem] font-mont font-semibold mb-[1.2rem]">
           SCHEDULE
         </span>
