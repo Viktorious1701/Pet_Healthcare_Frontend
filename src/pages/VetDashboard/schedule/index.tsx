@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Calendar, dateFnsLocalizer, Event } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
@@ -43,7 +43,7 @@ interface CustomEvent {
 
 const App: FC = () => {
   const navigate = useNavigate();
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CustomEvent[]>([]);
   const [, setAppointmentId] = useState<number | null>(null);
 
   useEffect(() => {
