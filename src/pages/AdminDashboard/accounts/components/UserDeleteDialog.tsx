@@ -7,18 +7,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { DeleteIcon } from "lucide-react";
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
+import { DeleteIcon } from 'lucide-react'
 
 interface UserDeleteDialogProps {
-  onDeleteUser: () => void;
+  onDeleteUser: () => void
 }
 
-const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({
-  onDeleteUser,
-}) => {
+const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({ onDeleteUser }) => {
   return (
     // <GridActionsCellItem
     //     icon={<DeleteIcon />}
@@ -28,7 +26,7 @@ const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({
     //   />,
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant='ghost' size='icon'>
           <DeleteIcon />
         </Button>
       </AlertDialogTrigger>
@@ -36,18 +34,18 @@ const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete this
-            account and remove the account's data from our servers.
+            This action cannot be undone. This will permanently delete this account and remove the account's data from
+            our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-custom-lightCrimson text-white" onClick={onDeleteUser}>
+          <AlertDialogAction className='bg-custom-lightCrimson text-white' onClick={onDeleteUser}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
-export default UserDeleteDialog;
+  )
+}
+export default UserDeleteDialog

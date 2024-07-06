@@ -5,10 +5,7 @@ interface LocalStorageProps<T> {
   defaultValue: T
 }
 
-export default function useLocalStorage<T>({
-  key,
-  defaultValue,
-}: LocalStorageProps<T>) {
+export default function useLocalStorage<T>({ key, defaultValue }: LocalStorageProps<T>) {
   const [value, setValue] = useState<T>(() => {
     const storedValue = localStorage.getItem(key)
     return storedValue !== null ? (JSON.parse(storedValue) as T) : defaultValue

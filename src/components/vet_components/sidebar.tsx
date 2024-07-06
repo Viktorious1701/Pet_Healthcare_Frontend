@@ -11,11 +11,7 @@ interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Sidebar2({
-  className,
-  isCollapsed,
-  setIsCollapsed,
-}: SidebarProps) {
+export default function Sidebar2({ className, isCollapsed, setIsCollapsed }: SidebarProps) {
   const [navOpened, setNavOpened] = useState(false)
 
   /* Make body not scrollable when navBar is opened */
@@ -74,9 +70,7 @@ export default function Sidebar2({
               ></line>
               <span className='sr-only'>Website Name</span>
             </svg>
-            <div
-              className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
-            >
+            <div className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}>
               <span className='font-medium'>Shadcn Admin</span>
               <span className='text-xs'>Vite + ShadcnUI</span>
             </div>
@@ -112,10 +106,7 @@ export default function Sidebar2({
           variant='outline'
           className='absolute -right-5 top-1/2 hidden rounded-full md:inline-flex'
         >
-          <IconChevronsLeft
-            stroke={1.5}
-            className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`}
-          />
+          <IconChevronsLeft stroke={1.5} className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`} />
         </Button>
       </Layout>
     </aside>

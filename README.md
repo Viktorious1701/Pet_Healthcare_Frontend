@@ -13,7 +13,7 @@ Vite's out-of-the-box features like Hot Module Replacement (HMR) and optimized b
 
 ## 🛠️ ESLint Configuration
 
-We've set up some basic ESLint rules for development. For a production-ready application, we recommend expanding the ESLint configuration to enable type-aware lint rules. 
+We've set up some basic ESLint rules for development. For a production-ready application, we recommend expanding the ESLint configuration to enable type-aware lint rules.
 
 Here's how you can do it:
 
@@ -26,8 +26,8 @@ export default {
     ecmaVersion: 'latest',
     sourceType: 'module',
     project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+    tsconfigRootDir: __dirname
+  }
 }
 ```
 

@@ -1,18 +1,8 @@
 import { useState } from 'react'
-import {
-  IconAdjustmentsHorizontal,
-  IconSortAscendingLetters,
-  IconSortDescendingLetters,
-} from '@tabler/icons-react'
+import { IconAdjustmentsHorizontal, IconSortAscendingLetters, IconSortDescendingLetters } from '@tabler/icons-react'
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { Search } from '@/components/admin_components/search'
 import ThemeSwitch from '@/components/admin_components/theme-switch'
@@ -23,7 +13,7 @@ import { apps } from './data'
 const appText = new Map<string, string>([
   ['all', 'All Apps'],
   ['connected', 'Connected'],
-  ['notConnected', 'Not Connected'],
+  ['notConnected', 'Not Connected']
 ])
 
 export default function Apps() {
@@ -32,18 +22,8 @@ export default function Apps() {
   const [searchTerm, setSearchTerm] = useState('')
 
   const filteredApps = apps
-    .sort((a, b) =>
-      sort === 'ascending'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
-    )
-    .filter((app) =>
-      appType === 'connected'
-        ? app.connected
-        : appType === 'notConnected'
-          ? !app.connected
-          : true
-    )
+    .sort((a, b) => (sort === 'ascending' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)))
+    .filter((app) => (appType === 'connected' ? app.connected : appType === 'notConnected' ? !app.connected : true))
     .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()))
 
   return (
@@ -62,12 +42,8 @@ export default function Apps() {
       {/* ===== Content ===== */}
       <LayoutBody className='flex flex-col' fixedHeight>
         <div>
-          <h1 className='text-2xl font-bold tracking-tight'>
-            App Integrations
-          </h1>
-          <p className='text-muted-foreground'>
-            Here&apos;s a list of your apps for the integration!
-          </p>
+          <h1 className='text-2xl font-bold tracking-tight'>App Integrations</h1>
+          <p className='text-muted-foreground'>Here&apos;s a list of your apps for the integration!</p>
         </div>
         <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
           <div className='flex flex-col gap-4 sm:my-4 sm:flex-row'>
@@ -114,16 +90,9 @@ export default function Apps() {
         <Separator className='shadow' />
         <ul className='no-scrollbar grid gap-4 overflow-y-scroll pb-16 pt-4 md:grid-cols-2 lg:grid-cols-3'>
           {filteredApps.map((app) => (
-            <li
-              key={app.name}
-              className='rounded-lg border p-4 hover:shadow-md'
-            >
+            <li key={app.name} className='rounded-lg border p-4 hover:shadow-md'>
               <div className='mb-8 flex items-center justify-between'>
-                <div
-                  className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}
-                >
-                  {app.logo}
-                </div>
+                <div className={`flex size-10 items-center justify-center rounded-lg bg-muted p-2`}>{app.logo}</div>
                 <Button
                   variant='outline'
                   size='sm'

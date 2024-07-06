@@ -1,12 +1,12 @@
 export type ServicePost = {
-    name: string,
-    description: string,
-    cost: number
+  name: string
+  description: string
+  cost: number
 }
 
 export type ServiceGet = {
-    serviceId: number,
-    name: string,
-    description: string,
-    cost: number
+  serviceId: number
+  name: string
+  description: string
+  cost: number
 }
