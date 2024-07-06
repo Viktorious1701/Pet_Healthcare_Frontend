@@ -1,23 +1,23 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ProtectedRoutes from "./ProtectedRoutes";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import ProtectedRoutes from './ProtectedRoutes'
 // import Dashboard from "@/pages/AdminDashboard/Dashboard";
 // import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
-import BookingPage from "@/pages/Booking/BookingPage";
-import BookingSuccess from "@/pages/Booking/BookingSuccess";
-import AccountSettings from "@/pages/AccountSettings";
-import NotFound from "@/pages/Errors/NotFound";
-import GeneralError from "@/pages/Errors/general-error";
-import MaintenanceError from "@/pages/Errors/maintenance-error";
-import EmployeeDashboard from "@/pages/EmployeeDashboard/EmployeeDashboard";
-import HospitalizationPage from "@/pages/CustomerDashboard/hospitalization/components/HospitalizationPage";
-import PetHealthTrackDTO from "@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack";
-import KennelPage from "@/pages/CustomerDashboard/hospitalization/components/Kennel";
+import BookingPage from '@/pages/Booking/BookingPage'
+import BookingSuccess from '@/pages/Booking/BookingSuccess'
+import AccountSettings from '@/pages/AccountSettings'
+import NotFound from '@/pages/Errors/NotFound'
+import GeneralError from '@/pages/Errors/general-error'
+import MaintenanceError from '@/pages/Errors/maintenance-error'
+import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard'
+import HospitalizationPage from '@/pages/CustomerDashboard/hospitalization/components/HospitalizationPage'
+import PetHealthTrackDTO from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack'
+import KennelPage from '@/pages/CustomerDashboard/hospitalization/components/Kennel'
 // import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
 // import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
 // import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
 // import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 //import { Resize, useWindowDimensions } from "@/components/resize";
-import { Loader } from "lucide-react";
+import { Loader } from 'lucide-react'
 // import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
 import {
   ABOUT_PAGE,
@@ -58,35 +58,32 @@ import {
   CUSTOMER_PET_ADD,
   APPOINTMENT_EDIT,
   EMPLOYEE_APPOINTMENT_MANAGE,
-  APPOINTMENT_DIAGNOSIS,
   RATE,
   APPOINTMENT_MEDICAL_RECORD,
-  HOSPITALIZATION_VET,
-} from "./router-const";
+  HOSPITALIZATION_VET
+} from './router-const'
 
-import PetHealthTrack from "@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack";
-import BookingPageEmployee from "@/pages/Booking/BookingPageEmployee";
-import KennelManagement from "@/pages/EmployeeDashboard/kennel/KennelManagement";
-import React from "react";
-import ProtectedAdminDashboard from "@/pages/AdminDashboard/ProtectedAdminDashboard";
+import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack'
+import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee'
+import KennelManagement from '@/pages/EmployeeDashboard/kennel/KennelManagement'
+import React from 'react'
+import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard'
 
-import HospitalizationManagement from "@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement";
-import ProtectedCustomerDashboard from "@/pages/CustomerDashboard/ProtectedCustomerDashboard";
-import Pets from "@/pages/CustomerDashboard/pets";
-import PetProfile from "@/pages/CustomerDashboard/pets/components/PetProfile";
-import PetUpdateForm from "@/pages/CustomerDashboard/pets/components/PetUpdateForm";
-import Appointments from "@/pages/CustomerDashboard/appointments";
-import Hospitalization from "@/pages/CustomerDashboard/hospitalization";
-import Profile from "@/pages/CustomerDashboard/profile";
-import CancelAppointment from "../pages/CustomerDashboard/appointments/components/CancelAppointment";
-import AddAPetProfile from "@/pages/CustomerDashboard/pets/components/AddAPetProfile";
-import NotAuthorized from "@/pages/Errors/NotAuthorized";
-import AppointmentManagement from "@/pages/EmployeeDashboard/appointment/AppointmentManagement";
-import RateAppointment from "@/pages/CustomerDashboard/appointments/components/RateAppointment";
+import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement'
+import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard'
+import Pets from '@/pages/CustomerDashboard/pets'
+import PetProfile from '@/pages/CustomerDashboard/pets/components/PetProfile'
+import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateForm'
+import Appointments from '@/pages/CustomerDashboard/appointments'
+import Hospitalization from '@/pages/CustomerDashboard/hospitalization'
+import Profile from '@/pages/CustomerDashboard/profile'
+import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment'
+import AddAPetProfile from '@/pages/CustomerDashboard/pets/components/AddAPetProfile'
+import NotAuthorized from '@/pages/Errors/NotAuthorized'
+import AppointmentManagement from '@/pages/EmployeeDashboard/appointment/AppointmentManagement'
+import RateAppointment from '@/pages/CustomerDashboard/appointments/components/RateAppointment'
 
-const ProtectedVetDashboard = React.lazy(
-  () => import("../pages/VetDashboard/ProtectedVetDashboard")
-);
+const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'))
 
 const RouterComponent = () => {
   // const { width } = useWindowDimensions();
@@ -96,63 +93,63 @@ const RouterComponent = () => {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       lazy: async () => ({
-        Component: (await import("@/App")).default,
+        Component: (await import('@/App')).default
       }),
       children: [
         {
           path: `${HOME_PAGE}`,
           lazy: async () => ({
-            Component: (await import("@/pages/Home")).default,
-          }),
+            Component: (await import('@/pages/Home')).default
+          })
         },
         {
           path: `${HOSPITALIZATION_INTRO}`,
           lazy: async () => ({
-            Component: (await import("@/pages/HospitalizationService")).default,
-          }),
+            Component: (await import('@/pages/HospitalizationService')).default
+          })
         },
         {
           path: `${ABOUT_PAGE}`,
           lazy: async () => ({
-            Component: (await import("@/pages/About")).default,
-          }),
+            Component: (await import('@/pages/About')).default
+          })
         },
         {
           path: `${CONTACT}`,
           lazy: async () => ({
-            Component: (await import("@/pages/Contact")).default,
-          }),
+            Component: (await import('@/pages/Contact')).default
+          })
         },
         {
           path: `${LOGIN}`,
           lazy: async () => ({
-            Component: (await import("@/pages/Login")).default,
-          }),
+            Component: (await import('@/pages/Login')).default
+          })
         },
         {
           path: `${REGISTER}`,
           lazy: async () => ({
-            Component: (await import("@/pages/Register")).default,
-          }),
+            Component: (await import('@/pages/Register')).default
+          })
         },
         {
           path: `${FORGOT_PASS}`,
           lazy: async () => ({
-            Component: (await import("@/pages/ForgotPass")).default,
-          }),
+            Component: (await import('@/pages/ForgotPass')).default
+          })
         },
         {
           path: `${RESET_PASS}`,
           lazy: async () => ({
-            Component: (await import("@/pages/ResetPass")).default,
-          }),
+            Component: (await import('@/pages/ResetPass')).default
+          })
         },
         {
           path: `${ADMIN_DASHBOARD}`,
           element: (
-            <ProtectedRoutes allowedRoles={["Admin"]}>
+            <ProtectedRoutes allowedRoles={['Admin']}>
               <ProtectedAdminDashboard />
             </ProtectedRoutes>
           ),
@@ -160,14 +157,14 @@ const RouterComponent = () => {
             {
               path: `${ADMIN_ACCOUNT_PAGE}`,
               lazy: async () => ({
-                Component: (await import("@/pages/AdminDashboard/Accounts")).default,
-              }),
+                Component: (await import('@/pages/AdminDashboard/Accounts')).default
+              })
             },
             {
               path: `${ADMIN_APPOINTMENT}`,
               lazy: async () => ({
-                Component: (await import("@/pages/AdminDashboard/AppointmentDashboard")).default,
-              }),
+                Component: (await import('@/pages/AdminDashboard/AppointmentDashboard')).default
+              })
             },
             // {
             //   path: `${ADMIN_HOSPITALIZATION}`,
@@ -176,270 +173,218 @@ const RouterComponent = () => {
             {
               index: true,
               lazy: async () => ({
-                Component: (
-                  await import("../pages/AdminDashboard/dashboard/index")
-                ).default,
-              }),
+                Component: (await import('../pages/AdminDashboard/dashboard/index')).default
+              })
             },
             {
               path: `${ADMIN_ACCOUNTS}`,
               lazy: async () => ({
-                Component: (
-                  await import("@/pages/AdminDashboard/accounts/index")
-                ).default,
-              }),
+                Component: (await import('@/pages/AdminDashboard/accounts/index')).default
+              })
             },
             {
               path: `${SCHEDULE_VET}`,
               lazy: async () => ({
-                Component: (await import("@/pages/AdminDashboard/schedule"))
-                  .default,
-              }),
+                Component: (await import('@/pages/AdminDashboard/schedule')).default
+              })
             },
             {
               path: `${COMING_SOON}`,
               lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
-              }),
+                Component: (await import('@/components/coming-soon')).default
+              })
             },
             {
               path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
-                Component: (await import("../pages/AdminDashboard/settings"))
-                  .default,
+                Component: (await import('../pages/AdminDashboard/settings')).default
               }),
               errorElement: <GeneralError />,
               children: [
                 {
                   index: true,
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/AdminDashboard/settings/profile")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/AdminDashboard/settings/profile')).default
+                  })
                 },
                 {
-                  path: "account",
+                  path: 'account',
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/AdminDashboard/settings/account")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/AdminDashboard/settings/account')).default
+                  })
                 },
                 {
-                  path: "appearance",
+                  path: 'appearance',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/AdminDashboard/settings/appearance"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/AdminDashboard/settings/appearance')).default
+                  })
                 },
                 {
-                  path: "notifications",
+                  path: 'notifications',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/AdminDashboard/settings/notifications"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/AdminDashboard/settings/notifications')).default
+                  })
                 },
                 {
-                  path: "display",
+                  path: 'display',
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/AdminDashboard/settings/display")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/AdminDashboard/settings/display')).default
+                  })
                 },
                 {
-                  path: "error-example",
+                  path: 'error-example',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/AdminDashboard/settings/error-example"
-                      )
-                    ).default,
+                    Component: (await import('../pages/AdminDashboard/settings/error-example')).default
                   }),
-                  errorElement: <GeneralError className="h-[50svh]" minimal />,
-                },
-              ],
-            },
-          ],
+                  errorElement: <GeneralError className='h-[50svh]' minimal />
+                }
+              ]
+            }
+          ]
         },
 
         {
           path: `/${PAYMENT}`,
           lazy: async () => ({
-            Component: (await import("@/pages/Booking/PaymentPage")).default,
-          }),
+            Component: (await import('@/pages/Booking/PaymentPage')).default
+          })
         },
         {
           path: `/${CUSTOMER_DASHBOARD}`,
           element: (
-            <ProtectedRoutes allowedRoles={["Customer"]}>
+            <ProtectedRoutes allowedRoles={['Customer']}>
               <ProtectedCustomerDashboard />
             </ProtectedRoutes>
           ),
           children: [
             {
               path: `${CUSTOMER_PROFILE}`,
-              element: <Profile />, // Default component for customer dashboard
+              element: <Profile /> // Default component for customer dashboard
             },
             {
               path: `${RATE}/:appointmentId`,
-              element: <RateAppointment />, // Default component for customer dashboard
+              element: <RateAppointment /> // Default component for customer dashboard
             },
             {
               path: `${CUSTOMER_PET_LIST}`,
-              element: <Pets />, // Component for pet list
+              element: <Pets /> // Component for pet list
             },
             {
               path: `${CUSTOMER_PET_LIST}/:petId`,
-              element: <PetProfile />, // Component for pet profile
+              element: <PetProfile /> // Component for pet profile
             },
             {
               path: `${CUSTOMER_PET_ADD}`,
-              element: <AddAPetProfile />,
+              element: <AddAPetProfile />
             },
             {
               path: `${CUSTOMER_PET_UPDATE}/:petId`,
-              element: <PetUpdateForm />,
+              element: <PetUpdateForm />
             },
             {
               path: `${REFUND}/:appointmentId`,
-              element: <CancelAppointment />,
+              element: <CancelAppointment />
             },
             {
               path: `${CUSTOMER_APPOINTMENTS}`,
-              element: <Appointments />, // Component for appointment management
+              element: <Appointments /> // Component for appointment management
             },
             {
               path: `${CUSTOMER_HOSPITALIZATION_TABLE}`,
-              element: <Hospitalization />, // Component for hospitalization tracking
+              element: <Hospitalization /> // Component for hospitalization tracking
             },
             {
               path: `${HOSPITALIZATION}`,
-              element: <HospitalizationPage />,
+              element: <HospitalizationPage />
             },
             {
               path: `${HOSPITALIZATION}/:hospitalizationId`,
-              element: <PetHealthTrackDTO />,
+              element: <PetHealthTrackDTO />
             },
             {
               path: `${SETTINGS}`,
-              element: <AccountSettings />, // Component for account settings
+              element: <AccountSettings /> // Component for account settings
             },
             {
               path: `${HOSPITALIZATION}/:petName`,
-              element: <PetHealthTrack />,
+              element: <PetHealthTrack />
             },
 
             {
               path: `${KENNEL}/:kennelId`,
-              element: <KennelPage />,
+              element: <KennelPage />
             },
             {
               index: true,
               lazy: async () => ({
-                Component: (
-                  await import("../pages/CustomerDashboard/dashboard/index")
-                ).default,
-              }),
+                Component: (await import('../pages/CustomerDashboard/dashboard/index')).default
+              })
             },
             {
               path: `${SCHEDULE_VET}`,
               lazy: async () => ({
-                Component: (await import("@/pages/CustomerDashboard/schedule"))
-                  .default,
-              }),
+                Component: (await import('@/pages/CustomerDashboard/schedule')).default
+              })
             },
             {
               path: `${COMING_SOON}`,
               lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
-              }),
+                Component: (await import('@/components/coming-soon')).default
+              })
             },
             {
               path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
-                Component: (await import("../pages/CustomerDashboard/settings"))
-                  .default,
+                Component: (await import('../pages/CustomerDashboard/settings')).default
               }),
               errorElement: <GeneralError />,
               children: [
                 {
                   index: true,
-                  path: "",
+                  path: '',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/profile"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/CustomerDashboard/settings/profile')).default
+                  })
                 },
                 {
-                  path: "account",
+                  path: 'account',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/account"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/CustomerDashboard/settings/account')).default
+                  })
                 },
                 {
-                  path: "appearance",
+                  path: 'appearance',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/appearance"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/CustomerDashboard/settings/appearance')).default
+                  })
                 },
                 {
-                  path: "notifications",
+                  path: 'notifications',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/notifications"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/CustomerDashboard/settings/notifications')).default
+                  })
                 },
                 {
-                  path: "display",
+                  path: 'display',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/display"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/CustomerDashboard/settings/display')).default
+                  })
                 },
                 {
-                  path: "error-example",
+                  path: 'error-example',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/CustomerDashboard/settings/error-example"
-                      )
-                    ).default,
+                    Component: (await import('../pages/CustomerDashboard/settings/error-example')).default
                   }),
-                  errorElement: <GeneralError className="h-[50svh]" minimal />,
-                },
-              ],
-            },
-          ],
+                  errorElement: <GeneralError className='h-[50svh]' minimal />
+                }
+              ]
+            }
+          ]
         },
         {
           path: `${EMPLOYEE_DASHBOARD}`,
           element: (
-            <ProtectedRoutes allowedRoles={["Employee"]}>
+            <ProtectedRoutes allowedRoles={['Employee']}>
               <EmployeeDashboard />
             </ProtectedRoutes>
           ),
@@ -448,42 +393,40 @@ const RouterComponent = () => {
             {
               index: true,
               lazy: async () => ({
-                Component: (
-                  await import("../pages/EmployeeDashboard/dashboard/index")
-                ).default,
-              }),
+                Component: (await import('../pages/EmployeeDashboard/dashboard/index')).default
+              })
             },
             {
               path: `${EMPLOYEE_DASHBOARD}`,
-              element: <EmployeeDashboard />,
+              element: <EmployeeDashboard />
             },
             {
               path: `${EMPLOYEE_APPOINTMENT_BOOKING}`,
-              element: <BookingPageEmployee />,
+              element: <BookingPageEmployee />
             },
             {
               path: `${EMPLOYEE_APPOINTMENT_MANAGE}`,
-              element: <AppointmentManagement />,
+              element: <AppointmentManagement />
             },
             {
               path: `${EMPLOYEE_KENNELS}`,
-              element: <KennelManagement />,
+              element: <KennelManagement />
             },
             {
               path: `${EMPLOYEE_HOSPITALIZED_PETS}`,
-              element: <HospitalizationManagement />,
+              element: <HospitalizationManagement />
             },
             {
               path: `${SETTINGS}`,
-              element: <AccountSettings />, // Component for account settings
-            },
-          ],
+              element: <AccountSettings /> // Component for account settings
+            }
+          ]
         },
         // Main routes
         {
           path: `${VET_DASHBOARD}`,
           element: (
-            <ProtectedRoutes allowedRoles={["Vet"]}>
+            <ProtectedRoutes allowedRoles={['Vet']}>
               <ProtectedVetDashboard />
             </ProtectedRoutes>
           ),
@@ -492,162 +435,137 @@ const RouterComponent = () => {
             {
               index: true,
               lazy: async () => ({
-                Component: (await import("../pages/VetDashboard/dashboard"))
-                  .default,
-              }),
+                Component: (await import('../pages/VetDashboard/dashboard')).default
+              })
             },
             {
               path: `${APPOINTMENT_DETAILS}`,
               lazy: async () => ({
-                Component: (
-                  await import("@/pages/VetDashboard/appointment_details/index")
-                ).default,
-              }),
+                Component: (await import('@/pages/VetDashboard/appointment_details/index')).default
+              })
             },
             {
               path: `${APPOINTMENT_EDIT}/:appointmentId`,
               lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/appointment_view/index"))
-                  .default,
-              }),
-            },
-            {
-              path: `${APPOINTMENT_DIAGNOSIS}/:appointmentId`,
-              lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/diagnosis_add/index"))
-                  .default,
-              }),
-            },
-            {
-              path: `${APPOINTMENT_MEDICAL_RECORD}`,
-              lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/medical_record/index"))
-                  .default,
-              }),
+                Component: (await import('@/pages/VetDashboard/appointment_view/index')).default
+              })
             },
             {
               path: `${HOSPITALIZATION_VET}`,
               lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/hospitalization/index"))
-                  .default,
-              }),
+                Component: (await import('@/pages/VetDashboard/diagnosis_add/index')).default
+              })
+            },
+            {
+              path: `${APPOINTMENT_MEDICAL_RECORD}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/medical_record/index')).default
+              })
+            },
+            {
+              path: `${HOSPITALIZATION_VET}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/hospitalization/index')).default
+              })
             },
             {
               path: `${SCHEDULE_VET}`,
               lazy: async () => ({
-                Component: (await import("@/pages/VetDashboard/schedule"))
-                  .default,
-              }),
+                Component: (await import('@/pages/VetDashboard/schedule')).default
+              })
             },
             {
               path: `${COMING_SOON}`,
               lazy: async () => ({
-                Component: (await import("@/components/coming-soon")).default,
-              }),
+                Component: (await import('@/components/coming-soon')).default
+              })
             },
             {
               path: `${SETTINGS_PROFILE}`,
               lazy: async () => ({
-                Component: (await import("../pages/VetDashboard/settings"))
-                  .default,
+                Component: (await import('../pages/VetDashboard/settings')).default
               }),
               errorElement: <GeneralError />,
               children: [
                 {
                   index: true,
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/VetDashboard/settings/profile")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/VetDashboard/settings/profile')).default
+                  })
                 },
                 {
-                  path: "account",
+                  path: 'account',
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/VetDashboard/settings/account")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/VetDashboard/settings/account')).default
+                  })
                 },
                 {
-                  path: "appearance",
+                  path: 'appearance',
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/VetDashboard/settings/appearance")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/VetDashboard/settings/appearance')).default
+                  })
                 },
                 {
-                  path: "notifications",
+                  path: 'notifications',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/VetDashboard/settings/notifications"
-                      )
-                    ).default,
-                  }),
+                    Component: (await import('../pages/VetDashboard/settings/notifications')).default
+                  })
                 },
                 {
-                  path: "display",
+                  path: 'display',
                   lazy: async () => ({
-                    Component: (
-                      await import("../pages/VetDashboard/settings/display")
-                    ).default,
-                  }),
+                    Component: (await import('../pages/VetDashboard/settings/display')).default
+                  })
                 },
                 {
-                  path: "error-example",
+                  path: 'error-example',
                   lazy: async () => ({
-                    Component: (
-                      await import(
-                        "../pages/VetDashboard/settings/error-example"
-                      )
-                    ).default,
+                    Component: (await import('../pages/VetDashboard/settings/error-example')).default
                   }),
-                  errorElement: <GeneralError className="h-[50svh]" minimal />,
-                },
-              ],
-            },
-          ],
+                  errorElement: <GeneralError className='h-[50svh]' minimal />
+                }
+              ]
+            }
+          ]
         },
         {
           path: `${APPOINTMENT}`,
-          element: <BookingPage />,
+          element: <BookingPage />
         },
         {
           path: `${APPOINTMENT_SUCCESS}`,
-          element: <BookingSuccess />,
+          element: <BookingSuccess />
         },
         {
           path: `${HOSPITALIZATION}`,
-          element: <HospitalizationPage />,
+          element: <HospitalizationPage />
         },
 
         {
-          path: "/500",
-          element: <GeneralError />,
+          path: '/500',
+          element: <GeneralError />
         },
         {
-          path: "/404",
-          element: <NotFound />,
+          path: '/404',
+          element: <NotFound />
         },
         {
-          path: "/503",
-          element: <MaintenanceError />,
+          path: '/503',
+          element: <MaintenanceError />
         },
         {
-          path: "/not-authorized",
-          element: <NotAuthorized />,
+          path: '/not-authorized',
+          element: <NotAuthorized />
         },
         {
-          path: "*",
-          element: <NotFound />,
-        },
-      ],
-    },
-  ]);
+          path: '*',
+          element: <NotFound />
+        }
+      ]
+    }
+  ])
 
-  return <RouterProvider router={router} fallbackElement={<Loader />} />;
-};
+  return <RouterProvider router={router} fallbackElement={<Loader />} />
+}
 
-export default RouterComponent;
+export default RouterComponent

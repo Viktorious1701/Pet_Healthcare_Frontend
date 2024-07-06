@@ -1,12 +1,12 @@
 export type SlotPost = {
-    startTime: string,
-    endTime: string
-};
+  startTime: string
+  endTime: string
+}
 
 export type SlotGet = {
-    slotId: number,
-    startTime: string,
-    endTime: string,
-    duration: string,
-    available: boolean
-};
+  slotId: number
+  startTime: string
+  endTime: string
+  duration: string
+  available: boolean
+}

@@ -1,39 +1,26 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/custom/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { UserInfo } from "@/Models/User";
-import { getUserProfile, userAccountUpdateAPI } from "@/Services/UserService";
-import { countries } from "@/Helpers/globalVariable";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/custom/button'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
+import { toast } from 'sonner'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
+import { UserInfo } from '@/Models/User'
+import { getUserProfile, userAccountUpdateAPI } from '@/Services/UserService'
+import { countries } from '@/Helpers/globalVariable'
 
 const profileFormSchema = z.object({
   userName: z
     .string()
     .min(2, {
-      message: "Username must be at least 2 characters.",
+      message: 'Username must be at least 2 characters.'
     })
     .max(30, {
-      message: "Username must not be longer than 30 characters.",
+      message: 'Username must not be longer than 30 characters.'
     }),
   email: z.string().email(),
   userId: z.string(),
@@ -42,25 +29,25 @@ const profileFormSchema = z.object({
   country: z.string(),
   firstName: z.string(),
   lastName: z.string(),
-  phoneNumber: z.string().refine((val) => val === "" || /^[0-9]+$/.test(val), {
-    message: "Phone number must contain only digits.",
+  phoneNumber: z.string().refine((val) => val === '' || /^[0-9]+$/.test(val), {
+    message: 'Phone number must contain only digits.'
   }),
   gender: z.boolean(),
   isActive: z.boolean(),
-  imageFile: z.instanceof(File).nullable(),
-});
+  imageFile: z.instanceof(File).nullable()
+})
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
+type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 export default function ProfileForm() {
-  const [user, setUser] = useState<UserInfo>();
-  const [countrySelect, setCountrySelect] = useState(user?.country);
-  const [genderSelect, setGenderSelect] = useState(user?.gender);
+  const [user, setUser] = useState<UserInfo>()
+  const [countrySelect, setCountrySelect] = useState(user?.country)
+  const [genderSelect, setGenderSelect] = useState(user?.gender)
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    mode: "onChange",
-  });
-  const { reset } = form;
+    mode: 'onChange'
+  })
+  const { reset } = form
   async function onSubmit(data: ProfileFormValues) {
     await handleUserUpdate(
       data.address,
@@ -72,13 +59,13 @@ export default function ProfileForm() {
       data.userName,
       data.isActive,
       data.imageFile
-    );
+    )
     toast.info(
-      "You submitted the following values: " +
+      'You submitted the following values: ' +
       (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
           {/* <code className="text-white">{JSON.stringify(data, null, 2)}</code> */}
-          <code className="text-white">
+          <code className='text-white'>
             {JSON.stringify(
               {
                 address: data.address,
@@ -89,7 +76,7 @@ export default function ProfileForm() {
                 gender: data.gender,
                 userName: data.userName,
                 isActive: data.isActive,
-                imageFile: data.imageFile,
+                imageFile: data.imageFile
               },
               null,
               2 // 2 spaces for pretty-printing
@@ -97,7 +84,7 @@ export default function ProfileForm() {
           </code>
         </pre>
       )
-    );
+    )
   }
 
   const handleUserUpdate = async (
@@ -124,22 +111,22 @@ export default function ProfileForm() {
     )
       .then((res) => {
         if (res?.data) {
-          setUser(res.data);
-          toast.info("User " + `${userName}` + " is updated");
+          setUser(res.data)
+          toast.info('User ' + `${userName}` + ' is updated')
         }
       })
       .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
+        toast.error('Server error occurred', e)
+      })
+  }
 
   const getUser = async () => {
     await getUserProfile()
       .then((res) => {
         if (res?.data) {
-          setUser(res.data);
-          setCountrySelect(res.data.country);
-          setGenderSelect(res.data.gender);
+          setUser(res.data)
+          setCountrySelect(res.data.country)
+          setGenderSelect(res.data.gender)
           reset({
             userName: res.data.userName,
             email: res.data.email,
@@ -149,31 +136,31 @@ export default function ProfileForm() {
             country: res.data.country,
             firstName: res.data.firstName,
             lastName: res.data.lastName,
-            phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : "",
+            phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : '',
             gender: res.data.gender,
-            isActive: res.data.isActive,
-          });
+            isActive: res.data.isActive
+          })
         }
       })
       .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
+        toast.error('Server error occurred', e)
+      })
+  }
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getUser()
+  }, [])
 
   if (!user) {
-    return <p>Loading...</p>;
+    return <p>Loading...</p>
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name="userName"
+          name='userName'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -181,8 +168,8 @@ export default function ProfileForm() {
                 <Input {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                This is your public display name. It can be your real name or a pseudonym. You can only change this once
+                every 30 days.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -190,24 +177,22 @@ export default function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="email"
+          name='email'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input readOnly {...field} />
               </FormControl>
-              <FormDescription>
-                We don't have support for changing your email yet.
-              </FormDescription>
+              <FormDescription>We don't have support for changing your email yet.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-3 gap-2">
+        <div className='grid grid-cols-3 gap-2'>
           <FormField
             control={form.control}
-            name="role"
+            name='role'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Role</FormLabel>
@@ -220,7 +205,7 @@ export default function ProfileForm() {
           />
           <FormField
             control={form.control}
-            name="firstName"
+            name='firstName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
@@ -233,7 +218,7 @@ export default function ProfileForm() {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name='lastName'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
@@ -245,34 +230,32 @@ export default function ProfileForm() {
             )}
           />
         </div>
-        <div className="grid grid-cols-2 gap-2">
+        <div className='grid grid-cols-2 gap-2'>
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name='phoneNumber'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  Phone number should follow format: (09...)
-                </FormDescription>
+                <FormDescription>Phone number should follow format: (09...)</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="country"
+            name='country'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Country</FormLabel>
                 <Select
                   value={countrySelect}
                   onValueChange={(value) => {
-                    field.onChange(value);
-                    setCountrySelect(value);
+                    field.onChange(value)
+                    setCountrySelect(value)
                   }}
                 >
                   <FormControl>
@@ -296,33 +279,31 @@ export default function ProfileForm() {
         </div>
         <FormField
           control={form.control}
-          name="address"
+          name='address'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Textarea className="resize-none" {...field} />
+                <Textarea className='resize-none' {...field} />
               </FormControl>
-              <FormDescription>
-                Is optional to provide your address.
-              </FormDescription>
+              <FormDescription>Is optional to provide your address.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-2 gap-2">
+        <div className='grid grid-cols-2 gap-2'>
           <FormField
             control={form.control}
-            name="gender"
+            name='gender'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
                   <Select
-                    value={genderSelect ? "true" : "false"}
+                    value={genderSelect ? 'true' : 'false'}
                     onValueChange={(value) => {
-                      field.onChange(value === "true");
-                      setGenderSelect(value === "true" ? true : false);
+                      field.onChange(value === 'true')
+                      setGenderSelect(value === 'true' ? true : false)
                     }}
                   >
                     <FormControl>
@@ -331,8 +312,8 @@ export default function ProfileForm() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="true">Male</SelectItem>
-                      <SelectItem value="false">Female</SelectItem>
+                      <SelectItem value='true'>Male</SelectItem>
+                      <SelectItem value='false'>Female</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -342,30 +323,28 @@ export default function ProfileForm() {
           />
           <FormField
             control={form.control}
-            name="imageFile"
+            name='imageFile'
             defaultValue={null}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Profile Image</FormLabel>
                 <FormControl>
                   <Input
-                    type="file"
+                    type='file'
                     onChange={(e) => {
-                      const file = e.target.files?.[0] || null;
-                      field.onChange(file);
+                      const file = e.target.files?.[0] || null
+                      field.onChange(file)
                     }}
                   />
                 </FormControl>
-                <FormDescription>
-                  This will be display as your profile image.
-                </FormDescription>
+                <FormDescription>This will be display as your profile image.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button type="submit">Update profile</Button>
+        <Button type='submit'>Update profile</Button>
       </form>
     </Form>
-  );
+  )
 }

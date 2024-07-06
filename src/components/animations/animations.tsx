@@ -1,90 +1,87 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import gsap from "gsap";
+import gsap from 'gsap'
 
 // Declare a general timeline to use in all the animation functions.
-const tl = gsap.timeline();
+const tl = gsap.timeline()
 
 // Define breakpoints
 const breakpoints = {
   mobile: 480,
   tablet: 768,
-  desktop: 1024,
-};
+  desktop: 1024
+}
 
 // Define the type for the size parameter to ensure it matches the keys of the breakpoints object
-type DeviceSize = 'mobile' | 'tablet' | 'desktop';
+type DeviceSize = 'mobile' | 'tablet' | 'desktop'
 
 // Utility function to check device size with explicitly typed parameter
 const isDevice = (size: DeviceSize) => {
-  const width = window.innerWidth;
-  return width <= breakpoints[size];
-};
+  const width = window.innerWidth
+  return width <= breakpoints[size]
+}
 
 // Preloader Animation
 export const preLoaderAnim = (): void => {
-  const scaleValue = isDevice('mobile') ? 1 : 1.5; // Smaller scale on mobile
-  gsap.set(".paw", { scale: scaleValue });
+  const scaleValue = isDevice('mobile') ? 1 : 1.5 // Smaller scale on mobile
+  gsap.set('.paw', { scale: scaleValue })
 
-  tl.to("body", {
+  tl.to('body', {
     duration: 0.05, // Reduced from 0.1
-    css: { overflowY: "scroll" },
-    ease: "power3.inOut",
+    css: { overflowY: 'scroll' },
+    ease: 'power3.inOut'
   })
-    .to(".texts-container", {
+    .to('.texts-container', {
       duration: 0, // Remains the same as it's already instant
       opacity: 1,
-      ease: "Power3.easeOut",
+      ease: 'Power3.easeOut'
     })
-    .from(".paw", {
+    .from('.paw', {
       duration: isDevice('mobile') ? 0.5 : 0.75, // Shorter duration on mobile
       delay: 0, // Remains the same
       y: 70,
       skewY: 10,
       opacity: 0,
-      ease: "Power3.easeOut",
+      ease: 'Power3.easeOut'
     })
-    .to(".paw", {
+    .to('.paw', {
       opacity: 1, // This part of the animation is more about visibility, duration adjustment not required
-      ease: "Power3.easeOut",
+      ease: 'Power3.easeOut'
     })
-    .from(".texts-container span", {
+    .from('.texts-container span', {
       duration: 0.7, // Reduced from 1.4
       delay: -0.625, // Adjusted to half of -1.25
       y: 70,
       skewY: 10,
       stagger: 0.2, // Reduced stagger time to maintain faster animation flow
-      ease: "Power3.easeOut",
+      ease: 'Power3.easeOut',
       onStart: function () {
-        gsap.set(".texts-container span", { marginRight: "4px" });
-      },
+        gsap.set('.texts-container span', { marginRight: '4px' })
+      }
     })
-    .to(".paw", {
+    .to('.paw', {
       duration: 0.75, // Reduced from 1.5
       y: 0,
       opacity: 0,
-      ease: "Power3.easeIn",
+      ease: 'Power3.easeIn'
     })
-    .to(".texts-container span", {
+    .to('.texts-container span', {
       duration: 0.5, // Reduced from 1
       y: 70,
       skewY: -20,
       stagger: 0.1, // Reduced stagger time to maintain faster animation flow
-      ease: "Power3.easeOut",
+      ease: 'Power3.easeOut'
     })
-    .to("body", {
+    .to('body', {
       duration: 0.1, // Reduced from 0.2
       delay: -0.5, // Reduced delay to make the sequence faster
-      css: { overflowY: "scroll" },
-      ease: "power3.inOut",
+      css: { overflowY: 'scroll' },
+      ease: 'power3.inOut'
     })
-    .to(
-      ".preloader",
-      {
-        duration: 0.75, // Reduced from 1.5
-        height: "0vh",
-        ease: "Power3.easeOut",
-      },
-    ); // Adjusted the overlap to make the sequence faster
+    .to('.preloader', {
+      duration: 0.75, // Reduced from 1.5
+      height: '0vh',
+      ease: 'Power3.easeOut'
+    }) // Adjusted the overlap to make the sequence faster
   // .from(".landing__main .text", {
   //   duration: 2,
   //   y: 10,
@@ -121,7 +118,7 @@ export const preLoaderAnim = (): void => {
   //   duration: 0,
   //   css: { display: "none" },
   // });
-};
+}
 
 // export const openMenu = (): void => {
 //   const tl = gsap.timeline();

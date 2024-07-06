@@ -1,25 +1,16 @@
 import { Link } from 'react-router-dom'
 import { IconChevronDown } from '@tabler/icons-react'
 import { Button, buttonVariants } from '@/components/custom/button'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '../ui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '../ui/dropdown-menu'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '../ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { cn } from '@/lib/utils'
 import useCheckActiveNav from '../hooks/use-check-active-nav'
 import { SideLink } from '../data/sidelinksAdmin'
@@ -30,31 +21,14 @@ interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   closeNav: () => void
 }
 
-export default function Nav({
-  links,
-  isCollapsed,
-  className,
-  closeNav,
-}: NavProps) {
+export default function Nav({ links, isCollapsed, className, closeNav }: NavProps) {
   const renderLink = ({ sub, ...rest }: SideLink) => {
     const key = `${rest.title}-${rest.href}`
-    if (isCollapsed && sub)
-      return (
-        <NavLinkIconDropdown
-          {...rest}
-          sub={sub}
-          key={key}
-          closeNav={closeNav}
-        />
-      )
+    if (isCollapsed && sub) return <NavLinkIconDropdown {...rest} sub={sub} key={key} closeNav={closeNav} />
 
-    if (isCollapsed)
-      return <NavLinkIcon {...rest} key={key} closeNav={closeNav} />
+    if (isCollapsed) return <NavLinkIcon {...rest} key={key} closeNav={closeNav} />
 
-    if (sub)
-      return (
-        <NavLinkDropdown {...rest} sub={sub} key={key} closeNav={closeNav} />
-      )
+    if (sub) return <NavLinkDropdown {...rest} sub={sub} key={key} closeNav={closeNav} />
 
     return <NavLink {...rest} key={key} closeNav={closeNav} />
   }
@@ -80,14 +54,7 @@ interface NavLinkProps extends SideLink {
   closeNav: () => void
 }
 
-function NavLink({
-  title,
-  icon,
-  label,
-  href,
-  closeNav,
-  subLink = false,
-}: NavLinkProps) {
+function NavLink({ title, icon, label, href, closeNav, subLink = false }: NavLinkProps) {
   const { checkActiveNav } = useCheckActiveNav()
   return (
     <Link
@@ -96,7 +63,7 @@ function NavLink({
       className={cn(
         buttonVariants({
           variant: checkActiveNav(href) ? 'secondary' : 'ghost',
-          size: 'sm',
+          size: 'sm'
         }),
         'h-12 justify-start text-wrap rounded-none px-6',
         subLink && 'h-10 w-full border-l border-l-slate-500 px-2'
@@ -105,11 +72,7 @@ function NavLink({
     >
       <div className='mr-2'>{icon}</div>
       {title}
-      {label && (
-        <div className='ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground'>
-          {label}
-        </div>
-      )}
+      {label && <div className='ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground'>{label}</div>}
     </Link>
   )
 }
@@ -132,15 +95,9 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
         <div className='mr-2'>{icon}</div>
         {title}
         {label && (
-          <div className='ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground'>
-            {label}
-          </div>
+          <div className='ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground'>{label}</div>
         )}
-        <span
-          className={cn(
-            'ml-auto transition-all group-data-[state="open"]:-rotate-180'
-          )}
-        >
+        <span className={cn('ml-auto transition-all group-data-[state="open"]:-rotate-180')}>
           <IconChevronDown stroke={1} />
         </span>
       </CollapsibleTrigger>
@@ -167,7 +124,7 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
           className={cn(
             buttonVariants({
               variant: checkActiveNav(href) ? 'secondary' : 'ghost',
-              size: 'icon',
+              size: 'icon'
             }),
             'h-12 w-12'
           )}
@@ -178,9 +135,7 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
       </TooltipTrigger>
       <TooltipContent side='right' className='flex items-center gap-4'>
         {title}
-        {label && (
-          <span className='ml-auto text-muted-foreground'>{label}</span>
-        )}
+        {label && <span className='ml-auto text-muted-foreground'>{label}</span>}
       </TooltipContent>
     </Tooltip>
   )
@@ -198,24 +153,14 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant={isChildActive ? 'secondary' : 'ghost'}
-              size='icon'
-              className='h-12 w-12'
-            >
+            <Button variant={isChildActive ? 'secondary' : 'ghost'} size='icon' className='h-12 w-12'>
               {icon}
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent side='right' className='flex items-center gap-4'>
-          {title}{' '}
-          {label && (
-            <span className='ml-auto text-muted-foreground'>{label}</span>
-          )}
-          <IconChevronDown
-            size={18}
-            className='-rotate-90 text-muted-foreground'
-          />
+          {title} {label && <span className='ml-auto text-muted-foreground'>{label}</span>}
+          <IconChevronDown size={18} className='-rotate-90 text-muted-foreground' />
         </TooltipContent>
       </Tooltip>
       <DropdownMenuContent side='right' align='start' sideOffset={4}>
@@ -225,10 +170,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
         <DropdownMenuSeparator />
         {sub!.map(({ title, icon, label, href }) => (
           <DropdownMenuItem key={`${title}-${href}`} asChild>
-            <Link
-              to={href}
-              className={`${checkActiveNav(href) ? 'bg-secondary' : ''}`}
-            >
+            <Link to={href} className={`${checkActiveNav(href) ? 'bg-secondary' : ''}`}>
               {icon} <span className='ml-2 max-w-52 text-wrap'>{title}</span>
               {label && <span className='ml-auto text-xs'>{label}</span>}
             </Link>
