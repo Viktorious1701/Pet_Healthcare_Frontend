@@ -1,4 +1,11 @@
-import { CUSTOMER_APPOINTMENTS, CUSTOMER_HOSPITALIZATION_TABLE, CUSTOMER_PET_LIST, CUSTOMER_PROFILE, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
+import {
+  CUSTOMER_APPOINTMENTS,
+  CUSTOMER_HOSPITALIZATION_TABLE,
+  CUSTOMER_PET_LIST,
+  CUSTOMER_PROFILE,
+  SCHEDULE_VET,
+  SETTINGS_PROFILE
+} from '@/Route/router-const'
 import {
   IconBuildingHospital,
   IconCalendarClock,
@@ -6,7 +13,7 @@ import {
   IconDashboard,
   IconPaw,
   IconSettings,
-  IconUser,
+  IconUser
 } from '@tabler/icons-react'
 import { DoorClosed } from 'lucide-react'
 
@@ -22,54 +29,54 @@ export interface SideLink extends NavLink {
 }
 
 export const sidelinks: SideLink[] = [
-    {
-      title: 'Dashboard',
-      label: '',
-      href: '',
-      icon: <IconDashboard size={18} />,
-    },
-    {
-      title: 'Pets',
-      label: '',
-      href: `${CUSTOMER_PET_LIST}`,
-      icon: <IconPaw size={18} />,
-    },
-    {
-      title: 'Appointments',
-      label: '',
-      href: `${CUSTOMER_APPOINTMENTS}`,
-      icon: <IconCalendarClock size={18} />,
-    },
-    {
-      title: 'Hospitalization',
-      label: '',
-      href: `${CUSTOMER_HOSPITALIZATION_TABLE}`,
-      icon: <IconBuildingHospital size={18} />,
-    },
-    {
-      title: 'Schedule',
-      label: '',
-      href: `${SCHEDULE_VET}`,
-      icon: <IconCalendarWeek size={18} />,
-    },
-    {
-      title: 'Profile',
-      label: '',
-      href: `${CUSTOMER_PROFILE}`,
-      icon: <IconUser size={18} />,
-    },
-    {
-      title: 'Setting',
-      label: '',
-      href: `${SETTINGS_PROFILE}`,
-      icon: <IconSettings size={18} />,
-    },
-    {
-      title: 'Back to Home',
-      label: '',
-      href: `/`,
-      icon: <DoorClosed size={18} />,
-    },
+  {
+    title: 'Dashboard',
+    label: '',
+    href: '',
+    icon: <IconDashboard size={18} />
+  },
+  {
+    title: 'Pets',
+    label: '',
+    href: `${CUSTOMER_PET_LIST}`,
+    icon: <IconPaw size={18} />
+  },
+  {
+    title: 'Appointments',
+    label: '',
+    href: `${CUSTOMER_APPOINTMENTS}`,
+    icon: <IconCalendarClock size={18} />
+  },
+  {
+    title: 'Hospitalization',
+    label: '',
+    href: `${CUSTOMER_HOSPITALIZATION_TABLE}`,
+    icon: <IconBuildingHospital size={18} />
+  },
+  {
+    title: 'Schedule',
+    label: '',
+    href: `${SCHEDULE_VET}`,
+    icon: <IconCalendarWeek size={18} />
+  },
+  {
+    title: 'Profile',
+    label: '',
+    href: `${CUSTOMER_PROFILE}`,
+    icon: <IconUser size={18} />
+  },
+  {
+    title: 'Setting',
+    label: '',
+    href: `${SETTINGS_PROFILE}`,
+    icon: <IconSettings size={18} />
+  },
+  {
+    title: 'Back to Home',
+    label: '',
+    href: `/`,
+    icon: <DoorClosed size={18} />
+  }
   // {
   //   title: 'Dashboard',
   //   label: '',

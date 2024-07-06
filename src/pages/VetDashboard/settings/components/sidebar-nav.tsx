@@ -1,13 +1,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { buttonVariants } from '@/components/custom/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
@@ -18,11 +12,7 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   }[]
 }
 
-export default function SidebarNav({
-  className,
-  items,
-  ...props
-}: SidebarNavProps) {
+export default function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [val, setVal] = useState(pathname ?? '/settings')
@@ -53,22 +43,14 @@ export default function SidebarNav({
       </div>
 
       <div className='hidden w-full overflow-x-auto bg-background px-1 py-2 md:block'>
-        <nav
-          className={cn(
-            'flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1',
-            className
-          )}
-          {...props}
-        >
+        <nav className={cn('flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1', className)} {...props}>
           {items.map((item) => (
             <Link
               key={item.href}
               to={item.href}
               className={cn(
                 buttonVariants({ variant: 'ghost' }),
-                pathname === item.href
-                  ? 'bg-muted hover:bg-muted'
-                  : 'hover:bg-transparent hover:underline',
+                pathname === item.href ? 'bg-muted hover:bg-muted' : 'hover:bg-transparent hover:underline',
                 'justify-start'
               )}
             >

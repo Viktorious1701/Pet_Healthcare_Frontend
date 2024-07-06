@@ -1,25 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box } from "@mui/material";
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridColDef,
-  GridRowId,
-} from "@mui/x-data-grid";
+import { Box } from '@mui/material'
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid'
 
-import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from "lucide-react";
+import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from 'lucide-react'
 
-import { toast } from "sonner";
-import { AppointmentGet } from "@/Models/Appointment";
-import { deleteAppointmentByID } from "@/Services/AppointmentService";
+import { toast } from 'sonner'
+import { AppointmentGet } from '@/Models/Appointment'
+import { deleteAppointmentByID } from '@/Services/AppointmentService'
 
 interface AppointmentDataGridProps {
-  appointments: AppointmentGet[];
-  onAppointmentDelete: (appointment: AppointmentGet) => void;
-  onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void;
-  onCheckInAppointment: (appointmentId: number) => void; // Add the check-in prop
-  onFinishAppointment: (appointmentId: number) => void;
-
+  appointments: AppointmentGet[]
+  onAppointmentDelete: (appointment: AppointmentGet) => void
+  onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void
+  onCheckInAppointment: (appointmentId: number) => void // Add the check-in prop
+  onFinishAppointment: (appointmentId: number) => void
 }
 
 const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
@@ -27,147 +21,135 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   onAppointmentDelete,
   onCashoutAppointment,
   onCheckInAppointment, // Add the check-in prop
-  onFinishAppointment,
-
+  onFinishAppointment
 }) => {
   const handleDeleteClick = (id: GridRowId) => () => {
-    const appointmentToDelete = appointments.find(a => a.appointmentId === Number(id));
+    const appointmentToDelete = appointments.find((a) => a.appointmentId === Number(id))
     if (appointmentToDelete) {
       deleteAppointmentByID(appointmentToDelete.appointmentId)
         .then(() => {
-          onAppointmentDelete(appointmentToDelete);
-          toast.success(`Appointment ${appointmentToDelete.appointmentId} deleted successfully`);
+          onAppointmentDelete(appointmentToDelete)
+          toast.success(`Appointment ${appointmentToDelete.appointmentId} deleted successfully`)
         })
-        .catch(_error => {
-          toast.error("Failed to delete appointment", _error);
-        });
+        .catch((_error) => {
+          toast.error('Failed to delete appointment', _error)
+        })
     }
-  };
+  }
 
   const handleCashoutClick = (id: GridRowId) => () => {
-    const appointmentToCashout = appointments.find(a => a.appointmentId === Number(id));
+    const appointmentToCashout = appointments.find((a) => a.appointmentId === Number(id))
     if (appointmentToCashout) {
-      const customer = appointmentToCashout.customer || "";
-      const amount = appointmentToCashout.totalCost || 0; // Use 0 as default if totalCost is undefined
-      onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount);
+      const customer = appointmentToCashout.customer || ''
+      const amount = appointmentToCashout.totalCost || 0 // Use 0 as default if totalCost is undefined
+      onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount)
     }
-  };
+  }
 
   const handleCheckInClick = (id: GridRowId) => () => {
-    onCheckInAppointment(Number(id));
-  };
+    onCheckInAppointment(Number(id))
+  }
 
   const handleFinishClick = (id: GridRowId) => () => {
-    onFinishAppointment(Number(id));
+    onFinishAppointment(Number(id))
   }
   const columns: GridColDef[] = [
     {
-      field: "appointmentId",
-      headerName: "Appointment ID",
+      field: 'appointmentId',
+      headerName: 'Appointment ID',
       width: 200,
       sortable: true,
-      filterable: true,
+      filterable: true
     },
     {
-      field: "customer",
-      headerName: "Customer",
+      field: 'customer',
+      headerName: 'Customer',
       width: 200,
-      editable: false,
+      editable: false
     },
     {
-      field: "pet",
-      headerName: "Pet",
+      field: 'pet',
+      headerName: 'Pet',
       width: 200,
-      editable: false,
+      editable: false
     },
     {
-      field: "vet",
-      headerName: "Vet",
+      field: 'vet',
+      headerName: 'Vet',
       width: 150,
-      editable: false,
+      editable: false
     },
     {
-      field: "slotStartTime",
-      headerName: "Slot Start Time",
+      field: 'slotStartTime',
+      headerName: 'Slot Start Time',
       width: 200,
-      editable: false,
+      editable: false
     },
     {
-      field: "slotEndTime",
-      headerName: "Slot End Time",
+      field: 'slotEndTime',
+      headerName: 'Slot End Time',
       width: 200,
-      editable: false,
+      editable: false
     },
     {
-      field: "service",
-      headerName: "Service",
+      field: 'service',
+      headerName: 'Service',
       width: 150,
-      editable: false,
+      editable: false
     },
     {
-      field: "date",
-      headerName: "Date",
+      field: 'date',
+      headerName: 'Date',
       width: 200,
-      editable: false,
+      editable: false
     },
     {
-      field: "totalCost",
-      headerName: "Total Cost",
+      field: 'totalCost',
+      headerName: 'Total Cost',
       width: 150,
-      editable: false,
+      editable: false
     },
     {
-      field: "status",
-      headerName: "Status",
+      field: 'status',
+      headerName: 'Status',
       width: 150,
-      editable: false,
+      editable: false
     },
     {
-      field: "paymentStatus",
-      headerName: "Payment Status",
+      field: 'paymentStatus',
+      headerName: 'Payment Status',
       width: 150,
-      editable: false,
+      editable: false
     },
     {
-      field: "actions",
-      headerName: "Actions",
+      field: 'actions',
+      headerName: 'Actions',
       width: 200,
-      type: "actions",
+      type: 'actions',
       getActions: ({ id }) => [
-        <GridActionsCellItem
-          icon={<DeleteIcon />}
-          label="Delete"
-          color="inherit"
-          onClick={handleDeleteClick(id)}
-        />,
+        <GridActionsCellItem icon={<DeleteIcon />} label='Delete' color='inherit' onClick={handleDeleteClick(id)} />,
         <GridActionsCellItem
           icon={<DollarSignIcon />}
-          label="Cashout"
-          color="inherit"
+          label='Cashout'
+          color='inherit'
           onClick={handleCashoutClick(id)}
         />,
         <GridActionsCellItem
-
           icon={<CalendarCheck2 />}
-          label="Check In"
-          color="inherit"
+          label='Check In'
+          color='inherit'
           onClick={handleCheckInClick(id)}
         />,
-        <GridActionsCellItem
-          icon={<CheckIcon />}
-          label="Check In"
-          color="inherit"
-          onClick={handleFinishClick(id)}
-        />,
-      ],
-    },
-  ];
+        <GridActionsCellItem icon={<CheckIcon />} label='Check In' color='inherit' onClick={handleFinishClick(id)} />
+      ]
+    }
+  ]
 
   return (
     <Box
       sx={{
-        height: "450px",
-        width: "100%",
+        height: '450px',
+        width: '100%'
       }}
     >
       <DataGrid
@@ -177,7 +159,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         pageSizeOptions={[5, 10, 25, 100]}
       />
     </Box>
-  );
-};
+  )
+}
 
-export default AppointmentDataGrid;
+export default AppointmentDataGrid

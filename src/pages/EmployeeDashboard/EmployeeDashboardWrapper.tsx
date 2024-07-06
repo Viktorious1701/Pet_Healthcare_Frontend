@@ -7,9 +7,9 @@ import { UserNav } from '@/components/employee_components/user-nav'
 
 const topNav = [
   { title: 'Overview', href: '/employee/', isActive: true },
-//   { title: 'Customers', href: '/employee/customers', isActive: false },
-//   { title: 'Products', href: '/employee/products', isActive: false },
-  { title: 'Settings', href: '/employee/settings', isActive: false },
+  //   { title: 'Customers', href: '/employee/customers', isActive: false },
+  //   { title: 'Products', href: '/employee/products', isActive: false },
+  { title: 'Settings', href: '/employee/settings', isActive: false }
 ]
 
 export default function EmployeeDashboardWrapper() {

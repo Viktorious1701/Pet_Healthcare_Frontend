@@ -1,11 +1,5 @@
 import { ADMIN_ACCOUNTS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const'
-import {
-  IconCalendarWeek,
-  IconDashboard,
-  IconSettings,
-  IconUser,
-  IconUsers,
-} from '@tabler/icons-react'
+import { IconCalendarWeek, IconDashboard, IconSettings, IconUser, IconUsers } from '@tabler/icons-react'
 import { DoorClosed } from 'lucide-react'
 
 export interface NavLink {
@@ -20,42 +14,42 @@ export interface SideLink extends NavLink {
 }
 
 export const sidelinks: SideLink[] = [
-    {
-      title: 'Dashboard',
-      label: '',
-      href: '',
-      icon: <IconDashboard size={18} />,
-    },
-    {
-      title: 'Accounts',
-      label: '',
-      href: `${ADMIN_ACCOUNTS}`,
-      icon: <IconUsers size={18} />,
-    },
-    {
-      title: 'Schedule',
-      label: '',
-      href: `${SCHEDULE_VET}`,
-      icon: <IconCalendarWeek size={18} />,
-    },
-    {
-      title: 'Profile',
-      label: '',
-      href: `${COMING_SOON}`,
-      icon: <IconUser size={18} />,
-    },
-    {
-      title: 'Setting',
-      label: '',
-      href: `${SETTINGS_PROFILE}`,
-      icon: <IconSettings size={18} />,
-    },
-    {
-      title: 'Back to Home',
-      label: '',
-      href: `/`,
-      icon: <DoorClosed size={18} />,
-    }
+  {
+    title: 'Dashboard',
+    label: '',
+    href: '',
+    icon: <IconDashboard size={18} />
+  },
+  {
+    title: 'Accounts',
+    label: '',
+    href: `${ADMIN_ACCOUNTS}`,
+    icon: <IconUsers size={18} />
+  },
+  {
+    title: 'Schedule',
+    label: '',
+    href: `${SCHEDULE_VET}`,
+    icon: <IconCalendarWeek size={18} />
+  },
+  {
+    title: 'Profile',
+    label: '',
+    href: `${COMING_SOON}`,
+    icon: <IconUser size={18} />
+  },
+  {
+    title: 'Setting',
+    label: '',
+    href: `${SETTINGS_PROFILE}`,
+    icon: <IconSettings size={18} />
+  },
+  {
+    title: 'Back to Home',
+    label: '',
+    href: `/`,
+    icon: <DoorClosed size={18} />
+  }
   // {
   //   title: 'Dashboard',
   //   label: '',

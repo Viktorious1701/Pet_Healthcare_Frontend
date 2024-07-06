@@ -4,61 +4,53 @@ import { z } from 'zod'
 
 import { Button } from '@/components/custom/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
 const items = [
   {
     id: 'recents',
-    label: 'Recents',
+    label: 'Recents'
   },
   {
     id: 'home',
-    label: 'Home',
+    label: 'Home'
   },
   {
     id: 'applications',
-    label: 'Applications',
+    label: 'Applications'
   },
   {
     id: 'desktop',
-    label: 'Desktop',
+    label: 'Desktop'
   },
   {
     id: 'downloads',
-    label: 'Downloads',
+    label: 'Downloads'
   },
   {
     id: 'documents',
-    label: 'Documents',
-  },
+    label: 'Documents'
+  }
 ] as const
 
 const displayFormSchema = z.object({
   items: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: 'You have to select at least one item.',
-  }),
+    message: 'You have to select at least one item.'
+  })
 })
 
 type DisplayFormValues = z.infer<typeof displayFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<DisplayFormValues> = {
-  items: ['recents', 'home'],
+  items: ['recents', 'home']
 }
 
 export function DisplayForm() {
   const form = useForm<DisplayFormValues>({
     resolver: zodResolver(displayFormSchema),
-    defaultValues,
+    defaultValues
   })
 
   function onSubmit(data: DisplayFormValues) {
@@ -68,7 +60,7 @@ export function DisplayForm() {
         <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
           <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
         </pre>
-      ),
+      )
     })
   }
 
@@ -82,9 +74,7 @@ export function DisplayForm() {
             <FormItem>
               <div className='mb-4'>
                 <FormLabel className='text-base'>Sidebar</FormLabel>
-                <FormDescription>
-                  Select the items you want to display in the sidebar.
-                </FormDescription>
+                <FormDescription>Select the items you want to display in the sidebar.</FormDescription>
               </div>
               {items.map((item) => (
                 <FormField
@@ -93,27 +83,18 @@ export function DisplayForm() {
                   name='items'
                   render={({ field }) => {
                     return (
-                      <FormItem
-                        key={item.id}
-                        className='flex flex-row items-start space-x-3 space-y-0'
-                      >
+                      <FormItem key={item.id} className='flex flex-row items-start space-x-3 space-y-0'>
                         <FormControl>
                           <Checkbox
                             checked={field.value?.includes(item.id)}
                             onCheckedChange={(checked) => {
                               return checked
                                 ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  )
+                                : field.onChange(field.value?.filter((value) => value !== item.id))
                             }}
                           />
                         </FormControl>
-                        <FormLabel className='font-normal'>
-                          {item.label}
-                        </FormLabel>
+                        <FormLabel className='font-normal'>{item.label}</FormLabel>
                       </FormItem>
                     )
                   }}

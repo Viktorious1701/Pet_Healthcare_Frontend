@@ -1,39 +1,37 @@
-import { handleError } from "@/Helpers/ErrorHandler";
-import axiosInstance from "@/Helpers/axiosInstance";
-import { UserInfo } from "@/Models/User";
-import axios from "axios";
+import { handleError } from '@/Helpers/ErrorHandler'
+import axiosInstance from '@/Helpers/axiosInstance'
+import { UserInfo } from '@/Models/User'
+import axios from 'axios'
 
-const api = "https://pethealthcaresystem.azurewebsites.net/api/admin/";
+const api = 'https://pethealthcaresystem.azurewebsites.net/api/admin/'
 
 export const customerGetAPI = async (role: string) => {
   try {
-    const data = await axiosInstance.get<UserInfo[]>(
-      api + `users/role/${role}`
-    );
-    return data;
+    const data = await axiosInstance.get<UserInfo[]>(api + `users/role/${role}`)
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
-const api1 = "https://pethealthcaresystem.azurewebsites.net/api/Account/me";
+}
+const api1 = 'https://pethealthcaresystem.azurewebsites.net/api/Account/me'
 export const getUserProfile = async () => {
   try {
-    const data = await axiosInstance.get<UserInfo>(api1);
+    const data = await axiosInstance.get<UserInfo>(api1)
 
-    return data;
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 
 export const userGetAllAPI = async () => {
   try {
-    const data = await axiosInstance.get<UserInfo[]>(api);
-    return data;
+    const data = await axiosInstance.get<UserInfo[]>(api)
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 
 export const userAddAPI = async (
   role: string,
@@ -64,13 +62,13 @@ export const userAddAPI = async (
       gender: gender,
       userName: userName,
       password: password,
-      isActive: isActive,
-    });
-    return data;
+      isActive: isActive
+    })
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 
 export const userUpdateAPI = async (
   userId: string,
@@ -94,15 +92,15 @@ export const userUpdateAPI = async (
       phoneNumber: phoneNumber,
       gender: gender,
       userName: userName,
-      isActive: isActive,
-    });
-    return data;
+      isActive: isActive
+    })
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 
-const api2 = "https://pethealthcaresystem.azurewebsites.net/api/account/";
+const api2 = 'https://pethealthcaresystem.azurewebsites.net/api/account/'
 export const userAccountUpdateAPI = async (
   address: string,
   country: string,
@@ -115,44 +113,44 @@ export const userAccountUpdateAPI = async (
   imageFile: File | null
 ) => {
   try {
-    const formData = new FormData();
-    formData.append("address", address);
-    formData.append("country", country);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("phoneNumber", phoneNumber);
-    formData.append("gender", gender.toString());
-    formData.append("userName", userName);
-    formData.append("isActive", isActive.toString());
+    const formData = new FormData()
+    formData.append('address', address)
+    formData.append('country', country)
+    formData.append('firstName', firstName)
+    formData.append('lastName', lastName)
+    formData.append('phoneNumber', phoneNumber)
+    formData.append('gender', gender.toString())
+    formData.append('userName', userName)
+    formData.append('isActive', isActive.toString())
 
     if (imageFile) {
-      formData.append("imageFile", imageFile);
+      formData.append('imageFile', imageFile)
     }
 
     const data = await axiosInstance.put(api2 + `update-profile`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return data;
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 
 export const userDeleteAPI = async (userId: string) => {
   try {
-    const data = await axiosInstance.delete(api + `${userId}`);
-    return data;
+    const data = await axiosInstance.delete(api + `${userId}`)
+    return data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}
 export const userGetByIdAPI = async (userId: string) => {
   try {
-    const data = await axios.get<UserInfo>(api + `${userId}`);
-    return data.data;
+    const data = await axios.get<UserInfo>(api + `${userId}`)
+    return data.data
   } catch (error) {
-    handleError(error);
+    handleError(error)
   }
-};
+}

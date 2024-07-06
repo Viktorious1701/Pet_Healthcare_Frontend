@@ -1,11 +1,6 @@
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Button } from '../custom/button'
 import { IconMenu } from '@tabler/icons-react'
 
@@ -30,10 +25,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
           <DropdownMenuContent side='bottom' align='start'>
             {links.map(({ title, href, isActive }) => (
               <DropdownMenuItem key={`${title}-${href}`} asChild>
-                <Link
-                  to={href}
-                  className={!isActive ? 'text-muted-foreground' : ''}
-                >
+                <Link to={href} className={!isActive ? 'text-muted-foreground' : ''}>
                   {title}
                 </Link>
               </DropdownMenuItem>
@@ -42,13 +34,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
         </DropdownMenu>
       </div>
 
-      <nav
-        className={cn(
-          'hidden items-center space-x-4 md:flex lg:space-x-6',
-          className
-        )}
-        {...props}
-      >
+      <nav className={cn('hidden items-center space-x-4 md:flex lg:space-x-6', className)} {...props}>
         {links.map(({ title, href, isActive }) => (
           <Link
             key={`${title}-${href}`}

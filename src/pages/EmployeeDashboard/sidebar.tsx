@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { IconChevronsLeft, IconMenu2, IconX } from '@tabler/icons-react'
 import { Layout, LayoutHeader } from '@/components/custom/layout'
 import { Button } from '@/components/custom/button'
-import Nav from '@/components/employee_components/nav'  // Replace with employee-specific navigation component
+import Nav from '@/components/employee_components/nav' // Replace with employee-specific navigation component
 import { cn } from '@/lib/utils'
-import { sidelinks } from '@/components/data/sideLinksEmployee'  // Import employee sidebar links
+import { sidelinks } from '@/components/data/sideLinksEmployee' // Import employee sidebar links
 import paw from '@/assets/Paw2.svg'
 import { useAuthNavigation } from '@/Context/useAuthNavigation'
 
@@ -13,13 +13,9 @@ interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Sidebar2({
-  className,
-  isCollapsed,
-  setIsCollapsed,
-}: SidebarProps) {
+export default function Sidebar2({ className, isCollapsed, setIsCollapsed }: SidebarProps) {
   const [navOpened, setNavOpened] = useState(false)
-  const {navigateToHome} = useAuthNavigation();
+  const { navigateToHome } = useAuthNavigation()
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {
     if (navOpened) {
@@ -47,9 +43,7 @@ export default function Sidebar2({
         <LayoutHeader className='sticky top-0 justify-between px-4 py-3 shadow md:px-4'>
           <div onClick={navigateToHome} className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
             <img src={paw} className={`transition-all ${isCollapsed ? 'h-6 w-6' : 'h-8 w-8'}`} alt='Paw' />
-            <div
-              className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
-            >
+            <div className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}>
               <span className='font-medium'>Employee Dashboard</span>
               <span className='text-xs'>Employee services dashboard.</span>
             </div>
@@ -75,7 +69,7 @@ export default function Sidebar2({
           className={`h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
-          links={sidelinks}  // Use employee sidebar links
+          links={sidelinks} // Use employee sidebar links
         />
 
         {/* Scrollbar width toggle button */}
@@ -85,10 +79,7 @@ export default function Sidebar2({
           variant='outline'
           className='absolute -right-5 top-1/2 hidden rounded-full md:inline-flex'
         >
-          <IconChevronsLeft
-            stroke={1.5}
-            className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`}
-          />
+          <IconChevronsLeft stroke={1.5} className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`} />
         </Button>
       </Layout>
     </aside>
