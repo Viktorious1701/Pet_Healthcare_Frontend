@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger
 } from '../ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import { cn } from 'lib/utils'
+import { cn } from '@/lib/utils'
 import useCheckActiveNav from '../hooks/use-check-active-nav'
 import { SideLink } from '../data/sidelinksCustomer'
 

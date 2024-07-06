@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react'
 import { Box, Grid, Card, CardHeader } from '@mui/material'
-import { Button } from 'components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Hospitalization, HospitalizationPost } from '@/Models/Hospitalization'
 import HospitalizationDataGrid from './components/HospitalizationDataGrid'
 import { hospitalizationListAPI, hospitalizationCreateAPI } from '@/Services/HospitalizationService'
 import { toast } from 'sonner'
 import HospitalizationAddModal from './components/HospitalizationAddModal'
-import { getPetById } from 'Services/PetService'
+import { getPetById } from '@/Services/PetService'
 
 const HospitalizationManagement = () => {
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([])
