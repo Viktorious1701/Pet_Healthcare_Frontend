@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { DataTableDemo } from "./appointments/DataTableDemo";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
 import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { UserNav } from "@/components/vet_components/user-nav";
