@@ -15,20 +15,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { appointmentGetVetIdAPI, recordGetAPI } from "@/Services/AppointmentService";
-import { useNavigate } from "react-router-dom"; // Updated import
-import { hospitalizationListVetAPI } from "@/Services/HospitalizationService";
-import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
+import { recordGetAPI } from "@/Services/AppointmentService";
 
 export type Record = {
   recordId: number;

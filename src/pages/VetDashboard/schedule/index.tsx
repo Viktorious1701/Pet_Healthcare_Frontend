@@ -33,10 +33,18 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+interface CustomEvent {
+  id: string | number;
+  title: string;
+  start: Date;
+  end: Date;
+  status?: string; // Include other properties as needed
+}
+
 const App: FC = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState<Event[]>([]);
-  const [appointmentId, setAppointmentId] = useState<number | null>(null);
+  const [, setAppointmentId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -49,12 +57,11 @@ const App: FC = () => {
           setAppointmentId(appointments[0].appointmentId);
           const newEvents = appointments.map((appointment) => ({
             id: appointment.appointmentId,
-            title: appointment.service, // Assuming 'service' is a string that can serve as the title
+            title: appointment.service,
             start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
             end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
             status: appointment.status,
-          }));
-          console.log(newEvents);
+          })) as CustomEvent[];
           setEvents(newEvents);
         }
       }
@@ -65,15 +72,11 @@ const App: FC = () => {
   const allEventIds = events.map(event => event.id);
   console.log(allEventIds);
 
-  const handleSelectEvent = (selectedEvent: { id: string | number; }) => {
-    // Keep only the selected event by its id
+  const handleSelectEvent = (selectedEvent: CustomEvent) => {
     console.log(selectedEvent);
     const updatedEvents = events.filter(event => event.id === selectedEvent.id);
-  
-    // Update your state or context with the new events array
-    // This depends on how your events are stored (e.g., useState, useReducer, Redux)
-    setEvents(updatedEvents); // Assuming you have a state setter like this
-    navigate(`/vet/${APPOINTMENT_EDIT}/${selectedEvent.id || appointmentId}`);
+    setEvents(updatedEvents);
+    navigate(`/vet/${APPOINTMENT_EDIT}/${selectedEvent.id}`);
   };
 
   // const handleSelectEvent = () => {
@@ -103,7 +106,7 @@ const App: FC = () => {
         </span>
         <Calendar
           defaultView="week"
-          events={events}
+          events={events as CustomEvent[]}
           localizer={localizer}
           style={calendarStyle}
           onSelectEvent={handleSelectEvent}
