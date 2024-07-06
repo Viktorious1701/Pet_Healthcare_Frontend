@@ -25,27 +25,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { appointmentGetVetIdAPI } from "@/Services/AppointmentService";
+import { appointmentGetVetIdAPI, recordGetAPI } from "@/Services/AppointmentService";
 import { useNavigate } from "react-router-dom"; // Updated import
 import { hospitalizationListVetAPI } from "@/Services/HospitalizationService";
 import { getPetHealthTrackByHospitalizationId } from "@/Services/PetHealthTrackService";
 
-export type PetHealthTrack = {
-  petHealthTrackId: number;
-  hospitalizationId: number; // Assuming a link to the Hospitalization type
+export type Record = {
+  recordId: number;
   petName: string;
-  petImage: string;
-  description: string;
-  date: string;
-  status: number; // Consider using an enum for clarity on status values
+  numberOfVisits: number;
 };
 
 // Update the DataTableDemo component to use the Appointment data model
-export function DataTableDemo2({
-  hospitalizationId,
-}: {
-  hospitalizationId: number;
-}) {
+export function DataTableDemo2() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -53,33 +45,22 @@ export function DataTableDemo2({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [data, setData] = React.useState<PetHealthTrack[]>([]); // State to hold fetched data
+  const [data, setData] = React.useState<Record[]>([]); // State to hold fetched data
 
-  // Function to fetch appointments and update state
-  const id = hospitalizationId;
-  console.log("hospitalizationId:", id);
-  const fetchPetHealthTracksAndUpdateState = async () => {
+  const fetchRecordsAndUpdateState = async () => {
     try {
-      if (id != 0) {
-        console.log("hospitalizationId2222:", id);
-        const response = await getPetHealthTrackByHospitalizationId(
-          id
-        );
+        const response = await recordGetAPI();
         console.log("PetHealthTrack", response);
         if (response) {
-          const formattedPetHealthTrack: PetHealthTrack[] = response.map(
-            (pethealthtrack) => ({
-              petHealthTrackId: pethealthtrack.petHealthTrackId,
-              hospitalizationId: pethealthtrack.hospitalizationId,
-              petName: pethealthtrack.petName,
-              petImage: pethealthtrack.petImage,
-              description: pethealthtrack.description,
-              date: pethealthtrack.date,
-              status: pethealthtrack.status,
+          const formattedRecord: Record[] = response.data.map(
+            (record) => ({
+              recordId: record.recordId,
+              petName: record.petName,
+              numberOfVisits: record.numberOfVisits,
             })
           );
-          setData(formattedPetHealthTrack); // Update state with fetched data
-        }
+          setData(formattedRecord); // Update state with fetched data
+        
       }
     } catch (error) {
       console.error("Error fetching pet health tracks:", error);
@@ -88,10 +69,10 @@ export function DataTableDemo2({
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchPetHealthTracksAndUpdateState();
-  }, [id]); // Now includes `id` in the dependency array
+    fetchRecordsAndUpdateState();
+  }, []); // Now includes `id` in the dependency array
 
-  const columns: ColumnDef<PetHealthTrack>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);
+  const columns: ColumnDef<Record>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);
   const table = useReactTable({
     data, // Use state variable for data
     columns,
@@ -115,29 +96,27 @@ export function DataTableDemo2({
     <div className="w-full">
       <div className="flex items-center py-4">
         <span className="flex-1 text-[2rem] font-mont font-semibold ">
-          PET HEALTH TRACK
+          RECORDS
         </span>
-        <Button variant="outline">Add Pet Health Track</Button>
+        {/* <Button variant="outline">Add Pet Health Track</Button> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <div
-              key={row.original.petHealthTrackId}
               className="border rounded-md p-4 shadow-sm"
             >
               {/* Image container */}
               <div className="image-container mb-4">
                 <img
-                  src={row.original.petImage}
+                  // src={row.original.petImage}
                   alt={row.original.petName}
                   className="object-cover w-full h-48 rounded-md"
                 />
               </div>
               <div className="font-bold text-lg">{row.original.petName}</div>
-              <div>Description: {row.original.description}</div>
-              <div>Date: {row.original.date}</div>
-              <div>Status: {row.original.status}</div>
+              <div>Record Id: {row.original.recordId}</div>
+              <div>Number Of Visits: {row.original.numberOfVisits}</div>
               {/* Include any actions here */}
             </div>
           ))

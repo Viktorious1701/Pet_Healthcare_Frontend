@@ -7,6 +7,7 @@ import {
   AppointmentRating,
 } from "@/Models/Appointment";
 import { AppointmentDetailGet } from "@/Models/AppointmentDetail";
+import { RecordGet } from "@/Models/Record";
 
 const api = "https://pethealthcaresystem.azurewebsites.net/api/Appointment";
 const apiGetVet = "https://pethealthcaresystem.azurewebsites.net/api";
@@ -180,3 +181,12 @@ export const appointmentPostAPI = async (appointmentDetails: { appointmentId: nu
     handleError(error);
   }
 };
+
+export const recordGetAPI = async () => {
+  try {
+    const data = await axiosInstance.get<RecordGet[]>(apiGetVet + `/Record/records`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}

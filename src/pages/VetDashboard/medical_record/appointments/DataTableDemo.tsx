@@ -39,31 +39,20 @@ import {
 import {
   appointmentGetVetIdAPI,
   appointmentVetAPI,
+  recordGetAPI,
 } from "@/Services/AppointmentService";
 import { AppointmentGet } from "@/Models/Appointment";
 import { useNavigate } from "react-router-dom"; // Updated import
 
 // Adjustments to switch from Payment to Appointment data model
-export type Appointment = {
-  appointmentId: number;
-  customer: string;
-  pet: string;
-  petId: number;
-  vet: string;
-  slotStartTime: string; // Ensure data passed to this is a string
-  slotEndTime: string; // Ensure data passed to this is a string
-  service: string;
-  date: string;
-  totalCost: number;
-  status: string;
-  cancellationDate?: string;
-  refundAmount?: number;
-  rating?: number;
-  comment?: string;
+export type Record = {
+  recordId: number;
+  petName: string;
+  numberOfVisits: number;
 };
 
 // Adjust the columns definition to match the Appointment data model
-export const columns: ColumnDef<Appointment>[] = [
+export const columns: ColumnDef<Record>[] = [
   // {
   //   id: "select",
   //   header: ({ table }) => (
@@ -209,15 +198,11 @@ export function DataTableDemo() {
   // Function to fetch appointments and update state
   const fetchAppointmentsAndUpdateState = async () => {
     try {
-      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
-      const vetId = (response as unknown as { userId: string }).userId; // Type assertion
-      if (vetId) {
-        const appointments: AppointmentGet[] | undefined =
-          await appointmentVetAPI(vetId); // Fetch appointments
-        if (appointments) {
-          console.log(appointments);
-          const formattedAppointments: Appointment[] = appointments.map(
-            (appointment) => ({
+      const response = await recordGetAPI(); // Fetch the vet details
+        if (response) {
+          console.log(response);
+          const formattedRecords: Record[] = response.map(
+            (record) => ({
               appointmentId: appointment.appointmentId,
               customer: appointment.customer,
               pet: appointment.pet,

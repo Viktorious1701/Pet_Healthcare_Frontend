@@ -3,6 +3,7 @@ import { DataTableDemo } from "./appointments/DataTableDemo";
 import { Layout, LayoutBody, LayoutHeader } from "@/components/custom/layout";
 import ThemeSwitch from "@/components/vet_components/theme-switch";
 import { UserNav } from "@/components/vet_components/user-nav";
+import { DataTableDemo2 } from "./appointments/DataTableDemo2";
 
 const App: FC = () => {
   return (
@@ -15,7 +16,7 @@ const App: FC = () => {
         </div>
       </LayoutHeader>
       <LayoutBody className={`flex flex-col`} fixedHeight>
-        <DataTableDemo />
+        <DataTableDemo2 />
       </LayoutBody>
     </Layout>
   );
