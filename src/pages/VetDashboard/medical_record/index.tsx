@@ -14,7 +14,10 @@ const App: FC = () => {
           <UserNav />
         </div>
       </LayoutHeader>
-      <LayoutBody className={`flex flex-col`} fixedHeight>
+      <LayoutBody
+        className="flex flex-col max-h-screen overflow-y-auto"
+        fixedHeight
+      >
         <DataTableDemo2 />
       </LayoutBody>
     </Layout>

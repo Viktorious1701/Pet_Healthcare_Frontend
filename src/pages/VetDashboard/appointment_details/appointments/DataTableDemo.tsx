@@ -131,6 +131,13 @@ export const columns: ColumnDef<Appointment>[] = [
         navigate(targetPath)
       }
 
+      const openAppointmentDetailsEditForm = (appointmentId: number) => {
+        // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
+        const targetPath = `/vet/appointment-edit-details/${appointmentId}`
+        console.log(`Navigating to: ${targetPath}`)
+        navigate(targetPath)
+      }
+
       const openAppointmentAddForm = (appointmentId: number) => {
         // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
         const targetPath = `/vet/appointment-diagnosis/${appointmentId}`
@@ -153,6 +160,9 @@ export const columns: ColumnDef<Appointment>[] = [
               Copy appointment ID
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openAppointmentEditForm(appointment.appointmentId)}>
+              View appointment
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => openAppointmentDetailsEditForm(appointment.appointmentId)}>
               View appointment details
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openAppointmentAddForm(appointment.appointmentId)}>

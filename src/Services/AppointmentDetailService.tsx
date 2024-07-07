@@ -21,3 +21,12 @@ export const petAppointmentDetailGetAPI = async (petId: number) => {
     handleError(error)
   }
 }
+
+export const idAppointmentDetailGetAPI = async (appointmentId: number) => {
+  try {
+    const response = await axiosInstance.get<AppointmentDetailGet[]>(api + `/id/${appointmentId}`)
+    return response.data
+  } catch (error) {
+    handleError(error)
+  }
+}
