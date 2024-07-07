@@ -61,7 +61,8 @@ import {
   RATE,
   APPOINTMENT_MEDICAL_RECORD,
   HOSPITALIZATION_VET,
-  APPOINTMENT_DIAGNOSIS
+  APPOINTMENT_DIAGNOSIS,
+  APPOINTMENT_EDIT_DETAILS
 } from './router-const'
 
 import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack'
@@ -449,6 +450,12 @@ const RouterComponent = () => {
               path: `${APPOINTMENT_EDIT}/:appointmentId`,
               lazy: async () => ({
                 Component: (await import('@/pages/VetDashboard/appointment_view/index')).default
+              })
+            },
+            {
+              path: `${APPOINTMENT_EDIT_DETAILS}/:appointmentId`,
+              lazy: async () => ({
+                Component: (await import('@/pages/VetDashboard/appointment_edit_details/index')).default
               })
             },
             {
