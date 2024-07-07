@@ -1,50 +1,50 @@
-import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import '@/../app/globals.css'
-import PetCare from '../assets/petcare.png'
+import { Card, CardContent, CardTitle, CardHeader } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import '@/../app/globals.css';
+import PetCare from '../assets/petcare.png';
 //import PetCare from "../assets/dogs-7808115_1280.png";
-import { useAuth } from '../Context/useAuth'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { FORGOT_PASS, REGISTER } from '@/Route/router-const'
-import { useState } from 'react'
-import { IconEye, IconEyeOff } from '@tabler/icons-react'
-import Paw from '@/assets/Paw2.svg'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+import { useAuth } from '../Context/useAuth';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { FORGOT_PASS, REGISTER } from '@/Route/router-const';
+import { useState } from 'react';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import Paw from '@/assets/Paw2.svg';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 type LoginFormInputs = {
-  userName: string
-  password: string
-}
+  userName: string;
+  password: string;
+};
 
 const validationSchema = Yup.object().shape({
   userName: Yup.string().required('Username is required'),
   password: Yup.string().required('Password is required')
-})
+});
 
 const Login = () => {
-  const { loginUser } = useAuth()
-  const { navigateToHome, navigateToLogin } = useAuthNavigation()
+  const { loginUser } = useAuth();
+  const { navigateToHome, navigateToLogin } = useAuthNavigation();
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) })
+  } = useForm<LoginFormInputs>({ resolver: yupResolver(validationSchema) });
 
   const onSubmit = async (data: LoginFormInputs) => {
-    const result = await loginUser(data.userName, data.password)
+    const result = await loginUser(data.userName, data.password);
     if (result != null) {
-      console.log('result is not null', result)
-      navigateToHome()
+      console.log('result is not null', result);
+      navigateToHome();
     } else {
-      navigateToLogin()
+      navigateToLogin();
     }
-  }
-  const [showPassword, setShowPassword] = useState(false)
+  };
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className='grid grid-cols-5 min-h-screen'>
@@ -136,7 +136,7 @@ const Login = () => {
         <img src={PetCare} alt='Pet care' className='w-full h-full object-cover' />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

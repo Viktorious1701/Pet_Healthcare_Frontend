@@ -1,25 +1,25 @@
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import PetCare from '../assets/Register.jpg'
-import { useAuth } from '@/Context/useAuth'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { IconEye, IconEyeOff } from '@tabler/icons-react'
-import { useState } from 'react'
-import Paw from '@/assets/Paw2.svg'
-import { LOGIN } from '@/Route/router-const'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import PetCare from '../assets/Register.jpg';
+import { useAuth } from '@/Context/useAuth';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import { useState } from 'react';
+import Paw from '@/assets/Paw2.svg';
+import { LOGIN } from '@/Route/router-const';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 type RegisterFormsInputs = {
-  email: string
-  userName: string
-  password: string
-  confirmPassword: string
-}
+  email: string;
+  userName: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const validation = Yup.object().shape({
   email: Yup.string().required('Email is required').email('Invalid email format'),
@@ -28,30 +28,30 @@ const validation = Yup.object().shape({
   confirmPassword: Yup.string()
     .required('Confirm Password is required')
     .oneOf([Yup.ref('password')], 'Passwords must match')
-})
+});
 
 const Register = () => {
-  const { registerUser } = useAuth()
-  const { navigateToRegister, navigateToLogin } = useAuthNavigation()
+  const { registerUser } = useAuth();
+  const { navigateToRegister, navigateToLogin } = useAuthNavigation();
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) })
+  } = useForm<RegisterFormsInputs>({ resolver: yupResolver(validation) });
 
   const handleLogin = async (form: RegisterFormsInputs) => {
-    const result = await registerUser(form.email, form.userName, form.password, form.confirmPassword)
+    const result = await registerUser(form.email, form.userName, form.password, form.confirmPassword);
     if (result !== null) {
-      console.log('result is not null', result)
-      navigateToLogin()
+      console.log('result is not null', result);
+      navigateToLogin();
     } else {
-      console.log('result is null', result)
-      navigateToRegister()
+      console.log('result is null', result);
+      navigateToRegister();
     }
-  }
+  };
 
-  const [showPassword, setShowPassword] = useState(false) // Added for password visibility toggle
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false); // Added for password visibility toggle
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <div className='grid grid-cols-5 min-h-screen'>
       <div className='col-span-2 flex items-center justify-center bg-[var(--background)]'>
@@ -164,7 +164,7 @@ const Register = () => {
         <img src={PetCare} alt='Pet care' className='w-full h-full object-cover' />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { idAppointmentDetailGetAPI } from '@/Services/AppointmentDetailService'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { idAppointmentDetailGetAPI } from '@/Services/AppointmentDetailService';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 const AppointmentForm = () => {
   // Extract appointmentId from URL
   const { appointmentId: urlAppointmentId } = useParams<{
-    appointmentId: string
-  }>()
+    appointmentId: string;
+  }>();
   // Additional state variables for appointment details
   const [appointmentDetails, setAppointmentDetails] = useState({
     appointmentId: parseInt(urlAppointmentId || '', 10) || 0, // Provide a fallback empty string
     diagnosis: '',
     treatment: '',
     medication: ''
-  })
+  });
 
   interface AppointmentDetail {
     appointmentId: number;
@@ -58,7 +58,7 @@ const AppointmentForm = () => {
   //             treatment: detail.treatment,
   //             medication: detail.medication
   //           }));
-            
+
   //           setAppointmentDetails(appointmentDetails);
   //         } else {
   //           console.log('No matching appointment found')
@@ -136,7 +136,7 @@ const AppointmentForm = () => {
         </CardContent>
       </Card>
     </form>
-  )
-}
+  );
+};
 
-export default AppointmentForm
+export default AppointmentForm;

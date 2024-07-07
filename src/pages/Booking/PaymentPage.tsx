@@ -1,20 +1,20 @@
-import React from 'react'
-import Navbar from '@/components/navigation/Navbar'
-import Footer from '@/components/navigation/Footer'
-import BraintreeDropIn from '@/components/payment/BrainTreeDropIn'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React from 'react';
+import Navbar from '@/components/navigation/Navbar';
+import Footer from '@/components/navigation/Footer';
+import BraintreeDropIn from '@/components/payment/BrainTreeDropIn';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const PaymentPage: React.FC = () => {
-  const location = useLocation()
-  const appointmentId = location.state?.appointmentId
-  const navigate = useNavigate()
+  const location = useLocation();
+  const appointmentId = location.state?.appointmentId;
+  const navigate = useNavigate();
   const handlePaymentCompleted = () => {
     // Handle any post-payment actions, e.g., navigate to a success page
     // or perform additional logic after payment completion.
-    console.log('Payment completed!')
+    console.log('Payment completed!');
     // Example: navigate to a home page
-    navigate(`/`)
-  }
+    navigate(`/`);
+  };
 
   return (
     <div className='min-h-screen flex flex-col items-center justify-center bg-custom-gray'>
@@ -25,7 +25,7 @@ const PaymentPage: React.FC = () => {
       </div>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default PaymentPage
+export default PaymentPage;

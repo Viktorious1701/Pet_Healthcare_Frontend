@@ -1,9 +1,9 @@
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import HospitalizationPage from './components/HospitalizationPage'
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import HospitalizationPage from './components/HospitalizationPage';
 
 const Hospitalization = () => {
   return (
@@ -38,7 +38,7 @@ const Hospitalization = () => {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default Hospitalization
+export default Hospitalization;

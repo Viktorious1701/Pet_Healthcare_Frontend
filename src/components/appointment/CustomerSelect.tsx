@@ -1,56 +1,56 @@
-import { useEffect, useState } from 'react'
-import SearchBar from '../navigation/SearchBar'
-import { UserInfo } from '@/Models/User'
-import { Button, Card, CardBody, CardHeader, Divider } from '@nextui-org/react'
-import { customerGetAPI } from '@/Services/UserService'
-import { toast } from 'sonner'
-import { useLocation } from 'react-router'
-import Default from '@/assets/Default_pfp.svg.png'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
+import { useEffect, useState } from 'react';
+import SearchBar from '../navigation/SearchBar';
+import { UserInfo } from '@/Models/User';
+import { Button, Card, CardBody, CardHeader, Divider } from '@nextui-org/react';
+import { customerGetAPI } from '@/Services/UserService';
+import { toast } from 'sonner';
+import { useLocation } from 'react-router';
+import Default from '@/assets/Default_pfp.svg.png';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel';
 
 interface CustomerSelectProps {
-  onSelectCustomer: (customerUserName: string) => void
+  onSelectCustomer: (customerUserName: string) => void;
 }
 
 const CustomerSelect: React.FC<CustomerSelectProps> = ({ onSelectCustomer }) => {
-  const location = useLocation()
-  const [searchTerm, setSearchTerm] = useState<string>('')
-  const [userList, setUserList] = useState<UserInfo[]>([])
-  const [selectedCustomer, setSelectedCustomer] = useState<string>('')
+  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [userList, setUserList] = useState<UserInfo[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
 
   const getCustomers = async () => {
     customerGetAPI('customer')
       .then((res) => {
         if (res?.data) {
-          setUserList(res.data)
+          setUserList(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   useEffect(() => {
-    getCustomers()
-  }, [location])
+    getCustomers();
+  }, [location]);
 
   const handleCustomerChange = (userName: string) => {
-    setSelectedCustomer(userName)
-  }
+    setSelectedCustomer(userName);
+  };
 
   const handleCancel = () => {
-    setSelectedCustomer('')
-  }
+    setSelectedCustomer('');
+  };
 
   const handleSubmit = () => {
     if (selectedCustomer === '') {
-      toast.warning('Please select a customer')
-      return
+      toast.warning('Please select a customer');
+      return;
     }
-    onSelectCustomer(selectedCustomer)
-  }
+    onSelectCustomer(selectedCustomer);
+  };
 
-  const filteredUsers = userList.filter((user) => user.userName.toString().includes(searchTerm))
+  const filteredUsers = userList.filter((user) => user.userName.toString().includes(searchTerm));
 
   return (
     <div>
@@ -119,7 +119,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({ onSelectCustomer }) => 
         <CarouselNext />
       </Carousel>
     </div>
-  )
-}
+  );
+};
 
-export default CustomerSelect
+export default CustomerSelect;

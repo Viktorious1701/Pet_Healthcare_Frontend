@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { petsOfCustomerAPI } from '@/Services/PetService'
-import { PetGet } from '@/Models/Pet'
-import { toast } from 'sonner'
+import React, { useState, useEffect } from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { petsOfCustomerAPI } from '@/Services/PetService';
+import { PetGet } from '@/Models/Pet';
+import { toast } from 'sonner';
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -17,43 +17,43 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 
 interface PetSelectionProps {
-  selectedCustomer: string
-  selectedPet: string
-  onChange: (petId: string) => void
+  selectedCustomer: string;
+  selectedPet: string;
+  onChange: (petId: string) => void;
 }
 
 const PetSelection: React.FC<PetSelectionProps> = ({ selectedCustomer, selectedPet, onChange }) => {
-  const [pets, setPets] = useState<PetGet[]>([])
+  const [pets, setPets] = useState<PetGet[]>([]);
 
   useEffect(() => {
     const fetchPets = async () => {
       if (selectedCustomer) {
         try {
-          const response = await petsOfCustomerAPI(selectedCustomer)
-          const petList = response?.data
+          const response = await petsOfCustomerAPI(selectedCustomer);
+          const petList = response?.data;
           if (petList && Array.isArray(petList)) {
-            setPets(petList)
+            setPets(petList);
           } else {
-            setPets([])
+            setPets([]);
           }
         } catch (error) {
-          toast.error('Failed to fetch pets')
+          toast.error('Failed to fetch pets');
         }
       }
-    }
-    fetchPets()
-  }, [selectedCustomer])
+    };
+    fetchPets();
+  }, [selectedCustomer]);
 
   useEffect(() => {
-    console.log('Pets state:', pets)
-  }, [pets])
+    console.log('Pets state:', pets);
+  }, [pets]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
-    onChange(event.target.value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <FormControl fullWidth>
@@ -70,7 +70,7 @@ const PetSelection: React.FC<PetSelectionProps> = ({ selectedCustomer, selectedP
         )}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
-export default PetSelection
+export default PetSelection;

@@ -1,9 +1,9 @@
-import { Outlet } from 'react-router-dom'
-import Sidebar from './sidebar'
-import useIsCollapsed from '@/components/hooks/use-is-collapsed'
+import { Outlet } from 'react-router-dom';
+import Sidebar from './sidebar';
+import useIsCollapsed from '@/components/hooks/use-is-collapsed';
 
 export default function VetDashboard() {
-  const [isCollapsed, setIsCollapsed] = useIsCollapsed()
+  const [isCollapsed, setIsCollapsed] = useIsCollapsed();
   return (
     <div className='relative h-full overflow-hidden bg-background'>
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
@@ -14,5 +14,5 @@ export default function VetDashboard() {
         <Outlet />
       </main>
     </div>
-  )
+  );
 }

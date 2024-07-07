@@ -1,27 +1,27 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import SidebarComponent, { SidebarItem } from '../../components/sidebar/SidebarComponent'
-import { HomeIcon, Calendar, Settings, Hospital, User, DoorOpen } from 'lucide-react' // Import the User icon
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import SidebarComponent, { SidebarItem } from '../../components/sidebar/SidebarComponent';
+import { HomeIcon, Calendar, Settings, Hospital, User, DoorOpen } from 'lucide-react'; // Import the User icon
 import {
   CUSTOMER_PET_LIST,
   CUSTOMER_DASHBOARD as CUSTOMER_PAGE,
   CUSTOMER_APPOINTMENTS,
   CUSTOMER_HOSPITALIZATION_TABLE as HOSPITALIZATION,
   SETTINGS
-} from '@/Route/router-const'
+} from '@/Route/router-const';
 
 const CustomerSidebar = () => {
-  const [activePath, setActivePath] = useState(`/${CUSTOMER_PAGE}/${CUSTOMER_PET_LIST}`)
-  const navigate = useNavigate()
-  const location = useLocation()
+  const [activePath, setActivePath] = useState(`/${CUSTOMER_PAGE}/${CUSTOMER_PET_LIST}`);
+  const navigate = useNavigate();
+  const location = useLocation();
   // Reset activePath when the location changes
   useEffect(() => {
-    setActivePath(location.pathname)
-  }, [location.pathname])
+    setActivePath(location.pathname);
+  }, [location.pathname]);
 
   const handleNavigation = (path: string) => {
-    navigate(path)
-  }
+    navigate(path);
+  };
 
   return (
     <SidebarComponent>
@@ -69,7 +69,7 @@ const CustomerSidebar = () => {
         active={activePath === `/`}
       />
     </SidebarComponent>
-  )
-}
+  );
+};
 
-export default CustomerSidebar
+export default CustomerSidebar;

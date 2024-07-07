@@ -1,21 +1,21 @@
-import { Button } from '@/components/custom/button'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Search } from '@/components/customer_components/search'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Card } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import PetList from './components/PetList'
-import { useNavigate } from 'react-router'
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from '@/Route/router-const'
-import { PetRecord } from './components/PetRecord'
+import { Button } from '@/components/custom/button';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { Search } from '@/components/customer_components/search';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import PetList from './components/PetList';
+import { useNavigate } from 'react-router';
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from '@/Route/router-const';
+import { PetRecord } from './components/PetRecord';
 
 const Pets = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleAdd = () => {
-    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_ADD}`)
-    console.log('Add a pet profile')
-  }
+    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_ADD}`);
+    console.log('Add a pet profile');
+  };
   return (
     <Layout className='h-screen'>
       {/* ===== Top Heading ===== */}
@@ -65,7 +65,7 @@ const Pets = () => {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default Pets
+export default Pets;

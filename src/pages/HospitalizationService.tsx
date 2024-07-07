@@ -1,13 +1,13 @@
-import Navbar from '@/components/navigation/Navbar'
-import Footer from '@/components/navigation/Footer'
-import ImageCard from '@/components/navigation/ImageCard'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import petcare from '@/assets/petcare.jpg'
-import hero from '@/assets/hero.png'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
-import Autoplay from 'embla-carousel-autoplay'
+import Navbar from '@/components/navigation/Navbar';
+import Footer from '@/components/navigation/Footer';
+import ImageCard from '@/components/navigation/ImageCard';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import petcare from '@/assets/petcare.jpg';
+import hero from '@/assets/hero.png';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const HospitalizationService = () => {
   return (
@@ -169,7 +169,7 @@ const HospitalizationService = () => {
       </main>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default HospitalizationService
+export default HospitalizationService;

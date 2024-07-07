@@ -1,81 +1,81 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Layout, LayoutBody } from '@/components/custom/layout'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Layout, LayoutBody } from '@/components/custom/layout';
 // import { RecentSales } from "./components/recent-sales";
 // import { Overview } from "./components/overview";
-import { useEffect, useState } from 'react'
-import { hospitalizationListAPI } from '@/Services/HospitalizationService'
-import { appointmentGetAPI } from '@/Services/AppointmentService'
-import { AppointmentGet } from '@/Models/Appointment'
-import { Hospitalization } from '@/Models/Hospitalization'
-import { toast } from 'sonner'
-import RecentAppointments from './components/recent-appointments'
-import RecentHospitalizations from './components/recent-hospitalizations'
-import { PaymentRevenueGet } from '@/Models/Payment'
-import { revenueGetAPI } from '@/Services/PaymentService'
-import { UserInfo } from '@/Models/User'
-import { customerGetAPI } from '@/Services/UserService'
+import { useEffect, useState } from 'react';
+import { hospitalizationListAPI } from '@/Services/HospitalizationService';
+import { appointmentGetAPI } from '@/Services/AppointmentService';
+import { AppointmentGet } from '@/Models/Appointment';
+import { Hospitalization } from '@/Models/Hospitalization';
+import { toast } from 'sonner';
+import RecentAppointments from './components/recent-appointments';
+import RecentHospitalizations from './components/recent-hospitalizations';
+import { PaymentRevenueGet } from '@/Models/Payment';
+import { revenueGetAPI } from '@/Services/PaymentService';
+import { UserInfo } from '@/Models/User';
+import { customerGetAPI } from '@/Services/UserService';
 
 export default function Dashboard() {
-  const [revenue, setRevenue] = useState<PaymentRevenueGet>()
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([])
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([])
-  const [customers, setCustomers] = useState<UserInfo[]>([])
+  const [revenue, setRevenue] = useState<PaymentRevenueGet>();
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+  const [customers, setCustomers] = useState<UserInfo[]>([]);
 
   const getCustomers = async () => {
     await customerGetAPI('Customer')
       .then((res) => {
         if (res?.data) {
-          setCustomers(res.data)
+          setCustomers(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getAppointments = async () => {
     await appointmentGetAPI()
       .then((res) => {
         if (res?.data) {
-          setAppointments(res.data)
+          setAppointments(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getHospitalizations = async () => {
     await hospitalizationListAPI()
       .then((res) => {
         if (res.data) {
-          setHospitalizations(res.data)
+          setHospitalizations(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getRevenue = async () => {
     await revenueGetAPI()
       .then((res) => {
         if (res.data) {
-          setRevenue(res.data)
+          setRevenue(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   useEffect(() => {
-    getRevenue()
-    getCustomers()
-    getAppointments()
-    getHospitalizations()
-  }, [])
+    getRevenue();
+    getCustomers();
+    getAppointments();
+    getHospitalizations();
+  }, []);
   return (
     <Layout>
       {/* ===== Main ===== */}
@@ -223,5 +223,5 @@ export default function Dashboard() {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {
-  fadedBelow?: boolean
-  fixedHeight?: boolean
+  fadedBelow?: boolean;
+  fixedHeight?: boolean;
 }
 
 const Layout = React.forwardRef<HTMLDivElement, LayoutProps>(
@@ -20,8 +20,8 @@ const Layout = React.forwardRef<HTMLDivElement, LayoutProps>(
       {...props}
     />
   )
-)
-Layout.displayName = 'Layout'
+);
+Layout.displayName = 'Layout';
 
 const LayoutHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -31,11 +31,11 @@ const LayoutHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
       {...props}
     />
   )
-)
-LayoutHeader.displayName = 'LayoutHeader'
+);
+LayoutHeader.displayName = 'LayoutHeader';
 
 interface LayoutBodyProps extends React.HTMLAttributes<HTMLDivElement> {
-  fixedHeight?: boolean
+  fixedHeight?: boolean;
 }
 
 const LayoutBody = React.forwardRef<HTMLDivElement, LayoutBodyProps>(({ className, fixedHeight, ...props }, ref) => (
@@ -48,7 +48,7 @@ const LayoutBody = React.forwardRef<HTMLDivElement, LayoutBodyProps>(({ classNam
     )}
     {...props}
   />
-))
-LayoutBody.displayName = 'LayoutBody'
+));
+LayoutBody.displayName = 'LayoutBody';
 
-export { Layout, LayoutHeader, LayoutBody }
+export { Layout, LayoutHeader, LayoutBody };

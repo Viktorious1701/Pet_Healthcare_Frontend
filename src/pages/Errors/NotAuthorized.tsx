@@ -1,15 +1,15 @@
-import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/custom/button'
-import Paw from '@/assets/Paw2.svg'
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/custom/button';
+import Paw from '@/assets/Paw2.svg';
 
 const NotAuthorized = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const redirectToHomepage = () => {
     const timer = setTimeout(() => {
-      navigate('/')
-    }, 1000)
-    return () => clearTimeout(timer)
-  }
+      navigate('/');
+    }, 1000);
+    return () => clearTimeout(timer);
+  };
 
   return (
     <div className='h-svh'>
@@ -25,7 +25,7 @@ const NotAuthorized = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotAuthorized
+export default NotAuthorized;

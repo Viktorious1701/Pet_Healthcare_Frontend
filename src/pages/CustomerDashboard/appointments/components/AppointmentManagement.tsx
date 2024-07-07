@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button' // Adjust the path based on your project structure
-import { appointmentCustomerAPI } from '@/Services/AppointmentService'
-import { AppointmentGet } from '@/Models/Appointment'
-import { useAuth } from '@/Context/useAuth'
-import { useNavigate } from 'react-router-dom'
-import { CUSTOMER_DASHBOARD, REFUND } from '@/Route/router-const'
-import { useTheme } from '@/components/vet_components/theme-provider' // Import the useTheme hook
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button'; // Adjust the path based on your project structure
+import { appointmentCustomerAPI } from '@/Services/AppointmentService';
+import { AppointmentGet } from '@/Models/Appointment';
+import { useAuth } from '@/Context/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { CUSTOMER_DASHBOARD, REFUND } from '@/Route/router-const';
+import { useTheme } from '@/components/vet_components/theme-provider'; // Import the useTheme hook
 
 import {
   Table,
@@ -16,95 +16,95 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components/ui/table' // Adjust the path based on your project structure
+} from '@/components/ui/table'; // Adjust the path based on your project structure
 
 const AppointmentManagement: React.FC = () => {
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([])
-  const { user } = useAuth()
-  const username = user?.userName
-  const [loading, setLoading] = useState(true)
-  const { theme } = useTheme() // Use the useTheme hook to get the current theme
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const { user } = useAuth();
+  const username = user?.userName;
+  const [loading, setLoading] = useState(true);
+  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
 
   // Pagination state
-  const [currentPage, setCurrentPage] = useState(1)
-  const appointmentsPerPage = 5
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentsPerPage = 5;
 
   // Filter state
-  const [filterStatus, setFilterStatus] = useState<string | null>(null)
+  const [filterStatus, setFilterStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const fetchAppointments = async () => {
       try {
-        const listAppointment = await appointmentCustomerAPI(username ?? '')
-        setAppointments(listAppointment?.data || [])
-        console.log('Appointments:', listAppointment?.data) // Debugging line
-        sessionStorage.setItem('appointments', JSON.stringify(listAppointment?.data || []))
+        const listAppointment = await appointmentCustomerAPI(username ?? '');
+        setAppointments(listAppointment?.data || []);
+        console.log('Appointments:', listAppointment?.data); // Debugging line
+        sessionStorage.setItem('appointments', JSON.stringify(listAppointment?.data || []));
       } catch (error) {
-        console.error('Error fetching appointments:', error)
+        console.error('Error fetching appointments:', error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchAppointments()
-  }, [username])
+    fetchAppointments();
+  }, [username]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleRating = (appointmentId: number) => {
-    navigate(`/${CUSTOMER_DASHBOARD}/rate/${appointmentId}`)
-  }
+    navigate(`/${CUSTOMER_DASHBOARD}/rate/${appointmentId}`);
+  };
 
   // Pagination logic
-  const indexOfLastAppointment = currentPage * appointmentsPerPage
-  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
 
   const currentAppointments = filterStatus
     ? appointments
         .filter((appointment) => appointment.status === filterStatus)
         .slice(indexOfFirstAppointment, indexOfLastAppointment)
-    : appointments.slice(indexOfFirstAppointment, indexOfLastAppointment)
+    : appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
   const totalPages = Math.ceil(
     (filterStatus
       ? appointments.filter((appointment) => appointment.status === filterStatus).length
       : appointments.length) / appointmentsPerPage
-  )
+  );
 
   const handleCanceling = (appointmentId: string) => {
-    navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`)
-  }
+    navigate(`/${CUSTOMER_DASHBOARD}/${REFUND}/${appointmentId}`);
+  };
 
   const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
 
   const getPaymentStatus = (status: number | null) => {
     switch (status) {
       case 0:
-        return 'Pending'
+        return 'Pending';
       case 1:
-        return 'Paid'
+        return 'Paid';
       case 2:
-        return 'Refunded'
+        return 'Refunded';
       case 3:
-        return 'Cancelled'
+        return 'Cancelled';
       default:
-        return 'Not Settled'
+        return 'Not Settled';
     }
-  }
+  };
 
   const handleFilterChange = (status: string | null) => {
-    setFilterStatus(status)
-    setCurrentPage(1)
-  }
+    setFilterStatus(status);
+    setCurrentPage(1);
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -220,7 +220,7 @@ const AppointmentManagement: React.FC = () => {
         </Table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AppointmentManagement
+export default AppointmentManagement;

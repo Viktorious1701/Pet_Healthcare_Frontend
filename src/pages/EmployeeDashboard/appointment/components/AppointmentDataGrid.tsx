@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box } from '@mui/material'
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid'
+import { Box } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid';
 
-import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from 'lucide-react'
+import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from 'lucide-react';
 
-import { toast } from 'sonner'
-import { AppointmentGet } from '@/Models/Appointment'
-import { deleteAppointmentByID } from '@/Services/AppointmentService'
+import { toast } from 'sonner';
+import { AppointmentGet } from '@/Models/Appointment';
+import { deleteAppointmentByID } from '@/Services/AppointmentService';
 
 interface AppointmentDataGridProps {
-  appointments: AppointmentGet[]
-  onAppointmentDelete: (appointment: AppointmentGet) => void
-  onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void
-  onCheckInAppointment: (appointmentId: number) => void // Add the check-in prop
-  onFinishAppointment: (appointmentId: number) => void
+  appointments: AppointmentGet[];
+  onAppointmentDelete: (appointment: AppointmentGet) => void;
+  onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void;
+  onCheckInAppointment: (appointmentId: number) => void; // Add the check-in prop
+  onFinishAppointment: (appointmentId: number) => void;
 }
 
 const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
@@ -24,35 +24,35 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   onFinishAppointment
 }) => {
   const handleDeleteClick = (id: GridRowId) => () => {
-    const appointmentToDelete = appointments.find((a) => a.appointmentId === Number(id))
+    const appointmentToDelete = appointments.find((a) => a.appointmentId === Number(id));
     if (appointmentToDelete) {
       deleteAppointmentByID(appointmentToDelete.appointmentId)
         .then(() => {
-          onAppointmentDelete(appointmentToDelete)
-          toast.success(`Appointment ${appointmentToDelete.appointmentId} deleted successfully`)
+          onAppointmentDelete(appointmentToDelete);
+          toast.success(`Appointment ${appointmentToDelete.appointmentId} deleted successfully`);
         })
         .catch((_error) => {
-          toast.error('Failed to delete appointment', _error)
-        })
+          toast.error('Failed to delete appointment', _error);
+        });
     }
-  }
+  };
 
   const handleCashoutClick = (id: GridRowId) => () => {
-    const appointmentToCashout = appointments.find((a) => a.appointmentId === Number(id))
+    const appointmentToCashout = appointments.find((a) => a.appointmentId === Number(id));
     if (appointmentToCashout) {
-      const customer = appointmentToCashout.customer || ''
-      const amount = appointmentToCashout.totalCost || 0 // Use 0 as default if totalCost is undefined
-      onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount)
+      const customer = appointmentToCashout.customer || '';
+      const amount = appointmentToCashout.totalCost || 0; // Use 0 as default if totalCost is undefined
+      onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount);
     }
-  }
+  };
 
   const handleCheckInClick = (id: GridRowId) => () => {
-    onCheckInAppointment(Number(id))
-  }
+    onCheckInAppointment(Number(id));
+  };
 
   const handleFinishClick = (id: GridRowId) => () => {
-    onFinishAppointment(Number(id))
-  }
+    onFinishAppointment(Number(id));
+  };
   const columns: GridColDef[] = [
     {
       field: 'appointmentId',
@@ -143,7 +143,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         <GridActionsCellItem icon={<CheckIcon />} label='Check In' color='inherit' onClick={handleFinishClick(id)} />
       ]
     }
-  ]
+  ];
 
   return (
     <Box
@@ -159,7 +159,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         pageSizeOptions={[5, 10, 25, 100]}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default AppointmentDataGrid
+export default AppointmentDataGrid;

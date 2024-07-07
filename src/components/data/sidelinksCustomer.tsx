@@ -5,7 +5,7 @@ import {
   CUSTOMER_PROFILE,
   SCHEDULE_VET,
   SETTINGS_PROFILE
-} from '@/Route/router-const'
+} from '@/Route/router-const';
 import {
   IconBuildingHospital,
   IconCalendarClock,
@@ -14,18 +14,18 @@ import {
   IconPaw,
   IconSettings,
   IconUser
-} from '@tabler/icons-react'
-import { DoorClosed } from 'lucide-react'
+} from '@tabler/icons-react';
+import { DoorClosed } from 'lucide-react';
 
 export interface NavLink {
-  title: string
-  label?: string
-  href: string
-  icon: JSX.Element
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
 }
 
 export interface SideLink extends NavLink {
-  sub?: NavLink[]
+  sub?: NavLink[];
 }
 
 export const sidelinks: SideLink[] = [
@@ -209,4 +209,4 @@ export const sidelinks: SideLink[] = [
   //   href: '/settings',
   //   icon: <IconSettings size={18} />,
   // },
-]
+];

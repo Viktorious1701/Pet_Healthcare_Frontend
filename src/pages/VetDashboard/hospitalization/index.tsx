@@ -1,16 +1,16 @@
-import { FC, useState } from 'react'
-import { DataTableDemo } from './appointments/DataTableDemo'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/vet_components/user-nav'
-import { DataTableDemo2 } from './appointments/DataTableDemo2'
+import { FC, useState } from 'react';
+import { DataTableDemo } from './appointments/DataTableDemo';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/vet_components/user-nav';
+import { DataTableDemo2 } from './appointments/DataTableDemo2';
 
 const App: FC = () => {
-  const [selectedHospitalizationId, setSelectedHospitalizationId] = useState<number | undefined>(undefined)
+  const [selectedHospitalizationId, setSelectedHospitalizationId] = useState<number | undefined>(undefined);
 
   const handleHospitalizationSelect = (id: number) => {
-    setSelectedHospitalizationId(id)
-  }
+    setSelectedHospitalizationId(id);
+  };
 
   return (
     <Layout fadedBelow fixedHeight>
@@ -30,7 +30,7 @@ const App: FC = () => {
         )}
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

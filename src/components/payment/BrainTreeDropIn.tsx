@@ -1,39 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import dropin, { Dropin } from 'braintree-web-drop-in'
-import { Button } from 'reactstrap'
+import React, { useEffect, useState } from 'react';
+import dropin, { Dropin } from 'braintree-web-drop-in';
+import { Button } from 'reactstrap';
 
-import axiosInstance from '@/Helpers/axiosInstance'
-import { toast } from 'react-toastify'
+import axiosInstance from '@/Helpers/axiosInstance';
+import { toast } from 'react-toastify';
 
 interface BraintreeDropInProps {
-  show: boolean
-  onPaymentCompleted: () => void
-  appointmentId: number
+  show: boolean;
+  onPaymentCompleted: () => void;
+  appointmentId: number;
 }
 
 const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
-  const { show, onPaymentCompleted, appointmentId } = props
+  const { show, onPaymentCompleted, appointmentId } = props;
 
-  const [braintreeInstance, setBraintreeInstance] = useState<Dropin | undefined>(undefined)
-  const [clientToken, setClientToken] = useState<string | undefined>(undefined)
+  const [braintreeInstance, setBraintreeInstance] = useState<Dropin | undefined>(undefined);
+  const [clientToken, setClientToken] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const generateToken = async () => {
       try {
         const response = await axiosInstance.get(
           'https://pethealthcaresystem.azurewebsites.net/api/Payment/GenerateToken'
-        )
-        setClientToken(response.data.data)
+        );
+        setClientToken(response.data.data);
       } catch (error) {
-        console.error('Token generation error:', error)
+        console.error('Token generation error:', error);
       }
-    }
+    };
 
     const initializeBraintree = async () => {
       if (!clientToken) {
-        await generateToken()
+        await generateToken();
       }
 
       if (clientToken) {
@@ -49,40 +49,40 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
           },
           (error, instance) => {
             if (error) {
-              console.error('Drop-in error:', error)
+              console.error('Drop-in error:', error);
             } else {
-              setBraintreeInstance(instance)
+              setBraintreeInstance(instance);
             }
           }
-        )
+        );
       }
-    }
+    };
 
     if (show) {
       if (braintreeInstance) {
         braintreeInstance.teardown().then(() => {
-          initializeBraintree()
-        })
+          initializeBraintree();
+        });
       } else {
-        initializeBraintree()
+        initializeBraintree();
       }
     }
 
     return () => {
       if (braintreeInstance) {
-        braintreeInstance.teardown()
+        braintreeInstance.teardown();
       }
-    }
-  }, [show, clientToken])
+    };
+  }, [show, clientToken]);
 
   const handlePayment = () => {
     if (braintreeInstance) {
       braintreeInstance.requestPaymentMethod((error, payload) => {
         if (error) {
-          console.error(error)
+          console.error(error);
         } else {
-          const paymentMethodNonce = payload.nonce
-          console.log('payment method nonce', paymentMethodNonce)
+          const paymentMethodNonce = payload.nonce;
+          console.log('payment method nonce', paymentMethodNonce);
 
           // Send nonce to your server
           axiosInstance
@@ -91,18 +91,18 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
               nonce: paymentMethodNonce
             })
             .then((response) => {
-              console.log('Payment response:', response.data)
-              toast('Payment completed successfully!')
-              onPaymentCompleted()
+              console.log('Payment response:', response.data);
+              toast('Payment completed successfully!');
+              onPaymentCompleted();
             })
             .catch((error) => {
-              console.error('Payment error:', error)
-              alert(`Payment failed: ${error.message}`)
-            })
+              console.error('Payment error:', error);
+              alert(`Payment failed: ${error.message}`);
+            });
         }
-      })
+      });
     }
-  }
+  };
 
   return (
     <div style={{ display: show ? 'block' : 'none' }}>
@@ -111,7 +111,7 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
         Pay
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default BraintreeDropIn
+export default BraintreeDropIn;

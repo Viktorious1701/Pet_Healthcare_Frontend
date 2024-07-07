@@ -1,60 +1,60 @@
-import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { getAppointmentByIdAPI, appointmentRateAPI } from '@/Services/AppointmentService'
-import { AppointmentGet } from '@/Models/Appointment'
-import { Button } from '@/components/ui/button' // Adjust the path based on your project structure
-import { CUSTOMER_APPOINTMENTS, CUSTOMER_DASHBOARD } from '@/Route/router-const'
-import { StarIcon } from 'lucide-react'
-import { toast } from 'sonner'
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getAppointmentByIdAPI, appointmentRateAPI } from '@/Services/AppointmentService';
+import { AppointmentGet } from '@/Models/Appointment';
+import { Button } from '@/components/ui/button'; // Adjust the path based on your project structure
+import { CUSTOMER_APPOINTMENTS, CUSTOMER_DASHBOARD } from '@/Route/router-const';
+import { StarIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const RateAppointment: React.FC = () => {
-  const { appointmentId } = useParams<{ appointmentId: string }>()
-  const [appointment, setAppointment] = useState<AppointmentGet | null>(null!)
-  const [rating, setRating] = useState<number>(5)
-  const [comment, setComment] = useState<string>('')
-  const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
+  const { appointmentId } = useParams<{ appointmentId: string }>();
+  const [appointment, setAppointment] = useState<AppointmentGet | null>(null!);
+  const [rating, setRating] = useState<number>(5);
+  const [comment, setComment] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAppointment = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
-        const response = await getAppointmentByIdAPI(Number(appointmentId!))
+        const response = await getAppointmentByIdAPI(Number(appointmentId!));
 
-        const appointmentData = response?.data
-        setAppointment(appointmentData || ({} as AppointmentGet))
+        const appointmentData = response?.data;
+        setAppointment(appointmentData || ({} as AppointmentGet));
       } catch (error) {
-        toast.error('Error fetching appointment')
+        toast.error('Error fetching appointment');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchAppointment()
-  }, [appointmentId])
+    fetchAppointment();
+  }, [appointmentId]);
 
   const handleRatingChange = (newRating: number) => {
-    setRating(newRating)
-  }
+    setRating(newRating);
+  };
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(event.target.value)
-  }
+    setComment(event.target.value);
+  };
 
   const handleSubmit = async () => {
     try {
-      const response = await appointmentRateAPI(Number(appointmentId!), rating, comment)
-      console.log('API Rate response:', response) // Debugging line
-      toast.info('Rating submitted successfully!')
-      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`)
+      const response = await appointmentRateAPI(Number(appointmentId!), rating, comment);
+      console.log('API Rate response:', response); // Debugging line
+      toast.info('Rating submitted successfully!');
+      navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
     } catch (error) {
-      console.error('Error submitting rating:', error)
-      toast.error('Error submitting rating')
+      console.error('Error submitting rating:', error);
+      toast.error('Error submitting rating');
     }
-  }
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -122,7 +122,7 @@ const RateAppointment: React.FC = () => {
         <div>Appointment not found.</div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default RateAppointment
+export default RateAppointment;

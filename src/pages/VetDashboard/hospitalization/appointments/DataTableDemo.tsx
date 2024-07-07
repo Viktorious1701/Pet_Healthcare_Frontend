@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,62 +15,62 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable
-} from '@tanstack/react-table'
-import { ChevronDown } from 'lucide-react'
+} from '@tanstack/react-table';
+import { ChevronDown } from 'lucide-react';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { appointmentGetVetIdAPI } from '@/Services/AppointmentService'
-import { hospitalizationListVetAPI } from '@/Services/HospitalizationService'
+} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { appointmentGetVetIdAPI } from '@/Services/AppointmentService';
+import { hospitalizationListVetAPI } from '@/Services/HospitalizationService';
 // Remove the import statement for 'PetHealthTrack'
 
 // Adjustments to switch from Payment to Appointment data model
 export type Hospitalization = {
-  hospitalizationId: number
-  petId: number
-  kennelId: number
-  vetId: number
-  admissionDate: string
-  dischargeDate: string
-  petName: string
-  kennelDescription: string
-  vetName: string
-  totalCost: number
-  paymentStatus: number
-}
+  hospitalizationId: number;
+  petId: number;
+  kennelId: number;
+  vetId: number;
+  admissionDate: string;
+  dischargeDate: string;
+  petName: string;
+  kennelDescription: string;
+  vetName: string;
+  totalCost: number;
+  paymentStatus: number;
+};
 
 export type PetHealthTrack = {
-  petHealthTrackId: number
-  hospitalizationId: number // Assuming a link to the Hospitalization type
-  petName: string
-  petImage: string
-  description: string
-  date: string
-  status: number // Consider using an enum for clarity on status values
-}
+  petHealthTrackId: number;
+  hospitalizationId: number; // Assuming a link to the Hospitalization type
+  petName: string;
+  petImage: string;
+  description: string;
+  date: string;
+  status: number; // Consider using an enum for clarity on status values
+};
 
 // Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSelect: (id: number) => void }) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [data, setData] = React.useState<Hospitalization[]>([]) // State to hold fetched data
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<Hospitalization[]>([]); // State to hold fetched data
 
   // Function to fetch appointments and update state
   const fetchHospitalizationsAndUpdateState = async () => {
     try {
-      const response = await appointmentGetVetIdAPI() // Fetch the vet details
-      const vetName = (response as unknown as { userName: string }).userName // Type assertion
+      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const vetName = (response as unknown as { userName: string }).userName; // Type assertion
       //console.log("vetId:", vetName);
       if (vetName) {
-        const hospitalization: Hospitalization[] | undefined = await hospitalizationListVetAPI(vetName) // Fetch appointments
+        const hospitalization: Hospitalization[] | undefined = await hospitalizationListVetAPI(vetName); // Fetch appointments
         //console.log("hospitalization:", hospitalization);
         if (hospitalization) {
           const formattedHospitalization: Hospitalization[] = hospitalization.map((hospitalization) => ({
@@ -85,19 +85,19 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
             petName: hospitalization.petName,
             kennelDescription: hospitalization.kennelDescription,
             vetName: hospitalization.vetName
-          }))
-          setData(formattedHospitalization) // Update state with fetched data
+          }));
+          setData(formattedHospitalization); // Update state with fetched data
         }
       }
     } catch (error) {
-      console.error('Failed to fetch appointments:', error)
+      console.error('Failed to fetch appointments:', error);
     }
-  }
+  };
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchHospitalizationsAndUpdateState()
-  }, []) // Empty dependency array means this effect runs once on mount
+    fetchHospitalizationsAndUpdateState();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   // Adjust the columns definition to match the Appointment data model
   const columns: ColumnDef<Hospitalization>[] = [
@@ -152,22 +152,22 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
       accessorKey: 'totalCost',
       header: () => <div className='text-right'>Total Cost</div>,
       cell: ({ row }) => {
-        const totalCost = parseFloat(row.getValue('totalCost'))
+        const totalCost = parseFloat(row.getValue('totalCost'));
 
         // Format the totalCost as a dollar amount
         const formatted = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD'
-        }).format(totalCost)
+        }).format(totalCost);
 
-        return <div className='text-right font-medium'>{formatted}</div>
+        return <div className='text-right font-medium'>{formatted}</div>;
       }
     },
     {
       id: 'actions',
       enableHiding: false,
       cell: ({ row }) => {
-        const hospitalization = row.original
+        const hospitalization = row.original;
 
         return (
           <div className='flex justify-center'>
@@ -175,10 +175,10 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
               View pet health track
             </Button>
           </div>
-        )
+        );
       }
     }
-  ]
+  ];
 
   const table = useReactTable({
     data, // Use state variable for data
@@ -197,7 +197,7 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
       columnVisibility,
       rowSelection
     }
-  })
+  });
 
   return (
     <div className='w-full'>
@@ -223,7 +223,7 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -238,7 +238,7 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
                     <TableHead key={header.id}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -282,5 +282,5 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
         </div>
       </div>
     </div>
-  )
+  );
 }

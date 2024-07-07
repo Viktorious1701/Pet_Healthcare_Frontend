@@ -1,25 +1,25 @@
-import { useState } from 'react'
-import logo from '@/assets/react.svg'
-import SearchBar from '@/components/navigation/SearchBar'
+import { useState } from 'react';
+import logo from '@/assets/react.svg';
+import SearchBar from '@/components/navigation/SearchBar';
 
 const accounts = [
   { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
   { id: 2, name: 'Jane Smith', email: 'jane.smith@example.com' },
   { id: 3, name: 'Bob Johnson', email: 'bob.johnson@example.com' }
   // Add more accounts as needed
-]
+];
 
 const Accounts = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-  const filteredAccounts = accounts.filter((account) => account.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  const [searchTerm, setSearchTerm] = useState('');
+  const filteredAccounts = accounts.filter((account) => account.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleUpdateAccount = (accountId: number) => {
-    console.log(`Updating account with ID: ${accountId}`)
-  }
+    console.log(`Updating account with ID: ${accountId}`);
+  };
 
   const handleDeleteAccount = (accountId: number) => {
-    console.log(`Deleting account with ID: ${accountId}`)
-  }
+    console.log(`Deleting account with ID: ${accountId}`);
+  };
 
   return (
     <div className='bg-white p-5 rounded-lg mb-5 flex-1 overflow-y-auto'>
@@ -69,7 +69,7 @@ const Accounts = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Accounts
+export default Accounts;

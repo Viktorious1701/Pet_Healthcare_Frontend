@@ -1,24 +1,24 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import SidebarComponent from './SidebarComponent'
-import { LayoutDashboard, UserCircle, Receipt, Settings, LifeBuoy } from 'lucide-react'
-import { SidebarItem } from './SidebarComponent'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SidebarComponent from './SidebarComponent';
+import { LayoutDashboard, UserCircle, Receipt, Settings, LifeBuoy } from 'lucide-react';
+import { SidebarItem } from './SidebarComponent';
 import {
   ADMIN_ACCOUNT_PAGE,
   ADMIN_APPOINTMENT,
   ADMIN_DASHBOARD,
   ADMIN_HOSPITALIZATION,
   HOME_PAGE
-} from '@/Route/router-const'
+} from '@/Route/router-const';
 
 const Sidebar = () => {
-  const [activePath, setActivePath] = useState('/dashboard')
-  const navigate = useNavigate()
+  const [activePath, setActivePath] = useState('/dashboard');
+  const navigate = useNavigate();
 
   const handleNavigation = (path: string) => {
-    setActivePath(path)
-    navigate(path)
-  }
+    setActivePath(path);
+    navigate(path);
+  };
 
   return (
     <SidebarComponent>
@@ -60,7 +60,7 @@ const Sidebar = () => {
         active={activePath === `/${HOME_PAGE}`}
       />
     </SidebarComponent>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

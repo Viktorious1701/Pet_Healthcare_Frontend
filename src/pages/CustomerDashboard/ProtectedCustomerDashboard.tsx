@@ -1,6 +1,6 @@
-import React from 'react'
-import ProtectedRoutes from '@/Route/ProtectedRoutes'
-import CustomerDashboard from './CustomerDashboard'
+import React from 'react';
+import ProtectedRoutes from '@/Route/ProtectedRoutes';
+import CustomerDashboard from './CustomerDashboard';
 
 class ProtectedCustomerDashboard extends React.Component {
   render() {
@@ -8,8 +8,8 @@ class ProtectedCustomerDashboard extends React.Component {
       <ProtectedRoutes>
         <CustomerDashboard />
       </ProtectedRoutes>
-    )
+    );
   }
 }
 
-export default ProtectedCustomerDashboard
+export default ProtectedCustomerDashboard;

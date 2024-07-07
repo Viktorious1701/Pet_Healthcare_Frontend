@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Input } from '@/components/ui/input'
-import { useForm } from 'react-hook-form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input';
+import { useForm } from 'react-hook-form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -9,15 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import { UserInfo } from '@/Models/User'
-import { countries } from '@/Helpers/globalVariable'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { UserInfo } from '@/Models/User';
+import { countries } from '@/Helpers/globalVariable';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 
 const profileFormSchema = z
   .object({
@@ -54,25 +54,25 @@ const profileFormSchema = z
   .refine(
     (data) => {
       if (data.role === 'Vet') {
-        return data.rating !== undefined && data.yearsOfExperience !== undefined
+        return data.rating !== undefined && data.yearsOfExperience !== undefined;
       }
-      return true
+      return true;
     },
     {
       message: 'Rating and Years of Experience are required for Vet role',
       path: ['rating', 'yearsOfExperience']
     }
-  )
+  );
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 interface UserAddDialogProps {
-  onUserAdded: (user: UserInfo) => void
+  onUserAdded: (user: UserInfo) => void;
 }
 
 const UserAddDialog: React.FC<UserAddDialogProps> = () => {
-  const [selectedRole, setSelectedRole] = useState<string>('')
-  const roles = ['Customer', 'Vet', 'Employee']
+  const [selectedRole, setSelectedRole] = useState<string>('');
+  const roles = ['Customer', 'Vet', 'Employee'];
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange',
@@ -88,7 +88,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
       password: '' // Don't pre-fill the password for security reasons
       // imageUrl: null
     }
-  })
+  });
 
   // const handleUserAdd = async (user: ProfileFormValues) => {
   //   await userAddAPI(
@@ -120,11 +120,11 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
   // };
 
   const handleReset = () => {
-    form.reset()
-  }
+    form.reset();
+  };
 
   function onSubmit(data: ProfileFormValues) {
-    console.log(data)
+    console.log(data);
     // handleUserAdd(data);
   }
 
@@ -199,8 +199,8 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
-                          field.onChange(value)
-                          setSelectedRole(value)
+                          field.onChange(value);
+                          setSelectedRole(value);
                         }}
                       >
                         <FormControl>
@@ -314,7 +314,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
                     <FormLabel>Country</FormLabel>
                     <Select
                       onValueChange={(value) => {
-                        field.onChange(value)
+                        field.onChange(value);
                       }}
                     >
                       <FormControl>
@@ -360,7 +360,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
                     <FormControl>
                       <Select
                         onValueChange={(value) => {
-                          field.onChange(value === 'true')
+                          field.onChange(value === 'true');
                         }}
                       >
                         <FormControl>
@@ -405,6 +405,6 @@ const UserAddDialog: React.FC<UserAddDialogProps> = () => {
         </Form>
       </DialogContent>
     </Dialog>
-  )
-}
-export default UserAddDialog
+  );
+};
+export default UserAddDialog;

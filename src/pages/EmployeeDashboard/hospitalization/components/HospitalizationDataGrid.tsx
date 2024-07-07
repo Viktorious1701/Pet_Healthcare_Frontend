@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react'
-import { Box } from '@mui/material'
+import { useEffect, useState, useRef } from 'react';
+import { Box } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -8,28 +8,28 @@ import {
   GridRowModel,
   GridRowModes,
   GridRowModesModel
-} from '@mui/x-data-grid'
-import { CircleX, DeleteIcon, EditIcon, SaveIcon, DollarSignIcon } from 'lucide-react'
-import React from 'react'
-import { toast } from 'sonner'
-import { Hospitalization } from '@/Models/Hospitalization'
-import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from '@/Services/HospitalizationService'
-import { getPetById } from '@/Services/PetService'
-import { cashoutApi } from '@/Services/PaymentService'
+} from '@mui/x-data-grid';
+import { CircleX, DeleteIcon, EditIcon, SaveIcon, DollarSignIcon } from 'lucide-react';
+import React from 'react';
+import { toast } from 'sonner';
+import { Hospitalization } from '@/Models/Hospitalization';
+import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from '@/Services/HospitalizationService';
+import { getPetById } from '@/Services/PetService';
+import { cashoutApi } from '@/Services/PaymentService';
 
 interface HospitalizationDataGridProps {
-  hospitalizations: Hospitalization[]
-  setHospitalizations: (hospitalizations: Hospitalization[]) => void
-  onHospitalizationDelete: (hospitalization: Hospitalization) => void
+  hospitalizations: Hospitalization[];
+  setHospitalizations: (hospitalizations: Hospitalization[]) => void;
+  onHospitalizationDelete: (hospitalization: Hospitalization) => void;
 }
 
 const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
   hospitalizations,
   onHospitalizationDelete
 }) => {
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
-  const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([])
-  const prevHospitalizationsRef = useRef<Hospitalization[]>([])
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([]);
+  const prevHospitalizationsRef = useRef<Hospitalization[]>([]);
 
   useEffect(() => {
     const fetchPetNames = async () => {
@@ -37,101 +37,101 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         hospitalizations.map(async (hospitalization) => {
           if (!hospitalization.petName || hospitalization.paymentStatus === null) {
             try {
-              const petData = await getPetById(hospitalization.petId.toString())
+              const petData = await getPetById(hospitalization.petId.toString());
               return {
                 ...hospitalization,
                 petName: petData?.data.name,
                 paymentStatus: hospitalization.paymentStatus === null ? 0 : hospitalization.paymentStatus
-              }
+              };
             } catch (error) {
-              console.error(`Failed to fetch pet name for petId: ${hospitalization.petId}`)
+              console.error(`Failed to fetch pet name for petId: ${hospitalization.petId}`);
             }
           }
-          return hospitalization
+          return hospitalization;
         })
-      )
-      setHospitalizationsWithPetNames(updatedHospitalizations)
-    }
+      );
+      setHospitalizationsWithPetNames(updatedHospitalizations);
+    };
 
     // Compare current and previous hospitalizations
     if (JSON.stringify(prevHospitalizationsRef.current) !== JSON.stringify(hospitalizations)) {
-      fetchPetNames()
-      prevHospitalizationsRef.current = hospitalizations
+      fetchPetNames();
+      prevHospitalizationsRef.current = hospitalizations;
     }
-  }, [hospitalizations])
+  }, [hospitalizations]);
 
   const handleHospitalizationUpdate = (hospitalizationId: number, dischargeDate: string) => {
     hospitalizationUpdateAPI(hospitalizationId, dischargeDate)
       .then((res) => {
         if (res?.data) {
-          toast.success('Hospitalization ' + `${hospitalizationId}` + ' is updated')
+          toast.success('Hospitalization ' + `${hospitalizationId}` + ' is updated');
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const handleHospitalizationDelete = (hospitalizationId: number) => {
     hospitalizationDeleteAPI(hospitalizationId)
       .then((res) => {
         if (res?.data) {
-          onHospitalizationDelete(res.data)
-          toast.success('Hospitalization ' + `${hospitalizationId}` + ' is deleted')
+          onHospitalizationDelete(res.data);
+          toast.success('Hospitalization ' + `${hospitalizationId}` + ' is deleted');
         }
       })
       .catch((e) => {
-        toast.error('Fail to delete hospitalization', e)
-      })
-  }
+        toast.error('Fail to delete hospitalization', e);
+      });
+  };
 
   const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
-  }
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
 
   const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
-  }
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    handleHospitalizationDelete(Number(id))
-  }
+    handleHospitalizationDelete(Number(id));
+  };
 
   const handleCancelClick = (id: GridRowId) => () => {
     setRowModesModel({
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true }
-    })
-  }
+    });
+  };
 
   const handleCashoutClick = (id: GridRowId, customerId: string) => async () => {
     try {
-      const res = await cashoutApi(customerId, Number(id))
+      const res = await cashoutApi(customerId, Number(id));
       if (res?.data) {
-        toast.success('Cashout successful')
+        toast.success('Cashout successful');
         const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
           row.hospitalizationId === id ? { ...row, paymentStatus: 1, cashedOut: true } : row
-        )
-        setHospitalizationsWithPetNames(updatedHospitalizations)
+        );
+        setHospitalizationsWithPetNames(updatedHospitalizations);
       }
     } catch (error) {
-      toast.error('Cashout failed, Hospitalization has been cashed out already')
+      toast.error('Cashout failed, Hospitalization has been cashed out already');
     }
-  }
+  };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel)
-  }
+    setRowModesModel(newRowModesModel);
+  };
 
   const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = newRow as Hospitalization
-    handleHospitalizationUpdate(updatedRow.hospitalizationId, updatedRow.dischargeDate)
+    const updatedRow = newRow as Hospitalization;
+    handleHospitalizationUpdate(updatedRow.hospitalizationId, updatedRow.dischargeDate);
     const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
       row.hospitalizationId === updatedRow.hospitalizationId ? updatedRow : row
-    )
-    setHospitalizationsWithPetNames(updatedHospitalizations)
-    return newRow
-  }
+    );
+    setHospitalizationsWithPetNames(updatedHospitalizations);
+    return newRow;
+  };
 
   const columns: GridColDef[] = [
     {
@@ -189,7 +189,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       type: 'actions',
       width: 150,
       getActions: ({ id, row }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
           return [
@@ -210,7 +210,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
               color='inherit'
               onClick={handleCancelClick(id)}
             />
-          ]
+          ];
         }
 
         return [
@@ -233,10 +233,10 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
             />
             ,
           </div>
-        ]
+        ];
       }
     }
-  ]
+  ];
 
   return (
     <Box
@@ -256,7 +256,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         pageSizeOptions={[5, 10, 25, 100]}
       />
     </Box>
-  )
-}
+  );
+};
 
-export default HospitalizationDataGrid
+export default HospitalizationDataGrid;

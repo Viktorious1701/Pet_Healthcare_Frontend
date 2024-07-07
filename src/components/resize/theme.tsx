@@ -1,5 +1,5 @@
 // src/theme.ts
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme } from 'styled-components';
 
 export const lightPinkTheme: DefaultTheme = {
   colors: {
@@ -11,4 +11,4 @@ export const lightPinkTheme: DefaultTheme = {
     background: '#FFF5EE', // Seashell
     text: '#333333'
   }
-}
+};

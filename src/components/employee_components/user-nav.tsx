@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/custom/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/custom/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,22 +9,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { useAuth } from '@/Context/useAuth'
-import { useNavigate } from 'react-router'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+} from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/Context/useAuth';
+import { useNavigate } from 'react-router';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 export function UserNav() {
-  const { user, logout } = useAuth()
-  const { navigateToLogin } = useAuthNavigation()
+  const { user, logout } = useAuth();
+  const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout()
-    navigateToLogin()
-  }
-  const navigate = useNavigate()
+    logout();
+    navigateToLogin();
+  };
+  const navigate = useNavigate();
   const handleNavigate = (path: string) => {
-    navigate(`/employee/${path}`)
-  }
+    navigate(`/employee/${path}`);
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -65,5 +65,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

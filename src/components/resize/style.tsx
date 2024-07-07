@@ -1,29 +1,29 @@
 /* eslint-disable react-refresh/only-export-components */
-import styled from 'styled-components'
-import React from 'react'
+import styled from 'styled-components';
+import React from 'react';
 
 interface WindowDimensions {
-  width: number
+  width: number;
 }
 
 function getWindowDimensions(): WindowDimensions {
-  const { innerWidth: width } = window
-  return { width }
+  const { innerWidth: width } = window;
+  return { width };
 }
 
 export function useWindowDimensions(): WindowDimensions {
-  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions())
+  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
 
   React.useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions())
+      setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return windowDimensions
+  return windowDimensions;
 }
 
 const Resize: React.FC = () => {
@@ -47,10 +47,10 @@ const Resize: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Resize
+export default Resize;
 
 export const ResizeStyle = styled.div`
   .box-style {
@@ -97,4 +97,4 @@ export const ResizeStyle = styled.div`
       font-size: 2em;
     }
   }
-`
+`;

@@ -1,32 +1,32 @@
-import { useAuth } from '@/Context/useAuth'
-import { PetGet } from '@/Models/Pet'
-import { petsOfCustomerAPI } from '@/Services/PetService'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Card, CardContent } from '@/components/ui/card'
-import { CardMedia, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import PetRecordTable from './PetRecordTable'
-import PetVaccination from './PetVaccination'
+import { useAuth } from '@/Context/useAuth';
+import { PetGet } from '@/Models/Pet';
+import { petsOfCustomerAPI } from '@/Services/PetService';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Card, CardContent } from '@/components/ui/card';
+import { CardMedia, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import PetRecordTable from './PetRecordTable';
+import PetVaccination from './PetVaccination';
 
 export function PetRecord() {
-  const { user } = useAuth()
-  const [pets, setPets] = useState<PetGet[]>([])
+  const { user } = useAuth();
+  const [pets, setPets] = useState<PetGet[]>([]);
 
   useEffect(() => {
     const getPets = async () => {
       await petsOfCustomerAPI(String(user?.userName))
         .then((res) => {
           if (res?.data) {
-            setPets(res.data)
+            setPets(res.data);
           }
         })
         .catch((e) => {
-          toast.error('Server error occurred', e)
-        })
-    }
-    getPets()
-  }, [user?.userName])
+          toast.error('Server error occurred', e);
+        });
+    };
+    getPets();
+  }, [user?.userName]);
 
   return (
     <Accordion type='single' collapsible className='w-full p-4'>
@@ -60,5 +60,5 @@ export function PetRecord() {
         </AccordionItem>
       ))}
     </Accordion>
-  )
+  );
 }

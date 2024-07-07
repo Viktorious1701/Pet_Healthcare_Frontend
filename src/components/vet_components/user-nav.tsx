@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/custom/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/custom/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,67 +9,67 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { useLocation, useNavigate } from 'react-router-dom'
+} from '@/components/ui/dropdown-menu';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ADMIN_DASHBOARD,
   CUSTOMER_DASHBOARD,
   EMPLOYEE_DASHBOARD,
   SETTINGS_PROFILE,
   VET_DASHBOARD
-} from '@/Route/router-const'
-import { useAuth } from '@/Context/useAuth'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+} from '@/Route/router-const';
+import { useAuth } from '@/Context/useAuth';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 export function UserNav() {
-  const location = useLocation()
+  const location = useLocation();
 
-  const { user, logout } = useAuth()
+  const { user, logout } = useAuth();
 
-  const { navigateToLogin } = useAuthNavigation()
+  const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout()
-    navigateToLogin()
-  }
-  const navigate = useNavigate()
-  const role = user?.role || '0'
+    logout();
+    navigateToLogin();
+  };
+  const navigate = useNavigate();
+  const role = user?.role || '0';
 
-  let path = ''
+  let path = '';
   switch (role) {
     case 'Admin':
-      path = ADMIN_DASHBOARD
-      break
+      path = ADMIN_DASHBOARD;
+      break;
     case 'Employee':
-      path = EMPLOYEE_DASHBOARD
-      break
+      path = EMPLOYEE_DASHBOARD;
+      break;
     case 'Vet':
-      path = VET_DASHBOARD
-      break
+      path = VET_DASHBOARD;
+      break;
     case 'Customer':
-      path = CUSTOMER_DASHBOARD
-      break
+      path = CUSTOMER_DASHBOARD;
+      break;
     default:
-      path = CUSTOMER_DASHBOARD
+      path = CUSTOMER_DASHBOARD;
   }
 
   const navigateToUserProfile = () => {
-    navigate(`/${path}/${SETTINGS_PROFILE}`)
-  }
+    navigate(`/${path}/${SETTINGS_PROFILE}`);
+  };
 
   const navigateToDashboard = () => {
-    navigate(`/${path}`)
-  }
+    navigate(`/${path}`);
+  };
 
   const navitgateToHome = () => {
-    navigate(`/`)
-  }
+    navigate(`/`);
+  };
 
   const dashboardNames = {
     Admin: 'Admin Dashboard',
     Employee: 'Employee Dashboard',
     Vet: 'Vet Dashboard',
     Customer: 'Customer Dashboard'
-  }
+  };
 
   return (
     <DropdownMenu>
@@ -116,5 +116,5 @@ export function UserNav() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
-import { appointmentPostAPI } from '@/Services/AppointmentService'
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { appointmentPostAPI } from '@/Services/AppointmentService';
 
 const AppointmentForm = () => {
   // Extract appointmentId from URL
   const { appointmentId: urlAppointmentId } = useParams<{
-    appointmentId: string
-  }>()
+    appointmentId: string;
+  }>();
 
   // Initialize form state with the appointmentId from the URL
   const [appointmentDetails, setAppointmentDetails] = useState({
@@ -18,35 +18,35 @@ const AppointmentForm = () => {
     diagnosis: '',
     treatment: '',
     medication: ''
-  })
+  });
 
   // If the URL appointmentId changes, update the form state
   useEffect(() => {
     setAppointmentDetails((prevState) => ({
       ...prevState,
       appointmentId: parseInt(urlAppointmentId || '', 10) || 0 // Provide a fallback empty string
-    }))
-  }, [urlAppointmentId])
+    }));
+  }, [urlAppointmentId]);
 
   const handleInputChange = (e: { target: { id: unknown; value: unknown } }) => {
-    const { id, value } = e.target // Use `id` to identify the input, assuming each input has a unique id corresponding to its state property
+    const { id, value } = e.target; // Use `id` to identify the input, assuming each input has a unique id corresponding to its state property
     setAppointmentDetails((prevState) => ({
       ...prevState,
       [String(id)]: value // Convert `id` to a string before using it as a computed property name
-    }))
-  }
+    }));
+  };
 
   const handleAddAppointment = async () => {
     if (!appointmentDetails.diagnosis || !appointmentDetails.treatment || !appointmentDetails.medication) {
-      alert('Please fill in all fields')
-      return
+      alert('Please fill in all fields');
+      return;
     }
-    const result = await appointmentPostAPI(appointmentDetails)
+    const result = await appointmentPostAPI(appointmentDetails);
     if (result) {
-      alert('Appointment added successfully')
+      alert('Appointment added successfully');
       // Reset form or handle success scenario
     }
-  }
+  };
 
   return (
     <form onSubmit={(e) => e.preventDefault()} className='w-full p-10 bg-opacity-20 z-10 overflow-auto'>
@@ -125,7 +125,7 @@ const AppointmentForm = () => {
         </CardContent>
       </Card>
     </form>
-  )
-}
+  );
+};
 
-export default AppointmentForm
+export default AppointmentForm;

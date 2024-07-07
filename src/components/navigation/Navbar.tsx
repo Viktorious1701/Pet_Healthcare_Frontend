@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom'
-import Header from './Header'
-import Paw from '@/assets/Paw2.svg'
-import { useAuth } from '@/Context/useAuth'
+import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Paw from '@/assets/Paw2.svg';
+import { useAuth } from '@/Context/useAuth';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/custom/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/custom/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu';
 
 import {
   ADMIN_DASHBOARD,
@@ -24,60 +24,60 @@ import {
   REGISTER,
   VET_DASHBOARD,
   SETTINGS_PROFILE
-} from '@/Route/router-const'
-import ThemeSwitch from '../vet_components/theme-switch'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+} from '@/Route/router-const';
+import ThemeSwitch from '../vet_components/theme-switch';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 const Navbar = () => {
-  const { isLoggedIn, user, logout } = useAuth()
+  const { isLoggedIn, user, logout } = useAuth();
 
-  const { navigateToLogin } = useAuthNavigation()
+  const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
-    logout()
-    navigateToLogin()
-  }
-  const navigate = useNavigate()
-  const role = user?.role || '0'
+    logout();
+    navigateToLogin();
+  };
+  const navigate = useNavigate();
+  const role = user?.role || '0';
 
-  let path = ''
+  let path = '';
   switch (role) {
     case 'Admin':
-      path = ADMIN_DASHBOARD
-      break
+      path = ADMIN_DASHBOARD;
+      break;
     case 'Employee':
-      path = EMPLOYEE_DASHBOARD
-      break
+      path = EMPLOYEE_DASHBOARD;
+      break;
     case 'Vet':
-      path = VET_DASHBOARD
-      break
+      path = VET_DASHBOARD;
+      break;
     case 'Customer':
-      path = CUSTOMER_DASHBOARD
-      break
+      path = CUSTOMER_DASHBOARD;
+      break;
     default:
-      path = CUSTOMER_DASHBOARD
+      path = CUSTOMER_DASHBOARD;
   }
   const handleLoginClick = () => {
-    navigate(`/${LOGIN}`)
-  }
+    navigate(`/${LOGIN}`);
+  };
 
   const handleRegisterClick = () => {
-    navigate(`/${REGISTER}`)
-  }
+    navigate(`/${REGISTER}`);
+  };
 
   const navigateToUserProfile = () => {
-    navigate(`/${path}/${SETTINGS_PROFILE}`)
-  }
+    navigate(`/${path}/${SETTINGS_PROFILE}`);
+  };
 
   const navigateToDashboard = () => {
-    navigate(`/${path}`)
-  }
+    navigate(`/${path}`);
+  };
 
   const dashboardNames = {
     Admin: 'Admin Dashboard',
     Employee: 'Employee Dashboard',
     Vet: 'Vet Dashboard',
     Customer: 'Customer Dashboard'
-  }
+  };
 
   return (
     <div className='fixed z-50 top-0 left-0 min-w-full flex bg-[--nav-header] pb-8 justify-between'>
@@ -166,7 +166,7 @@ const Navbar = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

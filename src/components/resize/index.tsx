@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { ResizeStyle } from './style'
+import React, { useEffect, useState } from 'react';
+import { ResizeStyle } from './style';
 
 interface WindowDimensions {
-  width: number
+  width: number;
 }
 
 function getWindowDimensions(): WindowDimensions {
-  const { innerWidth: width } = window
+  const { innerWidth: width } = window;
   return {
     width
-  }
+  };
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useWindowDimensions(): WindowDimensions {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   useEffect(() => {
     function handleResize() {
-      setWindowDimensions(getWindowDimensions())
+      setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  return windowDimensions
+  return windowDimensions;
 }
 
 export const Resize: React.FC = () => {
@@ -51,5 +51,5 @@ export const Resize: React.FC = () => {
         </div>
       </ResizeStyle>
     </div>
-  )
-}
+  );
+};
