@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { PetGet } from '@/Models/Pet'
-import { getPetById, updatePetData } from '@/Services/PetService'
-import { handleError } from '@/Helpers/ErrorHandler'
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const'
-import { useTheme } from '@/components/vet_components/theme-provider' // Import useTheme hook
-import { toast } from 'sonner'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { PetGet } from '@/Models/Pet';
+import { getPetById, updatePetData } from '@/Services/PetService';
+import { handleError } from '@/Helpers/ErrorHandler';
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const';
+import { useTheme } from '@/components/vet_components/theme-provider'; // Import useTheme hook
+import { toast } from 'sonner';
 const PetUpdateForm: React.FC = () => {
-  const { petId } = useParams<{ petId: string }>()
-  const [editPet, setEditPet] = useState<PetGet | null>(null)
+  const { petId } = useParams<{ petId: string }>();
+  const [editPet, setEditPet] = useState<PetGet | null>(null);
   const [formValues, setFormValues] = useState({
     petId: 0,
     name: '',
@@ -16,19 +16,19 @@ const PetUpdateForm: React.FC = () => {
     breed: '',
     gender: false,
     weight: 0
-  })
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const navigate = useNavigate()
-  const { theme } = useTheme() // Use the useTheme hook to get the current theme
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const navigate = useNavigate();
+  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
 
   useEffect(() => {
     const fetchData = async () => {
       if (petId) {
         try {
-          const response = await getPetById(petId)
+          const response = await getPetById(petId);
           if (response?.data) {
-            const petData = response.data
-            setEditPet(petData)
+            const petData = response.data;
+            setEditPet(petData);
             setFormValues({
               petId: petData.id,
               name: petData.name,
@@ -36,46 +36,46 @@ const PetUpdateForm: React.FC = () => {
               breed: petData.breed,
               weight: petData.weight,
               gender: petData.gender
-            })
+            });
           }
         } catch (err) {
-          handleError(err)
+          handleError(err);
         }
       }
-    }
-    fetchData()
-  }, [petId])
+    };
+    fetchData();
+  }, [petId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormValues({
       ...formValues,
       [name]: value
-    })
-  }
+    });
+  };
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (formValues && petId) {
       try {
-        const dataToUpdate = { imageFile, ...formValues }
-        console.log('dataToUpdate', dataToUpdate)
-        await updatePetData(parseInt(petId, 10), dataToUpdate)
-        toast.info('Pet information updated successfully.')
-        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`)
+        const dataToUpdate = { imageFile, ...formValues };
+        console.log('dataToUpdate', dataToUpdate);
+        await updatePetData(parseInt(petId, 10), dataToUpdate);
+        toast.info('Pet information updated successfully.');
+        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
       } catch (err) {
-        handleError(err)
-        toast.error('An error occurred while updating pet information.')
+        handleError(err);
+        toast.error('An error occurred while updating pet information.');
       }
     }
-  }
+  };
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormValues({
       ...formValues,
       gender: e.target.value === 'male'
-    })
-  }
+    });
+  };
 
   return (
     <div
@@ -170,7 +170,7 @@ const PetUpdateForm: React.FC = () => {
                   id='imageFile'
                   name='imageFile'
                   onChange={(e) => {
-                    setImageFile(e.target.files?.[0] ?? null)
+                    setImageFile(e.target.files?.[0] ?? null);
                   }}
                   className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${theme === 'dark' ? 'bg-custom-lightGray text-black' : 'border-gray-300 text-gray-700'}`}
                   readOnly
@@ -200,7 +200,7 @@ const PetUpdateForm: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PetUpdateForm
+export default PetUpdateForm;

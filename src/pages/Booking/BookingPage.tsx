@@ -1,69 +1,69 @@
-import { useState, useRef, useEffect } from 'react'
-import Navbar from '@/components/navigation/Navbar'
-import CalendarComponent from '@/components/calendar/CalendarComponent'
-import { useDispatch } from 'react-redux'
-import { setDateSlot } from '@/components/slices/dateSlice'
-import { AppDispatch } from '@/store'
-import { SlotGet } from '@/Models/Slot'
-import { slotGetAPI } from '@/Services/SlotService'
-import { toast } from 'react-toastify'
-import BookingForm from '@/components/appointment/BookingForm'
-import Footer from '@/components/navigation/Footer'
-import { ArrowRightFromLine } from 'lucide-react'
-import { useNavigate } from 'react-router'
-import { useAuth } from '@/Context/useAuth'
+import { useState, useRef, useEffect } from 'react';
+import Navbar from '@/components/navigation/Navbar';
+import CalendarComponent from '@/components/calendar/CalendarComponent';
+import { useDispatch } from 'react-redux';
+import { setDateSlot } from '@/components/slices/dateSlice';
+import { AppDispatch } from '@/store';
+import { SlotGet } from '@/Models/Slot';
+import { slotGetAPI } from '@/Services/SlotService';
+import { toast } from 'react-toastify';
+import BookingForm from '@/components/appointment/BookingForm';
+import Footer from '@/components/navigation/Footer';
+import { ArrowRightFromLine } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import { useAuth } from '@/Context/useAuth';
 
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const BookingPage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { user } = useAuth()
+  const { user } = useAuth();
 
-  const [slots, setSlots] = useState<SlotGet[] | null>([])
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null)
-  const [formVisible, setFormVisible] = useState(false)
-  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [slots, setSlots] = useState<SlotGet[] | null>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null);
+  const [formVisible, setFormVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const getSlots = async (date: string) => {
     slotGetAPI(date)
       .then((res) => {
         if (res?.data) {
-          setSlots(res?.data)
+          setSlots(res?.data);
         }
       })
       .catch(() => {
-        toast.warning('Could not get slot data')
-      })
-  }
+        toast.warning('Could not get slot data');
+      });
+  };
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      navigate('/login')
+      navigate('/login');
     }
-    window.scrollTo(0, 0)
-  }, [navigate])
+    window.scrollTo(0, 0);
+  }, [navigate]);
 
   const handleBookingCancel = () => {
-    setSelectedDate(null)
-    setSelectedSlot(null)
-    setFormVisible(false)
-  }
+    setSelectedDate(null);
+    setSelectedSlot(null);
+    setFormVisible(false);
+  };
   const handleDateChange = (value: Value) => {
     if (!Array.isArray(value)) {
-      setSelectedDate(value)
-      setSelectedSlot(null)
-      getSlots(String(value?.toLocaleDateString().replace(/\//g, '-')))
+      setSelectedDate(value);
+      setSelectedSlot(null);
+      getSlots(String(value?.toLocaleDateString().replace(/\//g, '-')));
     }
-  }
+  };
 
   const handleSlotClick = (slot: SlotGet) => {
     if (slot.available) {
-      setSelectedSlot(slot)
+      setSelectedSlot(slot);
     }
-  }
+  };
 
   const handleBooking = () => {
     if (selectedSlot && selectedDate) {
@@ -72,38 +72,38 @@ const BookingPage = () => {
           date: selectedDate.toString(),
           slot: selectedSlot.slotId.toString()
         })
-      )
-      setFormVisible(true)
+      );
+      setFormVisible(true);
     }
-  }
+  };
 
   useEffect(() => {
     if (formVisible && containerRef.current) {
       containerRef.current.scrollTo({
         left: containerRef.current.clientWidth,
         behavior: 'smooth'
-      })
+      });
     }
     // form visible if set to true and containerRef is not null will activate the scroll
-  }, [formVisible])
+  }, [formVisible]);
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
-    const [month, day, year] = String(selectedDate?.toLocaleDateString().replace(/\//g, '-')).split('-')
-    const [hour, minute] = slot.startTime.split(':')
-    const slotDateTime = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute))
-    const now = new Date()
+    const [month, day, year] = String(selectedDate?.toLocaleDateString().replace(/\//g, '-')).split('-');
+    const [hour, minute] = slot.startTime.split(':');
+    const slotDateTime = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
+    const now = new Date();
 
     if (!slot.available) {
-      return true
+      return true;
     }
-    return slotDateTime < now
-  }
+    return slotDateTime < now;
+  };
 
   const renderTimeSlots = () => {
     return slots?.map((slot, index) => {
-      const isPast = isSlotInThePast(slot)
-      slot.available = !isPast // Update availability based on the current time
-      const isSelected = selectedSlot && selectedSlot.slotId === slot.slotId
+      const isPast = isSlotInThePast(slot);
+      slot.available = !isPast; // Update availability based on the current time
+      const isSelected = selectedSlot && selectedSlot.slotId === slot.slotId;
 
       return (
         <div
@@ -119,15 +119,15 @@ const BookingPage = () => {
         >
           {slot.startTime}
         </div>
-      )
-    })
-  }
+      );
+    });
+  };
 
   const handleReset = () => {
-    setSelectedDate(null)
-    setSelectedSlot(null)
-    setFormVisible(false)
-  }
+    setSelectedDate(null);
+    setSelectedSlot(null);
+    setFormVisible(false);
+  };
 
   return (
     <div className='bg-cover bg-center min-h-screen bg-[--background]'>
@@ -188,7 +188,7 @@ const BookingPage = () => {
       <br />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default BookingPage
+export default BookingPage;

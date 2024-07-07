@@ -1,29 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import gsap from 'gsap'
+import gsap from 'gsap';
 
 // Declare a general timeline to use in all the animation functions.
-const tl = gsap.timeline()
+const tl = gsap.timeline();
 
 // Define breakpoints
 const breakpoints = {
   mobile: 480,
   tablet: 768,
   desktop: 1024
-}
+};
 
 // Define the type for the size parameter to ensure it matches the keys of the breakpoints object
-type DeviceSize = 'mobile' | 'tablet' | 'desktop'
+type DeviceSize = 'mobile' | 'tablet' | 'desktop';
 
 // Utility function to check device size with explicitly typed parameter
 const isDevice = (size: DeviceSize) => {
-  const width = window.innerWidth
-  return width <= breakpoints[size]
-}
+  const width = window.innerWidth;
+  return width <= breakpoints[size];
+};
 
 // Preloader Animation
 export const preLoaderAnim = (): void => {
-  const scaleValue = isDevice('mobile') ? 1 : 1.5 // Smaller scale on mobile
-  gsap.set('.paw', { scale: scaleValue })
+  const scaleValue = isDevice('mobile') ? 1 : 1.5; // Smaller scale on mobile
+  gsap.set('.paw', { scale: scaleValue });
 
   tl.to('body', {
     duration: 0.05, // Reduced from 0.1
@@ -55,7 +55,7 @@ export const preLoaderAnim = (): void => {
       stagger: 0.2, // Reduced stagger time to maintain faster animation flow
       ease: 'Power3.easeOut',
       onStart: function () {
-        gsap.set('.texts-container span', { marginRight: '4px' })
+        gsap.set('.texts-container span', { marginRight: '4px' });
       }
     })
     .to('.paw', {
@@ -81,7 +81,7 @@ export const preLoaderAnim = (): void => {
       duration: 0.75, // Reduced from 1.5
       height: '0vh',
       ease: 'Power3.easeOut'
-    }) // Adjusted the overlap to make the sequence faster
+    }); // Adjusted the overlap to make the sequence faster
   // .from(".landing__main .text", {
   //   duration: 2,
   //   y: 10,
@@ -118,7 +118,7 @@ export const preLoaderAnim = (): void => {
   //   duration: 0,
   //   css: { display: "none" },
   // });
-}
+};
 
 // export const openMenu = (): void => {
 //   const tl = gsap.timeline();

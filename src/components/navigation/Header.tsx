@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { cn } from '@/lib/utils'
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 import {
   NavigationMenuItem,
   NavigationMenuContent,
@@ -7,9 +7,9 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
   NavigationMenu
-} from '@/components/ui/navigation-menu'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { APPOINTMENT, HOSPITALIZATION_INTRO } from '@/Route/router-const'
+} from '@/components/ui/navigation-menu';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { APPOINTMENT, HOSPITALIZATION_INTRO } from '@/Route/router-const';
 
 const intro = [
   {
@@ -37,7 +37,7 @@ const intro = [
     href: '#rating',
     description: 'Đội ngũ nhân viên của HealthCare'
   }
-]
+];
 
 const shops = [
   {
@@ -50,7 +50,7 @@ const shops = [
     href: `/${HOSPITALIZATION_INTRO}`,
     description: 'Our most profitable services'
   }
-]
+];
 
 export default function Header() {
   return (
@@ -102,40 +102,40 @@ export default function Header() {
         </NavigationMenuList>
       </NavigationMenu>
     </div>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<
   HTMLDivElement,
   { title: string; children: React.ReactNode; href: string; className?: string }
 >(({ className, title, children, href, ...props }, ref) => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const isHashLink = href.startsWith('#')
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHashLink = href.startsWith('#');
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (isHashLink) {
-      event.preventDefault()
-      const targetId = href.slice(1)
-      const targetElement = document.getElementById(targetId)
+      event.preventDefault();
+      const targetId = href.slice(1);
+      const targetElement = document.getElementById(targetId);
 
       if (location.pathname === '/') {
         // Scroll to the target element if on the home page
-        targetElement?.scrollIntoView({ behavior: 'smooth' })
+        targetElement?.scrollIntoView({ behavior: 'smooth' });
       } else {
         // Navigate to the home page and then scroll to the target element
-        navigate('/')
+        navigate('/');
         setTimeout(() => {
-          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
-        }, 100) // Delay to allow the navigation to complete
+          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100); // Delay to allow the navigation to complete
       }
     } else {
       // Navigate to a different page
-      navigate(href)
+      navigate(href);
       // Scroll to the top of the page when navigating to a different page
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
+  };
 
   return (
     <li>
@@ -152,7 +152,7 @@ const ListItem = React.forwardRef<
         <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>{children}</p>
       </div>
     </li>
-  )
-})
+  );
+});
 
-ListItem.displayName = 'ListItem'
+ListItem.displayName = 'ListItem';

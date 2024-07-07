@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 interface CategorySectionProps {
-  children: React.ReactNode
-  imgSrc: string
+  children: React.ReactNode;
+  imgSrc: string;
 }
 
 const ImageCard = ({ children, imgSrc, ...props }: CategorySectionProps) => {
@@ -18,7 +18,7 @@ const ImageCard = ({ children, imgSrc, ...props }: CategorySectionProps) => {
         <div className='p-4 text-white'>{children}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ImageCard
+export default ImageCard;

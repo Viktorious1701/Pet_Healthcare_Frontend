@@ -1,10 +1,10 @@
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Search } from '@/components/customer_components/search'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import AppointmentManagement from './components/AppointmentManagement'
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { Search } from '@/components/customer_components/search';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import AppointmentManagement from './components/AppointmentManagement';
 
 const Appointments = () => {
   return (
@@ -40,7 +40,7 @@ const Appointments = () => {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default Appointments
+export default Appointments;

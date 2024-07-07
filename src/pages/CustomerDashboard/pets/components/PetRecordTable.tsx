@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AppointmentDetailGet } from '@/Models/AppointmentDetail'
-import { useEffect, useState } from 'react'
+import { AppointmentDetailGet } from '@/Models/AppointmentDetail';
+import { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -10,31 +10,31 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components/ui/table'
-import { toast } from 'sonner'
-import { petAppointmentDetailGetAPI } from '@/Services/AppointmentDetailService'
+} from '@/components/ui/table';
+import { toast } from 'sonner';
+import { petAppointmentDetailGetAPI } from '@/Services/AppointmentDetailService';
 
 interface PetRecordTableProps {
-  petId: number
+  petId: number;
 }
 
 const PetRecordTable: React.FC<PetRecordTableProps> = ({ petId }) => {
-  const [appointmentDetails, setAppointmentDetails] = useState<AppointmentDetailGet[]>([])
+  const [appointmentDetails, setAppointmentDetails] = useState<AppointmentDetailGet[]>([]);
   const getAppointmentDetails = async () => {
     await petAppointmentDetailGetAPI(petId)
       .then((res) => {
         if (res?.data) {
-          setAppointmentDetails(res.data)
+          setAppointmentDetails(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   useEffect(() => {
-    getAppointmentDetails()
-  }, [])
+    getAppointmentDetails();
+  }, []);
   return (
     <Table>
       <TableCaption>A list of your pet medical record details.</TableCaption>
@@ -69,7 +69,7 @@ const PetRecordTable: React.FC<PetRecordTableProps> = ({ petId }) => {
         </TableRow>
       </TableFooter>
     </Table>
-  )
-}
+  );
+};
 
-export default PetRecordTable
+export default PetRecordTable;

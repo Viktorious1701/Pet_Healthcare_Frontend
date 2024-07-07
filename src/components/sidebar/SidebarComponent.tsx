@@ -1,21 +1,21 @@
-import { ChevronLast, ChevronFirst } from 'lucide-react'
-import { useContext, createContext, useState, ReactNode } from 'react'
-import logo from '@/assets/PethealthCareSystem_ba-style.png'
-import { useAuth } from '@/Context/useAuth'
-import UserSidebarProfile from './UserSidebarProfile'
+import { ChevronLast, ChevronFirst } from 'lucide-react';
+import { useContext, createContext, useState, ReactNode } from 'react';
+import logo from '@/assets/PethealthCareSystem_ba-style.png';
+import { useAuth } from '@/Context/useAuth';
+import UserSidebarProfile from './UserSidebarProfile';
 interface SidebarContextType {
-  expanded: boolean
+  expanded: boolean;
 }
 
-const SidebarContext = createContext<SidebarContextType>({ expanded: true })
+const SidebarContext = createContext<SidebarContextType>({ expanded: true });
 
 interface SidebarProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export default function SidebarComponent({ children }: SidebarProps) {
-  const [expanded, setExpanded] = useState<boolean>(true)
-  const { user } = useAuth()
+  const [expanded, setExpanded] = useState<boolean>(true);
+  const { user } = useAuth();
   return (
     <aside
       className={`left-0 top-0 h-screen min-h-screen bg-white border-r shadow-sm ${
@@ -55,20 +55,20 @@ export default function SidebarComponent({ children }: SidebarProps) {
         </div>
       </nav>
     </aside>
-  )
+  );
 }
 
 interface SidebarItemProps {
-  icon: ReactNode
-  text: string
-  active?: boolean
-  alert?: boolean
-  path: string
-  onClick: (path: string) => void
+  icon: ReactNode;
+  text: string;
+  active?: boolean;
+  alert?: boolean;
+  path: string;
+  onClick: (path: string) => void;
 }
 
 export function SidebarItem({ icon, text, active, alert, path, onClick }: SidebarItemProps) {
-  const { expanded } = useContext(SidebarContext)
+  const { expanded } = useContext(SidebarContext);
 
   return (
     <li
@@ -88,5 +88,5 @@ export function SidebarItem({ icon, text, active, alert, path, onClick }: Sideba
         </div>
       )}
     </li>
-  )
+  );
 }

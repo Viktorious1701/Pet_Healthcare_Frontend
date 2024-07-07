@@ -1,53 +1,53 @@
-import { Button } from '@/components/custom/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search } from '@/components/admin_components/search'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/admin_components/theme-switch'
-import { TopNav } from '@/components/admin_components/top-nav'
-import { UserNav } from '@/components/admin_components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { UserInfo } from '@/Models/User'
-import { useEffect, useState } from 'react'
-import { userGetAllAPI } from '@/Services/UserService'
-import { toast } from 'react-toastify'
-import UsersDataGrid from './components/UsersDataGrid'
-import UserAddDialog from './components/UserAddDialog'
-import { Icon123, IconActivity, IconUser } from '@tabler/icons-react'
+import { Button } from '@/components/custom/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Search } from '@/components/admin_components/search';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ThemeSwitch from '@/components/admin_components/theme-switch';
+import { TopNav } from '@/components/admin_components/top-nav';
+import { UserNav } from '@/components/admin_components/user-nav';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { UserInfo } from '@/Models/User';
+import { useEffect, useState } from 'react';
+import { userGetAllAPI } from '@/Services/UserService';
+import { toast } from 'react-toastify';
+import UsersDataGrid from './components/UsersDataGrid';
+import UserAddDialog from './components/UserAddDialog';
+import { Icon123, IconActivity, IconUser } from '@tabler/icons-react';
 
 const Accounts = () => {
-  const [users, setUsers] = useState<UserInfo[]>([])
-  const [userAdd, setUserAdd] = useState<UserInfo>()
-  const [userDelete, setUserDelete] = useState<UserInfo>()
-  const [userUpdate, setUserUpdate] = useState<UserInfo>()
+  const [users, setUsers] = useState<UserInfo[]>([]);
+  const [userAdd, setUserAdd] = useState<UserInfo>();
+  const [userDelete, setUserDelete] = useState<UserInfo>();
+  const [userUpdate, setUserUpdate] = useState<UserInfo>();
 
-  const activeUsers = users.filter((user) => user.isActive == true).length
+  const activeUsers = users.filter((user) => user.isActive == true).length;
   const getAllUsers = async () => {
     await userGetAllAPI()
       .then((res) => {
         if (res) {
-          setUsers(res.data)
+          setUsers(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occured', e)
-      })
-  }
+        toast.error('Server error occured', e);
+      });
+  };
 
   const handleUserAdd = (user: UserInfo) => {
-    setUserAdd(user)
-  }
+    setUserAdd(user);
+  };
 
   const handleUserDelete = (user: UserInfo) => {
-    setUserDelete(user)
-  }
+    setUserDelete(user);
+  };
 
   const handleUserUpdate = (user: UserInfo) => {
-    setUserUpdate(user)
-  }
+    setUserUpdate(user);
+  };
 
   useEffect(() => {
-    getAllUsers()
-  }, [userAdd, userDelete, userUpdate])
+    getAllUsers();
+  }, [userAdd, userDelete, userUpdate]);
 
   return (
     <Layout>
@@ -131,8 +131,8 @@ const Accounts = () => {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
 const topNav = [
   {
@@ -155,6 +155,6 @@ const topNav = [
     href: '',
     isActive: false
   }
-]
+];
 
-export default Accounts
+export default Accounts;

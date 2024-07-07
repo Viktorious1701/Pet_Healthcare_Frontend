@@ -1,16 +1,16 @@
-import React from 'react'
-import { Avatar, Select, SelectItem } from '@nextui-org/react'
-import { ServiceGet } from '@/Models/Service'
+import React from 'react';
+import { Avatar, Select, SelectItem } from '@nextui-org/react';
+import { ServiceGet } from '@/Models/Service';
 interface BookingServiceProps {
-  services: ServiceGet[]
-  onSelectService: (serviceId: string) => void
+  services: ServiceGet[];
+  onSelectService: (serviceId: string) => void;
 }
 
 const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectService }) => {
   const handleServiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedServiceIdFromEvent = event.target.value
-    onSelectService(selectedServiceIdFromEvent)
-  }
+    const selectedServiceIdFromEvent = event.target.value;
+    onSelectService(selectedServiceIdFromEvent);
+  };
   return (
     <Select
       items={services}
@@ -52,7 +52,7 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
               <span className='text-default-500 text-tiny'>({item.data?.description})</span>
             </div>
           </div>
-        ))
+        ));
       }}
       onChange={handleServiceChange}
     >
@@ -68,6 +68,6 @@ const BookingService: React.FC<BookingServiceProps> = ({ services, onSelectServi
         </SelectItem>
       )}
     </Select>
-  )
-}
-export default BookingService
+  );
+};
+export default BookingService;

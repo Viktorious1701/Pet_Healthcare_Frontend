@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { UserInfo } from '@/Models/User' // Ensure this import path is correct
-import { customerGetAPI } from '@/Services/UserService'
+import React, { useState, useEffect } from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { UserInfo } from '@/Models/User'; // Ensure this import path is correct
+import { customerGetAPI } from '@/Services/UserService';
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -16,43 +16,43 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 
 interface CustomerSelectionProps {
-  selectedCustomer: string
-  onChange: (username: string) => void
+  selectedCustomer: string;
+  onChange: (username: string) => void;
 }
 
 const CustomerSelection: React.FC<CustomerSelectionProps> = ({ selectedCustomer, onChange }) => {
-  const [users, setUsers] = useState<UserInfo[]>([])
+  const [users, setUsers] = useState<UserInfo[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await customerGetAPI('customer')
-        const data = response?.data
+        const response = await customerGetAPI('customer');
+        const data = response?.data;
         if (data && Array.isArray(data)) {
-          setUsers(data)
+          setUsers(data);
         } else {
-          console.error('Fetched data is not an array or is null:', data)
-          setUsers([])
+          console.error('Fetched data is not an array or is null:', data);
+          setUsers([]);
         }
       } catch (error) {
-        console.error('Failed to fetch users:', error)
-        setUsers([])
+        console.error('Failed to fetch users:', error);
+        setUsers([]);
       }
-    }
+    };
 
-    fetchUsers()
-  }, [])
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
-    console.log('Users state:', users)
-  }, [users])
+    console.log('Users state:', users);
+  }, [users]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
-    onChange(event.target.value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <FormControl fullWidth>
@@ -74,7 +74,7 @@ const CustomerSelection: React.FC<CustomerSelectionProps> = ({ selectedCustomer,
         )}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
-export default CustomerSelection
+export default CustomerSelection;

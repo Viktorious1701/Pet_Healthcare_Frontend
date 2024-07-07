@@ -1,9 +1,9 @@
-import Sidebar from './sidebar'
-import useIsCollapsed from '@/components/hooks/use-is-collapsed'
-import EmployeeDashboardWrapper from './EmployeeDashboardWrapper'
+import Sidebar from './sidebar';
+import useIsCollapsed from '@/components/hooks/use-is-collapsed';
+import EmployeeDashboardWrapper from './EmployeeDashboardWrapper';
 
 export default function EmployeeDashboard() {
-  const [isCollapsed, setIsCollapsed] = useIsCollapsed()
+  const [isCollapsed, setIsCollapsed] = useIsCollapsed();
 
   return (
     <div className='relative h-full overflow-hidden bg-background'>
@@ -15,5 +15,5 @@ export default function EmployeeDashboard() {
         <EmployeeDashboardWrapper />
       </main>
     </div>
-  )
+  );
 }

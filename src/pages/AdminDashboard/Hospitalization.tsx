@@ -1,32 +1,32 @@
-import { useState } from 'react'
-import logo from '@/assets/react.svg'
-import SearchBar from '@/components/navigation/SearchBar'
+import { useState } from 'react';
+import logo from '@/assets/react.svg';
+import SearchBar from '@/components/navigation/SearchBar';
 
 interface Hospitalization {
-  id: number
-  cost: number
+  id: number;
+  cost: number;
 }
 
 const Hospitalization = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const hospitalizations: Hospitalization[] = [
     { id: 1, cost: 500 },
     { id: 2, cost: 300 },
     { id: 3, cost: 400 }
     // Add more Hospitalizations as needed
-  ]
+  ];
 
   const filteredHospitalizations = hospitalizations.filter((hospitalization) =>
     hospitalization.id.toString().includes(searchTerm)
-  )
+  );
 
-  const totalHospitalizationCost = filteredHospitalizations.reduce((acc, curr) => acc + curr.cost, 0)
+  const totalHospitalizationCost = filteredHospitalizations.reduce((acc, curr) => acc + curr.cost, 0);
 
   const handleViewDetails = (hospitalizationId: number) => {
     // Implement view details logic here
-    console.log(`Viewing details for hospitalization ID: ${hospitalizationId}`)
-  }
+    console.log(`Viewing details for hospitalization ID: ${hospitalizationId}`);
+  };
 
   return (
     <div className='bg-white p-5 rounded-lg mb-5 flex-1 overflow-y-auto'>
@@ -75,7 +75,7 @@ const Hospitalization = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Hospitalization
+export default Hospitalization;

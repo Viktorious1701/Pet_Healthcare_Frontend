@@ -1,44 +1,44 @@
-import { Kennel, KennelPost } from '@/Models/Kennel'
-import { kennelGetAPI } from '@/Services/KennelService'
-import { Box, Grid } from '@mui/material'
-import { Card, CardHeader } from '@nextui-org/card'
-import { PieChart } from '@mui/x-charts/PieChart'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import KennelAddModal from './KennelAddModal'
-import KennelDataGrid from './KennelDataGrid'
+import { Kennel, KennelPost } from '@/Models/Kennel';
+import { kennelGetAPI } from '@/Services/KennelService';
+import { Box, Grid } from '@mui/material';
+import { Card, CardHeader } from '@nextui-org/card';
+import { PieChart } from '@mui/x-charts/PieChart';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import KennelAddModal from './KennelAddModal';
+import KennelDataGrid from './KennelDataGrid';
 
 const KennelManagement = () => {
-  const [kennels, setKennels] = useState<Kennel[]>([])
-  const [kennelAdd, setKennelAdd] = useState<KennelPost>()
-  const [kennelDelete, setKennelDelete] = useState<Kennel>()
+  const [kennels, setKennels] = useState<Kennel[]>([]);
+  const [kennelAdd, setKennelAdd] = useState<KennelPost>();
+  const [kennelDelete, setKennelDelete] = useState<Kennel>();
 
-  const availableKennels = kennels.filter((kennel) => kennel.isAvailable).length
-  const occupiedKennels = kennels.filter((kennel) => !kennel.isAvailable).length
+  const availableKennels = kennels.filter((kennel) => kennel.isAvailable).length;
+  const occupiedKennels = kennels.filter((kennel) => !kennel.isAvailable).length;
 
   const getKennels = async () => {
     await kennelGetAPI()
       .then((res) => {
         if (res?.data) {
-          setKennels(res.data)
+          setKennels(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const handleKennelAdd = (kennel: KennelPost) => {
-    setKennelAdd(kennel)
-  }
+    setKennelAdd(kennel);
+  };
 
   const handleKennelDelete = (kennel: Kennel) => {
-    setKennelDelete(kennel)
-  }
+    setKennelDelete(kennel);
+  };
 
   useEffect(() => {
-    getKennels()
-  }, [kennelAdd, kennelDelete])
+    getKennels();
+  }, [kennelAdd, kennelDelete]);
 
   return (
     <div className=' m-10'>
@@ -120,7 +120,7 @@ const KennelManagement = () => {
         </Grid>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default KennelManagement
+export default KennelManagement;

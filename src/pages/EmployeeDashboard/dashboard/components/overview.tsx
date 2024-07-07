@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+import { Bar, BarChart, ResponsiveContainer } from 'recharts';
 
 const data = [
   {
@@ -49,7 +49,7 @@ const data = [
     name: 'Dec',
     total: Math.floor(Math.random() * 5000) + 1000
   }
-]
+];
 
 export function Overview() {
   return (
@@ -72,5 +72,5 @@ export function Overview() {
         <Bar dataKey='total' fill='currentColor' radius={[4, 4, 0, 0]} className='fill-primary' />
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }

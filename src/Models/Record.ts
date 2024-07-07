@@ -1,5 +1,5 @@
 export type RecordGet = {
-  recordId: number
-  petName: string
-  numberOfVisits: number
-}
+  recordId: number;
+  petName: string;
+  numberOfVisits: number;
+};

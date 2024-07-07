@@ -1,17 +1,17 @@
-import React from 'react'
-import { Select, SelectItem, Avatar } from '@nextui-org/react'
-import { PetGet } from '@/Models/Pet'
+import React from 'react';
+import { Select, SelectItem, Avatar } from '@nextui-org/react';
+import { PetGet } from '@/Models/Pet';
 
 interface BookingPetProps {
-  pets: PetGet[]
-  onSelectPet: (petId: string) => void
+  pets: PetGet[];
+  onSelectPet: (petId: string) => void;
 }
 
 const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
   const handlePetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedPetIdFromEvent = event.target.value
-    onSelectPet(selectedPetIdFromEvent)
-  }
+    const selectedPetIdFromEvent = event.target.value;
+    onSelectPet(selectedPetIdFromEvent);
+  };
   return (
     <Select
       items={pets}
@@ -53,7 +53,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
               <span className='text-default-500 text-tiny'>({item.data?.species})</span>
             </div>
           </div>
-        ))
+        ));
       }}
       onChange={handlePetChange}
     >
@@ -69,7 +69,7 @@ const BookingPet: React.FC<BookingPetProps> = ({ pets, onSelectPet }) => {
         </SelectItem>
       )}
     </Select>
-  )
-}
+  );
+};
 
-export default BookingPet
+export default BookingPet;

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import { Button } from '@/components/custom/button'
-import Paw from '@/assets/Paw2.svg'
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/custom/button';
+import Paw from '@/assets/Paw2.svg';
 
 export default function MaintenanceError() {
   return (
@@ -20,5 +20,5 @@ export default function MaintenanceError() {
         </div>
       </div>
     </div>
-  )
+  );
 }

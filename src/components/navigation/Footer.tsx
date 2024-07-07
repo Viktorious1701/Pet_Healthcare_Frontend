@@ -1,4 +1,4 @@
-import { IconBrandFacebook, IconBrandInstagram, IconBrandX } from '@tabler/icons-react'
+import { IconBrandFacebook, IconBrandInstagram, IconBrandX } from '@tabler/icons-react';
 
 const Footer = () => {
   return (
@@ -87,7 +87,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

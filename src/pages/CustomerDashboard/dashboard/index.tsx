@@ -1,69 +1,69 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search } from '@/components/customer_components/search'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { TopNav } from '@/components/customer_components/top-nav'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { useAuth } from '@/Context/useAuth'
-import IncomingAppointments from './components/incoming-appointments'
-import { useEffect, useState } from 'react'
-import { AppointmentGet } from '@/Models/Appointment'
-import { appointmentCustomerAPI } from '@/Services/AppointmentService'
-import { toast } from 'sonner'
-import PetHealthStatus from './components/pet-health-status'
-import { getUserPetHealthTracks } from '@/Services/PetHealthTrackService'
-import { PetHealthTrack } from '@/Models/PetHealthTrack'
-import { PetGet } from '@/Models/Pet'
-import { petsOfCustomerAPI } from '@/Services/PetService'
-import { IconCalendarClock, IconDogBowl, IconTooltip } from '@tabler/icons-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Search } from '@/components/customer_components/search';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { TopNav } from '@/components/customer_components/top-nav';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { useAuth } from '@/Context/useAuth';
+import IncomingAppointments from './components/incoming-appointments';
+import { useEffect, useState } from 'react';
+import { AppointmentGet } from '@/Models/Appointment';
+import { appointmentCustomerAPI } from '@/Services/AppointmentService';
+import { toast } from 'sonner';
+import PetHealthStatus from './components/pet-health-status';
+import { getUserPetHealthTracks } from '@/Services/PetHealthTrackService';
+import { PetHealthTrack } from '@/Models/PetHealthTrack';
+import { PetGet } from '@/Models/Pet';
+import { petsOfCustomerAPI } from '@/Services/PetService';
+import { IconCalendarClock, IconDogBowl, IconTooltip } from '@tabler/icons-react';
 
 export default function Dashboard() {
-  const { user } = useAuth()
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([])
-  const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([])
-  const [pets, setPets] = useState<PetGet[]>([])
+  const { user } = useAuth();
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const [petHealthTracks, setPetHealthTracks] = useState<PetHealthTrack[]>([]);
+  const [pets, setPets] = useState<PetGet[]>([]);
 
   useEffect(() => {
     const getPets = async () => {
       await petsOfCustomerAPI(String(user?.userName))
         .then((res) => {
           if (res?.data === "User doesn't have any pets") {
-            setPets([])
+            setPets([]);
           } else if (res?.data) {
-            setPets(res.data)
+            setPets(res.data);
           }
         })
         .catch((e) => {
-          toast.error('Server error occurred', e)
-        })
-    }
+          toast.error('Server error occurred', e);
+        });
+    };
     const getPetHealthTracks = async () => {
       await getUserPetHealthTracks()
         .then((res) => {
           if (res.data) {
-            setPetHealthTracks(res.data)
+            setPetHealthTracks(res.data);
           }
         })
         .catch((e) => {
-          toast.error('Server error occurred', e)
-        })
-    }
+          toast.error('Server error occurred', e);
+        });
+    };
     const getAppointments = async () => {
       await appointmentCustomerAPI(String(user?.userName))
         .then((res) => {
           if (res?.data) {
-            setAppointments(res.data)
+            setAppointments(res.data);
           }
         })
         .catch((e) => {
-          toast.error('Server error occurred', e)
-        })
-    }
-    getAppointments()
-    getPets()
-    getPetHealthTracks()
-  }, [user?.userName])
+          toast.error('Server error occurred', e);
+        });
+    };
+    getAppointments();
+    getPets();
+    getPetHealthTracks();
+  }, [user?.userName]);
 
   return (
     <Layout>
@@ -151,7 +151,7 @@ export default function Dashboard() {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
+  );
 }
 
 const topNav = [
@@ -175,4 +175,4 @@ const topNav = [
     href: '',
     isActive: false
   }
-]
+];

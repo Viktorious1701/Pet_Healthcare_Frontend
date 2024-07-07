@@ -1,30 +1,30 @@
-import { useState } from 'react'
-import { IconAdjustmentsHorizontal, IconSortAscendingLetters, IconSortDescendingLetters } from '@tabler/icons-react'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Separator } from '@/components/ui/separator'
-import { Search } from '@/components/admin_components/search'
-import ThemeSwitch from '@/components/admin_components/theme-switch'
-import { UserNav } from '@/components/admin_components/user-nav'
-import { Button } from '@/components/custom/button'
-import { apps } from './data'
+import { useState } from 'react';
+import { IconAdjustmentsHorizontal, IconSortAscendingLetters, IconSortDescendingLetters } from '@tabler/icons-react';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Search } from '@/components/admin_components/search';
+import ThemeSwitch from '@/components/admin_components/theme-switch';
+import { UserNav } from '@/components/admin_components/user-nav';
+import { Button } from '@/components/custom/button';
+import { apps } from './data';
 
 const appText = new Map<string, string>([
   ['all', 'All Apps'],
   ['connected', 'Connected'],
   ['notConnected', 'Not Connected']
-])
+]);
 
 export default function Apps() {
-  const [sort, setSort] = useState('ascending')
-  const [appType, setAppType] = useState('all')
-  const [searchTerm, setSearchTerm] = useState('')
+  const [sort, setSort] = useState('ascending');
+  const [appType, setAppType] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredApps = apps
     .sort((a, b) => (sort === 'ascending' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)))
     .filter((app) => (appType === 'connected' ? app.connected : appType === 'notConnected' ? !app.connected : true))
-    .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter((app) => app.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <Layout fadedBelow fixedHeight>
@@ -110,5 +110,5 @@ export default function Apps() {
         </ul>
       </LayoutBody>
     </Layout>
-  )
+  );
 }

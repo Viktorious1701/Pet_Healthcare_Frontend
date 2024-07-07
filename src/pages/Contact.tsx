@@ -1,5 +1,5 @@
-import Footer from '@/components/navigation/Footer'
-import Navbar from '@/components/navigation/Navbar'
+import Footer from '@/components/navigation/Footer';
+import Navbar from '@/components/navigation/Navbar';
 
 const Contact = () => (
   <div className='min-h-screen bg-[--background] text-[--hero-text] flex flex-col'>
@@ -37,6 +37,6 @@ const Contact = () => (
     </section>
     <Footer />
   </div>
-)
+);
 
-export default Contact
+export default Contact;

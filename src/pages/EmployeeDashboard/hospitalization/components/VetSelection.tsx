@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import { UserInfo } from '@/Models/User' // Ensure this import path is correct
-import { customerGetAPI } from '@/Services/UserService'
+import React, { useState, useEffect } from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { UserInfo } from '@/Models/User'; // Ensure this import path is correct
+import { customerGetAPI } from '@/Services/UserService';
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -16,43 +16,43 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 
 interface VetSelectionProps {
-  selectedVet: string
-  onChange: (username: string) => void
+  selectedVet: string;
+  onChange: (username: string) => void;
 }
 
 const VetSelection: React.FC<VetSelectionProps> = ({ selectedVet, onChange }) => {
-  const [vets, setVets] = useState<UserInfo[]>([])
+  const [vets, setVets] = useState<UserInfo[]>([]);
 
   useEffect(() => {
     const fetchVets = async () => {
       try {
-        const response = await customerGetAPI('vet')
-        const data = response?.data
-        console.log('Fetched vets:', data) // Debugging log
+        const response = await customerGetAPI('vet');
+        const data = response?.data;
+        console.log('Fetched vets:', data); // Debugging log
         if (Array.isArray(data)) {
-          setVets(data)
+          setVets(data);
         } else {
-          console.error('Fetched data is not an array:', data)
-          setVets([])
+          console.error('Fetched data is not an array:', data);
+          setVets([]);
         }
       } catch (error) {
-        console.error('Failed to fetch vets:', error)
-        setVets([])
+        console.error('Failed to fetch vets:', error);
+        setVets([]);
       }
-    }
+    };
 
-    fetchVets()
-  }, [])
+    fetchVets();
+  }, []);
   // check the vets array
   useEffect(() => {
-    console.log('Vets state:', vets)
-  }, [vets])
+    console.log('Vets state:', vets);
+  }, [vets]);
   const handleChange = (event: SelectChangeEvent<string>) => {
-    onChange(event.target.value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <FormControl fullWidth>
@@ -69,7 +69,7 @@ const VetSelection: React.FC<VetSelectionProps> = ({ selectedVet, onChange }) =>
         )}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
-export default VetSelection
+export default VetSelection;

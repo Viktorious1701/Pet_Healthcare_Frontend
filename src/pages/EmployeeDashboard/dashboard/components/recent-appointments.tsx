@@ -1,51 +1,51 @@
-import { AppointmentGet } from '@/Models/Appointment'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { Divider } from '@mui/material'
-import React from 'react'
+import { AppointmentGet } from '@/Models/Appointment';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Divider } from '@mui/material';
+import React from 'react';
 
 interface RecentAppointmentsProps {
-  appointments: AppointmentGet[]
+  appointments: AppointmentGet[];
 }
-const now = new Date()
+const now = new Date();
 const RecentAppointments: React.FC<RecentAppointmentsProps> = ({ appointments }) => {
-  appointments = appointments.filter((appointment) => new Date(appointment.date).getDate() === now.getDate())
+  appointments = appointments.filter((appointment) => new Date(appointment.date).getDate() === now.getDate());
   const getAppointmentImage = (status: string) => {
     switch (status) {
       case 'Booked':
-        return 'bg-gray'
+        return 'bg-gray';
       case 'Processing':
-        return 'bg-blue-400'
+        return 'bg-blue-400';
       case 'Done':
-        return 'bg-success-500'
+        return 'bg-success-500';
       case 'Cancelled':
-        return 'bg-red-400'
+        return 'bg-red-400';
     }
-  }
+  };
   const getAppointmentPaymentImage = (status: number) => {
     switch (status) {
       case 0:
-        return 'bg-blue-400'
+        return 'bg-blue-400';
       case 1:
-        return 'bg-success-500'
+        return 'bg-success-500';
       case 2:
-        return 'bg-yellow-400'
+        return 'bg-yellow-400';
       case 3:
-        return 'bg-red-400'
+        return 'bg-red-400';
     }
-  }
+  };
   const getAppointmentPaymentStatus = (status: number) => {
     switch (status) {
       case 0:
-        return 'Pending'
+        return 'Pending';
       case 1:
-        return 'Paid'
+        return 'Paid';
       case 2:
-        return 'Refunded'
+        return 'Refunded';
       case 3:
-        return 'Failed'
+        return 'Failed';
     }
-  }
+  };
   return (
     <div className='space-y-8'>
       {appointments.map((appointment) => (
@@ -80,7 +80,7 @@ const RecentAppointments: React.FC<RecentAppointmentsProps> = ({ appointments })
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default RecentAppointments
+export default RecentAppointments;

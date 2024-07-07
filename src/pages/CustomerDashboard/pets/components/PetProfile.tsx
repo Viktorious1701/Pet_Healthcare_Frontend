@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { Card, CardContent, CardMedia, Typography, Grid, Button, CircularProgress } from '@mui/material'
-import { PetGet } from '@/Models/Pet'
-import { getPetById } from '@/Services/PetService'
-import { handleError } from '@/Helpers/ErrorHandler'
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const'
-import { useTheme } from '@/components/vet_components/theme-provider'
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardMedia, Typography, Grid, Button, CircularProgress } from '@mui/material';
+import { PetGet } from '@/Models/Pet';
+import { getPetById } from '@/Services/PetService';
+import { handleError } from '@/Helpers/ErrorHandler';
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const';
+import { useTheme } from '@/components/vet_components/theme-provider';
 
 const PetProfile: React.FC = () => {
-  const { petId } = useParams<{ petId: string }>()
-  const navigate = useNavigate()
-  const [petProfile, setPetProfile] = useState<PetGet | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const { theme } = useTheme()
+  const { petId } = useParams<{ petId: string }>();
+  const navigate = useNavigate();
+  const [petProfile, setPetProfile] = useState<PetGet | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchProfile = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       if (petId) {
         try {
-          const res = await getPetById(petId)
+          const res = await getPetById(petId);
           if (res?.data) {
-            setPetProfile(res.data)
-            sessionStorage.setItem('petProfile', JSON.stringify(res.data))
+            setPetProfile(res.data);
+            sessionStorage.setItem('petProfile', JSON.stringify(res.data));
           }
         } catch (error) {
-          handleError(error)
+          handleError(error);
         } finally {
-          setIsLoading(false)
+          setIsLoading(false);
         }
       }
-    }
+    };
 
-    fetchProfile()
-  }, [petId])
+    fetchProfile();
+  }, [petId]);
 
   if (isLoading) {
     return (
@@ -44,7 +44,7 @@ const PetProfile: React.FC = () => {
       >
         <CircularProgress />
       </div>
-    )
+    );
   }
 
   if (!petProfile) {
@@ -56,7 +56,7 @@ const PetProfile: React.FC = () => {
       >
         <Typography variant='h4'>Pet Profile Not Found</Typography>
       </div>
-    )
+    );
   }
 
   return (
@@ -127,7 +127,7 @@ const PetProfile: React.FC = () => {
         </Button>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default PetProfile
+export default PetProfile;

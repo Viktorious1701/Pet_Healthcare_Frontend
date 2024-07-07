@@ -1,8 +1,8 @@
-import { FC } from 'react'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/vet_components/user-nav'
-import { DataTableDemo2 } from './appointments/DataTableDemo2'
+import { FC } from 'react';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/vet_components/user-nav';
+import { DataTableDemo2 } from './appointments/DataTableDemo2';
 
 const App: FC = () => {
   return (
@@ -14,14 +14,11 @@ const App: FC = () => {
           <UserNav />
         </div>
       </LayoutHeader>
-      <LayoutBody
-        className="flex flex-col max-h-screen overflow-y-auto"
-        fixedHeight
-      >
+      <LayoutBody className='flex flex-col max-h-screen overflow-y-auto' fixedHeight>
         <DataTableDemo2 />
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

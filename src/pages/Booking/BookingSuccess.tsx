@@ -1,52 +1,52 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useAuth } from '@/Context/useAuth'
-import { APPOINTMENT, EMPLOYEE_APPOINTMENT_BOOKING, EMPLOYEE_DASHBOARD, PAYMENT } from '@/Route/router-const'
-import { RootState } from '@/store'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation, useNavigate } from 'react-router'
+import { useAuth } from '@/Context/useAuth';
+import { APPOINTMENT, EMPLOYEE_APPOINTMENT_BOOKING, EMPLOYEE_DASHBOARD, PAYMENT } from '@/Route/router-const';
+import { RootState } from '@/store';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router';
 
 const BookingSuccess = () => {
-  const navigate = useNavigate()
-  const { user } = useAuth()
-  const location = useLocation()
-  const appointmentId = location.state?.appointmentId
-  const { isSubmitted } = useSelector((state: RootState) => state.formData)
-  const [showPrompt, setShowPrompt] = useState(false)
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const location = useLocation();
+  const appointmentId = location.state?.appointmentId;
+  const { isSubmitted } = useSelector((state: RootState) => state.formData);
+  const [showPrompt, setShowPrompt] = useState(false);
 
   if (!isSubmitted) {
-    navigate(`/${APPOINTMENT}`) // Redirect to the booking page if the form is not submitted
+    navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowPrompt(true)
-    }, 3000) // Show prompt after 3 seconds (adjust the time as needed)
+      setShowPrompt(true);
+    }, 3000); // Show prompt after 3 seconds (adjust the time as needed)
 
-    return () => clearTimeout(timer) // Clean up the timer on component unmount
-  }, [])
+    return () => clearTimeout(timer); // Clean up the timer on component unmount
+  }, []);
 
   const handlePayment = () => {
     if (user?.role === 'Customer' && appointmentId) {
-      navigate(`/${PAYMENT}`, { state: { appointmentId } })
+      navigate(`/${PAYMENT}`, { state: { appointmentId } });
     }
-  }
+  };
 
   const handleReturnHome = () => {
-    navigate('/')
-  }
+    navigate('/');
+  };
 
   const handleEmployeeRedirect = () => {
     if (user?.role === 'Employee') {
-      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`)
+      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
     }
-  }
+  };
 
   useEffect(() => {
     if (user?.role === 'Employee') {
-      handleEmployeeRedirect()
+      handleEmployeeRedirect();
     }
-  }, [navigate, user])
+  }, [navigate, user]);
 
   return (
     <div className='bg-custom-gray min-h-screen flex items-center justify-center'>
@@ -69,7 +69,7 @@ const BookingSuccess = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookingSuccess
+export default BookingSuccess;

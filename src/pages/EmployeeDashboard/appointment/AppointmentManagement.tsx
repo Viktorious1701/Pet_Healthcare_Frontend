@@ -1,67 +1,67 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from 'react'
-import { Box, Grid } from '@mui/material'
-import { AppointmentGet } from '@/Models/Appointment'
-import AppointmentDataGrid from './components/AppointmentDataGrid'
+import React, { useState, useEffect } from 'react';
+import { Box, Grid } from '@mui/material';
+import { AppointmentGet } from '@/Models/Appointment';
+import AppointmentDataGrid from './components/AppointmentDataGrid';
 
-import { appointmentGetAPI, appointmentCheckInAPI, appointmentFinishAPI } from '@/Services/AppointmentService'
+import { appointmentGetAPI, appointmentCheckInAPI, appointmentFinishAPI } from '@/Services/AppointmentService';
 
-import { toast } from 'sonner'
-import { cashoutAppointmentApi } from '@/Services/PaymentService'
+import { toast } from 'sonner';
+import { cashoutAppointmentApi } from '@/Services/PaymentService';
 
 const AppointmentManagement: React.FC = () => {
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([])
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
 
   useEffect(() => {
-    getAppointments()
-  }, [])
+    getAppointments();
+  }, []);
 
   const getAppointments = async () => {
     try {
-      const res = await appointmentGetAPI()
+      const res = await appointmentGetAPI();
 
       if (res?.data) {
-        setAppointments(res.data)
+        setAppointments(res.data);
       }
     } catch (error: any) {
-      console.error('API error:', error) // Debugging line
-      toast.error('Failed to fetch appointments', error)
+      console.error('API error:', error); // Debugging line
+      toast.error('Failed to fetch appointments', error);
     }
-  }
+  };
 
   const handleAppointmentDelete = (deletedAppointment: AppointmentGet) => {
-    setAppointments(appointments.filter((a) => a.appointmentId !== deletedAppointment.appointmentId))
-  }
+    setAppointments(appointments.filter((a) => a.appointmentId !== deletedAppointment.appointmentId));
+  };
 
   const handleCashoutAppointment = async (appointmentId: number, customerId: string, amount: number) => {
     try {
-      await cashoutAppointmentApi(customerId, appointmentId, amount)
-      toast.success(`Appointment ${appointmentId} cashed out successfully`)
-      getAppointments() // Refresh appointments after cashout
+      await cashoutAppointmentApi(customerId, appointmentId, amount);
+      toast.success(`Appointment ${appointmentId} cashed out successfully`);
+      getAppointments(); // Refresh appointments after cashout
     } catch (error: any) {
-      toast.error('Failed to cashout appointment', error)
+      toast.error('Failed to cashout appointment', error);
     }
-  }
+  };
 
   const handleCheckInAppointment = async (appointmentId: number) => {
     try {
-      await appointmentCheckInAPI(appointmentId)
-      toast.success(`Appointment ${appointmentId} checked in successfully`)
-      getAppointments() // Refresh appointments after check-in
+      await appointmentCheckInAPI(appointmentId);
+      toast.success(`Appointment ${appointmentId} checked in successfully`);
+      getAppointments(); // Refresh appointments after check-in
     } catch (error: any) {
-      toast.error('Failed to check in appointment', error)
+      toast.error('Failed to check in appointment', error);
     }
-  }
+  };
 
   const handleFinishAppointment = async (appointmentId: number) => {
     try {
-      await appointmentFinishAPI(appointmentId)
-      toast.success(`Appointment ${appointmentId} finished successfully`)
-      getAppointments() // Refresh appointments after check-in
+      await appointmentFinishAPI(appointmentId);
+      toast.success(`Appointment ${appointmentId} finished successfully`);
+      getAppointments(); // Refresh appointments after check-in
     } catch (error: any) {
-      toast.error('Failed to finish appointment', error)
+      toast.error('Failed to finish appointment', error);
     }
-  }
+  };
 
   return (
     <div className='m-10'>
@@ -84,7 +84,7 @@ const AppointmentManagement: React.FC = () => {
         </Grid>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default AppointmentManagement
+export default AppointmentManagement;

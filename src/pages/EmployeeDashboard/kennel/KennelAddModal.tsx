@@ -1,6 +1,6 @@
-import { KennelPost } from '@/Models/Kennel'
-import { kennelPostAPI } from '@/Services/KennelService'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { KennelPost } from '@/Models/Kennel';
+import { kennelPostAPI } from '@/Services/KennelService';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   Input,
@@ -10,53 +10,53 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure
-} from '@nextui-org/react'
-import { BookText, DollarSign, MemoryStick } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import * as Yup from 'yup'
+} from '@nextui-org/react';
+import { BookText, DollarSign, MemoryStick } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 interface KennelFormValues {
-  description: string
-  capacity: number
-  dailyCost: number
+  description: string;
+  capacity: number;
+  dailyCost: number;
 }
 
 interface KennelAddModalProps {
-  onKennelAdded: (kennel: KennelPost) => void
+  onKennelAdded: (kennel: KennelPost) => void;
 }
 
 const validationSchema = Yup.object().shape({
   description: Yup.string().required('description is required'),
   capacity: Yup.number().required('Capacity is required').min(1, 'Capacity must be greater than zero'),
   dailyCost: Yup.number().required('Daily cost is required').min(0.01, 'Daily cost must be greater than zero')
-})
+});
 
 const KennelAddModal: React.FC<KennelAddModalProps> = ({ onKennelAdded }) => {
-  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<KennelFormValues>({ resolver: yupResolver(validationSchema) })
+  } = useForm<KennelFormValues>({ resolver: yupResolver(validationSchema) });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleKennelAdd = (kennel: KennelPost | any) => {
-    onKennelAdded(kennel)
-  }
+    onKennelAdded(kennel);
+  };
 
   const onSubmit = async (data: KennelFormValues) => {
-    const kennel = kennelPostAPI(data.description, data.dailyCost)
+    const kennel = kennelPostAPI(data.description, data.dailyCost);
     reset({
       description: '',
       capacity: 0,
       dailyCost: 0
-    })
-    toast.success('Kennel added successfully')
-    onClose()
-    handleKennelAdd(kennel)
-  }
+    });
+    toast.success('Kennel added successfully');
+    onClose();
+    handleKennelAdd(kennel);
+  };
   return (
     <>
       <Button onPress={onOpen} className='bg-custom-pink text-md text-white'>
@@ -112,7 +112,7 @@ const KennelAddModal: React.FC<KennelAddModalProps> = ({ onKennelAdded }) => {
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default KennelAddModal
+export default KennelAddModal;

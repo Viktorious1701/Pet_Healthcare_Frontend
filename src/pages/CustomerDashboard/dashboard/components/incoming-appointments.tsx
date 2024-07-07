@@ -1,25 +1,25 @@
-import { AppointmentGet } from '@/Models/Appointment'
-import { Badge } from '@/components/ui/badge'
+import { AppointmentGet } from '@/Models/Appointment';
+import { Badge } from '@/components/ui/badge';
 
 interface IncomingAppointmentsProps {
-  appointments: AppointmentGet[]
+  appointments: AppointmentGet[];
 }
 
 const getStatusBadge = (status: string) => {
   switch (status) {
     case 'Booked':
-      return ''
+      return '';
     case 'Processing':
-      return 'bg-blue'
+      return 'bg-blue';
     case 'Done':
-      return 'bg-success'
+      return 'bg-success';
     case 'Cancelled':
-      return 'bg-danger'
+      return 'bg-danger';
   }
-}
+};
 
 const IncomingAppointments: React.FC<IncomingAppointmentsProps> = ({ appointments }) => {
-  appointments = appointments.filter((appointment) => new Date(appointment.date) >= new Date())
+  appointments = appointments.filter((appointment) => new Date(appointment.date) >= new Date());
   return (
     <div className='space-y-2'>
       {appointments.map((appointment) => (
@@ -44,6 +44,6 @@ const IncomingAppointments: React.FC<IncomingAppointmentsProps> = ({ appointment
         </div>
       ))}
     </div>
-  )
-}
-export default IncomingAppointments
+  );
+};
+export default IncomingAppointments;

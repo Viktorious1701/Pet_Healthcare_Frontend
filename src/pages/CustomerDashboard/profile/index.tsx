@@ -1,10 +1,10 @@
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Search } from '@/components/customer_components/search'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import UserProfile from './UserProfile'
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { Search } from '@/components/customer_components/search';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import UserProfile from './UserProfile';
 
 const Profile = () => {
   return (
@@ -40,7 +40,7 @@ const Profile = () => {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

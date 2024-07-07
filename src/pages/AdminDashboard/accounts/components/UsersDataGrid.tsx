@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UserInfo } from '@/Models/User'
-import { userDeleteAPI, userUpdateAPI } from '@/Services/UserService'
-import { Box, MenuItem, Select } from '@mui/material'
+import { UserInfo } from '@/Models/User';
+import { userDeleteAPI, userUpdateAPI } from '@/Services/UserService';
+import { Box, MenuItem, Select } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -10,21 +10,21 @@ import {
   GridRowModel,
   GridRowModes,
   GridRowModesModel
-} from '@mui/x-data-grid'
-import { CircleX, EditIcon, SaveIcon } from 'lucide-react'
-import { useState } from 'react'
-import { toast } from 'react-toastify'
-import UserDeleteDialog from './UserDeleteDialog'
-import { countries } from '@/Helpers/globalVariable'
+} from '@mui/x-data-grid';
+import { CircleX, EditIcon, SaveIcon } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import UserDeleteDialog from './UserDeleteDialog';
+import { countries } from '@/Helpers/globalVariable';
 
 interface UsersDataGridProps {
-  users: UserInfo[]
-  onUserDelete: (user: UserInfo) => void
-  onUserUpdate: (user: UserInfo) => void
+  users: UserInfo[];
+  onUserDelete: (user: UserInfo) => void;
+  onUserUpdate: (user: UserInfo) => void;
 }
 
 const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUserDelete }) => {
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({})
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
   const handleUserUpdate = async (
     userId: string,
@@ -41,54 +41,54 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
     await userUpdateAPI(userId, address, country, email, firstName, lastName, phoneNumber, gender, userName, isActive)
       .then((res) => {
         if (res?.data) {
-          onUserUpdate(res.data)
-          toast.success('User ' + `${userName}` + ' is updated')
+          onUserUpdate(res.data);
+          toast.success('User ' + `${userName}` + ' is updated');
         }
       })
       .catch((e) => {
-        toast.error('Server error occured', e)
-      })
-  }
+        toast.error('Server error occured', e);
+      });
+  };
 
   const handleUserDelete = async (userId: string) => {
     await userDeleteAPI(userId)
       .then((res) => {
         if (res?.data) {
-          onUserDelete(res.data)
-          toast.success('User' + `${userId}` + ' is deleted')
+          onUserDelete(res.data);
+          toast.success('User' + `${userId}` + ' is deleted');
         }
       })
       .catch((e) => {
-        toast.error('Server error occured', e)
-      })
-  }
+        toast.error('Server error occured', e);
+      });
+  };
 
   const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } })
-  }
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
 
   const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } })
-  }
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
 
   const handleDeleteClick = (id: GridRowId) => async () => {
-    await handleUserDelete(id.toString())
-  }
+    await handleUserDelete(id.toString());
+  };
 
   const handleCancelClick = (id: GridRowId) => () => {
     setRowModesModel({
       ...rowModesModel,
       [id]: { mode: GridRowModes.View, ignoreModifications: true }
-    })
-  }
+    });
+  };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
-    setRowModesModel(newRowModesModel)
-  }
+    setRowModesModel(newRowModesModel);
+  };
 
   const processRowUpdate = async (newRow: GridRowModel) => {
-    const updatedRow = newRow as UserInfo
-    console.log(updatedRow)
+    const updatedRow = newRow as UserInfo;
+    console.log(updatedRow);
 
     await handleUserUpdate(
       updatedRow.userId,
@@ -101,14 +101,14 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       updatedRow.gender,
       updatedRow.userName,
       updatedRow.isActive
-    )
+    );
 
-    return users
-  }
+    return users;
+  };
 
   const handleProcessRowUpdateError = (error: any) => {
-    toast.error(error.message)
-  }
+    toast.error(error.message);
+  };
 
   const columns: GridColDef[] = [
     {
@@ -129,8 +129,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'userName',
       headerName: 'Username',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value.length <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value.length <= 0;
+        return { ...params.props, error: hasError };
       },
       editable: true,
       flex: 0.7
@@ -139,8 +139,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'firstName',
       headerName: 'First Name',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value.length <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value.length <= 0;
+        return { ...params.props, error: hasError };
       },
       editable: true,
       flex: 0.7
@@ -149,8 +149,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'lastName',
       headerName: 'Last Name',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value.length <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value.length <= 0;
+        return { ...params.props, error: hasError };
       },
       editable: true,
       flex: 0.7
@@ -165,8 +165,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'phoneNumber',
       headerName: 'Phone Number',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value.length <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value.length <= 0;
+        return { ...params.props, error: hasError };
       },
       editable: true,
       flex: 1
@@ -182,8 +182,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'address',
       headerName: 'Address',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value <= 0;
+        return { ...params.props, error: hasError };
       },
       editable: true,
       flex: 1.5
@@ -192,8 +192,8 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       field: 'country',
       headerName: 'Country',
       preProcessEditCellProps: (params) => {
-        const hasError = params.props.value <= 0
-        return { ...params.props, error: hasError }
+        const hasError = params.props.value <= 0;
+        return { ...params.props, error: hasError };
       },
       renderEditCell: (params) => (
         <Select
@@ -228,7 +228,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
       headerName: 'Actions',
       type: 'actions',
       getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
           return [
@@ -249,7 +249,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
               color='inherit'
               onClick={handleCancelClick(id)}
             />
-          ]
+          ];
         }
 
         return [
@@ -261,11 +261,11 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
             onClick={handleEditClick(id)}
           />,
           <UserDeleteDialog onDeleteUser={handleDeleteClick(id)}></UserDeleteDialog>
-        ]
+        ];
       },
       flex: 1
     }
-  ]
+  ];
 
   return (
     <>
@@ -288,7 +288,7 @@ const UsersDataGrid: React.FC<UsersDataGridProps> = ({ users, onUserUpdate, onUs
         />
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default UsersDataGrid
+export default UsersDataGrid;

@@ -1,22 +1,22 @@
-import Navbar from '@/components/navigation/Navbar'
-import Footer from '@/components/navigation/Footer'
-import ImageCard from '@/components/navigation/ImageCard'
-import { Button } from '@/components/ui/button'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import petcare from '@/assets/petcare.jpg'
-import logo from '@/assets/Paw2.svg'
-import hero from '@/assets/hero.png'
-import CustomCalendar from '@/components/calendar/CustomCalendar'
-import { APPOINTMENT } from '@/Route/router-const'
-import { CONTACT } from '@/Route/router-const'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
-import Autoplay from 'embla-carousel-autoplay'
+import Navbar from '@/components/navigation/Navbar';
+import Footer from '@/components/navigation/Footer';
+import ImageCard from '@/components/navigation/ImageCard';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import petcare from '@/assets/petcare.jpg';
+import logo from '@/assets/Paw2.svg';
+import hero from '@/assets/hero.png';
+import CustomCalendar from '@/components/calendar/CustomCalendar';
+import { APPOINTMENT } from '@/Route/router-const';
+import { CONTACT } from '@/Route/router-const';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
-import '@fontsource-variable/montserrat'
-import '@fontsource/roboto'
+import '@fontsource-variable/montserrat';
+import '@fontsource/roboto';
 
-import { ABOUT_PAGE } from '@/Route/router-const'
+import { ABOUT_PAGE } from '@/Route/router-const';
 
 const Home = () => {
   return (
@@ -232,7 +232,7 @@ const Home = () => {
       </main>
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

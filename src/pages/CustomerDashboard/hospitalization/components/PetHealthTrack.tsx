@@ -1,70 +1,71 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
-import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService'
-import { PetHealthTrack as PetHealthTrackDTO } from '@/Models/PetHealthTrack'
-import { format } from 'date-fns'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useTheme } from '@/components/vet_components/theme-provider'
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService';
+import { PetHealthTrack as PetHealthTrackDTO } from '@/Models/PetHealthTrack';
+import { format } from 'date-fns';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useTheme } from '@/components/vet_components/theme-provider';
 
 const PetHealthTrack: React.FC = () => {
-  const { hospitalizationId } = useParams<{ hospitalizationId: string }>()
-  const navigate = useNavigate()
-  const [healthTrack, setHealthTrack] = useState<PetHealthTrackDTO[]>([])
-  const [filteredHealthTrack, setFilteredHealthTrack] = useState<PetHealthTrackDTO[]>([])
-  const [statusFilter, setStatusFilter] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const { theme } = useTheme()
+  const { hospitalizationId } = useParams<{ hospitalizationId: string }>();
+  const navigate = useNavigate();
+  const [healthTrack, setHealthTrack] = useState<PetHealthTrackDTO[]>([]);
+  const [filteredHealthTrack, setFilteredHealthTrack] = useState<PetHealthTrackDTO[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { theme } = useTheme();
 
   const fetchHealthTrack = useCallback(async () => {
-    if (!hospitalizationId) return
-    setLoading(true)
+    if (!hospitalizationId) return;
+    setLoading(true);
     try {
-      const response = await getPetHealthTrackByHospitalizationId(Number(hospitalizationId))
+      const response = await getPetHealthTrackByHospitalizationId(Number(hospitalizationId));
       const data = response || [];
-      setHealthTrack(data)
-      setFilteredHealthTrack(data)
+      setHealthTrack(data);
+      setFilteredHealthTrack(data);
     } catch (error) {
-      setError('Error fetching pet health track.')
-      console.error('Error fetching pet health track:', error)
-      setHealthTrack([])
-      setFilteredHealthTrack([])
+      setError('Error fetching pet health track.');
+      console.error('Error fetching pet health track:', error);
+      setHealthTrack([]);
+      setFilteredHealthTrack([]);
     }
-    setLoading(false)
-  }, [hospitalizationId])
+    setLoading(false);
+  }, [hospitalizationId]);
 
   useEffect(() => {
-    fetchHealthTrack()
-  }, [fetchHealthTrack])
+    fetchHealthTrack();
+  }, [fetchHealthTrack]);
 
   useEffect(() => {
     if (Array.isArray(healthTrack)) {
       const filtered = statusFilter
         ? healthTrack.filter((entry) => String(entry.status) === statusFilter)
-        : healthTrack
-      setFilteredHealthTrack(filtered)
+        : healthTrack;
+      setFilteredHealthTrack(filtered);
     } else {
-      setFilteredHealthTrack([])
+      setFilteredHealthTrack([]);
     }
-  }, [healthTrack, statusFilter])
+  }, [healthTrack, statusFilter]);
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>{error}</div>
-  if (filteredHealthTrack.length === 0) return <div className=' flex justify-center'>No health track data available.</div>
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (filteredHealthTrack.length === 0)
+    return <div className=' flex justify-center'>No health track data available.</div>;
 
   const getStatusString = (status: string): string => {
     switch (status) {
       case '0':
-        return 'Healthy'
+        return 'Healthy';
       case '1':
-        return 'Sick'
+        return 'Sick';
       case '2':
-        return 'Injured'
+        return 'Injured';
       default:
-        return ''
+        return '';
     }
-  }
+  };
 
   return (
     <div className='p-6'>
@@ -115,7 +116,7 @@ const PetHealthTrack: React.FC = () => {
         </Table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PetHealthTrack
+export default PetHealthTrack;

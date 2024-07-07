@@ -1,9 +1,9 @@
-import Footer from '@/components/navigation/Footer'
-import Navbar from '@/components/navigation/Navbar'
-import hero from '@/assets/about-us-dog.png'
-import grooming from '@/assets/grooming.jpg'
-import daycare from '@/assets/dog-daycare.png'
-import boarding from '@/assets/dog-boarding.png'
+import Footer from '@/components/navigation/Footer';
+import Navbar from '@/components/navigation/Navbar';
+import hero from '@/assets/about-us-dog.png';
+import grooming from '@/assets/grooming.jpg';
+import daycare from '@/assets/dog-daycare.png';
+import boarding from '@/assets/dog-boarding.png';
 
 const SECTION_DATA = [
   {
@@ -40,19 +40,19 @@ const SECTION_DATA = [
       'https://placehold.co/400x300'
     ]
   }
-]
+];
 
 const Section = ({
   title,
   items
 }: {
-  title: string
+  title: string;
   items: Array<{
-    image: string
-    alt: string
-    title: string
-    description: string
-  }>
+    image: string;
+    alt: string;
+    title: string;
+    description: string;
+  }>;
 }) => (
   <section className='bg-[var(--background)] py-2'>
     <div className='container mx-auto text-center'>
@@ -72,7 +72,7 @@ const Section = ({
       </div>
     </div>
   </section>
-)
+);
 
 const GallerySection = ({ title, images }: { title: string; images: string[] }) => (
   <section className='bg-[--background]'>
@@ -85,7 +85,7 @@ const GallerySection = ({ title, images }: { title: string; images: string[] }) 
       </div>
     </div>
   </section>
-)
+);
 
 const About = () => (
   <div className='min-h-screen bg-[--background] text-[--hero-text]'>
@@ -117,6 +117,6 @@ const About = () => (
     </div>
     <Footer />
   </div>
-)
+);
 
-export default About
+export default About;

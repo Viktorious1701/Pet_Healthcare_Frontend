@@ -1,27 +1,27 @@
-import { Kennel, KennelPost } from '@/Models/Kennel'
-import { handleError } from '@/Helpers/ErrorHandler'
-import axiosInstance from '@/Helpers/axiosInstance'
+import { Kennel, KennelPost } from '@/Models/Kennel';
+import { handleError } from '@/Helpers/ErrorHandler';
+import axiosInstance from '@/Helpers/axiosInstance';
 
-const api = 'https://pethealthcaresystem.azurewebsites.net/api/kennel'
+const api = 'https://pethealthcaresystem.azurewebsites.net/api/kennel';
 
 export const getKennelById = async (kennelId: string) => {
   try {
-    const response = await axiosInstance.get<Kennel>(`${api}/${kennelId}`)
-    return response.data
+    const response = await axiosInstance.get<Kennel>(`${api}/${kennelId}`);
+    return response.data;
   } catch (error) {
-    console.error('Error fetching kennel details:', error)
-    throw error
+    console.error('Error fetching kennel details:', error);
+    throw error;
   }
-}
+};
 
 export const kennelGetAPI = async () => {
   try {
-    const data = await axiosInstance.get<Kennel[]>(api)
-    return data
+    const data = await axiosInstance.get<Kennel[]>(api);
+    return data;
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
-}
+};
 
 export const kennelPostAPI = async (description: string, dailyCost: number) => {
   try {
@@ -29,12 +29,12 @@ export const kennelPostAPI = async (description: string, dailyCost: number) => {
       description: description,
       capacity: 1,
       dailyCost: dailyCost
-    })
-    return data
+    });
+    return data;
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
-}
+};
 
 export const kennelUpdateAPI = async (kennelId: number, description: string, dailyCost: number) => {
   try {
@@ -42,18 +42,18 @@ export const kennelUpdateAPI = async (kennelId: number, description: string, dai
       description: description,
       capacity: 1,
       dailyCost: dailyCost
-    })
-    return data
+    });
+    return data;
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
-}
+};
 
 export const kennelDeleteAPI = async (kennelId: number) => {
   try {
-    const data = await axiosInstance.delete(api + `/${kennelId}`)
-    return data
+    const data = await axiosInstance.delete(api + `/${kennelId}`);
+    return data;
   } catch (error) {
-    handleError(error)
+    handleError(error);
   }
-}
+};

@@ -8,12 +8,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { DeleteIcon } from 'lucide-react'
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { DeleteIcon } from 'lucide-react';
 
 interface UserDeleteDialogProps {
-  onDeleteUser: () => void
+  onDeleteUser: () => void;
 }
 
 const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({ onDeleteUser }) => {
@@ -46,6 +46,6 @@ const UserDeleteDialog: React.FC<UserDeleteDialogProps> = ({ onDeleteUser }) => 
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
-}
-export default UserDeleteDialog
+  );
+};
+export default UserDeleteDialog;
