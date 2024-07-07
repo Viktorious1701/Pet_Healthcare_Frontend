@@ -61,7 +61,6 @@ import {
   RATE,
   APPOINTMENT_MEDICAL_RECORD,
   HOSPITALIZATION_VET,
-  APPOINTMENT_DIAGNOSIS,
   APPOINTMENT_EDIT_DETAILS
 } from './router-const'
 
@@ -459,7 +458,7 @@ const RouterComponent = () => {
               })
             },
             {
-              path: `${APPOINTMENT_DIAGNOSIS}/:appointmentId`,
+              path: `${HOSPITALIZATION_VET}`,
               lazy: async () => ({
                 Component: (await import('@/pages/VetDashboard/diagnosis_add/index')).default
               })
