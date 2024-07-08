@@ -53,16 +53,16 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false); // Added for password visibility toggle
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
-    <div className='grid grid-cols-5 min-h-screen'>
+    <div className='grid grid-cols-5 h-screen'>
       <div className='col-span-2 flex items-center justify-center bg-[var(--background)]'>
-        <form className='w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto' onSubmit={handleSubmit(handleLogin)}>
+        <form className='w-full max-w-3xl px-10 bg-opacity-20 z-10 overflow-auto' onSubmit={handleSubmit(handleLogin)}>
           <Card>
             <div className='flex items-center ml-[1.5rem]'>
               <img src={Paw} alt='Paw' className='w-20 h-30 mr-4 text-[#DB2777]' />
               <span className='text-[3.5rem] font-mont font-semibold text-[#DB2777]'>Pet88</span>
             </div>
             <CardHeader className='space-y-1'>
-              <div className='flex justify-between items-center mt-6 md:mt-16 lg:mt-36 mb-6'>
+              <div className='flex justify-between items-center '>
                 <CardTitle className='text-4xl font-bold'>REGISTER</CardTitle>
                 <Link to='/' className='text-xl text-[#DB2777] font-normal hover:underline'>
                   Back to Home
@@ -71,7 +71,7 @@ const Register = () => {
             </CardHeader>
             <CardContent>
               <div className='space-y-4'>
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2 '>
                   <Label htmlFor='email' className='text-xl font-normal'>
                     Email
                   </Label>
@@ -84,7 +84,7 @@ const Register = () => {
                   />
                   {errors.email && <p>{errors.email.message}</p>}
                 </div>
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2 '>
                   <Label htmlFor='username' className='text-xl font-normal'>
                     Username
                   </Label>
@@ -97,7 +97,7 @@ const Register = () => {
                   />
                   {errors.userName && <p>{errors.userName.message}</p>}
                 </div>
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2 '>
                   <Label htmlFor='password' className='text-xl font-normal'>
                     Password
                   </Label>
@@ -119,7 +119,7 @@ const Register = () => {
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2'>
                   <Label htmlFor='confirmPassword' className='text-xl font-normal'>
                     Confirm Password
                   </Label>
@@ -144,8 +144,8 @@ const Register = () => {
                 <Button className='w-full bg-[#DB2777] text-white py-4 text-lg mt-4' type='submit'>
                   Register
                 </Button>
-                <div className='mt-auto'>
-                  <div className='pt-[16rem] md:pt-[4rem] lg:pt-[8rem] xl:pt-[16rem] text-base sm:text-lg md:text-xl font-light font-mont'>
+                <div className='mt-3'>
+                  <div className=' text-base sm:text-lg md:text-xl font-light font-mont '>
                     Already have an account? &nbsp;
                     <Link
                       to={`/${LOGIN}`}
