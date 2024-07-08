@@ -18,6 +18,7 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService'
+import AddPetHealthTrack from './addPetHealthTrack'
 
 export type PetHealthTrack = {
   petHealthTrackId: number
@@ -95,6 +96,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
       <div className='flex items-center py-4'>
         <span className='flex-1 text-[2rem] font-mont font-semibold '>PET HEALTH TRACK</span>
         <Button variant='outline'>Add Pet Health Track</Button>
+        <AddPetHealthTrack />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {table.getRowModel().rows?.length ? (
