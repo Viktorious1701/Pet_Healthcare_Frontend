@@ -1,16 +1,16 @@
-import { Outlet } from 'react-router-dom'
-import { Layout, LayoutHeader, LayoutBody } from '@/components/custom/layout'
-import { TopNav } from '@/components/employee_components/top-nav'
-import { Search } from '@/components/employee_components/search'
-import ThemeSwitch from '@/components/employee_components/theme-switch'
-import { UserNav } from '@/components/employee_components/user-nav'
+import { Outlet } from 'react-router-dom';
+import { Layout, LayoutHeader, LayoutBody } from '@/components/custom/layout';
+import { TopNav } from '@/components/employee_components/top-nav';
+import { Search } from '@/components/employee_components/search';
+import ThemeSwitch from '@/components/employee_components/theme-switch';
+import { UserNav } from '@/components/employee_components/user-nav';
 
 const topNav = [
   { title: 'Overview', href: '/employee/', isActive: true },
   //   { title: 'Customers', href: '/employee/customers', isActive: false },
   //   { title: 'Products', href: '/employee/products', isActive: false },
   { title: 'Settings', href: '/employee/settings', isActive: false }
-]
+];
 
 export default function EmployeeDashboardWrapper() {
   return (
@@ -27,5 +27,5 @@ export default function EmployeeDashboardWrapper() {
         <Outlet />
       </LayoutBody>
     </Layout>
-  )
+  );
 }

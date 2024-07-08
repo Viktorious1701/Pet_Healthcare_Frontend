@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,39 +14,39 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
 
-import { Button } from '@/components/ui/button'
-import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService'
-import AddPetHealthTrack from './addPetHealthTrack'
+import { Button } from '@/components/ui/button';
+import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService';
+import AddPetHealthTrack from './addPetHealthTrack';
 
 export type PetHealthTrack = {
-  petHealthTrackId: number
-  hospitalizationId: number // Assuming a link to the Hospitalization type
-  petName: string
-  petImage: string
-  description: string
-  date: string
-  status: number // Consider using an enum for clarity on status values
-}
+  petHealthTrackId: number;
+  hospitalizationId: number; // Assuming a link to the Hospitalization type
+  petName: string;
+  petImage: string;
+  description: string;
+  date: string;
+  status: number; // Consider using an enum for clarity on status values
+};
 
 // Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: number }) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [data, setData] = React.useState<PetHealthTrack[]>([]) // State to hold fetched data
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<PetHealthTrack[]>([]); // State to hold fetched data
 
   // Function to fetch appointments and update state
-  const id = hospitalizationId
-  console.log('hospitalizationId:', id)
+  const id = hospitalizationId;
+  console.log('hospitalizationId:', id);
   const fetchPetHealthTracksAndUpdateState = async () => {
     try {
       if (id != 0) {
-        console.log('hospitalizationId2222:', id)
-        const response = await getPetHealthTrackByHospitalizationId(id)
-        console.log('PetHealthTrack', response)
+        console.log('hospitalizationId2222:', id);
+        const response = await getPetHealthTrackByHospitalizationId(id);
+        console.log('PetHealthTrack', response);
         if (response) {
           const formattedPetHealthTrack: PetHealthTrack[] = response.map((pethealthtrack) => ({
             petHealthTrackId: pethealthtrack.petHealthTrackId,
@@ -56,22 +56,22 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
             description: pethealthtrack.description,
             date: pethealthtrack.date,
             status: pethealthtrack.status
-          }))
-          setData(formattedPetHealthTrack) // Update state with fetched data
+          }));
+          setData(formattedPetHealthTrack); // Update state with fetched data
         }
       }
     } catch (error) {
-      console.error('Error fetching pet health tracks:', error)
+      console.error('Error fetching pet health tracks:', error);
     }
-  }
+  };
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchPetHealthTracksAndUpdateState()
+    fetchPetHealthTracksAndUpdateState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]) // Now includes `id` in the dependency array
+  }, [id]); // Now includes `id` in the dependency array
 
-  const columns: ColumnDef<PetHealthTrack>[] = [] // Declare or initialize the 'columns' variable with type argumentserror);
+  const columns: ColumnDef<PetHealthTrack>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);
   const table = useReactTable({
     data, // Use state variable for data
     columns,
@@ -89,7 +89,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
       columnVisibility,
       rowSelection
     }
-  })
+  });
 
   return (
     <div className='w-full'>
@@ -123,5 +123,5 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'></div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import React from 'react'
-import ProtectedRoutes from '@/Route/ProtectedRoutes'
-import VetDashboard from '@/pages/VetDashboard/VetDashboard'
+import React from 'react';
+import ProtectedRoutes from '@/Route/ProtectedRoutes';
+import VetDashboard from '@/pages/VetDashboard/VetDashboard';
 
 class ProtectedVetDashboard extends React.Component {
   render() {
@@ -8,8 +8,8 @@ class ProtectedVetDashboard extends React.Component {
       <ProtectedRoutes>
         <VetDashboard />
       </ProtectedRoutes>
-    )
+    );
   }
 }
 
-export default ProtectedVetDashboard
+export default ProtectedVetDashboard;

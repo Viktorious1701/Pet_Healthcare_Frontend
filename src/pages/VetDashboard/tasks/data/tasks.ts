@@ -699,4 +699,4 @@ export const tasks = [
     label: 'bug',
     priority: 'low'
   }
-]
+];

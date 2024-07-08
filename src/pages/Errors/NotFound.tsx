@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/custom/button'
-import Paw from '@/assets/Paw2.svg'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/custom/button';
+import Paw from '@/assets/Paw2.svg';
+import { Link } from 'react-router-dom';
 
 const NotFound = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div className='h-svh'>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
@@ -25,7 +25,7 @@ const NotFound = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

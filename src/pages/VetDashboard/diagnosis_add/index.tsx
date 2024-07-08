@@ -1,8 +1,8 @@
-import { FC } from 'react'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/vet_components/user-nav'
-import Form from '@/pages/VetDashboard/diagnosis_add/add_form/form'
+import { FC } from 'react';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/vet_components/user-nav';
+import Form from '@/pages/VetDashboard/diagnosis_add/add_form/form';
 
 const App: FC = () => {
   return (
@@ -18,7 +18,7 @@ const App: FC = () => {
         <Form />
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

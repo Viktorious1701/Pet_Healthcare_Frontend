@@ -1,77 +1,77 @@
-import { useAuth } from '@/Context/useAuth'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
-import * as Yup from 'yup'
-import PetCare from '../assets/petcare.jpg'
-import Paw from '../assets/Paw2.svg'
-import { Link, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { IconEye, IconEyeOff } from '@tabler/icons-react'
-import { LOGIN } from '@/Route/router-const'
-import { useAuthNavigation } from '@/Context/useAuthNavigation'
+import { useAuth } from '@/Context/useAuth';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import PetCare from '../assets/petcare.jpg';
+import Paw from '../assets/Paw2.svg';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import { LOGIN } from '@/Route/router-const';
+import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 type ResetPasswordFormInputs = {
-  password: string
-  confirmPassword: string
-}
+  password: string;
+  confirmPassword: string;
+};
 
 interface QueryParams {
-  token?: string
-  email?: string
+  token?: string;
+  email?: string;
 }
 
 const validation = Yup.object().shape({
   password: Yup.string().required('Password is required'),
   confirmPassword: Yup.string().required('Password confirmation is required')
-})
+});
 
 const ResetPass: React.FC = () => {
-  const location = useLocation()
-  const [token, setToken] = useState('')
-  const [email, setEmail] = useState('')
-  const { resetUser } = useAuth()
+  const location = useLocation();
+  const [token, setToken] = useState('');
+  const [email, setEmail] = useState('');
+  const { resetUser } = useAuth();
 
   useEffect(() => {
     // Function to parse query parameters from the URL
     const parseQueryString = (queryString: string): QueryParams => {
-      const params: QueryParams = {}
-      const searchParams = new URLSearchParams(queryString)
+      const params: QueryParams = {};
+      const searchParams = new URLSearchParams(queryString);
       for (const [key, value] of searchParams.entries()) {
         if (key === 'token' || key === 'email') {
-          params[key] = value
+          params[key] = value;
         }
       }
-      return params
-    }
+      return params;
+    };
 
     // Extract query parameters from the URL
-    const queryParams = parseQueryString(location.search)
+    const queryParams = parseQueryString(location.search);
 
     // Update state with token and email values
     if (queryParams.token) {
-      setToken(queryParams.token)
+      setToken(queryParams.token);
     }
     if (queryParams.email) {
-      setEmail(queryParams.email)
+      setEmail(queryParams.email);
     }
-  }, [location.search]) // Trigger effect whenever the location.search changes
+  }, [location.search]); // Trigger effect whenever the location.search changes
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<ResetPasswordFormInputs>({ resolver: yupResolver(validation) })
+  } = useForm<ResetPasswordFormInputs>({ resolver: yupResolver(validation) });
 
-  const [showPassword1, setShowPassword1] = useState(false)
-  const [showPassword2, setShowPassword2] = useState(false)
-  const { navigateToLogin } = useAuthNavigation()
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const { navigateToLogin } = useAuthNavigation();
   const handleResetPassword = (form: ResetPasswordFormInputs) => {
-    resetUser(token, email, form.password, form.confirmPassword)
-    navigateToLogin()
-  }
+    resetUser(token, email, form.password, form.confirmPassword);
+    navigateToLogin();
+  };
 
   return (
     <div className='grid grid-cols-5 min-h-screen'>
@@ -158,7 +158,7 @@ const ResetPass: React.FC = () => {
         <img src={PetCare} alt='Pet care' className='w-full h-full object-cover' />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ResetPass
+export default ResetPass;

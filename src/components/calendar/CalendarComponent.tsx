@@ -1,24 +1,24 @@
 // CalendarComponent.tsx
-import React from 'react'
-import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
-import './Calendar.css'
+import React from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import './Calendar.css';
 
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface CalendarComponentProps {
-  onDateChange: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void
+  onDateChange: (value: Value, event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) => {
   const handleDateChange = (value: Value, event: React.MouseEvent<HTMLButtonElement>) => {
-    onDateChange(value, event)
-  }
+    onDateChange(value, event);
+  };
 
   // Get today's date and set the time to 00:00:00 to ensure the whole day is included
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div>
@@ -34,7 +34,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({ onDateChange }) =
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CalendarComponent
+export default CalendarComponent;

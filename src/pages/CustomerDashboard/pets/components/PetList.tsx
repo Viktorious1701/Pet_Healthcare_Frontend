@@ -1,86 +1,86 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Spinner } from 'react-bootstrap'
-import SearchBar from '@/components/navigation/SearchBar'
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST, CUSTOMER_PET_UPDATE } from '@/Route/router-const'
-import { petsOfCustomerAPI } from '@/Services/PetService'
-import { useAuth } from '@/Context/useAuth'
-import { PetGet } from '@/Models/Pet'
-import { useTheme } from '@/components/vet_components/theme-provider' // Import the useTheme hook
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
+import SearchBar from '@/components/navigation/SearchBar';
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST, CUSTOMER_PET_UPDATE } from '@/Route/router-const';
+import { petsOfCustomerAPI } from '@/Services/PetService';
+import { useAuth } from '@/Context/useAuth';
+import { PetGet } from '@/Models/Pet';
+import { useTheme } from '@/components/vet_components/theme-provider'; // Import the useTheme hook
 
 const PetList: React.FC = () => {
-  const [petProfiles, setPetProfiles] = useState<PetGet[]>([])
-  const [filteredPetProfiles, setFilteredPetProfiles] = useState<PetGet[]>([])
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  const [searchTerm, setSearchTerm] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [images, setImages] = useState<{ [key: string]: string }>({})
-  const { theme } = useTheme() // Use the useTheme hook to get the current theme
+  const [petProfiles, setPetProfiles] = useState<PetGet[]>([]);
+  const [filteredPetProfiles, setFilteredPetProfiles] = useState<PetGet[]>([]);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState<{ [key: string]: string }>({});
+  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
 
   const fetchImages = async (pets: PetGet[]) => {
-    const newImages: { [key: string]: string } = {}
+    const newImages: { [key: string]: string } = {};
     await Promise.all(
       pets.map(async (pet) => {
         if (pet.imageUrl) {
           if (pet.imageUrl.startsWith('http')) {
-            newImages[pet.id] = pet.imageUrl
+            newImages[pet.id] = pet.imageUrl;
           } else {
             try {
-              const file = await fetch(pet.imageUrl)
-              const blob = await file.blob()
-              const imageUrl = URL.createObjectURL(blob)
-              newImages[pet.id] = imageUrl
+              const file = await fetch(pet.imageUrl);
+              const blob = await file.blob();
+              const imageUrl = URL.createObjectURL(blob);
+              newImages[pet.id] = imageUrl;
             } catch (error) {
-              console.log('Error fetching image for pet: ', pet.id, error)
-              newImages[pet.id] = 'https://via.placeholder.com/100'
+              console.log('Error fetching image for pet: ', pet.id, error);
+              newImages[pet.id] = 'https://via.placeholder.com/100';
             }
           }
         } else {
-          newImages[pet.id] = 'https://via.placeholder.com/100'
+          newImages[pet.id] = 'https://via.placeholder.com/100';
         }
       })
-    )
-    setImages(newImages)
-  }
+    );
+    setImages(newImages);
+  };
 
   const getPets = useCallback(async () => {
-    if (!user) return
-    setLoading(true)
+    if (!user) return;
+    setLoading(true);
     try {
-      const res = await petsOfCustomerAPI(user.userName) // Fetch pets directly from API
+      const res = await petsOfCustomerAPI(user.userName); // Fetch pets directly from API
       if (res?.data) {
-        setPetProfiles(res.data)
-        setFilteredPetProfiles(res.data)
-        fetchImages(res.data)
+        setPetProfiles(res.data);
+        setFilteredPetProfiles(res.data);
+        fetchImages(res.data);
       } else {
-        setPetProfiles([])
-        setFilteredPetProfiles([])
+        setPetProfiles([]);
+        setFilteredPetProfiles([]);
       }
     } catch (err) {
-      console.log('Error fetching pets: ', err)
-      setPetProfiles([])
-      setFilteredPetProfiles([])
+      console.log('Error fetching pets: ', err);
+      setPetProfiles([]);
+      setFilteredPetProfiles([]);
     }
-    setLoading(false)
-  }, [user])
+    setLoading(false);
+  }, [user]);
 
   useEffect(() => {
-    getPets()
-  }, [getPets])
+    getPets();
+  }, [getPets]);
 
   useEffect(() => {
     if (Array.isArray(petProfiles)) {
-      const filteredProfiles = petProfiles.filter((pet) => pet.name.toLowerCase().includes(searchTerm.toLowerCase()))
-      setFilteredPetProfiles(filteredProfiles)
+      const filteredProfiles = petProfiles.filter((pet) => pet.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      setFilteredPetProfiles(filteredProfiles);
     } else {
-      setFilteredPetProfiles([])
+      setFilteredPetProfiles([]);
     }
-  }, [petProfiles, searchTerm])
+  }, [petProfiles, searchTerm]);
 
   const handleViewProfile = (id: number) => {
-    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`)
-  }
+    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
+  };
 
   return (
     <div className='py-6 px-4 rounded-lg shadow-lg h-[70vh]'>
@@ -108,7 +108,7 @@ const PetList: React.FC = () => {
                 <img
                   src={images[pet.id] || 'https://via.placeholder.com/100'}
                   alt={pet.name}
-                  className='w-full h-32 object-fill'
+                  className='w-full h-32 object-cover object-center'
                 />
                 <div className='p-4 text-center'>
                   <h4 className='text-xl font-bold'>{pet.name}</h4>
@@ -144,7 +144,7 @@ const PetList: React.FC = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PetList
+export default PetList;

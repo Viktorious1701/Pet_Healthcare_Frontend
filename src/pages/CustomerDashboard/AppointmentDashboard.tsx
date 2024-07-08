@@ -1,30 +1,30 @@
-import { useState } from 'react'
-import logo from '../../assets/react.svg'
-import SearchBar from '@/components/navigation/SearchBar'
+import { useState } from 'react';
+import logo from '../../assets/react.svg';
+import SearchBar from '@/components/navigation/SearchBar';
 
 interface Appointment {
-  id: number
-  cost: number
+  id: number;
+  cost: number;
 }
 
 const AppointmentDashboard = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const appointments: Appointment[] = [
     { id: 1, cost: 500 },
     { id: 2, cost: 300 },
     { id: 3, cost: 400 }
     // Add more appointments as needed
-  ]
+  ];
 
-  const filteredAppointments = appointments.filter((appointment) => appointment.id.toString().includes(searchTerm))
+  const filteredAppointments = appointments.filter((appointment) => appointment.id.toString().includes(searchTerm));
 
-  const totalAppointmentCost = filteredAppointments.reduce((acc, curr) => acc + curr.cost, 0)
+  const totalAppointmentCost = filteredAppointments.reduce((acc, curr) => acc + curr.cost, 0);
 
   const handleViewDetails = (appointmentId: number) => {
     // Implement view details logic here
-    console.log(`Viewing details for appointment ID: ${appointmentId}`)
-  }
+    console.log(`Viewing details for appointment ID: ${appointmentId}`);
+  };
 
   return (
     <div className='bg-white p-5 rounded-lg mb-5 flex-1 overflow-y-auto'>
@@ -73,7 +73,7 @@ const AppointmentDashboard = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default AppointmentDashboard
+export default AppointmentDashboard;

@@ -1,25 +1,25 @@
-import { useState, useRef, useEffect } from 'react'
-import CalendarComponent from '@/components/calendar/CalendarComponent'
-import { useDispatch } from 'react-redux'
-import { setUserBooking } from '@/components/slices/dateSlice'
-import { AppDispatch } from '@/store'
-import { SlotGet } from '@/Models/Slot'
-import { slotGetAPI } from '@/Services/SlotService'
-import { toast } from 'sonner'
-import BookingForm from '@/components/appointment/BookingForm'
-import { ArrowRightFromLine } from 'lucide-react'
-import { useNavigate } from 'react-router'
-import CustomerSelect from '@/components/appointment/CustomerSelect'
-import { Button } from '@nextui-org/react'
+import { useState, useRef, useEffect } from 'react';
+import CalendarComponent from '@/components/calendar/CalendarComponent';
+import { useDispatch } from 'react-redux';
+import { setUserBooking } from '@/components/slices/dateSlice';
+import { AppDispatch } from '@/store';
+import { SlotGet } from '@/Models/Slot';
+import { slotGetAPI } from '@/Services/SlotService';
+import { toast } from 'sonner';
+import BookingForm from '@/components/appointment/BookingForm';
+import { ArrowRightFromLine } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import CustomerSelect from '@/components/appointment/CustomerSelect';
+import { Button } from '@nextui-org/react';
 
-import Box from '@mui/material/Box'
-import Stepper from '@mui/material/Stepper'
-import Step from '@mui/material/Step'
-import StepLabel from '@mui/material/StepLabel'
-import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Typography from '@mui/material/Typography';
 
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+type ValuePiece = Date | null;
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const steps = [
   {
@@ -31,64 +31,64 @@ const steps = [
   {
     label: 'Select Pet, Service and Vet'
   }
-]
+];
 
 const BookingPageEmployee = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [slots, setSlots] = useState<SlotGet[] | null>([])
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null)
-  const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-  const dateRef = useRef<HTMLDivElement | null>(null)
-  const bookRef = useRef<HTMLDivElement | null>(null)
+  const [slots, setSlots] = useState<SlotGet[] | null>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<SlotGet | null>(null);
+  const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const dateRef = useRef<HTMLDivElement | null>(null);
+  const bookRef = useRef<HTMLDivElement | null>(null);
 
-  const [activeStep, setActiveStep] = useState<number>(0)
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const getSlots = async (date: string) => {
     await slotGetAPI(date)
       .then((res) => {
         if (res?.data) {
-          setSlots(res?.data)
+          setSlots(res?.data);
         }
       })
       .catch(() => {
-        toast.warning('Could not get slot data')
-      })
-  }
+        toast.warning('Could not get slot data');
+      });
+  };
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
-      navigate('/login')
+      navigate('/login');
     }
-    window.scrollTo(0, 0)
-  }, [navigate])
+    window.scrollTo(0, 0);
+  }, [navigate]);
 
   const handleBookingCancel = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
-    })
-    setSelectedDate(null)
-    setSelectedSlot(null)
-    handleReset()
-  }
+    });
+    setSelectedDate(null);
+    setSelectedSlot(null);
+    handleReset();
+  };
 
   const handleDateChange = (value: Value) => {
     if (!Array.isArray(value)) {
-      setSelectedDate(value)
-      setSelectedSlot(null)
-      getSlots(String(value?.toLocaleDateString().replace(/\//g, '-')))
+      setSelectedDate(value);
+      setSelectedSlot(null);
+      getSlots(String(value?.toLocaleDateString().replace(/\//g, '-')));
     }
-  }
+  };
 
   const handleSlotClick = (slot: SlotGet) => {
     if (slot.available) {
-      setSelectedSlot(slot)
+      setSelectedSlot(slot);
     }
-  }
+  };
 
   const handleBooking = () => {
     if (selectedSlot && selectedDate && selectedCustomer) {
@@ -98,38 +98,38 @@ const BookingPageEmployee = () => {
           slot: selectedSlot.slotId.toString(),
           user: selectedCustomer.toString()
         })
-      )
+      );
       bookRef.current?.scrollIntoView({
         behavior: 'smooth'
-      })
-      handleNext()
+      });
+      handleNext();
     }
-  }
+  };
 
   const handleCustomerSelect = (customer: string) => {
     dateRef.current?.scrollIntoView({
       behavior: 'smooth'
-    })
-    setSelectedCustomer(customer)
-    handleNext()
-  }
+    });
+    setSelectedCustomer(customer);
+    handleNext();
+  };
 
   const isSlotInThePast = (slot: SlotGet): boolean => {
-    const [month, day, year] = String(selectedDate?.toLocaleDateString().replace(/\//g, '-')).split('-')
-    const [hour, minute] = slot.startTime.split(':')
-    const slotDateTime = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute))
-    const now = new Date()
+    const [month, day, year] = String(selectedDate?.toLocaleDateString().replace(/\//g, '-')).split('-');
+    const [hour, minute] = slot.startTime.split(':');
+    const slotDateTime = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
+    const now = new Date();
 
     if (!slot.available) {
-      return true
+      return true;
     }
-    return slotDateTime < now
-  }
+    return slotDateTime < now;
+  };
 
   const renderTimeSlots = () => {
     return slots?.map((slot, index) => {
-      const isPast = isSlotInThePast(slot)
-      slot.available = !isPast // Update availability based on the current time
+      const isPast = isSlotInThePast(slot);
+      slot.available = !isPast; // Update availability based on the current time
       return (
         <div
           key={index}
@@ -140,19 +140,19 @@ const BookingPageEmployee = () => {
         >
           {slot.startTime}
         </div>
-      )
-    })
-  }
+      );
+    });
+  };
 
   const handleReset = () => {
-    setSelectedDate(null)
-    setSelectedSlot(null)
-    setActiveStep(0)
-  }
+    setSelectedDate(null);
+    setSelectedSlot(null);
+    setActiveStep(0);
+  };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
-  }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
   return (
     <div className='w-full h-full overflow-y-hidden' ref={containerRef}>
@@ -245,6 +245,6 @@ const BookingPageEmployee = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default BookingPageEmployee
+  );
+};
+export default BookingPageEmployee;

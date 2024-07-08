@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import './preloader.css'
-import { preLoaderAnim } from '../animations/animations'
-import paw from '@/assets/Paw2.svg'
+import { useEffect } from 'react';
+import './preloader.css';
+import { preLoaderAnim } from '../animations/animations';
+import paw from '@/assets/Paw2.svg';
 
 const PreLoader = () => {
   useEffect(() => {
-    preLoaderAnim()
-  }, [])
+    preLoaderAnim();
+  }, []);
 
   return (
     <div className='preloader'>
@@ -19,7 +19,7 @@ const PreLoader = () => {
         <span>Aid.</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PreLoader
+export default PreLoader;

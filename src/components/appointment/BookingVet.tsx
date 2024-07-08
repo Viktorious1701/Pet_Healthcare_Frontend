@@ -1,17 +1,17 @@
-import React from 'react'
-import { Select, SelectItem, Avatar } from '@nextui-org/react'
-import { AppointmentAvailableVets } from '@/Models/Appointment'
+import React from 'react';
+import { Select, SelectItem, Avatar } from '@nextui-org/react';
+import { AppointmentAvailableVets } from '@/Models/Appointment';
 
 interface BookingVetProps {
-  vets: AppointmentAvailableVets[]
-  onSelectVet: (vetUserName: string) => void
+  vets: AppointmentAvailableVets[];
+  onSelectVet: (vetUserName: string) => void;
 }
 
 const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
   const handleVetChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedVetUserNameFromEvent = event.target.value
-    onSelectVet(selectedVetUserNameFromEvent)
-  }
+    const selectedVetUserNameFromEvent = event.target.value;
+    onSelectVet(selectedVetUserNameFromEvent);
+  };
   const autoAssignOption = {
     id: 'auto-assign',
     userName: 'Let us choose for you',
@@ -19,9 +19,9 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
     lastName: '',
     email: "We'll assign the best available vet",
     imageURL: '/path/to/default/image.png' // Optional: a default image for this option
-  }
+  };
 
-  const allOptions = [autoAssignOption, ...vets]
+  const allOptions = [autoAssignOption, ...vets];
 
   return (
     <Select
@@ -68,7 +68,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
               <span className='text-default-500 text-tiny'>({item.data?.email})</span>
             </div>
           </div>
-        ))
+        ));
       }}
       onChange={handleVetChange}
     >
@@ -88,7 +88,7 @@ const BookingVet: React.FC<BookingVetProps> = ({ vets, onSelectVet }) => {
         </SelectItem>
       )}
     </Select>
-  )
-}
+  );
+};
 
-export default BookingVet
+export default BookingVet;

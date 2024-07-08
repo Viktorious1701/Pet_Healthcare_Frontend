@@ -1,35 +1,35 @@
-import { FC, useState } from 'react'
-import { Calendar, dateFnsLocalizer, Event } from 'react-big-calendar'
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
-import startOfWeek from 'date-fns/startOfWeek'
-import getDay from 'date-fns/getDay'
-import enUS from 'date-fns/locale/en-US'
-import { addHours } from 'date-fns'
-import { startOfHour } from 'date-fns'
+import { FC, useState } from 'react';
+import { Calendar, dateFnsLocalizer, Event } from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
+import enUS from 'date-fns/locale/en-US';
+import { addHours } from 'date-fns';
+import { startOfHour } from 'date-fns';
 
-import 'react-big-calendar/lib/css/react-big-calendar.css'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import ThemeSwitch from '@/components/admin_components/theme-switch'
-import { UserNav } from '@/components/admin_components/user-nav'
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import ThemeSwitch from '@/components/admin_components/theme-switch';
+import { UserNav } from '@/components/admin_components/user-nav';
 
-import { useTheme } from '@/components/admin_components/theme-provider' // replace with the actual path
-import './Theme.css'
+import { useTheme } from '@/components/admin_components/theme-provider'; // replace with the actual path
+import './Theme.css';
 
 const locales = {
   'en-US': enUS
-}
-const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1)
-const now = new Date()
-const start = endOfHour(now)
-const end = addHours(start, 2)
+};
+const endOfHour = (date: Date): Date => addHours(startOfHour(date), 1);
+const now = new Date();
+const start = endOfHour(now);
+const end = addHours(start, 2);
 const localizer = dateFnsLocalizer({
   format,
   parse,
   startOfWeek,
   getDay,
   locales
-})
+});
 
 const App: FC = () => {
   const [events] = useState<Event[]>([
@@ -38,14 +38,14 @@ const App: FC = () => {
       start,
       end
     }
-  ])
+  ]);
 
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const calendarStyle =
     theme === 'dark'
       ? { height: '100vh', backgroundColor: '--background', color: '#fff' }
-      : { height: '100vh', color: '#000' }
-  const themeClass = theme === 'dark' ? 'dark-mode' : 'light-mode'
+      : { height: '100vh', color: '#000' };
+  const themeClass = theme === 'dark' ? 'dark-mode' : 'light-mode';
 
   return (
     <Layout fadedBelow fixedHeight>
@@ -60,7 +60,7 @@ const App: FC = () => {
         <Calendar defaultView='week' events={events} localizer={localizer} style={calendarStyle} />
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

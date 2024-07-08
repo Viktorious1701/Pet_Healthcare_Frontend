@@ -1,71 +1,71 @@
-import { Button } from '@/components/custom/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search } from '@/components/admin_components/search'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/admin_components/theme-switch'
-import { TopNav } from '@/components/admin_components/top-nav'
-import { UserNav } from '@/components/admin_components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
+import { Button } from '@/components/custom/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Search } from '@/components/admin_components/search';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ThemeSwitch from '@/components/admin_components/theme-switch';
+import { TopNav } from '@/components/admin_components/top-nav';
+import { UserNav } from '@/components/admin_components/user-nav';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 // import { RecentSales } from './components/recent-sales'
 // import { Overview } from "./components/overview";
-import { useEffect, useState } from 'react'
-import { PaymentRevenueGet } from '@/Models/Payment'
-import { revenueGetAPI } from '@/Services/PaymentService'
-import { toast } from 'sonner'
-import { IconCalendarMonth, IconCalendarWeek, IconCurrencyDollar, IconDeviceAnalytics } from '@tabler/icons-react'
-import { AppointmentGet } from '@/Models/Appointment'
-import { appointmentGetAPI } from '@/Services/AppointmentService'
-import RecentAppointments from './components/recent-appointments'
-import RecentHospitalizations from './components/recent-hospitalizations'
-import { Hospitalization } from '@/Models/Hospitalization'
-import { hospitalizationListAPI } from '@/Services/HospitalizationService'
+import { useEffect, useState } from 'react';
+import { PaymentRevenueGet } from '@/Models/Payment';
+import { revenueGetAPI } from '@/Services/PaymentService';
+import { toast } from 'sonner';
+import { IconCalendarMonth, IconCalendarWeek, IconCurrencyDollar, IconDeviceAnalytics } from '@tabler/icons-react';
+import { AppointmentGet } from '@/Models/Appointment';
+import { appointmentGetAPI } from '@/Services/AppointmentService';
+import RecentAppointments from './components/recent-appointments';
+import RecentHospitalizations from './components/recent-hospitalizations';
+import { Hospitalization } from '@/Models/Hospitalization';
+import { hospitalizationListAPI } from '@/Services/HospitalizationService';
 
 export default function Dashboard() {
-  const [revenue, setRevenue] = useState<PaymentRevenueGet>()
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([])
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([])
+  const [revenue, setRevenue] = useState<PaymentRevenueGet>();
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
 
   const getAppointments = async () => {
     await appointmentGetAPI()
       .then((res) => {
         if (res?.data) {
-          setAppointments(res.data)
+          setAppointments(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getHospitalizations = async () => {
     await hospitalizationListAPI()
       .then((res) => {
         if (res.data) {
-          setHospitalizations(res.data)
+          setHospitalizations(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getRevenue = async () => {
     await revenueGetAPI()
       .then((res) => {
         if (res.data) {
-          setRevenue(res.data)
+          setRevenue(res.data);
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   useEffect(() => {
-    getRevenue()
-    getAppointments()
-    getHospitalizations()
-  }, [])
+    getRevenue();
+    getAppointments();
+    getHospitalizations();
+  }, []);
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
@@ -174,7 +174,7 @@ export default function Dashboard() {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
+  );
 }
 
 const topNav = [
@@ -198,4 +198,4 @@ const topNav = [
     href: '',
     isActive: false
   }
-]
+];

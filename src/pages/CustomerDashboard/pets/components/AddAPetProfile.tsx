@@ -1,69 +1,69 @@
-import * as React from 'react'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { Button } from '@/components/custom/button'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { Search } from '@/components/customer_components/search'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { useNavigate } from 'react-router-dom'
-import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const'
-import { AddAPetAPI } from '@/Services/PetService' // Adjust the import path according to your project structure
-import { useAuth } from '@/Context/useAuth' // Adjust the import path according to your project structure
-import { PetGet } from '@/Models/Pet'
-import { useTheme } from '@/components/vet_components/theme-provider' // Import useTheme hook from your theme provider
+import * as React from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { Button } from '@/components/custom/button';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { Search } from '@/components/customer_components/search';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { useNavigate } from 'react-router-dom';
+import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST } from '@/Route/router-const';
+import { AddAPetAPI } from '@/Services/PetService'; // Adjust the import path according to your project structure
+import { useAuth } from '@/Context/useAuth'; // Adjust the import path according to your project structure
+import { PetGet } from '@/Models/Pet';
+import { useTheme } from '@/components/vet_components/theme-provider'; // Import useTheme hook from your theme provider
 
 interface PetInfo {
-  customerUsername: string
-  name: string
-  species: string
-  breed: string
-  gender: boolean
-  weight: number
-  imageURL: string
-  imageFile: File | null
+  customerUsername: string;
+  name: string;
+  species: string;
+  breed: string;
+  gender: boolean;
+  weight: number;
+  imageURL: string;
+  imageFile: File | null;
 }
 
 const AddAPetProfile: React.FC = () => {
-  const navigate = useNavigate()
-  const { user } = useAuth()
-  const username = user?.userName as string
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const username = user?.userName as string;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue
-  } = useForm<PetInfo>()
-  const { theme } = useTheme() // Get current theme from theme provider
+  } = useForm<PetInfo>();
+  const { theme } = useTheme(); // Get current theme from theme provider
 
   const onSubmit: SubmitHandler<PetInfo> = async (data) => {
     if (username) {
       try {
-        const newPet = { ...data, customerUsername: username }
-        console.log(newPet)
+        const newPet = { ...data, customerUsername: username };
+        console.log(newPet);
 
-        await AddAPetAPI(newPet)
+        await AddAPetAPI(newPet);
 
         // Fetch current pets from session storage
-        const storedList = sessionStorage.getItem('petProfiles')
-        const parsedList: PetGet[] = storedList ? JSON.parse(storedList) : []
+        const storedList = sessionStorage.getItem('petProfiles');
+        const parsedList: PetGet[] = storedList ? JSON.parse(storedList) : [];
 
         // Update session storage with the new pet
-        const updatedList = [...parsedList, newPet]
-        sessionStorage.setItem('petProfiles', JSON.stringify(updatedList))
+        const updatedList = [...parsedList, newPet];
+        sessionStorage.setItem('petProfiles', JSON.stringify(updatedList));
 
-        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)
+        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
       } catch (error) {
-        console.error('Failed to add pet profile', error)
+        console.error('Failed to add pet profile', error);
       }
     } else {
-      console.error('User is not authenticated')
+      console.error('User is not authenticated');
     }
-  }
+  };
 
   const handleBack = () => {
-    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`)
-  }
+    navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
+  };
 
   return (
     <Layout className={`h-screen ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
@@ -215,8 +215,8 @@ const AddAPetProfile: React.FC = () => {
                 type='file'
                 id='imageFile'
                 onChange={(e) => {
-                  const file = e.target.files?.[0] || null
-                  setValue('imageFile', file)
+                  const file = e.target.files?.[0] || null;
+                  setValue('imageFile', file);
                 }}
                 className={`mt-1 block w-full rounded-md border ${
                   theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
@@ -237,7 +237,7 @@ const AddAPetProfile: React.FC = () => {
         </div>
       </LayoutBody>
     </Layout>
-  )
-}
+  );
+};
 
-export default AddAPetProfile
+export default AddAPetProfile;

@@ -1,11 +1,11 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search } from '@/components/vet_components/search'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/vet_components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import { RecentSales } from './components/recent-sales'
-import { Overview } from './components/overview'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Search } from '@/components/vet_components/search';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/vet_components/user-nav';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import { RecentSales } from './components/recent-sales';
+import { Overview } from './components/overview';
 
 export default function Dashboard() {
   return (
@@ -139,7 +139,7 @@ export default function Dashboard() {
         </Tabs>
       </LayoutBody>
     </Layout>
-  )
+  );
 }
 
 // const topNav = [

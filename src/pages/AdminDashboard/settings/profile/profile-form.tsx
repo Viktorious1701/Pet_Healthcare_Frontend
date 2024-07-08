@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { Button } from '@/components/custom/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { toast } from 'sonner'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
-import { UserInfo } from '@/Models/User'
-import { getUserProfile, userAccountUpdateAPI } from '@/Services/UserService'
-import { countries } from '@/Helpers/globalVariable'
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { Button } from '@/components/custom/button';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { UserInfo } from '@/Models/User';
+import { getUserProfile, userAccountUpdateAPI } from '@/Services/UserService';
+import { countries } from '@/Helpers/globalVariable';
 
 const profileFormSchema = z.object({
   userName: z
@@ -35,19 +35,19 @@ const profileFormSchema = z.object({
   gender: z.boolean(),
   isActive: z.boolean(),
   imageFile: z.instanceof(File).nullable()
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfileForm() {
-  const [user, setUser] = useState<UserInfo>()
-  const [countrySelect, setCountrySelect] = useState(user?.country)
-  const [genderSelect, setGenderSelect] = useState(user?.gender)
+  const [user, setUser] = useState<UserInfo>();
+  const [countrySelect, setCountrySelect] = useState(user?.country);
+  const [genderSelect, setGenderSelect] = useState(user?.gender);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange'
-  })
-  const { reset } = form
+  });
+  const { reset } = form;
   async function onSubmit(data: ProfileFormValues) {
     await handleUserUpdate(
       data.address,
@@ -59,7 +59,7 @@ export default function ProfileForm() {
       data.userName,
       data.isActive,
       data.imageFile
-    )
+    );
     toast.info(
       'You submitted the following values: ' +
       (
@@ -84,7 +84,7 @@ export default function ProfileForm() {
           </code>
         </pre>
       )
-    )
+    );
   }
 
   const handleUserUpdate = async (
@@ -111,22 +111,22 @@ export default function ProfileForm() {
     )
       .then((res) => {
         if (res?.data) {
-          setUser(res.data)
-          toast.info('User ' + `${userName}` + ' is updated')
+          setUser(res.data);
+          toast.info('User ' + `${userName}` + ' is updated');
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   const getUser = async () => {
     await getUserProfile()
       .then((res) => {
         if (res?.data) {
-          setUser(res.data)
-          setCountrySelect(res.data.country)
-          setGenderSelect(res.data.gender)
+          setUser(res.data);
+          setCountrySelect(res.data.country);
+          setGenderSelect(res.data.gender);
           reset({
             userName: res.data.userName,
             email: res.data.email,
@@ -139,20 +139,20 @@ export default function ProfileForm() {
             phoneNumber: res.data.phoneNumber ? res.data.phoneNumber : '',
             gender: res.data.gender,
             isActive: res.data.isActive
-          })
+          });
         }
       })
       .catch((e) => {
-        toast.error('Server error occurred', e)
-      })
-  }
+        toast.error('Server error occurred', e);
+      });
+  };
 
   useEffect(() => {
-    getUser()
-  }, [])
+    getUser();
+  }, []);
 
   if (!user) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   return (
@@ -254,8 +254,8 @@ export default function ProfileForm() {
                 <Select
                   value={countrySelect}
                   onValueChange={(value) => {
-                    field.onChange(value)
-                    setCountrySelect(value)
+                    field.onChange(value);
+                    setCountrySelect(value);
                   }}
                 >
                   <FormControl>
@@ -302,8 +302,8 @@ export default function ProfileForm() {
                   <Select
                     value={genderSelect ? 'true' : 'false'}
                     onValueChange={(value) => {
-                      field.onChange(value === 'true')
-                      setGenderSelect(value === 'true' ? true : false)
+                      field.onChange(value === 'true');
+                      setGenderSelect(value === 'true' ? true : false);
                     }}
                   >
                     <FormControl>
@@ -332,8 +332,8 @@ export default function ProfileForm() {
                   <Input
                     type='file'
                     onChange={(e) => {
-                      const file = e.target.files?.[0] || null
-                      field.onChange(file)
+                      const file = e.target.files?.[0] || null;
+                      field.onChange(file);
                     }}
                   />
                 </FormControl>
@@ -346,5 +346,5 @@ export default function ProfileForm() {
         <Button type='submit'>Update profile</Button>
       </form>
     </Form>
-  )
+  );
 }

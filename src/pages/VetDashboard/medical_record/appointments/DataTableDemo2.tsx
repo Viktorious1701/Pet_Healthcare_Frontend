@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,47 +14,47 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable
-} from '@tanstack/react-table'
+} from '@tanstack/react-table';
 
-import { recordGetAPI } from '@/Services/AppointmentService'
+import { recordGetAPI } from '@/Services/AppointmentService';
 
 export type Record = {
-  recordId: number
-  petName: string
-  numberOfVisits: number
-}
+  recordId: number;
+  petName: string;
+  numberOfVisits: number;
+};
 
 // Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo2() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [data, setData] = React.useState<Record[]>([]) // State to hold fetched data
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<Record[]>([]); // State to hold fetched data
 
   const fetchRecordsAndUpdateState = async () => {
     try {
-      const response = await recordGetAPI()
-      console.log('PetHealthTrack', response)
+      const response = await recordGetAPI();
+      console.log('PetHealthTrack', response);
       if (response) {
         const formattedRecord: Record[] = response.data.map((record) => ({
           recordId: record.recordId,
           petName: record.petName,
           numberOfVisits: record.numberOfVisits
-        }))
-        setData(formattedRecord) // Update state with fetched data
+        }));
+        setData(formattedRecord); // Update state with fetched data
       }
     } catch (error) {
-      console.error('Error fetching pet health tracks:', error)
+      console.error('Error fetching pet health tracks:', error);
     }
-  }
+  };
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchRecordsAndUpdateState()
-  }, []) // Now includes `id` in the dependency array
+    fetchRecordsAndUpdateState();
+  }, []); // Now includes `id` in the dependency array
 
-  const columns: ColumnDef<Record>[] = [] // Declare or initialize the 'columns' variable with type argumentserror);
+  const columns: ColumnDef<Record>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);
   const table = useReactTable({
     data, // Use state variable for data
     columns,
@@ -72,7 +72,7 @@ export function DataTableDemo2() {
       columnVisibility,
       rowSelection
     }
-  })
+  });
 
   return (
     <div className='w-full'>
@@ -104,5 +104,5 @@ export function DataTableDemo2() {
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'></div>
     </div>
-  )
+  );
 }

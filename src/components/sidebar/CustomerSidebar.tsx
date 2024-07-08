@@ -1,24 +1,24 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import SidebarComponent from './SidebarComponent'
-import { HomeIcon, Calendar, Settings, Hospital } from 'lucide-react'
-import { SidebarItem } from './SidebarComponent'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SidebarComponent from './SidebarComponent';
+import { HomeIcon, Calendar, Settings, Hospital } from 'lucide-react';
+import { SidebarItem } from './SidebarComponent';
 import {
   CUSTOMER_PET_LIST,
   CUSTOMER_DASHBOARD as CUSTOMER_PAGE,
   CUSTOMER_APPOINTMENTS,
   CUSTOMER_HOSPITALIZATION_TABLE as HOSPITALIZATION,
   SETTINGS
-} from '@/Route/router-const'
+} from '@/Route/router-const';
 
 const CustomerSidebar = () => {
-  const [activePath, setActivePath] = useState(`/${CUSTOMER_PAGE}/${CUSTOMER_PET_LIST}`)
-  const navigate = useNavigate()
+  const [activePath, setActivePath] = useState(`/${CUSTOMER_PAGE}/${CUSTOMER_PET_LIST}`);
+  const navigate = useNavigate();
 
   const handleNavigation = (path: string) => {
-    setActivePath(path)
-    navigate(path)
-  }
+    setActivePath(path);
+    navigate(path);
+  };
 
   return (
     <SidebarComponent>
@@ -51,7 +51,7 @@ const CustomerSidebar = () => {
         active={activePath === `/${CUSTOMER_PAGE}/${SETTINGS}`}
       />
     </SidebarComponent>
-  )
-}
+  );
+};
 
-export default CustomerSidebar
+export default CustomerSidebar;

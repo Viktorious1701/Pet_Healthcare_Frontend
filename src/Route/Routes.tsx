@@ -1,23 +1,23 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import ProtectedRoutes from './ProtectedRoutes'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import ProtectedRoutes from './ProtectedRoutes';
 // import Dashboard from "@/pages/AdminDashboard/Dashboard";
 // import Hospitalization from "@/pages/AdminDashboard/Hospitalization";
-import BookingPage from '@/pages/Booking/BookingPage'
-import BookingSuccess from '@/pages/Booking/BookingSuccess'
-import AccountSettings from '@/pages/AccountSettings'
-import NotFound from '@/pages/Errors/NotFound'
-import GeneralError from '@/pages/Errors/general-error'
-import MaintenanceError from '@/pages/Errors/maintenance-error'
-import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard'
-import HospitalizationPage from '@/pages/CustomerDashboard/hospitalization/components/HospitalizationPage'
-import PetHealthTrackDTO from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack'
-import KennelPage from '@/pages/CustomerDashboard/hospitalization/components/Kennel'
+import BookingPage from '@/pages/Booking/BookingPage';
+import BookingSuccess from '@/pages/Booking/BookingSuccess';
+import AccountSettings from '@/pages/AccountSettings';
+import NotFound from '@/pages/Errors/NotFound';
+import GeneralError from '@/pages/Errors/general-error';
+import MaintenanceError from '@/pages/Errors/maintenance-error';
+import EmployeeDashboard from '@/pages/EmployeeDashboard/EmployeeDashboard';
+import HospitalizationPage from '@/pages/CustomerDashboard/hospitalization/components/HospitalizationPage';
+import PetHealthTrackDTO from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack';
+import KennelPage from '@/pages/CustomerDashboard/hospitalization/components/Kennel';
 // import PetProfile from '@/pages/CustomerPage/PetProfile/PetProfile';
 // import PetUpdateForm from '@/pages/CustomerPage/PetProfile/PetUpdateForm';
 // import AppointmentManagement from '@/pages/CustomerPage/Appointments/AppointmentManagement';
 // import HospitalizationTracking from '@/pages/CustomerPage/Hospitalization/HospitalizationPage';
 //import { Resize, useWindowDimensions } from "@/components/resize";
-import { Loader } from 'lucide-react'
+import { Loader } from 'lucide-react';
 // import UserProfile from '@/pages/CustomerPage/Profile/UserProfile'; // Adjust path as necessary
 import {
   ABOUT_PAGE,
@@ -61,31 +61,30 @@ import {
   RATE,
   APPOINTMENT_MEDICAL_RECORD,
   HOSPITALIZATION_VET,
-  APPOINTMENT_DIAGNOSIS,
   APPOINTMENT_EDIT_DETAILS
-} from './router-const'
+} from './router-const';
 
-import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack'
-import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee'
-import KennelManagement from '@/pages/EmployeeDashboard/kennel/KennelManagement'
-import React from 'react'
-import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard'
+import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack';
+import BookingPageEmployee from '@/pages/Booking/BookingPageEmployee';
+import KennelManagement from '@/pages/EmployeeDashboard/kennel/KennelManagement';
+import React from 'react';
+import ProtectedAdminDashboard from '@/pages/AdminDashboard/ProtectedAdminDashboard';
 
-import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement'
-import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard'
-import Pets from '@/pages/CustomerDashboard/pets'
-import PetProfile from '@/pages/CustomerDashboard/pets/components/PetProfile'
-import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateForm'
-import Appointments from '@/pages/CustomerDashboard/appointments'
-import Hospitalization from '@/pages/CustomerDashboard/hospitalization'
-import Profile from '@/pages/CustomerDashboard/profile'
-import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment'
-import AddAPetProfile from '@/pages/CustomerDashboard/pets/components/AddAPetProfile'
-import NotAuthorized from '@/pages/Errors/NotAuthorized'
-import AppointmentManagement from '@/pages/EmployeeDashboard/appointment/AppointmentManagement'
-import RateAppointment from '@/pages/CustomerDashboard/appointments/components/RateAppointment'
+import HospitalizationManagement from '@/pages/EmployeeDashboard/hospitalization/HospitalizationManagement';
+import ProtectedCustomerDashboard from '@/pages/CustomerDashboard/ProtectedCustomerDashboard';
+import Pets from '@/pages/CustomerDashboard/pets';
+import PetProfile from '@/pages/CustomerDashboard/pets/components/PetProfile';
+import PetUpdateForm from '@/pages/CustomerDashboard/pets/components/PetUpdateForm';
+import Appointments from '@/pages/CustomerDashboard/appointments';
+import Hospitalization from '@/pages/CustomerDashboard/hospitalization';
+import Profile from '@/pages/CustomerDashboard/profile';
+import CancelAppointment from '../pages/CustomerDashboard/appointments/components/CancelAppointment';
+import AddAPetProfile from '@/pages/CustomerDashboard/pets/components/AddAPetProfile';
+import NotAuthorized from '@/pages/Errors/NotAuthorized';
+import AppointmentManagement from '@/pages/EmployeeDashboard/appointment/AppointmentManagement';
+import RateAppointment from '@/pages/CustomerDashboard/appointments/components/RateAppointment';
 
-const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'))
+const ProtectedVetDashboard = React.lazy(() => import('../pages/VetDashboard/ProtectedVetDashboard'));
 
 const RouterComponent = () => {
   // const { width } = useWindowDimensions();
@@ -459,7 +458,7 @@ const RouterComponent = () => {
               })
             },
             {
-              path: `${APPOINTMENT_DIAGNOSIS}/:appointmentId`,
+              path: `${HOSPITALIZATION_VET}`,
               lazy: async () => ({
                 Component: (await import('@/pages/VetDashboard/diagnosis_add/index')).default
               })
@@ -571,9 +570,9 @@ const RouterComponent = () => {
         }
       ]
     }
-  ])
+  ]);
 
-  return <RouterProvider router={router} fallbackElement={<Loader />} />
-}
+  return <RouterProvider router={router} fallbackElement={<Loader />} />;
+};
 
-export default RouterComponent
+export default RouterComponent;

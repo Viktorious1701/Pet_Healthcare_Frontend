@@ -1,23 +1,23 @@
-import { Button } from '@nextui-org/react'
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import { Button } from '@nextui-org/react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const StyledAccountSettings = styled.div`
   display: flex;
   min-height: 100vh;
-`
+`;
 
 const Content = styled.div`
   flex: 1;
   padding: 20px;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-`
+`;
 
 const TableRow = styled.tr`
   border-bottom: 1px solid #ccc;
@@ -25,18 +25,18 @@ const TableRow = styled.tr`
   &:last-child {
     border-bottom: none;
   }
-`
+`;
 
 const TableHeader = styled.th`
   padding: 10px;
   text-align: left;
   background-color: #f58ab0;
   color: white;
-`
+`;
 
 const TableCell = styled.td`
   padding: 10px;
-`
+`;
 
 const StyledInput = styled.input`
   width: 100%;
@@ -52,7 +52,7 @@ const StyledInput = styled.input`
     outline: none;
     border-color: #b0225d; /* Dark pink theme border on focus */
   }
-`
+`;
 
 const HiddenUsernameInput = styled.input`
   position: absolute;
@@ -65,18 +65,18 @@ const HiddenUsernameInput = styled.input`
   clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
-`
+`;
 
 const AccountSettings: React.FC = () => {
-  const [username, setUsername] = useState('') // Placeholder state
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState('')
+  const [username, setUsername] = useState(''); // Placeholder state
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   const handlePasswordChange = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Add password change logic here
-  }
+  };
 
   return (
     <StyledAccountSettings>
@@ -144,7 +144,7 @@ const AccountSettings: React.FC = () => {
         </form>
       </Content>
     </StyledAccountSettings>
-  )
-}
+  );
+};
 
-export default AccountSettings
+export default AccountSettings;

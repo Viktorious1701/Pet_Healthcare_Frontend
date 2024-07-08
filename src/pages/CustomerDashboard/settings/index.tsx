@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom';
 import {
   IconBrowserCheck,
   IconExclamationCircle,
@@ -6,14 +6,14 @@ import {
   IconPalette,
   IconTool,
   IconUser
-} from '@tabler/icons-react'
-import { Search } from '@/components/customer_components/search'
-import { Separator } from '@/components/ui/separator'
-import ThemeSwitch from '@/components/vet_components/theme-switch'
-import { UserNav } from '@/components/customer_components/user-nav'
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout'
-import SidebarNav from './components/sidebar-nav'
-import { CUSTOMER_DASHBOARD, SETTINGS_PROFILE } from '@/Route/router-const'
+} from '@tabler/icons-react';
+import { Search } from '@/components/customer_components/search';
+import { Separator } from '@/components/ui/separator';
+import ThemeSwitch from '@/components/vet_components/theme-switch';
+import { UserNav } from '@/components/customer_components/user-nav';
+import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import SidebarNav from './components/sidebar-nav';
+import { CUSTOMER_DASHBOARD, SETTINGS_PROFILE } from '@/Route/router-const';
 
 export default function Settings() {
   return (
@@ -45,7 +45,7 @@ export default function Settings() {
         </div>
       </LayoutBody>
     </Layout>
-  )
+  );
 }
 
 const sidebarNavItems = [
@@ -79,4 +79,4 @@ const sidebarNavItems = [
     icon: <IconExclamationCircle size={18} />,
     href: 'error-example'
   }
-]
+];

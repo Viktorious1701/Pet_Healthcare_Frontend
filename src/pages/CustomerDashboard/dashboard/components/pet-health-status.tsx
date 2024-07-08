@@ -1,43 +1,43 @@
-import { PetHealthTrack } from '@/Models/PetHealthTrack'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
-import { CardMedia, Typography } from '@mui/material'
+import { PetHealthTrack } from '@/Models/PetHealthTrack';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { CardMedia, Typography } from '@mui/material';
 
 interface PetHealthStatusProps {
-  petHealthTracks: PetHealthTrack[]
+  petHealthTracks: PetHealthTrack[];
 }
 
 const getStatusBadge = (status: number) => {
   switch (status) {
     case 0:
-      return 'bg-danger'
+      return 'bg-danger';
     case 1:
-      return 'bg-yellow-400'
+      return 'bg-yellow-400';
     case 2:
-      return 'bg-blue-600'
+      return 'bg-blue-600';
     case 3:
-      return 'bg-success'
+      return 'bg-success';
   }
-}
+};
 
 const getHealthBadge = (status: number) => {
   switch (status) {
     case 0:
-      return 'Severe'
+      return 'Severe';
     case 1:
-      return 'Recovering'
+      return 'Recovering';
     case 2:
-      return 'Normal'
+      return 'Normal';
     case 3:
-      return 'Good'
+      return 'Good';
   }
-}
-const now = new Date()
+};
+const now = new Date();
 
 const PetHealthStatus: React.FC<PetHealthStatusProps> = ({ petHealthTracks }) => {
   petHealthTracks = petHealthTracks.filter(
     (petHealthTrack) => new Date(petHealthTrack.dateOnly).getDate() == now.getDate()
-  )
+  );
 
   return (
     <div className='space-y-4'>
@@ -60,6 +60,6 @@ const PetHealthStatus: React.FC<PetHealthStatusProps> = ({ petHealthTracks }) =>
         </div>
       ))}
     </div>
-  )
-}
-export default PetHealthStatus
+  );
+};
+export default PetHealthStatus;

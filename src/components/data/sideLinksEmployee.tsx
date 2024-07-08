@@ -3,19 +3,19 @@ import {
   EMPLOYEE_KENNELS,
   EMPLOYEE_HOSPITALIZED_PETS,
   EMPLOYEE_APPOINTMENT_MANAGE
-} from '@/Route/router-const'
-import { IconDashboard, IconCalendarWeek, IconUser, IconHospital, IconBook } from '@tabler/icons-react'
-import { DoorClosed } from 'lucide-react'
+} from '@/Route/router-const';
+import { IconDashboard, IconCalendarWeek, IconUser, IconHospital, IconBook } from '@tabler/icons-react';
+import { DoorClosed } from 'lucide-react';
 
 export interface NavLink {
-  title: string
-  label?: string
-  href: string
-  icon: JSX.Element
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
 }
 
 export interface SideLink extends NavLink {
-  sub?: NavLink[]
+  sub?: NavLink[];
 }
 
 export const sidelinks: SideLink[] = [
@@ -55,4 +55,4 @@ export const sidelinks: SideLink[] = [
     href: `/`,
     icon: <DoorClosed size={18} />
   }
-]
+];

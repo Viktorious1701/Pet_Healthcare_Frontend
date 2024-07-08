@@ -1,5 +1,5 @@
 // slices/formSlice.js
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   formData: {
     customerUserName: '',
@@ -10,18 +10,18 @@ const initialState = {
     date: ''
   },
   isSubmitted: false
-}
+};
 
 const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
     setFormData: (state, action) => {
-      state.formData = action.payload
-      state.isSubmitted = true
+      state.formData = action.payload;
+      state.isSubmitted = true;
     }
   }
-})
+});
 
-export const { setFormData } = formSlice.actions
-export default formSlice.reducer
+export const { setFormData } = formSlice.actions;
+export default formSlice.reducer;

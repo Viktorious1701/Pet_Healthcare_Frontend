@@ -1,14 +1,14 @@
-import { z } from 'zod'
-import { Link } from 'react-router-dom'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { Button } from '@/components/custom/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { toast } from '@/components/ui/use-toast'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod';
+import { Link } from 'react-router-dom';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { Button } from '@/components/custom/button';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const profileFormSchema = z.object({
   username: z
@@ -32,27 +32,27 @@ const profileFormSchema = z.object({
       })
     )
     .optional()
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileFormSchema>
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
   bio: 'I own a computer.',
   urls: [{ value: 'https://shadcn.com' }, { value: 'http://twitter.com/shadcn' }]
-}
+};
 
 export default function ProfileForm() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: 'onChange'
-  })
+  });
 
   const { fields, append } = useFieldArray({
     name: 'urls',
     control: form.control
-  })
+  });
 
   function onSubmit(data: ProfileFormValues) {
     toast({
@@ -62,7 +62,7 @@ export default function ProfileForm() {
           <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
         </pre>
       )
-    })
+    });
   }
 
   return (
@@ -153,5 +153,5 @@ export default function ProfileForm() {
         <Button type='submit'>Update profile</Button>
       </form>
     </Form>
-  )
+  );
 }

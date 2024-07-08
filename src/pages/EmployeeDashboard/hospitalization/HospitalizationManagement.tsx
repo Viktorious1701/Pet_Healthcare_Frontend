@@ -1,82 +1,82 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from 'react'
-import { Box, Grid, Card, CardHeader } from '@mui/material'
-import { Button } from '@/components/ui/button'
-import { Hospitalization, HospitalizationPost } from '@/Models/Hospitalization'
-import HospitalizationDataGrid from './components/HospitalizationDataGrid'
-import { hospitalizationListAPI, hospitalizationCreateAPI } from '@/Services/HospitalizationService'
-import { toast } from 'sonner'
-import HospitalizationAddModal from './components/HospitalizationAddModal'
-import { getPetById } from '@/Services/PetService'
+import { useState, useEffect } from 'react';
+import { Box, Grid, Card, CardHeader } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Hospitalization, HospitalizationPost } from '@/Models/Hospitalization';
+import HospitalizationDataGrid from './components/HospitalizationDataGrid';
+import { hospitalizationListAPI, hospitalizationCreateAPI } from '@/Services/HospitalizationService';
+import { toast } from 'sonner';
+import HospitalizationAddModal from './components/HospitalizationAddModal';
+import { getPetById } from '@/Services/PetService';
 
 const HospitalizationManagement = () => {
-  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([])
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    getHospitalizations()
-  }, [])
+    getHospitalizations();
+  }, []);
 
   const getHospitalizations = async () => {
     try {
-      const res = await hospitalizationListAPI()
+      const res = await hospitalizationListAPI();
       if (res?.data) {
         const hospitalizationsWithPetInfo = await Promise.all(
           res.data.map(async (hospitalization: Hospitalization) => {
-            const petData = await getPetById(hospitalization.petId.toString())
+            const petData = await getPetById(hospitalization.petId.toString());
             if (petData?.data) {
               return {
                 ...hospitalization,
                 petName: petData.data.name,
                 customerId: petData.data.customerId
-              }
+              };
             }
-            return hospitalization
+            return hospitalization;
           })
-        )
-        setHospitalizations(hospitalizationsWithPetInfo)
+        );
+        setHospitalizations(hospitalizationsWithPetInfo);
       }
     } catch (error: any) {
-      toast.error('Failed to fetch hospitalizations', error)
+      toast.error('Failed to fetch hospitalizations', error);
     }
-  }
+  };
 
   const handleHospitalizationDelete = (deletedHospitalization: Hospitalization) => {
     setHospitalizations(
       hospitalizations.filter((h) => h.hospitalizationId !== deletedHospitalization.hospitalizationId)
-    )
-  }
+    );
+  };
 
   const handleAddHospitalization = async (newHospitalization: HospitalizationPost) => {
     try {
-      const res = await hospitalizationCreateAPI(newHospitalization)
+      const res = await hospitalizationCreateAPI(newHospitalization);
       if (res?.data) {
-        const petData = await getPetById(res.data.petId.toString())
+        const petData = await getPetById(res.data.petId.toString());
         if (petData?.data) {
           const newHosp = {
             ...res.data,
             petName: petData.data.name,
             customerId: petData.data.customerId
-          }
-          setHospitalizations([...hospitalizations, newHosp])
+          };
+          setHospitalizations([...hospitalizations, newHosp]);
         } else {
-          setHospitalizations([...hospitalizations, res.data])
+          setHospitalizations([...hospitalizations, res.data]);
         }
-        toast.success('Hospitalization added successfully')
-        closeModal()
+        toast.success('Hospitalization added successfully');
+        closeModal();
       }
     } catch (error: any) {
-      toast.error('Failed to add hospitalization', error)
+      toast.error('Failed to add hospitalization', error);
     }
-  }
+  };
 
   const openModal = () => {
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
-    setIsModalOpen(false)
-  }
+    setIsModalOpen(false);
+  };
 
   return (
     <div className='m-10'>
@@ -114,7 +114,7 @@ const HospitalizationManagement = () => {
         onAddHospitalization={handleAddHospitalization}
       />
     </div>
-  )
-}
+  );
+};
 
-export default HospitalizationManagement
+export default HospitalizationManagement;

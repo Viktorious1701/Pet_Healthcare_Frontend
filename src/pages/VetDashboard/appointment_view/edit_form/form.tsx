@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 const AppointmentForm = () => {
   // State to hold the matching appointment
   // eslint-disable-next-line no-empty-pattern
   const [] = useState<{
-    appointmentId: string
-  } | null>(null)
+    appointmentId: string;
+  } | null>(null);
   // Additional state variables for appointment details
   const [appointmentDetails, setAppointmentDetails] = useState({
     appointmentId: 0,
@@ -28,29 +28,29 @@ const AppointmentForm = () => {
     slotStartTime: 0,
     status: '',
     totalCost: 0
-  })
+  });
 
   const { appointmentId: urlAppointmentId } = useParams<{
-    appointmentId: string
-  }>() // Extract appointmentId from URL
+    appointmentId: string;
+  }>(); // Extract appointmentId from URL
 
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
       try {
-        const response = await appointmentGetVetIdAPI() // Fetch the vet details
-        console.log(response)
-        const vetId = (response as unknown as { userId: string }).userId // Type assertion
-        const fetchedDetails = await appointmentVetAPI(vetId) // Fetch appointments
-        console.log(fetchedDetails)
+        const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+        console.log(response);
+        const vetId = (response as unknown as { userId: string }).userId; // Type assertion
+        const fetchedDetails = await appointmentVetAPI(vetId); // Fetch appointments
+        console.log(fetchedDetails);
         if (fetchedDetails && fetchedDetails.length > 0) {
           // Find the appointment that matches the ID from the URL
           const matchingAppointment = fetchedDetails.find(
             (appointment) => appointment.appointmentId.toString() === urlAppointmentId
-          )
+          );
 
           if (matchingAppointment) {
-            console.log(matchingAppointment.appointmentId) // Do something with the matching appointment
-            console.log(matchingAppointment)
+            console.log(matchingAppointment.appointmentId); // Do something with the matching appointment
+            console.log(matchingAppointment);
             // Update your form state with these details
             setAppointmentDetails({
               appointmentId: matchingAppointment.appointmentId,
@@ -67,21 +67,21 @@ const AppointmentForm = () => {
               slotStartTime: matchingAppointment.slotStartTime,
               status: matchingAppointment.status,
               totalCost: matchingAppointment.totalCost
-            })
+            });
           } else {
-            console.log('No matching appointment found')
+            console.log('No matching appointment found');
           }
         } else {
           // Handle the case where details is undefined
-          console.error('Appointment details are undefined')
+          console.error('Appointment details are undefined');
         }
       } catch (error) {
-        console.error('Failed to fetch appointment details:', error)
+        console.error('Failed to fetch appointment details:', error);
       }
-    }
+    };
 
-    fetchAppointmentDetails()
-  }, [urlAppointmentId]) // Dependency array updated to re-fetch if appointmentId changes
+    fetchAppointmentDetails();
+  }, [urlAppointmentId]); // Dependency array updated to re-fetch if appointmentId changes
 
   return (
     <form className='w-full p-10 bg-opacity-20 z-10 overflow-auto'>
@@ -276,7 +276,7 @@ const AppointmentForm = () => {
         </CardContent>
       </Card>
     </form>
-  )
-}
+  );
+};
 
-export default AppointmentForm
+export default AppointmentForm;

@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-refresh/only-export-components */
-'use client'
+'use client';
 
-import * as React from 'react'
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,10 +15,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable
-} from '@tanstack/react-table'
-import { ChevronDown, MoreHorizontal } from 'lucide-react'
+} from '@tanstack/react-table';
+import { ChevronDown, MoreHorizontal } from 'lucide-react';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -27,29 +27,29 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService'
-import { AppointmentGet } from '@/Models/Appointment'
-import { useNavigate } from 'react-router-dom' // Updated import
+} from '@/components/ui/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { AppointmentGet } from '@/Models/Appointment';
+import { useNavigate } from 'react-router-dom'; // Updated import
 
 // Adjustments to switch from Payment to Appointment data model
 export type Appointment = {
-  appointmentId: number
-  customer: string
-  pet: string
-  vet: string
-  slotStartTime: string // Ensure data passed to this is a string
-  slotEndTime: string // Ensure data passed to this is a string
-  service: string
-  date: string
-  totalCost: number
-  status: string
-  cancellationDate?: string
-  refundAmount?: number
-  rating?: number
-  comment?: string
-}
+  appointmentId: number;
+  customer: string;
+  pet: string;
+  vet: string;
+  slotStartTime: string; // Ensure data passed to this is a string
+  slotEndTime: string; // Ensure data passed to this is a string
+  service: string;
+  date: string;
+  totalCost: number;
+  status: string;
+  cancellationDate?: string;
+  refundAmount?: number;
+  rating?: number;
+  comment?: string;
+};
 
 // Adjust the columns definition to match the Appointment data model
 export const columns: ColumnDef<Appointment>[] = [
@@ -105,45 +105,45 @@ export const columns: ColumnDef<Appointment>[] = [
     accessorKey: 'totalCost',
     header: () => <div className='text-right'>Total Cost</div>,
     cell: ({ row }) => {
-      const totalCost = parseFloat(row.getValue('totalCost'))
+      const totalCost = parseFloat(row.getValue('totalCost'));
 
       // Format the totalCost as a dollar amount
       const formatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
-      }).format(totalCost)
+      }).format(totalCost);
 
-      return <div className='text-right font-medium'>{formatted}</div>
+      return <div className='text-right font-medium'>{formatted}</div>;
     }
   },
   {
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const appointment = row.original
+      const appointment = row.original;
 
-      const navigate = useNavigate()
+      const navigate = useNavigate();
 
       const openAppointmentEditForm = (appointmentId: number) => {
         // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
-        const targetPath = `/vet/appointment-edit/${appointmentId}`
-        console.log(`Navigating to: ${targetPath}`)
-        navigate(targetPath)
-      }
+        const targetPath = `/vet/appointment-edit/${appointmentId}`;
+        console.log(`Navigating to: ${targetPath}`);
+        navigate(targetPath);
+      };
 
       const openAppointmentDetailsEditForm = (appointmentId: number) => {
         // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
-        const targetPath = `/vet/appointment-edit-details/${appointmentId}`
-        console.log(`Navigating to: ${targetPath}`)
-        navigate(targetPath)
-      }
+        const targetPath = `/vet/appointment-edit-details/${appointmentId}`;
+        console.log(`Navigating to: ${targetPath}`);
+        navigate(targetPath);
+      };
 
       const openAppointmentAddForm = (appointmentId: number) => {
         // Assuming the path to the appointment edit form is `/appointments/edit/{appointmentId}`
-        const targetPath = `/vet/appointment-diagnosis/${appointmentId}`
-        console.log(`Navigating to: ${targetPath}`)
-        navigate(targetPath)
-      }
+        const targetPath = `/vet/appointment-diagnosis/${appointmentId}`;
+        console.log(`Navigating to: ${targetPath}`);
+        navigate(targetPath);
+      };
 
       return (
         <DropdownMenu>
@@ -170,26 +170,26 @@ export const columns: ColumnDef<Appointment>[] = [
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     }
   }
-]
+];
 
 // Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [data, setData] = React.useState<Appointment[]>([]) // State to hold fetched data
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [data, setData] = React.useState<Appointment[]>([]); // State to hold fetched data
 
   // Function to fetch appointments and update state
   const fetchAppointmentsAndUpdateState = async () => {
     try {
-      const response = await appointmentGetVetIdAPI() // Fetch the vet details
-      const vetId = (response as unknown as { userId: string }).userId // Type assertion
+      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const vetId = (response as unknown as { userId: string }).userId; // Type assertion
       if (vetId) {
-        const appointments: AppointmentGet[] | undefined = await appointmentVetAPI(vetId) // Fetch appointments
+        const appointments: AppointmentGet[] | undefined = await appointmentVetAPI(vetId); // Fetch appointments
         if (appointments) {
           const formattedAppointments: Appointment[] = appointments.map((appointment) => ({
             appointmentId: appointment.appointmentId,
@@ -206,19 +206,19 @@ export function DataTableDemo() {
             rating: appointment.rating,
             comment: appointment.comment,
             status: appointment.status
-          }))
-          setData(formattedAppointments) // Update state with fetched data
+          }));
+          setData(formattedAppointments); // Update state with fetched data
         }
       }
     } catch (error) {
-      console.error('Failed to fetch appointments:', error)
+      console.error('Failed to fetch appointments:', error);
     }
-  }
+  };
 
   // Use useEffect to fetch data on component mount
   React.useEffect(() => {
-    fetchAppointmentsAndUpdateState()
-  }, []) // Empty dependency array means this effect runs once on mount
+    fetchAppointmentsAndUpdateState();
+  }, []); // Empty dependency array means this effect runs once on mount
 
   const table = useReactTable({
     data, // Use state variable for data
@@ -237,7 +237,7 @@ export function DataTableDemo() {
       columnVisibility,
       rowSelection
     }
-  })
+  });
 
   return (
     <div className='w-full'>
@@ -263,7 +263,7 @@ export function DataTableDemo() {
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -278,7 +278,7 @@ export function DataTableDemo() {
                     <TableHead key={header.id}>
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -322,5 +322,5 @@ export function DataTableDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/custom/button'
-import { cn } from '@/lib/utils'
-import Paw from '@/assets/Paw2.svg'
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/custom/button';
+import { cn } from '@/lib/utils';
+import Paw from '@/assets/Paw2.svg';
 
 interface GeneralErrorProps extends React.HTMLAttributes<HTMLDivElement> {
-  minimal?: boolean
+  minimal?: boolean;
 }
 
 export default function GeneralError({ className, minimal = false }: GeneralErrorProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div className={cn('h-svh', className)}>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
@@ -28,5 +28,5 @@ export default function GeneralError({ className, minimal = false }: GeneralErro
         )}
       </div>
     </div>
-  )
+  );
 }
