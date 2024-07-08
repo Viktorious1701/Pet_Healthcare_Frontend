@@ -42,7 +42,7 @@ const AppointmentForm = () => {
       }
     };
     fetchAppointmentDetails();
-  }, []);
+  }, [urlAppointmentId]);
 
   // useEffect(() => {
   //   const fetchAppointmentDetails = async () => {

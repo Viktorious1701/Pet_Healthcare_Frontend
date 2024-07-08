@@ -35,6 +35,7 @@ const BookingSuccess = () => {
   const handleEmployeeRedirect = () => {
     if (user?.role === 'Employee') {
       navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
+      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
     }
   };
 
