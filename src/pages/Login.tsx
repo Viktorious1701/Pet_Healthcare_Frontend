@@ -47,19 +47,19 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className='grid grid-cols-5 min-h-screen'>
+    <div className='grid grid-cols-5 h-screen'>
       <div className='col-span-2 flex items-center justify-center bg-[var(--background)]'>
         <form
           className='w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto' // Added overflow-auto for scrolling
           onSubmit={handleSubmit(onSubmit)}
         >
-          <Card>
-            <div className='flex items-center ml-[1.5rem]'>
+          <Card className='py-[4rem]'>
+            <div className='flex items-center ml-[1.5rem] '>
               <img src={Paw} alt='Paw' className='w-20 h-30 mr-4 text-[#DB2777]' /> {/* Adjust w-32 h-32 for size */}
               <span className='text-[3.5rem] font-mont font-semibold text-[#DB2777]'>Pet88</span>
             </div>
             <CardHeader className='space-y-1'>
-              <div className='flex justify-between items-center mt-6 md:mt-16 lg:mt-36 mb-6'>
+              <div className='flex justify-between items-center'>
                 <CardTitle className='text-4xl font-bold'>SIGN IN</CardTitle>
                 <Link to='/' className='text-xl text-[#DB2777] font-normal hover:underline'>
                   Back to Home
@@ -67,9 +67,9 @@ const Login = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className='space-y-4'>
+              <div className='space-y-4 '>
                 {/* Username and Password Inputs */}
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2 '>
                   <Label htmlFor='username' className='text-xl font-normal'>
                     Username
                   </Label>
@@ -83,7 +83,7 @@ const Login = () => {
                   />
                   {errors.userName && <p>{errors.userName.message}</p>}
                 </div>
-                <div className='space-y-2 mb-6 '>
+                <div className='space-y-2'>
                   <Label htmlFor='password' className='text-xl font-normal'>
                     Password
                   </Label>
@@ -94,7 +94,7 @@ const Login = () => {
                       type={showPassword ? 'text' : 'password'}
                       {...register('password')}
                       autoComplete='new-password'
-                      className='py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg'
+                      className='bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg'
                     />
                     <button
                       type='button'
@@ -106,12 +106,12 @@ const Login = () => {
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                <Button className='w-full bg-[#DB2777] text-white py-4 text-lg mt-4' type='submit'>
+                <Button className='w-full bg-[#DB2777] text-white py-4 text-lg ' type='submit'>
                   Login
                 </Button>
                 {/* Links */}
-                <div className='mt-auto'>
-                  <div className='pt-[20rem] md:pt-[5rem] lg:pt-[10rem] xl:pt-[20rem] text-base sm:text-lg md:text-xl font-light font-mont'>
+                <div className=''>
+                  <div className=' text-base sm:text-lg md:text-xl font-light font-mont'>
                     Don't have an account? &nbsp;
                     <Link
                       to={`/${REGISTER}`}

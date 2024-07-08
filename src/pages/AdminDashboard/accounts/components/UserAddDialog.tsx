@@ -71,7 +71,7 @@ interface UserAddDialogProps {
   onUserAdded: (user: UserInfo) => void;
 }
 
-const UserAddDialog: React.FC<UserAddDialogProps> = ({onUserAdded}) => {
+const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
   const [selectedRole, setSelectedRole] = useState<string>('');
   const roles = ['Customer', 'Vet', 'Employee'];
   const form = useForm<ProfileFormValues>({

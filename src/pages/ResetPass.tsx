@@ -74,7 +74,7 @@ const ResetPass: React.FC = () => {
   };
 
   return (
-    <div className='grid grid-cols-5 min-h-screen'>
+    <div className='grid grid-cols-5 h-screen'>
       <div className='col-span-2 flex items-center justify-center bg-[var(--background)]'>
         <form
           className='w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto' // Added overflow-auto for scrolling
@@ -86,12 +86,12 @@ const ResetPass: React.FC = () => {
               <span className='text-[3.5rem] font-mont font-semibold text-[#DB2777]'>Pet88</span>
             </div>
             <CardHeader className='space-y-1'>
-              <CardTitle className='text-4xl font-bold mt-6 md:mt-16 lg:mt-36 mb-6'>RESET PASSWORD</CardTitle>
+              <CardTitle className='text-4xl font-bold mt-6 md:mt-16 lg:mt-36'>RESET PASSWORD</CardTitle>
             </CardHeader>
             <CardContent>
               <div className='space-y-4'>
                 {/* Password and Confirm-Password Inputs */}
-                <div className='space-y-2 mb-6'>
+                <div className='space-y-2 '>
                   <Label htmlFor='password' className='text-xl font-normal'>
                     New Password
                   </Label>
@@ -112,7 +112,7 @@ const ResetPass: React.FC = () => {
                   </button>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                <div className='space-y-2 mb-6 '>
+                <div className='space-y-2'>
                   <Label htmlFor='confirmPassword' className='text-xl font-normal'>
                     Confirm Password
                   </Label>
@@ -138,8 +138,8 @@ const ResetPass: React.FC = () => {
                 <Button className='w-full bg-[#DB2777] text-white py-4 text-lg mt-4' type='submit'>
                   Reset
                 </Button>
-                <div className='mt-auto'>
-                  <div className='pt-[16rem] md:pt-[4rem] lg:pt-[8rem] xl:pt-[16rem] text-base sm:text-lg md:text-xl font-light font-mont'>
+                <div className=''>
+                  <div className='text-base sm:text-lg md:text-xl font-light font-mont'>
                     Just remember your account? &nbsp;
                     <Link
                       to={`/${LOGIN}`}
