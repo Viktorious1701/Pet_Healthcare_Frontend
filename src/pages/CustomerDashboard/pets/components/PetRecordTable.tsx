@@ -51,8 +51,8 @@ const PetRecordTable: React.FC<PetRecordTableProps> = ({ petId }) => {
       </TableHeader>
       <TableBody>
         {appointmentDetails.map((appointmentDetail) => (
-          <TableRow key={appointmentDetail.appointmentDetailId}>
-            <TableCell className='font-medium'>{appointmentDetail.appointmentDetailId}</TableCell>
+          <TableRow key={appointmentDetail.appointmentId}>
+            <TableCell className='font-medium'>{appointmentDetail.appointmentId}</TableCell>
             <TableCell>{appointmentDetail.vetName}</TableCell>
             <TableCell>{appointmentDetail.service}</TableCell>
             <TableCell>{appointmentDetail.diagnosis}</TableCell>
