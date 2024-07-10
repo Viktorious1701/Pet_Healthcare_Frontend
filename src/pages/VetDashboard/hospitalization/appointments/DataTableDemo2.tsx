@@ -16,7 +16,6 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 
-import { Button } from '@/components/ui/button';
 import { getPetHealthTrackByHospitalizationId } from '@/Services/PetHealthTrackService';
 import AddPetHealthTrack from './addPetHealthTrack';
 
@@ -62,6 +61,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
   React.useEffect(() => {
     console.log('hospitalizationId changed:', hospitalizationId);
     fetchPetHealthTracksAndUpdateState();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hospitalizationId]); // Ensure hospitalizationId is listed as a dependency
 
   const columns: ColumnDef<PetHealthTrack>[] = [

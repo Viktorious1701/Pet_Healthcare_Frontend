@@ -68,7 +68,14 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
       toast.warning('Please fill in all required fields', {});
       return;
     }
-    const result = await postPetHealthTrack(petHealthTrackDetails);
+    const result = await postPetHealthTrack({
+      petHealthTrackId: 0,
+      petName: '',
+      petImage: '',
+      dateOnly: '',
+      ...petHealthTrackDetails,
+      status: Number(petHealthTrackDetails.status) // Convert the status to a number
+    });
     if (result) {
       toast.success('Pet Health Track added successfully', {});
       setIsOpen(false); // Close the dialog

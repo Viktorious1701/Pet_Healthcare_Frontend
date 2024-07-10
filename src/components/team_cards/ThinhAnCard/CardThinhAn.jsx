@@ -4,7 +4,7 @@ import { Canvas, extend, useThree, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
-import { useControls } from 'leva';
+// import { useControls } from 'leva';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 useGLTF.preload('https://storage.googleapis.com/pet88/tagThinhAn.glb');
@@ -183,7 +183,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
 }
 
 export default function CardThinhAn() {
-  const { debug } = useControls({ debug: false });
+  // const { debug } = useControls({ debug: false });
 
   return (
     <Canvas
@@ -192,7 +192,7 @@ export default function CardThinhAn() {
     >
       <ambientLight intensity={Math.PI} />
       <Physics
-        debug={debug}
+        // debug={debug}
         interpolate
         gravity={[0, -40, 0]}
         timeStep={1 / 60}
