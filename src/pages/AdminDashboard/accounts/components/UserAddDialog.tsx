@@ -20,8 +20,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { userAddAPI } from '@/Services/UserService';
-import { toast } from 'sonner';
-import { userAddAPI } from '@/Services/UserService';
 
 const profileFormSchema = z
   .object({
@@ -112,34 +110,6 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
       .then((res) => {
         if (res?.data) {
           console.log(res.data);
-  const handleUserAdd = async (user: ProfileFormValues) => {
-    await userAddAPI(
-      user.role,
-      user.address,
-      user.country,
-      user.email,
-      Number(user.rating),
-      Number(user.yearsOfExperience),
-      user.firstName,
-      user.lastName,
-      user.phoneNumber,
-      user.gender,
-      user.userName,
-      user.password,
-      user.isActive
-    )
-      .then((res) => {
-        if (res?.data) {
-          console.log(res.data);
-
-          onUserAdded(res.data);
-          toast.success("User added successfully");
-        }
-      })
-      .catch((e) => {
-        toast.error("Server error occurred", e);
-      });
-  };
           onUserAdded(res.data);
           toast.success("User added successfully");
         }
@@ -155,7 +125,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
 
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
-    handleUserAdd(data);
+
     handleUserAdd(data);
   }
 
@@ -423,7 +393,6 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
               /> */}
             </div>
             <div className='grid grid-cols-6 gap-2'>
