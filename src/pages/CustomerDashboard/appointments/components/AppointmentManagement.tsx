@@ -4,7 +4,7 @@ import { appointmentCustomerAPI } from '@/Services/AppointmentService';
 import { AppointmentGet } from '@/Models/Appointment';
 import { useAuth } from '@/Context/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { CUSTOMER_DASHBOARD, REFUND } from '@/Route/router-const';
+import { CUSTOMER_DASHBOARD, PAYMENT, REFUND } from '@/Route/router-const';
 import { useTheme } from '@/components/vet_components/theme-provider'; // Import the useTheme hook
 
 import {
@@ -54,6 +54,12 @@ const AppointmentManagement: React.FC = () => {
 
   const handleRating = (appointmentId: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/rate/${appointmentId}`);
+  };
+
+  const handleContinue = (appointmentId: number, willPay: boolean) => {
+    if (user?.role === 'Customer' && appointmentId) {
+      navigate(`/${PAYMENT}`, { state: { appointmentId, willPay } });
+    }
   };
 
   // Pagination logic
@@ -144,6 +150,7 @@ const AppointmentManagement: React.FC = () => {
               <TableHead>Rating</TableHead>
               <TableHead>Cancel</TableHead>
               <TableHead>Rate</TableHead>
+              <TableHead>Pay</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -183,18 +190,30 @@ const AppointmentManagement: React.FC = () => {
                       Rate
                     </Button>
                   </TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={() => handleContinue(appointment.appointmentId, true)}
+                      className='bg-gray-700 text-white hover:bg-gray-600 active:bg-gray-500 transform transition-transform duration-300 hover:scale-105 active:scale-95'
+                      disabled={
+                        (appointment.paymentStatus === 1 && appointment.paymentStatus !== null) ||
+                        appointment.status === 'Done'
+                      }
+                    >
+                      Pay
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={9}>Total Appointments</TableCell>
-              <TableCell className='text-right' colSpan={3}>
+              <TableCell className='text-right' colSpan={4}>
                 {appointments.length}
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={12} className='text-center'>
+              <TableCell colSpan={13} className='text-center'>
                 <div className='flex justify-between'>
                   <Button
                     onClick={handlePreviousPage}

@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 import petcare from '@/assets/petcare.jpg';
 import logo from '@/assets/Paw2.svg';
 import hero from '@/assets/hero.png';
-import booking from '@/assets/veterinary-booking.jpg'
-import hospitalization from '@/assets/hospitalization.jpg'
-import petcare2 from '@/assets/petcare2.jpg'
+import booking from '@/assets/veterinary-booking.jpg';
+import hospitalization from '@/assets/hospitalization.jpg';
+import petcare2 from '@/assets/petcare2.jpg';
 import cat from '@/assets/cat2.jpeg';
 import CustomCalendar from '@/components/calendar/CustomCalendar';
 import { APPOINTMENT } from '@/Route/router-const';
@@ -23,8 +23,6 @@ import '@fontsource/roboto';
 import { ABOUT_PAGE } from '@/Route/router-const';
 import CardMingAnhAvatar from '@/components/team_cards/MinhAnhCard/CardMingAnhAvatar';
 import CardThinhAnAvatar from '@/components/team_cards/ThinhAnCard/CardThinhAnAvatar';
-
-
 
 const Home = () => {
   return (

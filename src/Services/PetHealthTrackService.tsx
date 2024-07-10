@@ -23,7 +23,7 @@ export const postPetHealthTrack = async (petHealthTrack: PetHealthTrack) => {
   } catch (error) {
     handleError(error);
   }
-}
+};
 
 export const getUserPetHealthTracks = async () => {
   try {

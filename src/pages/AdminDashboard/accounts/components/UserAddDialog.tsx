@@ -111,11 +111,11 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
         if (res?.data) {
           console.log(res.data);
           onUserAdded(res.data);
-          toast.success("User added successfully");
+          toast.success('User added successfully');
         }
       })
       .catch((e) => {
-        toast.error("Server error occurred", e);
+        toast.error('Server error occurred', e);
       });
   };
 

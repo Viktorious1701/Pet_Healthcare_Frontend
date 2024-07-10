@@ -57,7 +57,7 @@ const PaymentPage: React.FC = () => {
         {!showPayment ? (
           <button
             onClick={handleConfirm}
-            className="w-full bg-custom-pink text-white py-3 rounded-md font-semibold hover:bg-pink-600 transition-colors"
+            className='w-full bg-custom-pink text-white py-3 rounded-md font-semibold hover:bg-pink-600 transition-colors'
           >
             Confirm
           </button>

@@ -108,7 +108,7 @@ const PetList: React.FC = () => {
                 <img
                   src={images[pet.id] || 'https://via.placeholder.com/100'}
                   alt={pet.name}
-                  className='w-full h-32 object-cover object-center'
+                  className='w-full object-cover object-center'
                 />
                 <div className='p-4 text-center'>
                   <h4 className='text-xl font-bold'>{pet.name}</h4>
