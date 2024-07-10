@@ -190,7 +190,11 @@ export function DataTableDemo() {
       const vetId = (response as unknown as { userId: string }).userId; // Type assertion
       if (vetId) {
         const appointments: AppointmentGet[] | undefined = await appointmentVetAPI(vetId); // Fetch appointments
-        if (appointments) {
+        if (!appointments) {
+          // If appointments are undefined, log "Not Found" or handle accordingly
+          console.log('Not Found');
+          setData([]); // Set data to an empty array or a specific "not found" state
+        } else {
           const formattedAppointments: Appointment[] = appointments.map((appointment) => ({
             appointmentId: appointment.appointmentId,
             customer: appointment.customer,

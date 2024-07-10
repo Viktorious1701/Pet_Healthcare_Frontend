@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { appointmentPostAPI } from '@/Services/AppointmentService';
+import { toast } from 'sonner';
 
 const AppointmentForm = () => {
   // Extract appointmentId from URL
@@ -38,12 +39,12 @@ const AppointmentForm = () => {
 
   const handleAddAppointment = async () => {
     if (!appointmentDetails.diagnosis || !appointmentDetails.treatment || !appointmentDetails.medication) {
-      alert('Please fill in all fields');
+      toast.warning('Please fill in all fields', {});
       return;
     }
     const result = await appointmentPostAPI(appointmentDetails);
     if (result) {
-      alert('Appointment added successfully');
+      toast.success('Pet Health Track added successfully', {});
       // Reset form or handle success scenario
     }
   };

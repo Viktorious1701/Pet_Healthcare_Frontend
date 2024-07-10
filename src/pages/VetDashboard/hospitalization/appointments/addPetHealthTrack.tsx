@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,30 +11,90 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { postPetHealthTrack } from '@/Services/PetHealthTrackService';
+import { toast } from 'sonner';
 
-const AddPetHealthTrack = () => {
-  const [hospitalizationId, setHospitalizationId] = useState(0);
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
-  const [status, setStatus] = useState(0);
+// Assuming postPetHealthTrack is an async function that posts the data to a server
+// import { postPetHealthTrack } from 'path_to_your_service';
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }) => { // Accept hospitalizationId as a prop of type number
+  const [petHealthTrackDetails, setPetHealthTrackDetails] = useState({
+    hospitalizationId: hospitalizationId, // Use the hospitalizationId prop to set the initial state
+    description: '',
+    date: '',
+    status: ''
+  });
+  const [isOpen, setIsOpen] = useState(false); // State to control dialog visibility
+
+  // Specify the type of element the ref is for. If `Input` renders an input element, use HTMLInputElement.
+  const descriptionInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        descriptionInputRef.current?.focus();
+      }, 1); // Adjust the delay as needed
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    setPetHealthTrackDetails(prevDetails => ({
+      ...prevDetails,
+      hospitalizationId: hospitalizationId
+    }));
+  }, [hospitalizationId]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleInputChange = (e: { target: { id: any; value: any; }; }) => {
+    const { id, value } = e.target;
+    if (id === 'status') {
+      // Ensure the value is either 0 or 1
+      const newValue = value === '0' || value === '1' ? value : petHealthTrackDetails.status;
+      setPetHealthTrackDetails((prevState) => ({
+        ...prevState,
+        [id]: newValue
+      }));
+    } else {
+      setPetHealthTrackDetails((prevState) => ({
+        ...prevState,
+        [id]: value
+      }));
+    }
+  };
+
+  const handleAddPetHealthTrack = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    // Here you would typically send the data to a server
-    console.log({ hospitalizationId, description, date, status });
+    if (!petHealthTrackDetails.description || !petHealthTrackDetails.date) {
+      toast.warning('Please fill in all required fields', {});
+      return;
+    }
+    const result = await postPetHealthTrack(petHealthTrackDetails);
+    if (result) {
+      toast.success('Pet Health Track added successfully', {});
+      setIsOpen(false); // Close the dialog
+      setPetHealthTrackDetails({
+        hospitalizationId: hospitalizationId,
+        description: '',
+        date: '',
+        status: ''
+      });
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant='outline'>Add Pet Health Track</Button>
+        <Button variant='outline' onClick={() => setIsOpen(true)}>
+          Add Pet Health Track
+        </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Add Pet Health Track</DialogTitle>
           <DialogDescription>Fill in the details below to add a new pet health track.</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className='grid gap-4 py-4'>
+        <form onSubmit={handleAddPetHealthTrack} className='grid gap-4 py-4'>
+          {/* Input fields updated to use petHealthTrackDetails and handleInputChange */}
           <div className='grid grid-cols-4 items-center gap-4'>
             <Label htmlFor='hospitalizationId' className='text-right'>
               Hospitalization ID
@@ -42,8 +102,9 @@ const AddPetHealthTrack = () => {
             <Input
               id='hospitalizationId'
               type='number'
-              value={hospitalizationId}
-              onChange={(e) => setHospitalizationId(Number(e.target.value))}
+              readOnly
+              value={petHealthTrackDetails.hospitalizationId}
+              onChange={handleInputChange}
               className='col-span-3'
             />
           </div>
@@ -53,8 +114,9 @@ const AddPetHealthTrack = () => {
             </Label>
             <Input
               id='description'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              ref={descriptionInputRef} // Attach the ref to the description input
+              value={petHealthTrackDetails.description}
+              onChange={handleInputChange}
               className='col-span-3'
             />
           </div>
@@ -65,8 +127,8 @@ const AddPetHealthTrack = () => {
             <Input
               id='date'
               type='date'
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={petHealthTrackDetails.date}
+              onChange={handleInputChange}
               className='col-span-3'
             />
           </div>
@@ -77,9 +139,10 @@ const AddPetHealthTrack = () => {
             <Input
               id='status'
               type='number'
-              value={status}
-              onChange={(e) => setStatus(Number(e.target.value))}
+              value={petHealthTrackDetails.status}
+              onChange={handleInputChange}
               className='col-span-3'
+              autoComplete='off' // This tells the browser not to autocomplete the input
             />
           </div>
           <DialogFooter>
@@ -93,4 +156,4 @@ const AddPetHealthTrack = () => {
   );
 };
 
-export default AddPetHealthTrack;
+export default PetHealthTrackForm;
