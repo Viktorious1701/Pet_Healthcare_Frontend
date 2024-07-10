@@ -110,7 +110,6 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
       .then((res) => {
         if (res?.data) {
           console.log(res.data);
-
           onUserAdded(res.data);
           toast.success("User added successfully");
         }
@@ -126,6 +125,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
 
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
+
     handleUserAdd(data);
   }
 
@@ -379,6 +379,7 @@ const UserAddDialog: React.FC<UserAddDialogProps> = ({ onUserAdded }) => {
                   </FormItem>
                 )}
               />
+              {/* <FormField
               {/* <FormField
                 control={form.control}
                 name='imageUrl'
