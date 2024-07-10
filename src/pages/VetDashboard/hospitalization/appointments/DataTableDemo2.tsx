@@ -22,31 +22,25 @@ import AddPetHealthTrack from './addPetHealthTrack';
 
 export type PetHealthTrack = {
   petHealthTrackId: number;
-  hospitalizationId: number; // Assuming a link to the Hospitalization type
+  hospitalizationId: number;
   petName: string;
   petImage: string;
   description: string;
   date: string;
-  status: number; // Consider using an enum for clarity on status values
+  status: number;
 };
 
-// Update the DataTableDemo component to use the Appointment data model
 export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: number }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [data, setData] = React.useState<PetHealthTrack[]>([]); // State to hold fetched data
+  const [data, setData] = React.useState<PetHealthTrack[]>([]);
 
-  // Function to fetch appointments and update state
-  const id = hospitalizationId;
-  console.log('hospitalizationId:', id);
   const fetchPetHealthTracksAndUpdateState = async () => {
     try {
-      if (id != 0) {
-        console.log('hospitalizationId2222:', id);
-        const response = await getPetHealthTrackByHospitalizationId(id);
-        console.log('PetHealthTrack', response);
+      if (hospitalizationId !== 0) {
+        const response = await getPetHealthTrackByHospitalizationId(hospitalizationId);
         if (response) {
           const formattedPetHealthTrack: PetHealthTrack[] = response.map((pethealthtrack) => ({
             petHealthTrackId: pethealthtrack.petHealthTrackId,
@@ -57,7 +51,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
             date: pethealthtrack.date,
             status: pethealthtrack.status
           }));
-          setData(formattedPetHealthTrack); // Update state with fetched data
+          setData(formattedPetHealthTrack);
         }
       }
     } catch (error) {
@@ -65,15 +59,36 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
     }
   };
 
-  // Use useEffect to fetch data on component mount
   React.useEffect(() => {
+    console.log('hospitalizationId changed:', hospitalizationId);
     fetchPetHealthTracksAndUpdateState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]); // Now includes `id` in the dependency array
+  }, [hospitalizationId]); // Ensure hospitalizationId is listed as a dependency
 
-  const columns: ColumnDef<PetHealthTrack>[] = []; // Declare or initialize the 'columns' variable with type argumentserror);
+  const columns: ColumnDef<PetHealthTrack>[] = [
+    {
+      accessorKey: 'petName',
+      header: () => 'Pet Name',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'description',
+      header: () => 'Description',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'date',
+      header: () => 'Date',
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: 'status',
+      header: () => 'Status',
+      cell: (info) => info.getValue(),
+    },
+  ];
+
   const table = useReactTable({
-    data, // Use state variable for data
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -87,22 +102,20 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
-    }
+      rowSelection,
+    },
   });
 
   return (
     <div className='w-full'>
       <div className='flex items-center py-4'>
         <span className='flex-1 text-[2rem] font-mont font-semibold '>PET HEALTH TRACK</span>
-        <Button variant='outline'>Add Pet Health Track</Button>
-        <AddPetHealthTrack />
+        <AddPetHealthTrack hospitalizationId={hospitalizationId} />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (
             <div key={row.original.petHealthTrackId} className='border rounded-md p-4 shadow-sm'>
-              {/* Image container */}
               <div className='image-container mb-4'>
                 <img
                   src={row.original.petImage}
@@ -114,14 +127,12 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
               <div>Description: {row.original.description}</div>
               <div>Date: {row.original.date}</div>
               <div>Status: {row.original.status}</div>
-              {/* Include any actions here */}
             </div>
           ))
         ) : (
           <div className='col-span-full text-center'>No results.</div>
         )}
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'></div>
     </div>
   );
 }

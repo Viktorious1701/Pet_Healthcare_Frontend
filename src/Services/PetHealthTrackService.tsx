@@ -13,6 +13,18 @@ export const getPetHealthTrackByHospitalizationId = async (hospitalizationId: nu
   }
 };
 
+export const postPetHealthTrack = async (petHealthTrack: PetHealthTrack) => {
+  const { hospitalizationId, description, date, status } = petHealthTrack; // Destructure only the needed properties
+
+  try {
+    const payload = { hospitalizationId, description, date, status }; // Construct payload with only the properties the API accepts
+    const response = await axiosInstance.post(apiBaseURL, payload);
+    return response.data; // return actual data
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export const getUserPetHealthTracks = async () => {
   try {
     const data = await axiosInstance.get<PetHealthTrack[]>(`${apiBaseURL}/user`);

@@ -17,6 +17,10 @@ import '@fontsource-variable/montserrat';
 import '@fontsource/roboto';
 
 import { ABOUT_PAGE } from '@/Route/router-const';
+import CardMingAnhAvatar from '@/components/team_cards/MinhAnhCard/CardMingAnhAvatar';
+import CardThinhAnAvatar from '@/components/team_cards/ThinhAnCard/CardThinhAnAvatar';
+
+
 
 const Home = () => {
   return (
@@ -176,6 +180,15 @@ const Home = () => {
                 </p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Team Section */}
+        <section id='veterinarian' className='py-[7rem] bg-[--background] text-center'>
+          <h2 className='text-[3rem] font-bold text-pink mb-[4rem] font-mont'>Meet Our Teams</h2>
+          <CardMingAnhAvatar />
+          <div className='mt-[-17rem]'>
+            <CardThinhAnAvatar />
           </div>
         </section>
 

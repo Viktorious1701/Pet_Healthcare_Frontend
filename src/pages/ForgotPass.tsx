@@ -39,13 +39,13 @@ const ForgotPassword = () => {
           className='w-full max-w-3xl p-10 bg-opacity-20 z-10 overflow-auto'
           onSubmit={handleSubmit(handleForgotPassword)}
         >
-          <Card>
-            <div className='flex items-center ml-[1.5rem]'>
+          <Card className='py-[1rem] '>
+            <div className='flex items-center ml-[1.5rem] pb-[5rem]'>
               <img src={Paw} alt='Paw' className='w-20 h-30 mr-4 text-[#DB2777]' />
               <span className='text-[3.5rem] font-mont font-semibold text-[#DB2777]'>Pet88</span>
             </div>
             <CardHeader className='space-y-1'>
-              <CardTitle className='text-4xl font-bold mt-10 md:mt-16 lg:mt-56 mb-2'>FORGOT PASSWORD</CardTitle>
+              <CardTitle className='text-4xl font-bold  mb-2'>FORGOT PASSWORD</CardTitle>
             </CardHeader>
             <CardContent>
               <div className='space-y-4'>
@@ -67,7 +67,7 @@ const ForgotPassword = () => {
                   Reset Password
                 </Button>
                 <div className='mt-auto'>
-                  <div className='pt-[22rem] md:pt-[4rem] lg:pt-[8rem] xl:pt-[22rem] text-base sm:text-lg md:text-xl font-light font-mont'>
+                  <div className='text-base sm:text-lg md:text-xl font-light font-mont mt-[5rem]'>
                     Back to &nbsp;
                     <Link
                       to={`/${LOGIN}`}

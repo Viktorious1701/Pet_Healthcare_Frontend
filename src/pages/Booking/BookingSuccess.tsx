@@ -15,29 +15,26 @@ const BookingSuccess = () => {
   const [showPrompt, setShowPrompt] = useState(false);
 
   if (!isSubmitted) {
-    navigate(`/${APPOINTMENT}`); // Redirect to the booking page if the form is not submitted
+    navigate(`/${APPOINTMENT}`);
   }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPrompt(true);
-    }, 3000); // Show prompt after 3 seconds (adjust the time as needed)
+    }, 3000);
 
-    return () => clearTimeout(timer); // Clean up the timer on component unmount
+    return () => clearTimeout(timer);
   }, []);
 
-  const handlePayment = () => {
+  const handleContinue = (willPay: boolean) => {
     if (user?.role === 'Customer' && appointmentId) {
-      navigate(`/${PAYMENT}`, { state: { appointmentId } });
+      navigate(`/${PAYMENT}`, { state: { appointmentId, willPay } });
     }
-  };
-
-  const handleReturnHome = () => {
-    navigate('/');
   };
 
   const handleEmployeeRedirect = () => {
     if (user?.role === 'Employee') {
+      navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
       navigate(`/${EMPLOYEE_DASHBOARD}/${EMPLOYEE_APPOINTMENT_BOOKING}`);
     }
   };
@@ -58,10 +55,10 @@ const BookingSuccess = () => {
           {showPrompt && user?.role === 'Customer' && (
             <div>
               <p className='text-gray-600 mb-6'>Do you want to proceed to the payment?</p>
-              <button onClick={handlePayment} className='bg-custom-blue text-white py-2 px-4 rounded-md mr-2'>
+              <button onClick={() => handleContinue(true)} className='bg-custom-blue text-white py-2 px-4 rounded-md mr-2'>
                 Yes
               </button>
-              <button onClick={handleReturnHome} className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md'>
+              <button onClick={() => handleContinue(false)} className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md'>
                 No
               </button>
             </div>
