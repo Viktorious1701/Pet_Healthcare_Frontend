@@ -25,6 +25,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     "https://storage.googleapis.com/pet88/tagThinhAn.glb"
   );
   const texture = useTexture("https://storage.googleapis.com/pet88/band.jpg");
+  texture.minFilter = THREE.LinearFilter; // Adjust texture filtering for sharpness
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(
     () =>
@@ -187,8 +188,9 @@ export default function CardThinhAn() {
 
   return (
     <Canvas
+      antialias={true}
       style={{ width: "100%", height: "100%" }}
-      camera={{ position: [0, 0, 11], fov: 25 }}
+      camera={{ position: [0, 0, 10], fov: 25 }}
     >
       <ambientLight intensity={Math.PI} />
       <Physics

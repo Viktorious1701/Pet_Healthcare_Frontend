@@ -7,6 +7,10 @@ import { motion } from 'framer-motion';
 import petcare from '@/assets/petcare.jpg';
 import logo from '@/assets/Paw2.svg';
 import hero from '@/assets/hero.png';
+import booking from '@/assets/veterinary-booking.jpg'
+import hospitalization from '@/assets/hospitalization.jpg'
+import petcare2 from '@/assets/petcare2.jpg'
+import cat from '@/assets/cat2.jpeg';
 import CustomCalendar from '@/components/calendar/CustomCalendar';
 import { APPOINTMENT } from '@/Route/router-const';
 import { CONTACT } from '@/Route/router-const';
@@ -78,19 +82,19 @@ const Home = () => {
 
           {/* Category Section */}
           <section id='category' className='mb-[8rem] flex gap-10 justify-center items-center text-center'>
-            <ImageCard imgSrc={petcare}>
+            <ImageCard imgSrc={booking}>
               <h3 className='text-xl font-bold mb-2'>Booking</h3>
               <div className='space-x-4 mt-4'>
                 <h4 className=''>We offer the best veterinarians</h4>
               </div>
             </ImageCard>
-            <ImageCard imgSrc={petcare}>
+            <ImageCard imgSrc={hospitalization}>
               <h3 className='text-xl font-bold mb-2'>Pet Hospitalization</h3>
               <div className='space-x-4 mt-4'>
                 <h4 className=''>We offer the best hospitalization</h4>
               </div>
             </ImageCard>
-            <ImageCard imgSrc={petcare}>
+            <ImageCard imgSrc={petcare2}>
               <h3 className='text-xl font-bold mb-2'>Pet Care</h3>
               <div className='space-x-4 mt-4'>
                 <h4 className=''>We offer the best pet care services</h4>
@@ -105,7 +109,7 @@ const Home = () => {
             <div className='m-2'>
               <img
                 className='rounded-md h-96 w-full object-cover' // Adjust the height and width as needed
-                src='https://nextui.org/images/hero-card-complete.jpeg'
+                src={cat}
                 alt=''
               />
             </div>
