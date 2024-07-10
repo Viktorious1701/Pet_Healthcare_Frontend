@@ -61,30 +61,30 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
   React.useEffect(() => {
     console.log('hospitalizationId changed:', hospitalizationId);
     fetchPetHealthTracksAndUpdateState();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hospitalizationId]); // Ensure hospitalizationId is listed as a dependency
 
   const columns: ColumnDef<PetHealthTrack>[] = [
     {
       accessorKey: 'petName',
       header: () => 'Pet Name',
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue()
     },
     {
       accessorKey: 'description',
       header: () => 'Description',
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue()
     },
     {
       accessorKey: 'date',
       header: () => 'Date',
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue()
     },
     {
       accessorKey: 'status',
       header: () => 'Status',
-      cell: (info) => info.getValue(),
-    },
+      cell: (info) => info.getValue()
+    }
   ];
 
   const table = useReactTable({
@@ -102,8 +102,8 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
-    },
+      rowSelection
+    }
   });
 
   return (

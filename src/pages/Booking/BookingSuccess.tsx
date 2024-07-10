@@ -55,7 +55,10 @@ const BookingSuccess = () => {
           {showPrompt && user?.role === 'Customer' && (
             <div>
               <p className='text-gray-600 mb-6'>Do you want to proceed to the payment?</p>
-              <button onClick={() => handleContinue(true)} className='bg-custom-blue text-white py-2 px-4 rounded-md mr-2'>
+              <button
+                onClick={() => handleContinue(true)}
+                className='bg-custom-blue text-white py-2 px-4 rounded-md mr-2'
+              >
                 Yes
               </button>
               <button onClick={() => handleContinue(false)} className='bg-gray-300 text-gray-700 py-2 px-4 rounded-md'>

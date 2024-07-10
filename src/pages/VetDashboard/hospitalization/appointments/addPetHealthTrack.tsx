@@ -17,7 +17,8 @@ import { toast } from 'sonner';
 // Assuming postPetHealthTrack is an async function that posts the data to a server
 // import { postPetHealthTrack } from 'path_to_your_service';
 
-const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }) => { // Accept hospitalizationId as a prop of type number
+const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }) => {
+  // Accept hospitalizationId as a prop of type number
   const [petHealthTrackDetails, setPetHealthTrackDetails] = useState({
     hospitalizationId: hospitalizationId, // Use the hospitalizationId prop to set the initial state
     description: '',
@@ -38,14 +39,14 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
   }, [isOpen]);
 
   useEffect(() => {
-    setPetHealthTrackDetails(prevDetails => ({
+    setPetHealthTrackDetails((prevDetails) => ({
       ...prevDetails,
       hospitalizationId: hospitalizationId
     }));
   }, [hospitalizationId]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleInputChange = (e: { target: { id: any; value: any; }; }) => {
+  const handleInputChange = (e: { target: { id: any; value: any } }) => {
     const { id, value } = e.target;
     if (id === 'status') {
       // Ensure the value is either 0 or 1
@@ -62,7 +63,7 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
     }
   };
 
-  const handleAddPetHealthTrack = async (e: { preventDefault: () => void; }) => {
+  const handleAddPetHealthTrack = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (!petHealthTrackDetails.description || !petHealthTrackDetails.date) {
       toast.warning('Please fill in all required fields', {});
