@@ -1,5 +1,5 @@
-import { ADMIN_ACCOUNTS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
-import { IconCalendarWeek, IconDashboard, IconSettings, IconUser, IconUsers } from '@tabler/icons-react';
+import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
+import { IconCalendarDollar, IconCalendarWeek, IconDashboard, IconFrame, IconHospital, IconMedicalCross, IconPaw, IconSettings, IconUser, IconUsers, IconVaccine } from '@tabler/icons-react';
 import { DoorClosed } from 'lucide-react';
 
 export interface NavLink {
@@ -25,6 +25,42 @@ export const sidelinks: SideLink[] = [
     label: '',
     href: `${ADMIN_ACCOUNTS}`,
     icon: <IconUsers size={18} />
+  },
+  {
+    title: 'Pets',
+    label: '',
+    href: ``,
+    icon: <IconPaw size={18} />
+  },
+  {
+    title: 'Appointments',
+    label: '',
+    href: `${ADMIN_APPOINTMENT}`,
+    icon: <IconCalendarDollar size={18} />
+  },
+  {
+    title: 'Hospitalization',
+    label: '',
+    href: ``,
+    icon: <IconHospital size={18} />
+  },
+  {
+    title: 'Kennels',
+    label: '',
+    href: ``,
+    icon: <IconFrame size={18} />
+  },
+  {
+    title: 'Services',
+    label: '',
+    href: ``,
+    icon: <IconMedicalCross size={18} />
+  },
+  {
+    title: 'Vaccines',
+    label: '',
+    href: ``,
+    icon: <IconVaccine size={18} />
   },
   {
     title: 'Schedule',

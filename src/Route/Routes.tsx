@@ -162,12 +162,6 @@ const RouterComponent = () => {
                 Component: (await import('@/pages/AdminDashboard/Accounts')).default
               })
             },
-            {
-              path: `${ADMIN_APPOINTMENT}`,
-              lazy: async () => ({
-                Component: (await import('@/pages/AdminDashboard/AppointmentDashboard')).default
-              })
-            },
             // {
             //   path: `${ADMIN_HOSPITALIZATION}`,
             //   element: <Hospitalization />,
@@ -182,6 +176,12 @@ const RouterComponent = () => {
               path: `${ADMIN_ACCOUNTS}`,
               lazy: async () => ({
                 Component: (await import('@/pages/AdminDashboard/accounts/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_APPOINTMENT}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/appointments/index')).default
               })
             },
             {
