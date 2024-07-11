@@ -12,6 +12,7 @@ import { Toaster } from 'sonner';
 import { UserProvider } from './Context/UserContext.tsx';
 import { ToastContainer } from 'react-toastify';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import SmoothScrolling from '@/components/smooth_scroll/SmoothScrolling.tsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -22,7 +23,9 @@ root.render(
         <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
           <StyledThemeProvider theme={lightPinkTheme}>
             <NextUIProvider>
+            <SmoothScrolling>
               <RouterComponent />
+              </SmoothScrolling>
               <Toaster />
               <ToastContainer />
               <SpeedInsights />
