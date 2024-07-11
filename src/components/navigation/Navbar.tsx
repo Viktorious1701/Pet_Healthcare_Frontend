@@ -152,7 +152,7 @@ const Navbar = () => {
           </DropdownMenu>
         </div>
       ) : (
-        <div className='mr-[3rem] flex items-center'>
+        <div className='flex items-start mt-[2.25rem] mr-[3rem]'>
           <div className='mr-5'>
             <ThemeSwitch />
           </div>
