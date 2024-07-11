@@ -23,8 +23,8 @@ root.render(
         <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
           <StyledThemeProvider theme={lightPinkTheme}>
             <NextUIProvider>
-            <SmoothScrolling>
-              <RouterComponent />
+              <SmoothScrolling>
+                <RouterComponent />
               </SmoothScrolling>
               <Toaster />
               <ToastContainer />
