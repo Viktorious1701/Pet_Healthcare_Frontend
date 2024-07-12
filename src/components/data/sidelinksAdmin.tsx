@@ -1,4 +1,4 @@
-import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
+import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, ADMIN_PETS, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
 import { IconCalendarDollar, IconCalendarWeek, IconDashboard, IconFrame, IconHospital, IconMedicalCross, IconPaw, IconSettings, IconUser, IconUsers, IconVaccine } from '@tabler/icons-react';
 import { DoorClosed } from 'lucide-react';
 
@@ -29,7 +29,7 @@ export const sidelinks: SideLink[] = [
   {
     title: 'Pets',
     label: '',
-    href: ``,
+    href: `${ADMIN_PETS}`,
     icon: <IconPaw size={18} />
   },
   {

@@ -1,6 +1,5 @@
 import { AppointmentGet } from '@/Models/Appointment';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Divider } from '@nextui-org/react';
 
 interface AppointmentListProps {
   appointments: AppointmentGet[];
@@ -22,7 +21,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
   return (
     <div className='grid grid-cols-5 gap-2'>
       {appointments.map((appointment) => (
-        <Card className={getBorderColor(appointment.status)}>
+        <Card className={getBorderColor(appointment.status)} key={appointment.appointmentId}>
           <CardHeader>
             <CardTitle>
               {appointment.customer} with {appointment.pet}
