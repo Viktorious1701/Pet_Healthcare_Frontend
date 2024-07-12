@@ -13,6 +13,15 @@ export const petsOfCustomerAPI = async (username: string) => {
   }
 };
 
+export const petGetAPI = async () => {
+  try {
+    const data = await axiosInstance.get(api);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const updatePetData = async (
   petId: number,
   petData: {
