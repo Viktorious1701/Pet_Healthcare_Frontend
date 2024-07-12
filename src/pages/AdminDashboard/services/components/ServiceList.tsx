@@ -1,20 +1,17 @@
-import { ServiceGet } from "@/Models/Service"
+import { ServiceGet } from '@/Models/Service';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
-interface ServiceListProps
-{
-    services: ServiceGet[];
+interface ServiceListProps {
+  services: ServiceGet[];
 }
 
-const ServiceList: React.FC<ServiceListProps> = ({services}) => {
+const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
   return (
     <div className='grid grid-cols-5 gap-2'>
       {services.map((service) => (
         <Card key={service.serviceId}>
           <CardHeader>
-            <CardTitle>
-              {service.name}
-            </CardTitle>
+            <CardTitle>{service.name}</CardTitle>
             <CardDescription>ServiceId: {service.serviceId}</CardDescription>
           </CardHeader>
           <CardContent className='grid grid-cols-5'>
@@ -31,7 +28,7 @@ const ServiceList: React.FC<ServiceListProps> = ({services}) => {
         </Card>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default ServiceList
+export default ServiceList;

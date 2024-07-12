@@ -1,5 +1,5 @@
 export type VaccineGet = {
-    vaccineId: number,
-    name: string,
-    description: string   
-}
+  vaccineId: number;
+  name: string;
+  description: string;
+};

@@ -1,5 +1,28 @@
-import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, ADMIN_HOSPITALIZATION, ADMIN_KENNELS, ADMIN_PETS, ADMIN_SERVICES, ADMIN_VACCINES, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
-import { IconCalendarDollar, IconCalendarWeek, IconDashboard, IconFrame, IconHospital, IconMedicalCross, IconPaw, IconSettings, IconUser, IconUsers, IconVaccine } from '@tabler/icons-react';
+import {
+  ADMIN_ACCOUNTS,
+  ADMIN_APPOINTMENT,
+  ADMIN_HOSPITALIZATION,
+  ADMIN_KENNELS,
+  ADMIN_PETS,
+  ADMIN_SERVICES,
+  ADMIN_VACCINES,
+  COMING_SOON,
+  SCHEDULE_VET,
+  SETTINGS_PROFILE
+} from '@/Route/router-const';
+import {
+  IconCalendarDollar,
+  IconCalendarWeek,
+  IconDashboard,
+  IconFrame,
+  IconHospital,
+  IconMedicalCross,
+  IconPaw,
+  IconSettings,
+  IconUser,
+  IconUsers,
+  IconVaccine
+} from '@tabler/icons-react';
 import { DoorClosed } from 'lucide-react';
 
 export interface NavLink {

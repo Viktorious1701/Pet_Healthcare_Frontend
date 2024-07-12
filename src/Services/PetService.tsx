@@ -20,7 +20,7 @@ export const petGetAPI = async () => {
   } catch (error) {
     handleError(error);
   }
-}
+};
 
 export const updatePetData = async (
   petId: number,

@@ -1,21 +1,18 @@
 import { VaccineGet } from '@/Models/Vaccine';
-import React from 'react'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-interface VaccineListProps 
-{
-    vaccines: VaccineGet[];
+interface VaccineListProps {
+  vaccines: VaccineGet[];
 }
 
-const VaccineList: React.FC<VaccineListProps> = ({vaccines}) => {
+const VaccineList: React.FC<VaccineListProps> = ({ vaccines }) => {
   return (
     <div className='grid grid-cols-5 gap-2'>
       {vaccines.map((vaccine) => (
         <Card key={vaccine.vaccineId}>
           <CardHeader>
-            <CardTitle>
-              {vaccine.name}
-            </CardTitle>
+            <CardTitle>{vaccine.name}</CardTitle>
             <CardDescription>VaccineId: {vaccine.vaccineId}</CardDescription>
           </CardHeader>
           <CardContent className='grid grid-cols-5'>
@@ -35,7 +32,7 @@ const VaccineList: React.FC<VaccineListProps> = ({vaccines}) => {
         </Card>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default VaccineList
+export default VaccineList;

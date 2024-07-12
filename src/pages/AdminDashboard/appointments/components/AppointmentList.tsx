@@ -21,15 +21,15 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
   const getPaymentState = (status: number) => {
     switch (status) {
       case 0:
-        return "Pending";
-        case 1:
-        return "Paid";
-        case 2:
-        return "Refund";
-        case 3:
-        return "Failed";
+        return 'Pending';
+      case 1:
+        return 'Paid';
+      case 2:
+        return 'Refund';
+      case 3:
+        return 'Failed';
     }
-  }
+  };
   return (
     <div className='grid grid-cols-5 gap-2'>
       {appointments.map((appointment) => (
@@ -43,10 +43,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
           <CardContent className='grid grid-cols-5'>
             <div className='col-span-2 space-y-1'>
               <p className='text-sm font-medium leading-none'>Date: {appointment.date}</p>
-              <p className='text-sm text-muted-foreground'>
-                Payment:{' '}
-                {getPaymentState(appointment.paymentStatus)}
-              </p>
+              <p className='text-sm text-muted-foreground'>Payment: {getPaymentState(appointment.paymentStatus)}</p>
             </div>
             <div className='col-span-3 space-y-1 text-right'>
               <p className='text-sm font-medium leading-none'>Service</p>

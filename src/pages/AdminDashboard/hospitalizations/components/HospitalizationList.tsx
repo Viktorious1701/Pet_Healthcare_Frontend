@@ -41,7 +41,9 @@ const HospitalizationList: React.FC<HospitalizationListProps> = ({ hospitalizati
               <p className='text-sm text-muted-foreground'>{hospital.kennelDescription}</p>
             </div>
             <div className='col-span-5 space-y-1 mt-2'>
-              <p className='text-sm font-medium leading-none'>Payment: {(hospital.paymentStatus == null) ? "Pending" : "Paid"}</p>
+              <p className='text-sm font-medium leading-none'>
+                Payment: {hospital.paymentStatus == null ? 'Pending' : 'Paid'}
+              </p>
             </div>
           </CardFooter>
         </Card>

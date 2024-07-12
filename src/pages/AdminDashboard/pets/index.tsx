@@ -70,7 +70,7 @@ export default function Dashboard() {
                   <CardDescription>{pets.length} total pets.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <PetList pets={pets}></PetList>
+                  <PetList pets={pets}></PetList>
                 </CardContent>
               </Card>
             </div>

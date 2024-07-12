@@ -98,7 +98,7 @@ export default function Dashboard() {
                   <CardDescription>{hospitalization.length} total hospitalization.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <HospitalizationList hospitalization={hospitalization}></HospitalizationList>
+                  <HospitalizationList hospitalization={hospitalization}></HospitalizationList>
                 </CardContent>
               </Card>
             </div>

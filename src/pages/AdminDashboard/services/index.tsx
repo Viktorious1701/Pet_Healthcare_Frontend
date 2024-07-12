@@ -19,15 +19,15 @@ export default function Dashboard() {
 
   const getServices = async () => {
     await serviceGetAPI()
-    .then((res) => {
+      .then((res) => {
         if (res?.data) {
-            setServices(res.data);
+          setServices(res.data);
         }
-    })
-    .catch((e) => {
+      })
+      .catch((e) => {
         toast.error('Server error occured', e);
-    })
-  }
+      });
+  };
 
   useEffect(() => {
     getServices();
