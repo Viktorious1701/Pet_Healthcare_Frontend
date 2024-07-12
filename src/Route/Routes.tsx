@@ -66,7 +66,8 @@ import {
   ADMIN_PETS,
   ADMIN_HOSPITALIZATION,
   ADMIN_KENNELS,
-  ADMIN_SERVICES
+  ADMIN_SERVICES,
+  ADMIN_VACCINES
 } from './router-const';
 
 import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack';
@@ -206,6 +207,12 @@ const RouterComponent = () => {
               path: `${ADMIN_SERVICES}`,
               lazy: async () => ({
                 Component: (await import('@/pages/AdminDashboard/services/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_VACCINES}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/vaccines/index')).default
               })
             },
             {

@@ -1,4 +1,4 @@
-import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, ADMIN_HOSPITALIZATION, ADMIN_KENNELS, ADMIN_PETS, ADMIN_SERVICES, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
+import { ADMIN_ACCOUNTS, ADMIN_APPOINTMENT, ADMIN_HOSPITALIZATION, ADMIN_KENNELS, ADMIN_PETS, ADMIN_SERVICES, ADMIN_VACCINES, COMING_SOON, SCHEDULE_VET, SETTINGS_PROFILE } from '@/Route/router-const';
 import { IconCalendarDollar, IconCalendarWeek, IconDashboard, IconFrame, IconHospital, IconMedicalCross, IconPaw, IconSettings, IconUser, IconUsers, IconVaccine } from '@tabler/icons-react';
 import { DoorClosed } from 'lucide-react';
 
@@ -59,7 +59,7 @@ export const sidelinks: SideLink[] = [
   {
     title: 'Vaccines',
     label: '',
-    href: ``,
+    href: `${ADMIN_VACCINES}`,
     icon: <IconVaccine size={18} />
   },
   {
