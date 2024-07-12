@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Box } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -29,6 +29,8 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
 }) => {
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [hospitalizationsWithPetNames, setHospitalizationsWithPetNames] = useState<Hospitalization[]>([]);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [hospitalizationToDelete, setHospitalizationToDelete] = useState<null | number>(null);
   const prevHospitalizationsRef = useRef<Hospitalization[]>([]);
 
   useEffect(() => {
@@ -94,7 +96,8 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    handleHospitalizationDelete(Number(id));
+    setHospitalizationToDelete(Number(id));
+    setDeleteDialogOpen(true);
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -238,6 +241,13 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
     }
   ];
 
+  const handleDeleteDialogClose = (confirm: boolean) => {
+    setDeleteDialogOpen(false);
+    if (confirm && hospitalizationToDelete !== null) {
+      handleHospitalizationDelete(hospitalizationToDelete);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -253,8 +263,31 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
         processRowUpdate={processRowUpdate}
-        pageSizeOptions={[5, 10, 25, 100]}
+        pageSizeOptions={[5, 10, 25, 50]}
+        checkboxSelection
+        disableRowSelectionOnClick
       />
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => handleDeleteDialogClose(false)}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>{'Confirm Deletion'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description'>
+            Are you sure you want to delete this hospitalization record?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleDeleteDialogClose(false)} color='primary'>
+            No
+          </Button>
+          <Button onClick={() => handleDeleteDialogClose(true)} color='primary' autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
