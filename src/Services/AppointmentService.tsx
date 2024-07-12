@@ -19,7 +19,7 @@ export const appointmentGetAPI = async () => {
 export const appointmentFinishAPI = async (appointmentId: number) => {
   try {
     const data = await axiosInstance.put(api + `/update-appointment-status`, {
-      appointmentId: appointmentId,
+      id: appointmentId,
       status: 'Done'
     });
     return data;
@@ -90,6 +90,7 @@ export const appointmentBookAPI = async (
 
 export const appointmentRateAPI = async (appointmentId: number, rating: number, comment: string) => {
   try {
+    console.log('before adding params', appointmentId, rating, comment);
     const data = await axiosInstance.put<AppointmentRating>(api + `/rate/${appointmentId}`, {
       rating: rating,
       comment: comment
@@ -129,8 +130,8 @@ export const appointmentDetailsAPI = async (appointmentId: string) => {
 
 export const appointmentGetVetIdAPI = async () => {
   try {
-    const response = await axiosInstance.get<string>(apiGetVet + `/Account/me`);
-    return response.data;
+    const response = await axiosInstance.get(apiGetVet + `/Account/me`);
+    return response.data?.userId;
   } catch (error) {
     handleError(error);
   }

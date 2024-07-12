@@ -4,15 +4,72 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import ThemeSwitch from '@/components/vet_components/theme-switch';
 import { UserNav } from '@/components/vet_components/user-nav';
 import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
-import { RecentSales } from './components/recent-sales';
-import { Overview } from './components/overview';
+
+import IncomingAppointments from './components/incoming-vet-appointment';
+import { useAuth } from '@/Context/useAuth';
+import { AppointmentGet } from '@/Models/Appointment';
+import { useEffect, useState } from 'react';
+import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { hospitalizationListVetAPI } from '@/Services/HospitalizationService';
+import IncomingVetHospitalization from './components/incoming-vet-hospitalization';
+import { appointmentGetVetUserNameAPI as appointmentGetVetInfoAPI } from '@/Services/VetService';
+
+interface Hospitalization {
+  hospitalizationId: number;
+  petName: string;
+  admissionDate: string;
+  dischargeDate: string;
+  totalCost: number;
+}
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
+  const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [yearsOfExp, setYearsOfExp] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch vet ID from the current logged-in account
+        const vetIdResponse = await appointmentGetVetIdAPI();
+
+        // Fetch appointments for the vet ID
+        if (!vetIdResponse) throw new Error('Failed to fetch vet ID');
+        const appointmentsResponse = await appointmentVetAPI(vetIdResponse);
+        setAppointments(appointmentsResponse || []);
+
+        // Fetch hospitalizations for the vet ID
+        const vetInfo = await appointmentGetVetInfoAPI();
+        const vetName = vetInfo?.userName;
+        setYearsOfExp(vetInfo?.yearsOfExperience || 0);
+        const hospitalizationsResponse = await hospitalizationListVetAPI(vetName);
+        setHospitalizations(hospitalizationsResponse || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setAppointments([]);
+        setHospitalizations([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [user?.userName]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Calculate total sales
+  const totalSales =
+    appointments.reduce((acc, appointment) => acc + appointment.totalCost, 0) +
+    hospitalizations.reduce((acc, hospitalization) => acc + hospitalization.totalCost, 0);
+
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
       <LayoutHeader>
-        {/* <TopNav links={topNav} /> */}
         <div className='ml-auto flex items-center space-x-4'>
           <Search />
           <ThemeSwitch />
@@ -30,7 +87,7 @@ export default function Dashboard() {
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Total Revenue</CardTitle>
+                  <CardTitle className='text-sm font-medium'>Total Appointments</CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
@@ -41,17 +98,17 @@ export default function Dashboard() {
                     strokeWidth='2'
                     className='h-4 w-4 text-muted-foreground'
                   >
-                    <path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6' />
+                    <rect width='20' height='14' x='2' y='5' rx='2' />
+                    <path d='M2 10h20' />
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>$45,231.89</div>
-                  <p className='text-xs text-muted-foreground'>+20.1% from last month</p>
+                  <div className='text-2xl font-bold'>{appointments.length}</div>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Subscriptions</CardTitle>
+                  <CardTitle className='text-sm font-medium'>Total Hospitalizations</CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
@@ -68,8 +125,7 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+2350</div>
-                  <p className='text-xs text-muted-foreground'>+180.1% from last month</p>
+                  <div className='text-2xl font-bold'>{hospitalizations.length}</div>
                 </CardContent>
               </Card>
               <Card>
@@ -90,13 +146,13 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+12,234</div>
-                  <p className='text-xs text-muted-foreground'>+19% from last month</p>
+                  <div className='text-2xl font-bold'>${totalSales.toFixed(2)}</div>
+                  <p className='text-xs text-muted-foreground'>Total cost from appointments and hospitalizations</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Active Now</CardTitle>
+                  <CardTitle className='text-sm font-medium'>Vet Years Of Experience</CardTitle>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
@@ -111,27 +167,26 @@ export default function Dashboard() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>+573</div>
-                  <p className='text-xs text-muted-foreground'>+201 since last hour</p>
+                  <div className='text-2xl font-bold'>{yearsOfExp} years</div>
                 </CardContent>
               </Card>
             </div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4'>
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>Hospitalization in Progress</CardTitle>
                 </CardHeader>
                 <CardContent className='pl-2'>
-                  <Overview />
+                  <IncomingVetHospitalization hospitalizations={hospitalizations} />
                 </CardContent>
               </Card>
               <Card className='col-span-1 lg:col-span-3'>
                 <CardHeader>
-                  <CardTitle>Recent Appointments</CardTitle>
-                  <CardDescription>You made 265 sales this month.</CardDescription>
+                  <CardTitle>Incoming Appointments</CardTitle>
+                  <CardDescription>This is your appointments for incoming days.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RecentSales />
+                  <IncomingAppointments appointments={appointments} />
                 </CardContent>
               </Card>
             </div>
@@ -141,26 +196,3 @@ export default function Dashboard() {
     </Layout>
   );
 }
-
-// const topNav = [
-//   {
-//     title: 'Overview',
-//     href: 'dashboard/overview',
-//     isActive: true,
-//   },
-//   {
-//     title: 'Customers',
-//     href: 'dashboard/customers',
-//     isActive: false,
-//   },
-//   {
-//     title: 'Products',
-//     href: 'dashboard/products',
-//     isActive: false,
-//   },
-//   {
-//     title: 'Settings',
-//     href: 'dashboard/settings',
-//     isActive: false,
-//   },
-// ]
