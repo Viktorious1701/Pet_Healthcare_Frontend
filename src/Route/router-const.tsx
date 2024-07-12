@@ -22,6 +22,8 @@ export const ADMIN_HOSPITALIZATION = 'admin-hospitalization';
 export const ADMIN_APPOINTMENT = 'admin-appointment';
 export const ADMIN_ACCOUNTS = 'admin-accounts';
 export const ADMIN_PETS = 'admin-pets';
+export const ADMIN_KENNELS = 'admin-kennels'
+export const ADMIN_SERVICES = 'admin-services'
 
 // CUSTOMER
 export const CUSTOMER_DASHBOARD = 'customer';
