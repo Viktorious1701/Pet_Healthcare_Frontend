@@ -48,7 +48,7 @@ export default function Dashboard() {
       {/* ===== Main ===== */}
       <LayoutBody className='space-y-4'>
         <div className='flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>Appointments</h1>
+          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>Pets</h1>
           <div className='flex items-center space-x-2'>
             <Button>Download</Button>
           </div>

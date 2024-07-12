@@ -10,28 +10,26 @@ import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 // import { Overview } from "./components/overview";
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { IconBookmark, IconCircleCheck, IconCircleX, IconLoader } from '@tabler/icons-react';
-import { AppointmentGet } from '@/Models/Appointment';
-import { appointmentGetAPI } from '@/Services/AppointmentService';
-import AppointmentList from './components/AppointmentList';
+import { IconCircleCheck, IconProgress } from '@tabler/icons-react';
+import { hospitalizationListAPI } from '@/Services/HospitalizationService';
+import { Hospitalization } from '@/Models/Hospitalization';
+import HospitalizationList from './components/HospitalizationList';
 
 export default function Dashboard() {
-  const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
-
-  const getAppointments = async () => {
-    await appointmentGetAPI()
+  const [hospitalization, setHospitalization] = useState<Hospitalization[]>([]);
+  const getHospitalization = async () => {
+    await hospitalizationListAPI()
       .then((res) => {
-        if (res?.data) {
-          setAppointments(res.data);
+        if (res.data) {
+          setHospitalization(res.data);
         }
       })
       .catch((e) => {
         toast.error('Server error occurred', e);
       });
   };
-
   useEffect(() => {
-    getAppointments();
+    getHospitalization();
   }, []);
 
   return (
@@ -49,7 +47,7 @@ export default function Dashboard() {
       {/* ===== Main ===== */}
       <LayoutBody className='space-y-4'>
         <div className='flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>Appointments</h1>
+          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>Hospitalization</h1>
           <div className='flex items-center space-x-2'>
             <Button>Download</Button>
           </div>
@@ -64,48 +62,31 @@ export default function Dashboard() {
             </TabsList>
           </div>
           <TabsContent value='overview' className='space-y-4'>
-            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-              <Card className='border-b-gray-500 border-b-4'>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Booked Appointments</CardTitle>
-                  <IconBookmark />
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {appointments.filter((appointment) => appointment.status === 'Boooked').length} appointments
-                  </div>
-                </CardContent>
-              </Card>
+            <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-2'>
               <Card className='border-b-blue-500 border-b-4'>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Processing Appointments</CardTitle>
-                  <IconLoader />
+                  <CardTitle className='text-sm font-medium'>Pet in care</CardTitle>
+                  <IconProgress />
                 </CardHeader>
                 <CardContent>
                   <div className='text-2xl font-bold'>
-                    {appointments.filter((appoinment) => appoinment.status === 'Processing').length} appointments
+                    {
+                      hospitalization.filter(
+                        (hospital) => hospital.paymentStatus === 0 || hospital.paymentStatus === null
+                      ).length
+                    }{' '}
+                    hospitalization
                   </div>
                 </CardContent>
               </Card>
               <Card className='border-b-success-500 border-b-4'>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Done Appointments</CardTitle>
+                  <CardTitle className='text-sm font-medium'>Discharged</CardTitle>
                   <IconCircleCheck />
                 </CardHeader>
                 <CardContent>
                   <div className='text-2xl font-bold'>
-                    {appointments.filter((appoinment) => appoinment.status === 'Done').length} appointments
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className='border-b-danger-500 border-b-4'>
-                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-                  <CardTitle className='text-sm font-medium'>Cancelled Appointments</CardTitle>
-                  <IconCircleX />
-                </CardHeader>
-                <CardContent>
-                  <div className='text-2xl font-bold'>
-                    {appointments.filter((appoinment) => appoinment.status === 'Cancelled').length} appointments
+                    {hospitalization.filter((hospital) => hospital.paymentStatus === 1).length} hospitalization
                   </div>
                 </CardContent>
               </Card>
@@ -113,11 +94,11 @@ export default function Dashboard() {
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-4 lg:col-span-7 h-[58vh] overflow-y-auto'>
                 <CardHeader className='sticky top-0 z-10 bg-white'>
-                  <CardTitle>Total Appointments</CardTitle>
-                  <CardDescription>{appointments.length} total appointments.</CardDescription>
+                  <CardTitle>Total Hospitalization</CardTitle>
+                  <CardDescription>{hospitalization.length} total hospitalization.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <AppointmentList appointments={appointments}></AppointmentList>
+                    <HospitalizationList hospitalization={hospitalization}></HospitalizationList>
                 </CardContent>
               </Card>
             </div>

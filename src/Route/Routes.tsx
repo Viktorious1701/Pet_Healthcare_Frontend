@@ -63,7 +63,8 @@ import {
   HOSPITALIZATION_VET,
   APPOINTMENT_EDIT_DETAILS,
   APPOINTMENT_DIAGNOSIS,
-  ADMIN_PETS
+  ADMIN_PETS,
+  ADMIN_HOSPITALIZATION
 } from './router-const';
 
 import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack';
@@ -163,10 +164,6 @@ const RouterComponent = () => {
                 Component: (await import('@/pages/AdminDashboard/Accounts')).default
               })
             },
-            // {
-            //   path: `${ADMIN_HOSPITALIZATION}`,
-            //   element: <Hospitalization />,
-            // },
             {
               index: true,
               lazy: async () => ({
@@ -189,6 +186,12 @@ const RouterComponent = () => {
               path: `${ADMIN_APPOINTMENT}`,
               lazy: async () => ({
                 Component: (await import('@/pages/AdminDashboard/appointments/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_HOSPITALIZATION}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/hospitalizations/index')).default
               })
             },
             {
