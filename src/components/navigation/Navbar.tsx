@@ -29,9 +29,9 @@ import ThemeSwitch from '../vet_components/theme-switch';
 import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 const Navbar = () => {
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
-  const { navigateToLogin } = useAuthNavigation();
+  const { navigateToLogin, logout } = useAuthNavigation();
   const handleClick = () => {
     logout();
     navigateToLogin();

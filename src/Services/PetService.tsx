@@ -30,6 +30,7 @@ export const updatePetData = async (
     breed: string;
     gender: boolean;
     imageFile: File | null;
+    weight: number;
   }
 ) => {
   try {
@@ -38,7 +39,7 @@ export const updatePetData = async (
     formData.append('species', petData.species);
     formData.append('breed', petData.breed);
     formData.append('gender', petData.gender.toString());
-
+    formData.append('weight', petData.weight.toString());
     if (petData.imageFile) {
       formData.append('imageFile', petData.imageFile);
     }
@@ -48,6 +49,7 @@ export const updatePetData = async (
         'Content-Type': 'multipart/form-data'
       }
     });
+    console.log(data);
     return data;
   } catch (error) {
     handleError(error);
@@ -96,3 +98,11 @@ export const AddAPetAPI = async (PetInfo: {
     handleError(error);
   }
 };
+export const deletePetById = async (petId: number) => {
+  try {
+    const data = await axiosInstance.delete(api + `/${petId}`);
+    return data;
+  } catch (error) {
+    handleError(error);
+  }
+}

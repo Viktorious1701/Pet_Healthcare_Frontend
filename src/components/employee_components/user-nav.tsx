@@ -15,7 +15,8 @@ import { useNavigate } from 'react-router';
 import { useAuthNavigation } from '@/Context/useAuthNavigation';
 
 export function UserNav() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const { logout } = useAuthNavigation();
   const { navigateToLogin } = useAuthNavigation();
   const handleClick = () => {
     logout();

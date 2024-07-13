@@ -20,7 +20,6 @@ type UserContextType = {
   loginUser: (username: string, password: string) => Promise<UserProfile | null>;
   forgotUser: (email: string) => Promise<void>;
   resetUser: (token: string, email: string, password: string, confirmPassword: string) => Promise<void>;
-  logout: () => void;
   isLoggedIn: () => boolean;
   resetPassword: (email: string) => Promise<void>;
 };
@@ -146,19 +145,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const isLoggedIn = () => !!user && !!token;
-
-  const logout = () => {
-    console.log('logout');
-    setUser(null);
-    setToken(null);
-    setRefreshToken(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    sessionStorage.clear();
-    axiosInstance.defaults.headers.common['Authorization'] = '';
-  };
-
   const contextValue: UserContextType = {
     user,
     token,
@@ -167,7 +153,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loginUser,
     forgotUser,
     resetUser,
-    logout,
     isLoggedIn,
     resetPassword
   };

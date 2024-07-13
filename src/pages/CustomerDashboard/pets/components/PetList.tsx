@@ -6,8 +6,12 @@ import { CUSTOMER_DASHBOARD, CUSTOMER_PET_LIST, CUSTOMER_PET_UPDATE } from '@/Ro
 import { petsOfCustomerAPI } from '@/Services/PetService';
 import { useAuth } from '@/Context/useAuth';
 import { PetGet } from '@/Models/Pet';
-import { useTheme } from '@/components/vet_components/theme-provider'; // Import the useTheme hook
-
+import { useTheme } from '@/components/vet_components/theme-provider';
+import { X } from 'lucide-react';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
+import { RecordDeleteAPI } from '@/Services/RecordService';
+import { deletePetById } from '@/Services/PetService';
+import { toast } from 'sonner';
 const PetList: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<PetGet[]>([]);
   const [filteredPetProfiles, setFilteredPetProfiles] = useState<PetGet[]>([]);
@@ -16,7 +20,9 @@ const PetList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<{ [key: string]: string }>({});
-  const { theme } = useTheme(); // Use the useTheme hook to get the current theme
+  const { theme } = useTheme();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
 
   const fetchImages = async (pets: PetGet[]) => {
     const newImages: { [key: string]: string } = {};
@@ -48,7 +54,7 @@ const PetList: React.FC = () => {
     if (!user) return;
     setLoading(true);
     try {
-      const res = await petsOfCustomerAPI(user.userName); // Fetch pets directly from API
+      const res = await petsOfCustomerAPI(user.userName);
       if (res?.data) {
         setPetProfiles(res.data);
         setFilteredPetProfiles(res.data);
@@ -71,7 +77,9 @@ const PetList: React.FC = () => {
 
   useEffect(() => {
     if (Array.isArray(petProfiles)) {
-      const filteredProfiles = petProfiles.filter((pet) => pet.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      const filteredProfiles = petProfiles.filter((pet) =>
+        pet.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
       setFilteredPetProfiles(filteredProfiles);
     } else {
       setFilteredPetProfiles([]);
@@ -80,6 +88,38 @@ const PetList: React.FC = () => {
 
   const handleViewProfile = (id: number) => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${id}`);
+  };
+
+  const handleDeletePet = async (id: number) => {
+    console.log(`Delete pet with id: ${id}`);
+
+    try {
+      await RecordDeleteAPI(id);
+      const result = await deletePetById(id);
+      if(result?.status === 200) {
+        toast.success('Pet deleted successfully');
+        getPets();
+      }
+    } catch (error) {
+      console.log(`Error deleting pet with id ${id}:`, error);
+    }
+  };
+
+  const handleOpenDialog = (id: number) => {
+    setSelectedPetId(id);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedPetId(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedPetId !== null) {
+      handleDeletePet(selectedPetId);
+    }
+    handleCloseDialog();
   };
 
   return (
@@ -103,8 +143,14 @@ const PetList: React.FC = () => {
             filteredPetProfiles.map((pet) => (
               <div
                 key={pet.id}
-                className='shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105'
+                className='relative shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:scale-105'
               >
+                <button
+                  onClick={() => handleOpenDialog(pet.id)}
+                  className='absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700'
+                >
+                  <X size={16} />
+                </button>
                 <img
                   src={images[pet.id] || 'https://via.placeholder.com/100'}
                   alt={pet.name}
@@ -143,6 +189,22 @@ const PetList: React.FC = () => {
           )}
         </div>
       )}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this pet?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            No
+          </Button>
+          <Button onClick={handleConfirmDelete} color="secondary">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
