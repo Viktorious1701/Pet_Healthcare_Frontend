@@ -16,7 +16,7 @@ import './Theme.css';
 
 import { useNavigate } from 'react-router-dom';
 import { APPOINTMENT_EDIT } from '@/Route/router-const';
-import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { appointmentGetVetAPI, appointmentVetAPI } from '@/Services/AppointmentService';
 import Sonner from '@/components/vet_components/sonner';
 
 const locales = {
@@ -45,7 +45,7 @@ const App: FC = () => {
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const response = await appointmentGetVetAPI(); // Fetch the vet details
       const vetId = (response as unknown as { userId: string }).userId; // Type assertion
       if (vetId) {
         const appointments = await appointmentVetAPI(vetId);
