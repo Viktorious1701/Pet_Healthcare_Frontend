@@ -29,7 +29,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { appointmentGetVetAPI, appointmentVetAPI } from '@/Services/AppointmentService';
 import { AppointmentGet } from '@/Models/Appointment';
 import { useNavigate } from 'react-router-dom'; // Updated import
 
@@ -186,7 +186,7 @@ export function DataTableDemo() {
   // Function to fetch appointments and update state
   const fetchAppointmentsAndUpdateState = async () => {
     try {
-      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const response = await appointmentGetVetAPI(); // Fetch the vet details
       const vetId = (response as unknown as { userId: string }).userId; // Type assertion
       if (vetId) {
         const appointments: AppointmentGet[] | undefined = await appointmentVetAPI(vetId); // Fetch appointments

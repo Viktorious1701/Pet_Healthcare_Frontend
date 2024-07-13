@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { appointmentGetVetAPI, appointmentVetAPI } from '@/Services/AppointmentService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -37,7 +37,7 @@ const AppointmentForm = () => {
   useEffect(() => {
     const fetchAppointmentDetails = async () => {
       try {
-        const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+        const response = await appointmentGetVetAPI(); // Fetch the vet details
         console.log(response);
         const vetId = (response as unknown as { userId: string }).userId; // Type assertion
         const fetchedDetails = await appointmentVetAPI(vetId); // Fetch appointments

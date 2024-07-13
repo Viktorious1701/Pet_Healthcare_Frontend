@@ -137,6 +137,15 @@ export const appointmentGetVetIdAPI = async () => {
   }
 };
 
+export const appointmentGetVetAPI = async () => {
+  try {
+    const response = await axiosInstance.get(apiGetVet + `/Account/me`);
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 export const appointmentCountAPI = async () => {
   try {
     // Assuming the endpoint to fetch all appointments is `/appointments`

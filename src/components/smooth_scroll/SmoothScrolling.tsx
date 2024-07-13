@@ -1,29 +1,37 @@
-import { ReactElement, useEffect } from 'react';
+/* eslint-disable no-inner-declarations */
+import { ReactElement, useEffect, useRef } from 'react';
 import Lenis from '@studio-freight/lenis';
 
 interface SmoothScrollingProps {
   children: ReactElement | ReactElement[];
+  enableSmoothing: boolean;
 }
 
-function SmoothScrolling({ children }: SmoothScrollingProps): ReactElement {
+function SmoothScrolling({ children, enableSmoothing }: SmoothScrollingProps): ReactElement {
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
-    const lenis = new Lenis({
-      lerp: 0.05, // Makes the scroll smoother
-      wheelMultiplier: 1 // Controls the scroll speed
-    });
+    if (enableSmoothing) {
+      lenisRef.current = new Lenis({
+        lerp: 0.05,
+        wheelMultiplier: 1,
+      });
 
-    const raf = (time: number) => {
-      lenis.raf(time);
-      animationFrameId = requestAnimationFrame(raf);
-    };
+      function raf(time: number) {
+        lenisRef.current?.raf(time);
+        requestAnimationFrame(raf);
+      }
 
-    let animationFrameId = requestAnimationFrame(raf);
+      requestAnimationFrame(raf);
+    }
 
-    // Cleanup function to cancel the animation frame when the component unmounts
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
     };
-  }, []);
+  }, [enableSmoothing]);
 
   return <>{children}</>;
 }

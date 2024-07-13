@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { appointmentGetVetIdAPI } from '@/Services/AppointmentService';
+import { appointmentGetVetAPI } from '@/Services/AppointmentService';
 import { hospitalizationListVetAPI } from '@/Services/HospitalizationService';
 // Remove the import statement for 'PetHealthTrack'
 
@@ -66,7 +66,7 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
   // Function to fetch appointments and update state
   const fetchHospitalizationsAndUpdateState = async () => {
     try {
-      const response = await appointmentGetVetIdAPI(); // Fetch the vet details
+      const response = await appointmentGetVetAPI(); // Fetch the vet details
       const vetName = (response as unknown as { userName: string }).userName; // Type assertion
       //console.log("vetId:", vetName);
       if (vetName) {
