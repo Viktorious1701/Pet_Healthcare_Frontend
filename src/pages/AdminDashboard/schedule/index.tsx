@@ -31,13 +31,17 @@ const localizer = dateFnsLocalizer({
   locales
 });
 
+interface CustomEvent extends Event {
+  id: string;
+}
+
 const App: FC = () => {
-  const [events] = useState<Event[]>([
+  const [events] = useState<CustomEvent[]>([
     {
       title: 'Learn cool stuff',
       start,
       end,
-      id: '',
+      id: '1',
     }
   ]);
 
