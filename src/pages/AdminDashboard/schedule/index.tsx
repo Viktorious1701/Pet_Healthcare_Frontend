@@ -37,7 +37,7 @@ const App: FC = () => {
       title: 'Learn cool stuff',
       start,
       end,
-      id: ''
+      id: '',
     }
   ]);
 

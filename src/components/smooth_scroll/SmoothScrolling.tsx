@@ -1,5 +1,5 @@
 /* eslint-disable no-inner-declarations */
-import React, { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import Lenis from '@studio-freight/lenis';
 
 interface SmoothScrollingProps {
