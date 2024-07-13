@@ -62,7 +62,12 @@ import {
   APPOINTMENT_MEDICAL_RECORD,
   HOSPITALIZATION_VET,
   APPOINTMENT_EDIT_DETAILS,
-  APPOINTMENT_DIAGNOSIS
+  APPOINTMENT_DIAGNOSIS,
+  ADMIN_PETS,
+  ADMIN_HOSPITALIZATION,
+  ADMIN_KENNELS,
+  ADMIN_SERVICES,
+  ADMIN_VACCINES
 } from './router-const';
 
 import PetHealthTrack from '@/pages/CustomerDashboard/hospitalization/components/PetHealthTrack';
@@ -161,16 +166,6 @@ const RouterComponent = () => {
               })
             },
             {
-              path: `${ADMIN_APPOINTMENT}`,
-              lazy: async () => ({
-                Component: (await import('@/pages/AdminDashboard/AppointmentDashboard')).default
-              })
-            },
-            // {
-            //   path: `${ADMIN_HOSPITALIZATION}`,
-            //   element: <Hospitalization />,
-            // },
-            {
               index: true,
               lazy: async () => ({
                 Component: (await import('../pages/AdminDashboard/dashboard/index')).default
@@ -180,6 +175,42 @@ const RouterComponent = () => {
               path: `${ADMIN_ACCOUNTS}`,
               lazy: async () => ({
                 Component: (await import('@/pages/AdminDashboard/accounts/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_PETS}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/pets/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_APPOINTMENT}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/appointments/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_HOSPITALIZATION}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/hospitalizations/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_KENNELS}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/kennels/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_SERVICES}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/services/index')).default
+              })
+            },
+            {
+              path: `${ADMIN_VACCINES}`,
+              lazy: async () => ({
+                Component: (await import('@/pages/AdminDashboard/vaccines/index')).default
               })
             },
             {
