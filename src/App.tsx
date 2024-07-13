@@ -22,8 +22,19 @@ function App() {
     return () => window.removeEventListener('load', handleLoad);
   }, [location.pathname]);
 
+  function ScrollToTop() {
+    const { pathname } = useLocation();
+  
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+  
+    return null;
+  }
+
   return (
     <>
+      <ScrollToTop />
       {showPreLoader && <PreLoader />}
       <Outlet />
     </>
