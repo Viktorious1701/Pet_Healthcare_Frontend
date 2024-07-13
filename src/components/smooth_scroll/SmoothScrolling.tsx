@@ -14,7 +14,7 @@ function SmoothScrolling({ children, enableSmoothing }: SmoothScrollingProps): R
     if (enableSmoothing) {
       lenisRef.current = new Lenis({
         lerp: 0.05,
-        wheelMultiplier: 1,
+        wheelMultiplier: 1
       });
 
       function raf(time: number) {

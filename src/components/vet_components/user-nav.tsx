@@ -24,9 +24,9 @@ import { useAuthNavigation } from '@/Context/useAuthNavigation';
 export function UserNav() {
   const location = useLocation();
 
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
-  const { navigateToLogin } = useAuthNavigation();
+  const { navigateToLogin, logout } = useAuthNavigation();
   const handleClick = () => {
     logout();
     navigateToLogin();

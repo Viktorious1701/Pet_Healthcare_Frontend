@@ -29,7 +29,7 @@ export function PetRecord() {
   }, [user?.userName]);
 
   return (
-    <Accordion type='single' collapsible className='w-full p-4'>
+    <Accordion type='single' collapsible className='w-full p-4 scroll-m-0'>
       <div className='bg-gray-700 flex items-center justify-between rounded-md p-2 mb-3'>
         <h1 className='text-2xl font-bold text-white'>Pet Medical Records</h1>
       </div>
