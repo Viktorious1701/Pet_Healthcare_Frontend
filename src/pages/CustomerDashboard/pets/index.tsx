@@ -38,7 +38,6 @@ const Pets = () => {
             >
               Add a pet profile
             </Button>
-            
           </div>
         </div>
         <Tabs orientation='vertical' defaultValue='overview' className='space-y-4'>

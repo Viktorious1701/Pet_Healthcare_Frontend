@@ -45,7 +45,7 @@ const AddAPetProfile: React.FC = () => {
         const newPet = { ...data, customerUsername: username };
         console.log(newPet);
 
-        var pet = await AddAPetAPI(newPet);
+        const pet = await AddAPetAPI(newPet);
         setPet(pet?.data);
 
         // Fetch current pets from session storage
@@ -55,7 +55,7 @@ const AddAPetProfile: React.FC = () => {
         // Update session storage with the new pet
         const updatedList = [...parsedList, newPet];
         sessionStorage.setItem('petProfiles', JSON.stringify(updatedList));
-        
+
         await addPetRecord();
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
       } catch (error) {
@@ -68,7 +68,7 @@ const AddAPetProfile: React.FC = () => {
 
   const addPetRecord = async () => {
     await RecordPostAPI(pet!.id, 0);
-  }
+  };
 
   const handleBack = () => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);

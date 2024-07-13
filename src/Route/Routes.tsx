@@ -111,7 +111,11 @@ const RouterComponent = () => {
       children: [
         {
           path: `${HOME_PAGE}`,
-          element: <SmoothScrolling enableSmoothing={true}><Home /></SmoothScrolling>,
+          element: (
+            <SmoothScrolling enableSmoothing={true}>
+              <Home />
+            </SmoothScrolling>
+          )
         },
         {
           path: `${HOSPITALIZATION_INTRO}`,
@@ -121,11 +125,19 @@ const RouterComponent = () => {
         },
         {
           path: `${ABOUT_PAGE}`,
-          element: <SmoothScrolling enableSmoothing={true}><About /></SmoothScrolling>,
+          element: (
+            <SmoothScrolling enableSmoothing={true}>
+              <About />
+            </SmoothScrolling>
+          )
         },
         {
           path: `${CONTACT}`,
-          element: <SmoothScrolling enableSmoothing={true}><Contact /></SmoothScrolling>,
+          element: (
+            <SmoothScrolling enableSmoothing={true}>
+              <Contact />
+            </SmoothScrolling>
+          )
         },
         {
           path: `${LOGIN}`,

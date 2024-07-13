@@ -77,9 +77,7 @@ const PetList: React.FC = () => {
 
   useEffect(() => {
     if (Array.isArray(petProfiles)) {
-      const filteredProfiles = petProfiles.filter((pet) =>
-        pet.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const filteredProfiles = petProfiles.filter((pet) => pet.name.toLowerCase().includes(searchTerm.toLowerCase()));
       setFilteredPetProfiles(filteredProfiles);
     } else {
       setFilteredPetProfiles([]);
@@ -96,7 +94,7 @@ const PetList: React.FC = () => {
     try {
       await RecordDeleteAPI(id);
       const result = await deletePetById(id);
-      if(result?.status === 200) {
+      if (result?.status === 200) {
         toast.success('Pet deleted successfully');
         getPets();
       }
@@ -192,15 +190,13 @@ const PetList: React.FC = () => {
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this pet?
-          </DialogContentText>
+          <DialogContentText>Are you sure you want to delete this pet?</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={handleCloseDialog} color='primary'>
             No
           </Button>
-          <Button onClick={handleConfirmDelete} color="secondary">
+          <Button onClick={handleConfirmDelete} color='secondary'>
             Yes
           </Button>
         </DialogActions>

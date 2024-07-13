@@ -61,11 +61,11 @@ const PetUpdateForm: React.FC = () => {
         const dataToUpdate = { imageFile, ...formValues };
         console.log('dataToUpdate', dataToUpdate);
         const result = await updatePetData(parseInt(petId, 10), dataToUpdate);
-        if(result?.status === 200) {
-        toast.info('Pet information updated successfully.');
-        navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
+        if (result?.status === 200) {
+          toast.info('Pet information updated successfully.');
+          navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}/${petId}`);
         } else {
-        toast.error('An error occurred while updating pet information.');
+          toast.error('An error occurred while updating pet information.');
         }
       } catch (err) {
         handleError(err);

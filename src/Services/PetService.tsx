@@ -105,4 +105,4 @@ export const deletePetById = async (petId: number) => {
   } catch (error) {
     handleError(error);
   }
-}
+};

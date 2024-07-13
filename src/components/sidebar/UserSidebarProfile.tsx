@@ -1,4 +1,3 @@
-import { useAuth } from '@/Context/useAuth';
 import { useAuthNavigation } from '@/Context/useAuthNavigation';
 import { Popover, PopoverTrigger, PopoverContent, Button } from '@nextui-org/react';
 import { MoreVertical } from 'lucide-react';
