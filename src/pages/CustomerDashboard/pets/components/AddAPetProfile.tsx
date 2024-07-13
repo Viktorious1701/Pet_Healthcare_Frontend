@@ -11,6 +11,8 @@ import { AddAPetAPI } from '@/Services/PetService'; // Adjust the import path ac
 import { useAuth } from '@/Context/useAuth'; // Adjust the import path according to your project structure
 import { PetGet } from '@/Models/Pet';
 import { useTheme } from '@/components/vet_components/theme-provider'; // Import useTheme hook from your theme provider
+import { RecordPostAPI } from '@/Services/RecordService';
+import { useState } from 'react';
 
 interface PetInfo {
   customerUsername: string;
@@ -27,6 +29,7 @@ const AddAPetProfile: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const username = user?.userName as string;
+  const [pet, setPet] = useState<PetGet>();
 
   const {
     register,
@@ -42,7 +45,8 @@ const AddAPetProfile: React.FC = () => {
         const newPet = { ...data, customerUsername: username };
         console.log(newPet);
 
-        await AddAPetAPI(newPet);
+        var pet = await AddAPetAPI(newPet);
+        setPet(pet?.data);
 
         // Fetch current pets from session storage
         const storedList = sessionStorage.getItem('petProfiles');
@@ -51,7 +55,8 @@ const AddAPetProfile: React.FC = () => {
         // Update session storage with the new pet
         const updatedList = [...parsedList, newPet];
         sessionStorage.setItem('petProfiles', JSON.stringify(updatedList));
-
+        
+        await addPetRecord();
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
       } catch (error) {
         console.error('Failed to add pet profile', error);
@@ -60,6 +65,10 @@ const AddAPetProfile: React.FC = () => {
       console.error('User is not authenticated');
     }
   };
+
+  const addPetRecord = async () => {
+    await RecordPostAPI(pet!.id, 0);
+  }
 
   const handleBack = () => {
     navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
