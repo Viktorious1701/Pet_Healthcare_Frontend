@@ -34,7 +34,9 @@ const Navbar = () => {
   const { navigateToLogin, logout } = useAuthNavigation();
   const handleClick = () => {
     logout();
+    console.log("state of log in", isLoggedIn());
     navigateToLogin();
+    
   };
   const navigate = useNavigate();
   const role = user?.role || '0';
