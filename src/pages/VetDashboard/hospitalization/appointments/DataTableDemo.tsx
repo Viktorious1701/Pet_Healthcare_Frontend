@@ -35,14 +35,14 @@ export type Hospitalization = {
   hospitalizationId: number;
   petId: number;
   kennelId: number;
-  vetId: number;
+  vetId: string;
   admissionDate: string;
   dischargeDate: string;
   petName: string;
   kennelDescription: string;
   vetName: string;
   totalCost: number;
-  paymentStatus: number;
+  paymentStatus: string | number;
 };
 
 export type PetHealthTrack = {
@@ -81,7 +81,7 @@ export function DataTableDemo({ onHospitalizationSelect }: { onHospitalizationSe
             admissionDate: hospitalization.admissionDate,
             dischargeDate: hospitalization.dischargeDate,
             totalCost: hospitalization.totalCost,
-            paymentStatus: hospitalization.paymentStatus,
+            paymentStatus: typeof hospitalization.paymentStatus === 'string' ? parseInt(hospitalization.paymentStatus, 10) : hospitalization.paymentStatus,
             petName: hospitalization.petName,
             kennelDescription: hospitalization.kennelDescription,
             vetName: hospitalization.vetName
