@@ -47,6 +47,7 @@ const CustomerSelect: React.FC<CustomerSelectProps> = ({ onSelectCustomer }) => 
       toast.warning('Please select a customer');
       return;
     }
+    console.log('selectedCustomer', selectedCustomer);
     onSelectCustomer(selectedCustomer);
   };
 

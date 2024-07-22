@@ -1,16 +1,29 @@
 import { useState } from 'react';
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid';
-import { DeleteIcon, DollarSignIcon, CheckIcon, CalendarCheck2 } from 'lucide-react';
+import { GridActionsCellItem, GridColDef, GridRowId } from '@mui/x-data-grid';
+import {
+  Delete as DeleteIcon,
+  AttachMoney as DollarSignIcon,
+  Check as CheckIcon,
+  EventAvailable as CalendarCheckIcon
+} from '@mui/icons-material';
 import { toast } from 'sonner';
 import { AppointmentGet } from '@/Models/Appointment';
 import { deleteAppointmentByID } from '@/Services/AppointmentService';
-
+import {
+  StyledBox,
+  StyledDataGrid,
+  StyledDialog,
+  StyledDialogTitle,
+  StyledDialogContent,
+  StyledDialogActions,
+  StyledButton,
+  ActionButton
+} from './StyledComponents';
 interface AppointmentDataGridProps {
   appointments: AppointmentGet[];
   onAppointmentDelete: (appointment: AppointmentGet) => void;
   onCashoutAppointment: (appointmentId: number, customerId: string, amount: number) => void;
-  onCheckInAppointment: (appointmentId: number) => void; // Add the check-in prop
+  onCheckInAppointment: (appointmentId: number) => void;
   onFinishAppointment: (appointmentId: number) => void;
 }
 
@@ -18,7 +31,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   appointments,
   onAppointmentDelete,
   onCashoutAppointment,
-  onCheckInAppointment, // Add the check-in prop
+  onCheckInAppointment,
   onFinishAppointment
 }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -64,132 +77,98 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
   };
 
   const columns: GridColDef[] = [
-    {
-      field: 'appointmentId',
-      headerName: 'Appointment ID',
-      width: 200,
-      sortable: true,
-      filterable: true
-    },
-    {
-      field: 'customer',
-      headerName: 'Customer',
-      width: 200,
-      editable: false
-    },
-    {
-      field: 'pet',
-      headerName: 'Pet',
-      width: 200,
-      editable: false
-    },
-    {
-      field: 'vet',
-      headerName: 'Vet',
-      width: 150,
-      editable: false
-    },
-    {
-      field: 'slotStartTime',
-      headerName: 'Slot Start Time',
-      width: 200,
-      editable: false
-    },
-    {
-      field: 'slotEndTime',
-      headerName: 'Slot End Time',
-      width: 200,
-      editable: false
-    },
-    {
-      field: 'service',
-      headerName: 'Service',
-      width: 150,
-      editable: false
-    },
-    {
-      field: 'date',
-      headerName: 'Date',
-      width: 200,
-      editable: false
-    },
-    {
-      field: 'totalCost',
-      headerName: 'Total Cost',
-      width: 150,
-      editable: false
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      width: 150,
-      editable: false
-    },
-    {
-      field: 'paymentStatus',
-      headerName: 'Payment Status',
-      width: 150,
-      editable: false
-    },
+    { field: 'appointmentId', headerName: 'Appointment ID', width: 200, sortable: true, filterable: true },
+    { field: 'customer', headerName: 'Customer', width: 200, editable: false },
+    { field: 'pet', headerName: 'Pet', width: 200, editable: false },
+    { field: 'vet', headerName: 'Vet', width: 150, editable: false },
+    { field: 'slotStartTime', headerName: 'Slot Start Time', width: 200, editable: false },
+    { field: 'slotEndTime', headerName: 'Slot End Time', width: 200, editable: false },
+    { field: 'service', headerName: 'Service', width: 150, editable: false },
+    { field: 'totalCost', headerName: 'Total Cost', width: 200, editable: false, type: 'number' },
+    { field: 'status', headerName: 'Status', width: 150, editable: false },
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 200,
+      width: 150,
       type: 'actions',
-      getActions: ({ id }) => [
-        <GridActionsCellItem icon={<DeleteIcon />} label='Delete' color='inherit' onClick={handleDeleteClick(id)} />,
+      getActions: (params) => [
         <GridActionsCellItem
-          icon={<DollarSignIcon />}
+          icon={
+            <ActionButton>
+              <DeleteIcon />
+            </ActionButton>
+          }
+          label='Delete'
+          onClick={handleDeleteClick(params.id)}
+        />,
+        <GridActionsCellItem
+          icon={
+            <ActionButton disabled={params.row.paymentStatus === 1 || params.row.paymentStatus === null}>
+              <DollarSignIcon />
+            </ActionButton>
+          }
           label='Cashout'
-          color='inherit'
-          onClick={handleCashoutClick(id)}
+          onClick={handleCashoutClick(params.id)}
+          disabled={params.row.paymentStatus === 1 || params.row.paymentStatus === null}
         />,
         <GridActionsCellItem
-          icon={<CalendarCheck2 />}
+          icon={
+            <ActionButton>
+              <CheckIcon />
+            </ActionButton>
+          }
           label='Check In'
-          color='inherit'
-          onClick={handleCheckInClick(id)}
+          onClick={handleCheckInClick(params.id)}
         />,
-        <GridActionsCellItem icon={<CheckIcon />} label='Finish' color='inherit' onClick={handleFinishClick(id)} />
+        <GridActionsCellItem
+          icon={
+            <ActionButton>
+              <CalendarCheckIcon />
+            </ActionButton>
+          }
+          label='Finish'
+          onClick={handleFinishClick(params.id)}
+        />
       ]
     }
   ];
 
   return (
-    <Box
-      sx={{
-        height: '450px',
-        width: '100%'
-      }}
-    >
-      <DataGrid
-        columns={columns}
-        rows={appointments}
-        getRowId={(row) => row.appointmentId}
-        pageSizeOptions={[5, 10, 25, 100]}
-      />
-      <Dialog
+    <>
+      <StyledBox>
+        <StyledDataGrid
+          rows={appointments}
+          columns={columns}
+          getRowId={(row) => row.appointmentId}
+          disableRowSelectionOnClick
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 5 }
+            }
+          }}
+          pageSizeOptions={[5, 10, 20]}
+        />
+      </StyledBox>
+      <StyledDialog
         open={deleteDialogOpen}
         onClose={() => handleDeleteDialogClose(false)}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
+        aria-labelledby='delete-dialog-title'
+        aria-describedby='delete-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'Confirm Deletion'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Are you sure you want to delete this appointment record?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleDeleteDialogClose(false)} color='primary'>
-            No
-          </Button>
-          <Button onClick={() => handleDeleteDialogClose(true)} color='primary' autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+        <StyledDialogTitle id='delete-dialog-title'>Confirm Delete</StyledDialogTitle>
+        <StyledDialogContent id='delete-dialog-description'>
+          Are you sure you want to delete this appointment?
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <StyledButton onClick={() => handleDeleteDialogClose(false)} color='primary'>
+            Cancel
+          </StyledButton>
+          <StyledButton onClick={() => handleDeleteDialogClose(true)} color='secondary' autoFocus>
+            Confirm
+          </StyledButton>
+        </StyledDialogActions>
+      </StyledDialog>
+    </>
   );
 };
 

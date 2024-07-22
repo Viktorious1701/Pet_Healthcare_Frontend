@@ -1,63 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Container } from 'react-bootstrap';
 import { getUserProfile } from '@/Services/UserService';
 import { UserInfo } from '@/Models/User';
 
-const UserProfileWrapper = styled.div`
-  padding: 1rem;
-  background-color: #f4f4f4; /* lightGrey */
-  display: flex;
-  align-items: start;
-  max-height: 69vh;
-`;
-
-const ProfileSection = styled.div`
+const ContainerLayout = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-right: 2rem;
-  border-radius: 10px;
-  background-color: #32ddac;
-  min-width: 200px;
-  min-height: 200px;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background-color: #fedeea;
+`;
+
+const Body = styled.div`
+  display: flex;
+  width: 100%;
+  column-gap: 30px;
+  position: relative;
+  padding: 2rem;
+`;
+
+const ProfileCard = styled.div`
+  background-color: #d99fb5;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Avatar = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin-bottom: 1rem;
+  border: 5px solid #fedeea;
 `;
 
-const UserInfoTable = styled(Table)`
+const UserInfoTable = styled.table`
   width: 100%;
-  border-collapse: collapse;
-  color: black;
+  border-collapse: separate;
+  border-spacing: 0 10px;
 `;
 
-const InfoTableRow = styled(TableRow)`
-  border-bottom: 1px solid #b3b3b3; /* gray */
+const InfoRow = styled.tr`
+  background-color: #fedeea;
+  border-radius: 8px;
 `;
 
-const InfoTableHeader = styled(TableHead)`
+const InfoHeader = styled.th`
   text-align: left;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #53484c;
   font-weight: bold;
-  border-bottom: 1px solid #b3b3b3; /* gray */
-  color: black;
+  border-radius: 8px 0 0 8px;
 `;
 
-const InfoTableData = styled(TableCell)`
-  padding: 0.5rem;
-  border-bottom: 1px solid #b3b3b3; /* gray */
-  color: black;
+const InfoData = styled.td`
+  padding: 0.75rem 1rem;
+  color: #53484c;
+  border-radius: 0 8px 8px 0;
 `;
 
 const UserProfile: React.FC = () => {
   const [userInfo, setUser] = useState<UserInfo | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -68,7 +73,6 @@ const UserProfile: React.FC = () => {
           setUser(data.data);
           sessionStorage.setItem('userInfo', JSON.stringify(data.data));
         } else {
-          // If data is not available from API, try to retrieve from sessionStorage
           const storedUserInfo = sessionStorage.getItem('userInfo');
           if (storedUserInfo) {
             setUser(JSON.parse(storedUserInfo));
@@ -78,7 +82,6 @@ const UserProfile: React.FC = () => {
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
-        // If error occurs, try to retrieve from sessionStorage
         const storedUserInfo = sessionStorage.getItem('userInfo');
         if (storedUserInfo) {
           setUser(JSON.parse(storedUserInfo));
@@ -95,46 +98,50 @@ const UserProfile: React.FC = () => {
 
   if (isLoading) {
     return (
-      <UserProfileWrapper>
-        <p>Loading...</p>
-      </UserProfileWrapper>
+      <ContainerLayout>
+        <Body>
+          <p style={{ color: '#53484c' }}>Loading...</p>
+        </Body>
+      </ContainerLayout>
     );
   }
 
   return (
-    <UserProfileWrapper className='h-screen'>
-      <ProfileSection>
-        <Avatar src={userInfo?.imageUrl ? userInfo.imageUrl : 'https://via.placeholder.com/100'} alt='User Avatar' />
-      </ProfileSection>
-      <UserInfoTable>
-        <TableHeader>
-          <InfoTableRow>
-            <InfoTableHeader>Name</InfoTableHeader>
-            <InfoTableData>
-              {userInfo?.firstName} {userInfo?.lastName}
-            </InfoTableData>
-          </InfoTableRow>
-        </TableHeader>
-        <TableBody>
-          <InfoTableRow>
-            <InfoTableHeader>Email</InfoTableHeader>
-            <InfoTableData>{userInfo?.email}</InfoTableData>
-          </InfoTableRow>
-          <InfoTableRow>
-            <InfoTableHeader>Location</InfoTableHeader>
-            <InfoTableData>{userInfo?.address}</InfoTableData>
-          </InfoTableRow>
-          <InfoTableRow>
-            <InfoTableHeader>Gender</InfoTableHeader>
-            <InfoTableData>{userInfo?.gender ? 'Male' : 'Female'}</InfoTableData>
-          </InfoTableRow>
-          <InfoTableRow>
-            <InfoTableHeader>Phone Contact</InfoTableHeader>
-            <InfoTableData>{userInfo?.phoneNumber || 'N/A'}</InfoTableData>
-          </InfoTableRow>
-        </TableBody>
-      </UserInfoTable>
-    </UserProfileWrapper>
+    <ContainerLayout>
+      <Body>
+        <Container>
+          <ProfileCard>
+            <Avatar src='https://via.placeholder.com/150' alt='User Avatar' />
+            <UserInfoTable>
+              <tbody>
+                <InfoRow>
+                  <InfoHeader>Name</InfoHeader>
+                  <InfoData>
+                    {userInfo?.firstName} {userInfo?.lastName}
+                  </InfoData>
+                </InfoRow>
+                <InfoRow>
+                  <InfoHeader>Email</InfoHeader>
+                  <InfoData>{userInfo?.email}</InfoData>
+                </InfoRow>
+                <InfoRow>
+                  <InfoHeader>Location</InfoHeader>
+                  <InfoData>{userInfo?.address}</InfoData>
+                </InfoRow>
+                <InfoRow>
+                  <InfoHeader>Gender</InfoHeader>
+                  <InfoData>{userInfo?.gender ? 'Male' : 'Female'}</InfoData>
+                </InfoRow>
+                <InfoRow>
+                  <InfoHeader>Phone Contact</InfoHeader>
+                  <InfoData>{userInfo?.phoneNumber || 'N/A'}</InfoData>
+                </InfoRow>
+              </tbody>
+            </UserInfoTable>
+          </ProfileCard>
+        </Container>
+      </Body>
+    </ContainerLayout>
   );
 };
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm, FieldErrors } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { setFormData } from '../slices/formSlice';
+import { setFormData } from '../../components/slices/formSlice';
 import { APPOINTMENT_SUCCESS, CUSTOMER_DASHBOARD, CUSTOMER_PET_ADD } from '@/Route/router-const';
 import { AppointmentAvailableVets, AppointmentGet } from '@/Models/Appointment';
 import { appointmentAvailableVetsAPI, appointmentBookAPI, appointmentCustomerAPI } from '@/Services/AppointmentService';
@@ -11,9 +11,9 @@ import { toast } from 'sonner';
 
 import { serviceGetAPI } from '@/Services/ServiceService';
 import { ServiceGet } from '@/Models/Service';
-import BookingVet from './BookingVet';
-import BookingService from './BookingService';
-import BookingPet from './BookingPets';
+import BookingVet from '../../components/appointment/BookingVet';
+import BookingService from '../../components/appointment/BookingService';
+import BookingPet from '../../components/appointment/BookingPets';
 import { petsOfCustomerAPI } from '@/Services/PetService';
 import { PetGet } from '@/Models/Pet';
 import { useAuth } from '@/Context/useAuth';
@@ -83,6 +83,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
       }
     } else if (user?.role === 'Employee') {
       await handleAppointment(formData);
+      toast('Book successfully!');
     }
   };
 
