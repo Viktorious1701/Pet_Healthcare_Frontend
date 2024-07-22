@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Card, Button } from 'react-bootstrap';
+import { Button } from '@/components/ui/button';
+import { Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getAppointmentByIdAPI } from '@/Services/AppointmentService';
 import { AppointmentGet } from '@/Models/Appointment';
@@ -110,7 +111,7 @@ const CancelAppointment: React.FC = () => {
             <li>{refundPolicy}</li>
           </ul>
           <div className='flex flex-col items-center'>
-            <Button variant='danger' className='bg-custom-pink text-white w-full' onClick={handleRefund}>
+            <Button variant='destructive' className='bg-custom-pink text-white w-full' onClick={handleRefund}>
               Cancel Appointment
             </Button>
           </div>

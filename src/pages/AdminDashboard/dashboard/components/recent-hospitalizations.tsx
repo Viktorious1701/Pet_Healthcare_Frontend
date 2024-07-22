@@ -14,7 +14,7 @@ const RecentHospitalizations: React.FC<RecentHospitalizationsProps> = ({ hospita
       new Date(hospitalization.admissionDate).getMonth() === now.getMonth() ||
       new Date(hospitalization.dischargeDate).getMonth() === now.getMonth()
   );
-  const getHospitalizationPaymentImage = (status: number) => {
+  const getHospitalizationPaymentImage = (status: string | number) => {
     switch (status) {
       case 0:
         return 'bg-blue-400';
@@ -26,7 +26,7 @@ const RecentHospitalizations: React.FC<RecentHospitalizationsProps> = ({ hospita
         return 'bg-red-400';
     }
   };
-  const getHospitalizationPaymentStatus = (status: number) => {
+  const getHospitalizationPaymentStatus = (status: string | number) => {
     switch (status) {
       case 0:
         return 'Pending';
