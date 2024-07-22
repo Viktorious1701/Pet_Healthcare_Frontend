@@ -9,7 +9,7 @@ export type Hospitalization = {
   kennelDescription: string;
   vetName: string;
   totalCost: number;
-  paymentStatus: number | string;
+  paymentStatus: number;
 };
 export type HospitalizationPost = {
   petId: string;
