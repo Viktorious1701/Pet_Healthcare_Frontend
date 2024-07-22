@@ -7,7 +7,7 @@ import { AppDispatch } from '@/store';
 import { SlotGet } from '@/Models/Slot';
 import { slotGetAPI } from '@/Services/SlotService';
 import { toast } from 'react-toastify';
-import BookingForm from '@/components/appointment/BookingForm';
+import BookingForm from './BookingForm';
 import Footer from '@/components/navigation/Footer';
 import { ArrowRightFromLine } from 'lucide-react';
 import { useNavigate } from 'react-router';

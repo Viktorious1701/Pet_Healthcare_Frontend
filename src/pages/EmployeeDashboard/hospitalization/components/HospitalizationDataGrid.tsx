@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from '@mui/material';
 import {
-  DataGrid,
   GridActionsCellItem,
   GridColDef,
   GridRowId,
@@ -16,6 +14,16 @@ import { Hospitalization } from '@/Models/Hospitalization';
 import { hospitalizationDeleteAPI, hospitalizationUpdateAPI } from '@/Services/HospitalizationService';
 import { getPetById } from '@/Services/PetService';
 import { cashoutApi } from '@/Services/PaymentService';
+import {
+  StyledBox,
+  StyledDataGrid,
+  StyledDialog,
+  StyledDialogTitle,
+  StyledDialogContent,
+  StyledDialogContentText,
+  StyledDialogActions,
+  StyledButton
+} from './StyledComponents';
 
 interface HospitalizationDataGridProps {
   hospitalizations: Hospitalization[];
@@ -113,7 +121,7 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       if (res?.data) {
         toast.success('Cashout successful');
         const updatedHospitalizations = hospitalizationsWithPetNames.map((row) =>
-          row.hospitalizationId === id ? { ...row, paymentStatus: 1, cashedOut: true } : row
+          row.hospitalizationId === id ? { ...row, paymentStatus: 'Paid', cashedOut: true } : row
         );
         setHospitalizationsWithPetNames(updatedHospitalizations);
       }
@@ -157,8 +165,8 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       editable: false
     },
     {
-      field: 'vetId',
-      headerName: 'Vet ID',
+      field: 'vetName',
+      headerName: 'Vet Name',
       width: 150,
       editable: false
     },
@@ -249,13 +257,8 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
   };
 
   return (
-    <Box
-      sx={{
-        height: '450px',
-        width: '100%'
-      }}
-    >
-      <DataGrid
+    <StyledBox>
+      <StyledDataGrid
         columns={columns}
         rows={hospitalizationsWithPetNames}
         editMode='row'
@@ -267,28 +270,28 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
         checkboxSelection
         disableRowSelectionOnClick
       />
-      <Dialog
+      <StyledDialog
         open={deleteDialogOpen}
         onClose={() => handleDeleteDialogClose(false)}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'Confirm Deletion'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+        <StyledDialogTitle id='alert-dialog-title'>Confirm Deletion</StyledDialogTitle>
+        <StyledDialogContent>
+          <StyledDialogContentText id='alert-dialog-description'>
             Are you sure you want to delete this hospitalization record?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleDeleteDialogClose(false)} color='primary'>
+          </StyledDialogContentText>
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <StyledButton onClick={() => handleDeleteDialogClose(false)} color='primary' variant='outlined'>
             No
-          </Button>
-          <Button onClick={() => handleDeleteDialogClose(true)} color='primary' autoFocus>
+          </StyledButton>
+          <StyledButton onClick={() => handleDeleteDialogClose(true)} color='primary' variant='contained' autoFocus>
             Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+          </StyledButton>
+        </StyledDialogActions>
+      </StyledDialog>
+    </StyledBox>
   );
 };
 

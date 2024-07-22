@@ -15,6 +15,7 @@ const BookingSuccess = () => {
   const [showPrompt, setShowPrompt] = useState(false);
 
   if (!isSubmitted) {
+    // if employee books this appointment, redirect to employee dashboard
     navigate(`/${APPOINTMENT}`);
   }
 
