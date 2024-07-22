@@ -54,12 +54,12 @@ const Login = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Card className='py-[4rem]'>
-            <div className='flex items-center ml-[1.5rem] '>
+            <div className='flex items-center -translate-y-[7rem] ml-[1.5rem] '>
               <img src={Paw} alt='Paw' className='w-20 h-30 mr-4 text-[#DB2777]' /> {/* Adjust w-32 h-32 for size */}
               <span className='text-[3.5rem] font-mont font-semibold text-[#DB2777]'>Pet88</span>
             </div>
             <CardHeader className='space-y-1'>
-              <div className='flex justify-between items-center'>
+              <div className='flex justify-between -translate-y-[2rem] items-center'>
                 <CardTitle className='text-4xl font-bold'>SIGN IN</CardTitle>
                 <Link to='/' className='text-xl text-[#DB2777] font-normal hover:underline'>
                   Back to Home
@@ -69,7 +69,7 @@ const Login = () => {
             <CardContent>
               <div className='space-y-4 '>
                 {/* Username and Password Inputs */}
-                <div className='space-y-2 '>
+                <div className='space-y-2 -translate-y-[0.5rem]'>
                   <Label htmlFor='username' className='text-xl font-normal'>
                     Username
                   </Label>
@@ -106,11 +106,11 @@ const Login = () => {
                   </div>
                   {errors.password && <p>{errors.password.message}</p>}
                 </div>
-                <Button className='w-full bg-[#DB2777] text-white py-4 text-lg ' type='submit'>
+                <Button className='w-full bg-[#DB2777] text-white py-4 text-lg translate-y-[1.5rem]' type='submit'>
                   Login
                 </Button>
                 {/* Links */}
-                <div className=''>
+                <div className='translate-y-[7rem]'>
                   <div className=' text-base sm:text-lg md:text-xl font-light font-mont'>
                     Don't have an account? &nbsp;
                     <Link

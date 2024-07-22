@@ -1,16 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
-const { nextui } = require('@nextui-org/react')
+const { nextui } = require('@nextui-org/react');
 
-export const darkMode = ['class']
+export const darkMode = ['class'];
 export const content = [
   './pages/**/*.{ts,tsx}',
   './components/**/*.{ts,tsx}',
   './app/**/*.{ts,tsx}',
   './src/**/*.{ts,tsx}',
   './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
-]
-export const prefix = ''
+];
+export const prefix = '';
 export const theme = {
   container: {
     center: true,
@@ -93,13 +93,23 @@ export const theme = {
       'accordion-up': {
         from: { height: 'var(--radix-accordion-content-height)' },
         to: { height: '0' }
+      },
+      marquee: {
+        from: { transform: 'translateX(0)' },
+        to: { transform: 'translateX(calc(-100% - var(--gap)))' }
+      },
+      'marquee-vertical': {
+        from: { transform: 'translateY(0)' },
+        to: { transform: 'translateY(calc(-100% - var(--gap)))' }
       }
     },
     animation: {
       'accordion-down': 'accordion-down 0.2s ease-out',
-      'accordion-up': 'accordion-up 0.2s ease-out'
+      'accordion-up': 'accordion-up 0.2s ease-out',
+      marquee: 'marquee var(--duration) linear infinite',
+      'marquee-vertical': 'marquee-vertical var(--duration) linear infinite'
     }
   }
-}
+};
 // eslint-disable-next-line no-undef
-export const plugins = [nextui(), require('tailwindcss-animate')]
+export const plugins = [nextui(), require('tailwindcss-animate')];
