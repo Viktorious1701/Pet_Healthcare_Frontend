@@ -144,17 +144,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const isLoggedIn = () =>{
+  const isLoggedIn = () => {
     const userStorage = localStorage.getItem('user');
     const tokenStorage = localStorage.getItem('token');
-    if(userStorage && tokenStorage){
+    if (userStorage && tokenStorage) {
       return true;
-    }else{
+    } else {
       setUser(null);
       setToken(null);
     }
-    return  !!user && !!token;
-  }
+    return !!user && !!token;
+  };
   const contextValue: UserContextType = {
     user,
     token,

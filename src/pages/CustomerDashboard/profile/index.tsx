@@ -1,45 +1,65 @@
-import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
+import styled from 'styled-components';
 import { Search } from '@/components/customer_components/search';
 import ThemeSwitch from '@/components/vet_components/theme-switch';
 import { UserNav } from '@/components/customer_components/user-nav';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent } from '@/components/ui/tabs';
 import UserProfile from './UserProfile';
+
+const LayoutWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const Header = styled.header`
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const HeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const Main = styled.main`
+  flex: 1;
+  padding: 2rem;
+`;
+
+const PageTitle = styled.h1`
+  color: #53484c;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+`;
+
+const ProfileCard = styled.div`
+  background-color: #d390a1;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+`;
 
 const Profile = () => {
   return (
-    <Layout>
-      {/* ===== Top Heading ===== */}
-      <LayoutHeader>
-        <div className='ml-auto flex items-center space-x-4'>
+    <LayoutWrapper>
+      <Header>
+        <HeaderContent>
           <Search />
           <ThemeSwitch />
           <UserNav />
-        </div>
-      </LayoutHeader>
+        </HeaderContent>
+      </Header>
 
-      {/* ===== Main ===== */}
-      <LayoutBody className='space-y-4'>
-        <div className='flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>User Profile</h1>
-        </div>
-        <Tabs orientation='vertical' defaultValue='overview' className='space-y-4'>
-          <div className='w-full overflow-x-scroll pb-2'></div>
-          <TabsContent value='overview' className='space-y-4'>
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-              <Card className='col-span-1 lg:col-span-12'>
-                {/* <CardHeader className="flex flex-row justify-between">
-                  
-                </CardHeader> */}
-                <CardContent className='px-2 h-[70vh]'>
-                  <UserProfile />
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </LayoutBody>
-    </Layout>
+      <Main>
+        <PageTitle>User Profile</PageTitle>
+        <ProfileCard>
+          <UserProfile />
+        </ProfileCard>
+      </Main>
+    </LayoutWrapper>
   );
 };
 

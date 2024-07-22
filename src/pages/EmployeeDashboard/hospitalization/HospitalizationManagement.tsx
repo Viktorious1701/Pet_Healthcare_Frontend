@@ -8,7 +8,6 @@ import { hospitalizationListAPI, hospitalizationCreateAPI } from '@/Services/Hos
 import { toast } from 'sonner';
 import HospitalizationAddModal from './components/HospitalizationAddModal';
 import { getPetById } from '@/Services/PetService';
-
 const HospitalizationManagement = () => {
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +23,7 @@ const HospitalizationManagement = () => {
         const hospitalizationsWithPetInfo = await Promise.all(
           res.data.map(async (hospitalization: Hospitalization) => {
             const petData = await getPetById(hospitalization.petId.toString());
+
             if (petData?.data) {
               return {
                 ...hospitalization,
@@ -34,7 +34,13 @@ const HospitalizationManagement = () => {
             return hospitalization;
           })
         );
-        setHospitalizations(hospitalizationsWithPetInfo);
+
+        const updatedHospitalizations = hospitalizationsWithPetInfo.map((hospitalization) => ({
+          ...hospitalization,
+          paymentStatus: hospitalization.paymentStatus === 1 ? 'Paid' : 'Not Paid'
+        }));
+
+        setHospitalizations(updatedHospitalizations);
       }
     } catch (error: any) {
       toast.error('Failed to fetch hospitalizations', error);
@@ -56,7 +62,8 @@ const HospitalizationManagement = () => {
           const newHosp = {
             ...res.data,
             petName: petData.data.name,
-            customerId: petData.data.customerId
+            customerId: petData.data.customerId,
+            paymentStatus: res.data.paymentStatus === 1 ? 'Paid' : 'Not Paid'
           };
           setHospitalizations([...hospitalizations, newHosp]);
         } else {
