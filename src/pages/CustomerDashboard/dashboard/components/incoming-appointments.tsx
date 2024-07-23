@@ -8,7 +8,7 @@ interface IncomingAppointmentsProps {
 const getStatusBadge = (status: string) => {
   switch (status) {
     case 'Booked':
-      return '';
+      return 'bg-gray-500';
     case 'Processing':
       return 'bg-blue';
     case 'Done':

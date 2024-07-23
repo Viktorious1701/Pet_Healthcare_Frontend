@@ -13,7 +13,7 @@ const RecentAppointments: React.FC<RecentAppointmentsProps> = ({ appointments })
   const getAppointmentImage = (status: string) => {
     switch (status) {
       case 'Booked':
-        return 'bg-gray';
+        return 'bg-gray-500';
       case 'Processing':
         return 'bg-blue-400';
       case 'Done':
