@@ -6,7 +6,7 @@ import { AppDispatch } from '@/store';
 import { SlotGet } from '@/Models/Slot';
 import { slotGetAPI } from '@/Services/SlotService';
 import { toast } from 'sonner';
-import BookingForm from '@/components/appointment/BookingForm';
+import BookingForm from './BookingForm';
 import { ArrowRightFromLine } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import CustomerSelect from '@/components/appointment/CustomerSelect';
@@ -106,14 +106,18 @@ const BookingPageEmployee = () => {
     }
   };
 
-  const handleCustomerSelect = (customer: string) => {
-    dateRef.current?.scrollIntoView({
-      behavior: 'smooth'
-    });
-    setSelectedCustomer(customer);
-    handleNext();
-  };
+  useEffect(() => {
+    if (selectedCustomer) {
+      dateRef.current?.scrollIntoView({
+        behavior: 'smooth'
+      });
+      handleNext();
+    }
+  }, [selectedCustomer]);
 
+  const handleCustomerSelect = (customer: string) => {
+    setSelectedCustomer(customer);
+  };
   const isSlotInThePast = (slot: SlotGet): boolean => {
     const [month, day, year] = String(selectedDate?.toLocaleDateString().replace(/\//g, '-')).split('-');
     const [hour, minute] = slot.startTime.split(':');

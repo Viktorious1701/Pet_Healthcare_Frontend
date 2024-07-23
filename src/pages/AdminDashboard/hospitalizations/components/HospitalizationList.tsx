@@ -6,7 +6,7 @@ interface HospitalizationListProps {
 }
 
 const HospitalizationList: React.FC<HospitalizationListProps> = ({ hospitalization }) => {
-  const getBorderColor = (status: number) => {
+  const getBorderColor = (status: string | number) => {
     switch (status) {
       case 1:
         return 'border-b-success-500 border-b-4';

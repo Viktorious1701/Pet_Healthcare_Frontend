@@ -4,8 +4,6 @@ import ImageCard from '@/components/navigation/ImageCard';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import petcare from '@/assets/petcare.jpg';
-import logo from '@/assets/Paw2.svg';
 import hero from '@/assets/hero.png';
 import booking from '@/assets/veterinary-booking.jpg';
 import hospitalization from '@/assets/hospitalization.jpg';
@@ -14,8 +12,6 @@ import cat from '@/assets/cat2.jpeg';
 import CustomCalendar from '@/components/calendar/CustomCalendar';
 import { APPOINTMENT } from '@/Route/router-const';
 import { CONTACT } from '@/Route/router-const';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import Autoplay from 'embla-carousel-autoplay';
 
 import '@fontsource-variable/montserrat';
 import '@fontsource/roboto';
@@ -23,6 +19,12 @@ import '@fontsource/roboto';
 import { ABOUT_PAGE } from '@/Route/router-const';
 import CardMingAnhAvatar from '@/components/team_cards/MinhAnhCard/CardMingAnhAvatar';
 import CardThinhAnAvatar from '@/components/team_cards/ThinhAnCard/CardThinhAnAvatar';
+
+import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient';
+import * as reactSpring from '@react-spring/three';
+import * as drei from '@react-three/drei';
+import * as fiber from '@react-three/fiber';
+import { MarqueeReview } from '@/components/marqueeReview';
 
 const Home = () => {
   return (
@@ -195,12 +197,23 @@ const Home = () => {
         </section>
 
         {/* Customer Rating Section */}
-        <section
-          id='testimonial'
-          className='relative bg-cover bg-center bg-[#F9FAFB]'
-          style={{ backgroundImage: `url(${petcare})` }}
-        >
-          <div className='bg-black/60 absolute inset-0'></div>
+        <section id='testimonial' className='relative'>
+        <ShaderGradientCanvas
+  importedFiber={{ ...fiber, ...drei, ...reactSpring }}
+  style={{
+    position: 'absolute',
+    top: 0,
+    pointerEvents: 'none',
+    userSelect: 'none',
+    touchAction: 'none',
+    width: '100%',
+    height: '100%',
+    borderRadius: '0.5rem', // Adds rounded corners
+    overflow: 'hidden' // Ensures content doesn't overflow the rounded corners
+  }}
+>
+  <Gradient />
+</ShaderGradientCanvas>
           <div className='container px-4 py-24 relative'>
             <div className='text-center mb-12'>
               <p className='text-[#F9FAFB] text-[4rem] font-semibold mb-2 font-mont'>Pet Owners' Stories</p>
@@ -208,40 +221,7 @@ const Home = () => {
                 Hear from our community of pet owners and their experiences with our services.
               </h2>
             </div>
-            <Carousel
-              plugins={[
-                Autoplay({
-                  delay: 2000
-                })
-              ]}
-              opts={{
-                align: 'start',
-                loop: true
-              }}
-              className='w-full'
-            >
-              <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index} className='basis-1/3 p-1'>
-                    <div className='p-1'>
-                      <div className='testimonial wrp bg-[--review-card] p-8 rounded-lg shadow-md select-none'>
-                        <img src={logo} alt='' className='rounded-full w-16 h-16 mx-auto mb-4' />
-                        <p className='text-[--hero-text] text-center mb-4 select-none'>
-                          Simply dummy text of the printing and typesetting industry. Lorem Ipsum simply dummy text of
-                          the printing and typesetting industry. Lorem Ipsum has been.
-                        </p>
-                        <h3 className='text-xl text-[--hero-text] font-semibold text-center mb-2 select-none'>
-                          Sara Taylor
-                        </h3>
-                        <p className='text-[--hero-text] text-center select-none'>Consumer</p>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <MarqueeReview />
           </div>
         </section>
       </main>
@@ -249,5 +229,14 @@ const Home = () => {
     </div>
   );
 };
+
+function Gradient() {
+  return (
+    <ShaderGradient
+      control='query'
+      urlString='https://www.shadergradient.co/customize?animate=on&axesHelper=on&bgColor1=%23000000&bgColor2=%23000000&brightness=1.8&cAzimuthAngle=180&cDistance=2.3&cPolarAngle=115&cameraZoom=1&color1=%23dd00ff&color2=%23FE8989&color3=%23ffa3ba&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=50&frameRate=10&grain=off&lightType=3d&pixelDensity=1.3&positionX=-0.5&positionY=0.1&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.1&rotationX=0&rotationY=0&rotationZ=235&shader=defaults&toggleAxis=false&type=waterPlane&uAmplitude=0&uDensity=1.4&uFrequency=5.5&uSpeed=0.1&uStrength=2&uTime=0&wireframe=false'
+    />
+  );
+}
 
 export default Home;
