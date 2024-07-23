@@ -25,12 +25,16 @@ import RecentAppointments from './components/recent-appointments';
 import RecentHospitalizations from './components/recent-hospitalizations';
 import { Hospitalization } from '@/Models/Hospitalization';
 import { hospitalizationListAPI } from '@/Services/HospitalizationService';
-import { BarChart, LineChart } from '@mui/x-charts';
+import { PieChart } from '@mui/x-charts';
 
 export default function Dashboard() {
   const [revenue, setRevenue] = useState<PaymentRevenueGet>();
   const [appointments, setAppointments] = useState<AppointmentGet[]>([]);
   const [hospitalizations, setHospitalizations] = useState<Hospitalization[]>([]);
+
+  const appointmentRevenue = Number(revenue?.appointmentRevenue);
+  const hospitalizationRevenue = Number(revenue?.hospitalizationRevenue);
+  console.log(appointmentRevenue, hospitalizationRevenue);
 
   const getAppointments = async () => {
     await appointmentGetAPI()
@@ -180,62 +184,27 @@ export default function Dashboard() {
           </TabsContent>
           <TabsContent value='analytics' className='space-y-4'>
             <div className='grid gap-4 col-span-1'>
-              <Card>
+              <Card className='h-[60vh]'>
                 <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                   <CardTitle className='text-sm font-medium'>Revenue Percentage</CardTitle>
                   <IconPercentage />
                 </CardHeader>
                 <CardContent>
-                  <div className='text-2xl font-bold'>${revenue?.totalRevenue}</div>
-                </CardContent>
-              </Card>
-            </div>
-            <div className='grid grid-cols-1 gap-4 lg:grid-cols-8'>
-              <Card className='col-span-1 lg:col-span-4 h-[58vh] overflow-y-auto'>
-                <CardHeader className='sticky bg-white z-10'>
-                  <CardTitle>Hospitalizations this month</CardTitle>
-                  <CardDescription>
-                    {
-                      hospitalizations.filter(
-                        (hospitalization) =>
-                          new Date(hospitalization.admissionDate).getMonth() === new Date().getMonth() ||
-                          new Date(hospitalization.dischargeDate).getMonth() === new Date().getMonth()
-                      ).length
-                    }{' '}
-                    hospitalizations made this month.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className='pl-2'>
-                  <LineChart
-                    xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
+                  <PieChart
                     series={[
                       {
-                        data: [2, 5.5, 2, 8.5, 1.5, 5]
+                        data: [
+                          { id: 0, value: appointmentRevenue, label: 'appointment revenue'},
+                          { id: 1, value: hospitalizationRevenue, label: 'hospitalization revenue', color: 'pink' }
+                        ],
+                        innerRadius: 90,
+                        outerRadius: 200,
+                        paddingAngle: 3,
+                        cornerRadius: 10
                       }
                     ]}
-                    width={800}
-                    height={400}
-                  />
-                </CardContent>
-              </Card>
-              <Card className='col-span-1 lg:col-span-4 h-[58vh] overflow-y-auto'>
-                <CardHeader className='sticky top-0 z-10 bg-white'>
-                  <CardTitle>Bookings this month</CardTitle>
-                  <CardDescription>
-                    {
-                      appointments.filter(
-                        (appointment) => new Date(appointment.date).getMonth() === new Date().getMonth()
-                      ).length
-                    }{' '}
-                    appointments booked this month.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <BarChart
-                    xAxis={[{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }]}
-                    series={[{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]}
-                    width={800}
-                    height={400}
+                    width={1000}
+                    height={500}
                   />
                 </CardContent>
               </Card>
