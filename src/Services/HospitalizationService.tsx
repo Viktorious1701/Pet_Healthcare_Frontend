@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axiosInstance from '@/Helpers/axiosInstance';
 import { Hospitalization, HospitalizationPost } from '@/Models/Hospitalization';
 import { toast } from 'sonner';
@@ -49,8 +50,13 @@ export const hospitalizationCreateAPI = async (newHospitalization: Hospitalizati
   try {
     const data = await axiosInstance.post(api + `/Hospitalization`, newHospitalization);
     return data;
-  } catch (error) {
-    toast.error('Failed to add hospitalization');
-    throw error;
+  } catch (error: any) {
+    //console.log("error add  hospitalization", error);
+    if (error.response && error.response.data) {
+      const errorMessage = error.response.data || error.response.data.message || 'Failed to add hospitalization';
+      throw new Error(errorMessage);
+    } else {
+      throw new Error('Failed to add hospitalization');
+    }
   }
 };
