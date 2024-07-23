@@ -12,7 +12,7 @@ import {
 } from '@mui/x-data-grid';
 import { CircleX, DeleteIcon, EditIcon, SaveIcon } from 'lucide-react';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 interface KennelDataGridProps {
   kennels: Kennel[];

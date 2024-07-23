@@ -13,7 +13,7 @@ import {
 } from '@mui/x-data-grid';
 import { CircleX, EditIcon, SaveIcon } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import UserDeleteDialog from './UserDeleteDialog';
 import { countries } from '@/Helpers/globalVariable';
 

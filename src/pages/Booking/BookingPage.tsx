@@ -6,7 +6,7 @@ import { setDateSlot } from '@/components/slices/dateSlice';
 import { AppDispatch } from '@/store';
 import { SlotGet } from '@/Models/Slot';
 import { slotGetAPI } from '@/Services/SlotService';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import BookingForm from './BookingForm';
 import Footer from '@/components/navigation/Footer';
 import { ArrowRightFromLine } from 'lucide-react';

@@ -4,7 +4,7 @@ import { Box, Grid } from '@mui/material';
 import { Card, CardHeader } from '@nextui-org/card';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import KennelAddModal from './KennelAddModal';
 import KennelDataGrid from './KennelDataGrid';
 

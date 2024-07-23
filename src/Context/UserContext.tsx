@@ -69,15 +69,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       return userData;
     } catch (error: any) {
+      console.log('Registration error:', error);
       if (Array.isArray(error) && error.length > 0) {
         // Handle server-side validation errors
         const firstError = error[0];
         toast.error(`${firstError.code}: ${firstError.description}`);
       } else {
         // Handle unexpected errors
-        toast.error('An unexpected error occurred');
+        toast.error('An unexpected error occurred', error);
       }
-      console.error('Registration error:', error);
+      toast.error('Registration failed', error);
       return null;
     }
   };
