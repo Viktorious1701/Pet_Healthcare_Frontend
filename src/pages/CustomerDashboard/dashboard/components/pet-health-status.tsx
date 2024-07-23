@@ -32,11 +32,10 @@ const getHealthBadge = (status: number) => {
       return 'Good';
   }
 };
-const now = new Date();
 
 const PetHealthStatus: React.FC<PetHealthStatusProps> = ({ petHealthTracks }) => {
   petHealthTracks = petHealthTracks.filter(
-    (petHealthTrack) => new Date(petHealthTrack.dateOnly).getDate() == now.getDate()
+    (petHealthTrack) => new Date(petHealthTrack.date).getDate() == new Date().getDate()
   );
 
   return (

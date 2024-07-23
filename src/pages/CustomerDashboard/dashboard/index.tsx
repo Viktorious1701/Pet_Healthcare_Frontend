@@ -127,7 +127,7 @@ export default function Dashboard() {
             </div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
               <Card className='col-span-1 lg:col-span-4 h-[58vh] overflow-y-scroll'>
-                <CardHeader className='sticky top-0'>
+                <CardHeader className='sticky top-0 bg-white'>
                   <CardTitle>Track Your Pet's Health Status During Hospitalization</CardTitle>
                   <CardDescription>
                     This information is updated everyday, keep track of the latest status here.
