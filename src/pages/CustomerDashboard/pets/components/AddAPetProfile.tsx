@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/custom/button';
@@ -46,30 +47,48 @@ const AddAPetProfile: React.FC = () => {
         const newPet = { ...data, customerUsername: username };
         console.log(newPet);
 
-        const pet = await AddAPetAPI(newPet);
-        setPet(pet?.data);
+        // Add the pet profile
+        const response = await AddAPetAPI(newPet);
+        const addedPet = response?.data;
+
+        if (!addedPet || !addedPet.id) {
+          throw new Error('Failed to get pet ID after adding pet profile');
+        }
+
+        // Update the state with the new pet
+        setPet(addedPet);
 
         // Fetch current pets from session storage
         const storedList = sessionStorage.getItem('petProfiles');
         const parsedList: PetGet[] = storedList ? JSON.parse(storedList) : [];
 
         // Update session storage with the new pet
-        const updatedList = [...parsedList, newPet];
+        const updatedList = [...parsedList, addedPet];
         sessionStorage.setItem('petProfiles', JSON.stringify(updatedList));
+        console.log("added pet", addedPet);
+        // Add pet record using the new pet's ID
+        await addPetRecord(addedPet.id);
 
-        await addPetRecord();
+        toast.success('Pet profile and record created successfully');
         navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_PET_LIST}`);
       } catch (error) {
-        console.error('Failed to add pet profile', error);
+        console.error('Failed to add pet profile or record', error);
+        toast.error('Failed to add pet profile or record');
       }
     } else {
       console.error('User is not authenticated');
+      toast.error('User is not authenticated');
     }
   };
 
-  const addPetRecord = async () => {
-    await RecordPostAPI(pet!.id, 0);
-    toast.success('Pet record created successfully');
+  const addPetRecord = async (petId: number) => {
+    try {
+      await RecordPostAPI(petId, 0);
+      toast.success('Pet record created successfully');
+    } catch (error) {
+      console.error('Failed to create pet record', error);
+      toast.error('Failed to create pet record');
+    }
   };
 
   const handleBack = () => {
@@ -91,26 +110,23 @@ const AddAPetProfile: React.FC = () => {
       <LayoutBody className='space-y-4'>
         <div className='flex items-center justify-between space-y-2'>
           <h1
-            className={`text-2xl font-bold tracking-tight md:text-3xl ${
-              theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
-            }`}
+            className={`text-2xl font-bold tracking-tight md:text-3xl ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+              }`}
           >
             Add a Pet Profile
           </h1>
           <Button
             onClick={handleBack}
-            className={`bg-custom-pink hover:bg-custom-darkPink text-white font-bold py-2 px-4 rounded ${
-              theme === 'dark' ? 'hover:bg-pink-700' : 'hover:bg-pink-600'
-            }`}
+            className={`bg-custom-pink hover:bg-custom-darkPink text-white font-bold py-2 px-4 rounded ${theme === 'dark' ? 'hover:bg-pink-700' : 'hover:bg-pink-600'
+              }`}
           >
             Back to Pets
           </Button>
         </div>
 
         <div
-          className={`max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md ${
-            theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'
-          }`}
+          className={`max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'
+            }`}
         >
           <h2
             className={`text-2xl font-bold mb-4 ${theme === 'dark' ? 'text-custom-lightPink' : 'text-custom-darkPink'}`}
@@ -129,11 +145,9 @@ const AddAPetProfile: React.FC = () => {
                 type='text'
                 id='name'
                 {...register('name', { required: 'Name is required' })}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               />
               {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
             </div>
@@ -148,11 +162,9 @@ const AddAPetProfile: React.FC = () => {
                 type='text'
                 id='species'
                 {...register('species', { required: 'Species is required' })}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               />
               {errors.species && <span className='text-red-500'>{errors.species.message}</span>}
             </div>
@@ -167,11 +179,9 @@ const AddAPetProfile: React.FC = () => {
                 type='text'
                 id='breed'
                 {...register('breed', { required: 'Breed is required' })}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               />
               {errors.breed && <span className='text-red-500'>{errors.breed.message}</span>}
             </div>
@@ -185,11 +195,9 @@ const AddAPetProfile: React.FC = () => {
               <select
                 id='gender'
                 {...register('gender', { required: 'Gender is required' })}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               >
                 <option value='true'>Male</option>
                 <option value='false'>Female</option>
@@ -207,11 +215,9 @@ const AddAPetProfile: React.FC = () => {
                 type='number'
                 id='weight'
                 {...register('weight', { required: 'Weight is required' })}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               />
               {errors.weight && <span className='text-red-500'>{errors.weight.message}</span>}
             </div>
@@ -229,18 +235,15 @@ const AddAPetProfile: React.FC = () => {
                   const file = e.target.files?.[0] || null;
                   setValue('imageFile', file);
                 }}
-                className={`mt-1 block w-full rounded-md border ${
-                  theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
-                } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${
-                  theme === 'dark' ? 'pink-200' : 'pink-200'
-                } focus:ring-opacity-50`}
+                className={`mt-1 block w-full rounded-md border ${theme === 'dark' ? 'border-gray-700' : 'border-pink-300'
+                  } shadow-sm focus:border-${theme === 'dark' ? 'pink-500' : 'pink-500'} focus:ring focus:ring-${theme === 'dark' ? 'pink-200' : 'pink-200'
+                  } focus:ring-opacity-50`}
               />
             </div>
             <Button
               type='submit'
-              className={`bg-custom-pink hover:bg-custom-darkPink text-white font-bold py-2 px-4 rounded ${
-                theme === 'dark' ? 'hover:bg-pink-700' : 'hover:bg-pink-600'
-              }`}
+              className={`bg-custom-pink hover:bg-custom-darkPink text-white font-bold py-2 px-4 rounded ${theme === 'dark' ? 'hover:bg-pink-700' : 'hover:bg-pink-600'
+                }`}
             >
               Add a Pet
             </Button>
