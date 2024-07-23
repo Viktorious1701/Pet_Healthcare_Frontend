@@ -76,7 +76,7 @@ const AppointmentForm = () => {
       <Card>
         <CardHeader className='space-y-1'>
           <div className='flex justify-between items-center mb-6'>
-            <CardTitle className='text-4xl font-bold'>Add Appointment Details</CardTitle>
+            <CardTitle className='text-4xl font-bold'>View Appointment Details</CardTitle>
             <Link
               to='/vet/appointment-details'
               className='bg-[#DB2777] hover:bg-[#F3AFCF] text-white text-lg font-semibold py-2 px-10 rounded transition duration-300 ease-in-out'
