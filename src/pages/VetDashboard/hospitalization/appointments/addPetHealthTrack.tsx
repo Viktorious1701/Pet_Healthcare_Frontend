@@ -16,16 +16,26 @@ import { toast } from 'sonner';
 
 // Assuming postPetHealthTrack is an async function that posts the data to a server
 // import { postPetHealthTrack } from 'path_to_your_service';
+enum PetStatus {
+  Severe = 0,
+  Recovering = 1,
+  Normal = 2,
+  Good = 3
+}
 
 const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }) => {
   // Accept hospitalizationId as a prop of type number
   const [petHealthTrackDetails, setPetHealthTrackDetails] = useState({
-    hospitalizationId: hospitalizationId, // Use the hospitalizationId prop to set the initial state
+    hospitalizationId: hospitalizationId,
     description: '',
     date: '',
-    status: ''
+    status: 2 // Default to Normal (2)
   });
+
   const [isOpen, setIsOpen] = useState(false); // State to control dialog visibility
+
+  // Your existing or additional TypeScript code would go here.
+  // You can now use the PetStatus enum throughout this file.
 
   // Specify the type of element the ref is for. If `Input` renders an input element, use HTMLInputElement.
   const descriptionInputRef = useRef<HTMLInputElement>(null);
@@ -46,21 +56,12 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
   }, [hospitalizationId]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleInputChange = (e: { target: { id: any; value: any } }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
-    if (id === 'status') {
-      // Ensure the value is either 0 or 1
-      const newValue = value === '0' || value === '1' ? value : petHealthTrackDetails.status;
-      setPetHealthTrackDetails((prevState) => ({
-        ...prevState,
-        [id]: newValue
-      }));
-    } else {
-      setPetHealthTrackDetails((prevState) => ({
-        ...prevState,
-        [id]: value
-      }));
-    }
+    setPetHealthTrackDetails((prevState) => ({
+      ...prevState,
+      [id]: id === 'status' ? Number(value) : value
+    }));
   };
 
   const handleAddPetHealthTrack = async (e: { preventDefault: () => void }) => {
@@ -74,8 +75,7 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
       petName: '',
       petImage: '',
       dateOnly: '',
-      ...petHealthTrackDetails,
-      status: Number(petHealthTrackDetails.status) // Convert the status to a number
+      ...petHealthTrackDetails
     });
     if (result) {
       toast.success('Pet Health Track added successfully', {});
@@ -84,7 +84,7 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
         hospitalizationId: hospitalizationId,
         description: '',
         date: '',
-        status: ''
+        status: 2 // Reset to Normal (2)
       });
     }
   };
@@ -144,14 +144,21 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
             <Label htmlFor='status' className='text-right'>
               Status
             </Label>
-            <Input
+            <select
               id='status'
-              type='number'
               value={petHealthTrackDetails.status}
               onChange={handleInputChange}
-              className='col-span-3'
-              autoComplete='off' // This tells the browser not to autocomplete the input
-            />
+              className='col-span-3 form-select'
+            >
+              {Object.entries(PetStatus).map(
+                ([key, value]) =>
+                  typeof value === 'number' && (
+                    <option key={value} value={value}>
+                      {key}
+                    </option>
+                  )
+              )}
+            </select>
           </div>
           <DialogFooter>
             <Button type='submit' className='bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded'>

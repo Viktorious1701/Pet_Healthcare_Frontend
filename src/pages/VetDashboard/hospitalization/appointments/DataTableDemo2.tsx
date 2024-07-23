@@ -29,6 +29,17 @@ export type PetHealthTrack = {
   status: number;
 };
 
+enum PetStatus {
+  Severe = 0,
+  Recovering = 1,
+  Normal = 2,
+  Good = 3
+}
+
+const getStatusText = (status: number): string => {
+  return PetStatus[status] || 'Unknown';
+};
+
 export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: number }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -83,7 +94,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
     {
       accessorKey: 'status',
       header: () => 'Status',
-      cell: (info) => info.getValue()
+      cell: (info) => getStatusText(info.getValue() as number)
     }
   ];
 
@@ -126,7 +137,7 @@ export function DataTableDemo2({ hospitalizationId }: { hospitalizationId: numbe
               <div className='font-bold text-lg'>{row.original.petName}</div>
               <div>Description: {row.original.description}</div>
               <div>Date: {row.original.date}</div>
-              <div>Status: {row.original.status}</div>
+              <div>Status: {getStatusText(row.original.status)}</div>
             </div>
           ))
         ) : (
