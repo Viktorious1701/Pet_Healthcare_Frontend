@@ -60,47 +60,12 @@ const reviews = [
     "rating": 1.0
   },
   {
-    "name": "Oscar",
-    "username": "@oscar",
-    "body": "The pet health care was a complete letdown. I expected more.",
-    "img": "https://avatar.vercel.sh/oscar",
-    "rating": 0.5
-  },
-  {
-    "name": "Pam",
-    "username": "@pam",
-    "body": "I didn't enjoy the pet care service at all. Really disappointed.",
-    "img": "https://avatar.vercel.sh/pam",
-    "rating": 1.5
-  },
-  {
-    "name": "Quincy",
-    "username": "@quincy",
-    "body": "Not my cup of tea. Found the pet health care quite dull.",
-    "img": "https://avatar.vercel.sh/quincy",
-    "rating": 1.0
-  },
-  {
     "name": "Hank",
     "username": "@hank",
     "body": "The pet health care is outstanding. Just wow!",
     "img": "https://avatar.vercel.sh/hank",
     "rating": 4.5
   },
-  {
-    "name": "Isabel",
-    "username": "@isabel",
-    "body": "Unbelievable pet care service. Just incredible.",
-    "img": "https://avatar.vercel.sh/isabel",
-    "rating": 1.5
-  },
-  {
-    "name": "Jackie",
-    "username": "@jackie",
-    "body": "The pet health care has left me speechless. Amazing.",
-    "img": "https://avatar.vercel.sh/jackie",
-    "rating": 3.5
-  }
   
 ];
 
