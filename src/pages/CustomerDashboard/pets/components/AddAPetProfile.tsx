@@ -31,7 +31,7 @@ const AddAPetProfile: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const username = user?.userName as string;
-  const [pet, setPet] = useState<PetGet>();
+  const [, setPet] = useState<PetGet>();
 
   const {
     register,
