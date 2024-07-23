@@ -39,6 +39,7 @@ const HospitalizationAddModal: React.FC<HospitalizationAddModalProps> = ({ open,
 
   const handleAddHospitalization = () => {
     // Prepare new hospitalization object and pass to parent component
+
     const newHospitalization: HospitalizationPost = {
       petId: selectedPet,
       kennelId: selectedKennel,
