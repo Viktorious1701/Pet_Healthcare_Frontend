@@ -8,7 +8,7 @@ interface AppointmentListProps {
 const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
   const getBorderColor = (status: string) => {
     switch (status) {
-      case 'Boooked':
+      case 'Booked':
         return 'border-b-gray-500 border-b-4';
       case 'Processing':
         return 'border-b-blue-500 border-b-4';

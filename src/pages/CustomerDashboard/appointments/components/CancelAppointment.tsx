@@ -36,7 +36,7 @@ const CancelAppointment: React.FC = () => {
       try {
         const res = await getAppointmentByIdAPI(Number(appointmentId));
         if (res?.data) {
-          if (res.data.status === null || res.data.status !== 'Boooked') {
+          if (res.data.status === null || res.data.status !== 'Booked') {
             toast.info("Appointment is in either done or cancelled state, You can't cancel this appointment.");
             navigate(`/${CUSTOMER_DASHBOARD}/${CUSTOMER_APPOINTMENTS}`);
           } else if (res.data.paymentStatus === null || res.data.paymentStatus !== 1) {
