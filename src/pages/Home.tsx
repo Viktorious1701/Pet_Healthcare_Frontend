@@ -25,6 +25,10 @@ import * as reactSpring from '@react-spring/three';
 import * as drei from '@react-three/drei';
 import * as fiber from '@react-three/fiber';
 import { MarqueeReview } from '@/components/marqueeReview';
+import CardDinhDuongAvatar from '@/components/team_cards/DinhDuongCard/CardDinhDuongAvatar';
+import CardSongPhucAvatar from '@/components/team_cards/SongPhucCard/CardSongPhucAvatar';
+import CardDuyTanAvatar from '@/components/team_cards/DuyTanCard/CardDuyTanAvatar';
+import CardAnhKietAvatar from '@/components/team_cards/AnhKietCard/CardDinhDuongAvatar';
 
 const Home = () => {
   return (
@@ -190,30 +194,48 @@ const Home = () => {
         {/* Team Section */}
         <section id='veterinarian' className='py-[7rem] bg-[--background] text-center'>
           <h2 className='text-[3rem] font-bold text-pink mb-[4rem] font-mont'>Meet Our Teams</h2>
-          <CardMingAnhAvatar />
-          <div className='mt-[-17rem]'>
-            <CardThinhAnAvatar />
+          <div className='flex justify-center'>
+            <div className='flex -space-x-4'>
+              <div>
+                <CardMingAnhAvatar />
+              </div>
+              <div>
+                <CardThinhAnAvatar />
+              </div>
+              <div>
+                <CardDinhDuongAvatar />
+              </div>
+              <div>
+                <CardSongPhucAvatar />
+              </div>
+              <div>
+                <CardDuyTanAvatar />
+              </div>
+              <div>
+                <CardAnhKietAvatar />
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Customer Rating Section */}
         <section id='testimonial' className='relative'>
-        <ShaderGradientCanvas
-  importedFiber={{ ...fiber, ...drei, ...reactSpring }}
-  style={{
-    position: 'absolute',
-    top: 0,
-    pointerEvents: 'none',
-    userSelect: 'none',
-    touchAction: 'none',
-    width: '100%',
-    height: '100%',
-    borderRadius: '0.5rem', // Adds rounded corners
-    overflow: 'hidden' // Ensures content doesn't overflow the rounded corners
-  }}
->
-  <Gradient />
-</ShaderGradientCanvas>
+          <ShaderGradientCanvas
+            importedFiber={{ ...fiber, ...drei, ...reactSpring }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              pointerEvents: 'none',
+              userSelect: 'none',
+              touchAction: 'none',
+              width: '100%',
+              height: '100%',
+              borderRadius: '0.5rem', // Adds rounded corners
+              overflow: 'hidden' // Ensures content doesn't overflow the rounded corners
+            }}
+          >
+            <Gradient />
+          </ShaderGradientCanvas>
           <div className='container px-4 py-24 relative'>
             <div className='text-center mb-12'>
               <p className='text-[#F9FAFB] text-[4rem] font-semibold mb-2 font-mont'>Pet Owners' Stories</p>
