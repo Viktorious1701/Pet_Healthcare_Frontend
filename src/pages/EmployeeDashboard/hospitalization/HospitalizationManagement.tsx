@@ -56,6 +56,7 @@ const HospitalizationManagement = () => {
   const handleAddHospitalization = async (newHospitalization: HospitalizationPost) => {
     try {
       const res = await hospitalizationCreateAPI(newHospitalization);
+    
       if (res?.data) {
         const petData = await getPetById(res.data.petId.toString());
         if (petData?.data) {
@@ -73,7 +74,7 @@ const HospitalizationManagement = () => {
         closeModal();
       }
     } catch (error: any) {
-      toast.error('Failed to add hospitalization', error);
+      toast.error('Failed to add hospitalization, Vet is BUSY', error);
     }
   };
 
