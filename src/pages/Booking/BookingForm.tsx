@@ -63,7 +63,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ userName, date, slot, onCance
 
   const isAllowBook = () => {
     var unfinishAppointment = appointments.some(
-      (appointment) => appointment.status === 'Boooked' || appointment.status === 'Processing'
+      (appointment) => appointment.status === 'Booked' || appointment.status === 'Processing'
     );
     return unfinishAppointment;
   };

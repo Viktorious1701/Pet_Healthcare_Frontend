@@ -72,7 +72,7 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className='text-2xl font-bold'>
-                    {appointments.filter((appointment) => appointment.status === 'Boooked').length} appointments
+                    {appointments.filter((appointment) => appointment.status === 'Booked').length} appointments
                   </div>
                 </CardContent>
               </Card>

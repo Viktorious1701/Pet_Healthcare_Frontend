@@ -24,7 +24,7 @@ const AppointmentManagement: React.FC = () => {
       console.log('res', res);
       if (res?.data) {
         const allAppointments = res.data;
-        setAppointments(allAppointments.filter((a: AppointmentGet) => a.status === 'Boooked'));
+        setAppointments(allAppointments.filter((a: AppointmentGet) => a.status === 'Booked'));
         //console.log('allAppointments', allAppointments);
         setProcessingAppointments(allAppointments.filter((a: AppointmentGet) => a.status === 'Processing'));
         //console.log('processingAppointments', processingAppointments);
