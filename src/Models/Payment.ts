@@ -4,4 +4,6 @@ export type PaymentRevenueGet = {
   weeklyRevenue: number;
   monthlyRevenue: number;
   yearlyRevenue: number;
+  appointmentRevenue: number;
+  hospitalizationRevenue: number;
 };

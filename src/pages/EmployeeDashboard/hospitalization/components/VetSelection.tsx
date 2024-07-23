@@ -62,7 +62,7 @@ const VetSelection: React.FC<VetSelectionProps> = ({ selectedVet, onChange }) =>
           <MenuItem disabled>No vets available</MenuItem>
         ) : (
           vets.map((vet) => (
-            <MenuItem key={vet.userId} value={vet.userName}>
+            <MenuItem key={vet.userId} value={vet.userId}>
               {vet.firstName} {vet.lastName} ({vet.userName})
             </MenuItem>
           ))
