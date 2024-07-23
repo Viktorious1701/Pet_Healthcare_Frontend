@@ -109,7 +109,7 @@ const AppointmentManagement: React.FC = () => {
         <div className='flex items-center justify-between mb-6'>
           <h1 className='text-3xl font-bold text-gray-800 dark:text-white'>Appointment History</h1>
           <div className='flex space-x-2'>
-            {['All', 'Boooked', 'Done', 'Cancelled'].map((status) => (
+            {['All', 'Booked', 'Done', 'Cancelled'].map((status) => (
               <Button
                 key={status}
                 className={`px-4 py-2 rounded-md transition-colors duration-200 ${
