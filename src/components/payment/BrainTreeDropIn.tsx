@@ -5,7 +5,7 @@ import dropin, { Dropin } from 'braintree-web-drop-in';
 import { Button } from 'reactstrap';
 
 import axiosInstance from '@/Helpers/axiosInstance';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 interface BraintreeDropInProps {
   show: boolean;
@@ -97,7 +97,7 @@ const BraintreeDropIn: React.FC<BraintreeDropInProps> = (props) => {
             })
             .catch((error) => {
               console.error('Payment error:', error);
-              alert(`Payment failed: ${error.message}`);
+              toast(`Payment failed: ${error.message}`);
             });
         }
       });

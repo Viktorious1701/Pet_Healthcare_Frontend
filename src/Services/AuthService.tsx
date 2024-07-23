@@ -21,20 +21,21 @@ export const loginAPI = async (username: string, password: string) => {
 export const registerAPI = async (email: string, username: string, password: string, confirmPassword: string) => {
   try {
     const response = await axios.post<UserProfileToken>(api + 'Account/register', {
-      email: email,
-      username: username,
-      password: password,
-      confirmPassword: confirmPassword
+      email,
+      username,
+      password,
+      confirmPassword
     });
     console.log('Data for register', response);
     return response.data;
   } catch (error: any) {
+    console.log("Error in register API", error);
     if (error.response && error.response.data) {
       // Server returned an error response
-      throw error.response.data;
+      throw new Error(error || 'Registration failed');
     } else {
       // Network error or other issues
-      throw { code: 'ServerError', description: 'An unexpected error occurred' };
+      throw new Error('An unexpected error occurred');
     }
   }
 };

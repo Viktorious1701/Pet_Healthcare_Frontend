@@ -9,7 +9,7 @@ import { Layout, LayoutBody, LayoutHeader } from '@/components/custom/layout';
 import { UserInfo } from '@/Models/User';
 import { useEffect, useState } from 'react';
 import { userGetAllAPI } from '@/Services/UserService';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import UsersDataGrid from './components/UsersDataGrid';
 import UserAddDialog from './components/UserAddDialog';
 import { Icon123, IconActivity, IconUser } from '@tabler/icons-react';
