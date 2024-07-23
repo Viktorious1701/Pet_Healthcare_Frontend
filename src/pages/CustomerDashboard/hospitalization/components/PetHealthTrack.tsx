@@ -49,24 +49,24 @@ const PetHealthTrack: React.FC = () => {
     }
   }, [healthTrack, statusFilter]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (filteredHealthTrack.length === 0)
-    return <div className=' flex justify-center'>No health track data available.</div>;
-
   const getStatusString = (status: string): string => {
     switch (status) {
       case '0':
-        return 'Healthy';
+        return 'Severe';
       case '1':
-        return 'Sick';
+        return 'Recovering';
       case '2':
-        return 'Injured';
+        return 'Normal';
+      case '3':
+        return 'Good';
       default:
         return '';
     }
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  console.log('filteredHealthTrack', filteredHealthTrack);
   return (
     <div className='p-6'>
       <div className='flex items-center justify-between rounded-md p-2 bg-gray-800 text-white'>
@@ -85,36 +85,41 @@ const PetHealthTrack: React.FC = () => {
             className='rounded-md px-2 py-1 bg-gray-700 text-white'
           >
             <option value=''>All</option>
-            <option value='0'>Healthy</option>
-            <option value='1'>Sick</option>
-            <option value='2'>Injured</option>
+            <option value='0'>Severe</option>
+            <option value='1'>Recovering</option>
+            <option value='2'>Normal</option>
+            <option value='3'>Good</option>
           </select>
         </div>
       </div>
-      <div className='overflow-x-auto mt-4'>
-        <Table>
-          <TableCaption>A list of your pet's health track.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredHealthTrack.map((entry, index) => (
-              <TableRow
-                key={index}
-                className={`${theme === 'light' ? 'even:bg-gray-50 odd:bg-white hover:bg-gray-200' : 'even: bg-gray-700 odd:bg-slate-500'} `}
-              >
-                <TableCell>{entry.dateOnly ? format(new Date(entry.dateOnly), 'MM/dd/yyyy') : '-'}</TableCell>
-                <TableCell>{entry.description}</TableCell>
-                <TableCell>{getStatusString(String(entry.status))}</TableCell>
+      {filteredHealthTrack.length === 0 ? (
+        <div className='flex justify-center mt-4'>No health track data available.</div>
+      ) : (
+        <div className='overflow-x-auto mt-4'>
+          <Table>
+            <TableCaption>A list of your pet's health track.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {filteredHealthTrack.map((entry, index) => (
+                <TableRow
+                  key={index}
+                  className={`${theme === 'light' ? 'even:bg-gray-50 odd:bg-white hover:bg-gray-200' : 'even:bg-gray-700 odd:bg-slate-500'}`}
+                >
+                  <TableCell>{entry.date ? format(new Date(entry.date), 'yyyy/MM/dd') : '-'}</TableCell>
+                  <TableCell>{entry.description}</TableCell>
+                  <TableCell>{getStatusString(String(entry.status))}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
     </div>
   );
 };

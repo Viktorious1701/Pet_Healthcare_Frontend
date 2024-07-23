@@ -32,7 +32,7 @@ const AppointmentManagement: React.FC = () => {
           allAppointments.filter((a: AppointmentGet) => a.status === 'Done' && a.paymentStatus === 1)
         );
         //console.log('finishedAppointments', finishedAppointments);
-        setCashoutAppointments(allAppointments.filter((a: AppointmentGet) => a.paymentStatus !== 1));
+        setCashoutAppointments(allAppointments.filter((a: AppointmentGet) => a.paymentStatus === 0 || a.paymentStatus === null));
       }
     } catch (error: any) {
       console.error('API error:', error); // Debugging line
@@ -78,7 +78,7 @@ const AppointmentManagement: React.FC = () => {
       toast.error('Failed to finish appointment', error);
     }
   };
-
+  console.log('appointments', appointments);
   return (
     <div className='m-10'>
       <Box sx={{ flexGrow: 1 }}>

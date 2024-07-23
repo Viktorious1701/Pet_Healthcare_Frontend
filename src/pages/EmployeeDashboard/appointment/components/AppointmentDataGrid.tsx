@@ -42,12 +42,14 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     setDeleteDialogOpen(true);
   };
 
-  const handleCashoutClick = (id: GridRowId) => () => {
+  const handleCashoutClick = (id: GridRowId) => async () => {
     const appointmentToCashout = appointments.find((a) => a.appointmentId === Number(id));
     if (appointmentToCashout) {
-      const customer = appointmentToCashout.customer || '';
+      // console.log("appointmentToCashout", appointmentToCashout);
+      
+      const customerId = appointmentToCashout.customer;
       const amount = appointmentToCashout.totalCost || 0; // Use 0 as default if totalCost is undefined
-      onCashoutAppointment(appointmentToCashout.appointmentId, customer, amount);
+      onCashoutAppointment(appointmentToCashout.appointmentId, customerId, amount);
     }
   };
 
@@ -81,6 +83,7 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
     { field: 'customer', headerName: 'Customer', width: 200, editable: false },
     { field: 'pet', headerName: 'Pet', width: 200, editable: false },
     { field: 'vet', headerName: 'Vet', width: 150, editable: false },
+    { field: 'date', headerName: 'Date', width: 200, editable: false },
     { field: 'slotStartTime', headerName: 'Slot Start Time', width: 200, editable: false },
     { field: 'slotEndTime', headerName: 'Slot End Time', width: 200, editable: false },
     { field: 'service', headerName: 'Service', width: 150, editable: false },
@@ -103,13 +106,13 @@ const AppointmentDataGrid: React.FC<AppointmentDataGridProps> = ({
         />,
         <GridActionsCellItem
           icon={
-            <ActionButton disabled={params.row.paymentStatus === 1 || params.row.paymentStatus === null}>
+            <ActionButton disabled={params.row.paymentStatus === 1 }>
               <DollarSignIcon />
             </ActionButton>
           }
           label='Cashout'
           onClick={handleCashoutClick(params.id)}
-          disabled={params.row.paymentStatus === 1 || params.row.paymentStatus === null}
+          disabled={params.row.paymentStatus === 1 }
         />,
         <GridActionsCellItem
           icon={
