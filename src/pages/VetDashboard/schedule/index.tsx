@@ -17,6 +17,7 @@ import './Theme.css';
 import { useNavigate } from 'react-router-dom';
 import { APPOINTMENT_EDIT } from '@/Route/router-const';
 import { appointmentGetVetAPI, appointmentVetAPI } from '@/Services/AppointmentService';
+import { hospitalizationListVetAPI } from '@/Services/HospitalizationService'; // Add this line
 import Sonner from '@/components/vet_components/sonner';
 
 const locales = {
@@ -35,7 +36,8 @@ interface CustomEvent {
   title: string;
   start: Date;
   end: Date;
-  status?: string; // Include other properties as needed
+  status?: string;
+  type: 'appointment' | 'hospitalization';
 }
 
 const App: FC = () => {
@@ -44,36 +46,62 @@ const App: FC = () => {
   const [, setAppointmentId] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchAppointments = async () => {
-      const response = await appointmentGetVetAPI(); // Fetch the vet details
-      const vetId = (response as unknown as { userId: string }).userId; // Type assertion
-      if (vetId) {
-        const appointments = await appointmentVetAPI(vetId);
-        console.log(appointments);
-        if (appointments) {
-          setAppointmentId(appointments[0].appointmentId);
-          const newEvents = appointments.map((appointment) => ({
-            id: appointment.appointmentId,
-            title: appointment.service,
-            start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
-            end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
-            status: appointment.status
-          })) as CustomEvent[];
-          setEvents(newEvents);
+    const fetchData = async () => {
+      try {
+        const response = await appointmentGetVetAPI();
+        const vetId = (response as unknown as { userId: string }).userId;
+        const vetName = response.userName;
+        
+        if (vetId) {
+          const [appointments, hospitalizations] = await Promise.all([
+            appointmentVetAPI(vetId),
+            hospitalizationListVetAPI(vetName)
+          ]);
+  
+          if (appointments) {
+            setAppointmentId(appointments[0]?.appointmentId || null);
+            const appointmentEvents = appointments.map((appointment) => ({
+              id: appointment.appointmentId,
+              title: `Appointment: ${appointment.service}`,
+              start: new Date(`${appointment.date}T${appointment.slotStartTime}`),
+              end: new Date(`${appointment.date}T${appointment.slotEndTime}`),
+              status: appointment.status,
+              type: 'appointment' as const // Specify the type as 'appointment'
+            }));
+            
+            const hospitalizationEvents = hospitalizations.map((hospitalization) => ({
+              id: hospitalization.hospitalizationId,
+              title: `Hospitalization: ${hospitalization.petName}`,
+              start: new Date(hospitalization.admissionDate),
+              end: new Date(hospitalization.dischargeDate || hospitalization.admissionDate), // Use admission date as end if discharge date is not set
+              status: 'Hospitalized',
+              type: 'hospitalization' as const // Specify the type as 'hospitalization'
+            }));
+            
+            setEvents([...appointmentEvents, ...hospitalizationEvents]);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        // Handle error (e.g., show error message to user)
       }
     };
-    fetchAppointments();
+  
+    fetchData();
   }, []);
 
-  const allEventIds = events.map((event) => event.id);
-  console.log(allEventIds);
+  //const allEventIds = events.map((event) => event.id);
+  //console.log(allEventIds);
 
   const handleSelectEvent = (selectedEvent: CustomEvent) => {
-    console.log(selectedEvent);
-    const updatedEvents = events.filter((event) => event.id === selectedEvent.id);
-    setEvents(updatedEvents);
-    navigate(`/vet/${APPOINTMENT_EDIT}/${selectedEvent.id}`);
+    if (selectedEvent.type === 'appointment') {
+      navigate(`/vet/${APPOINTMENT_EDIT}/${selectedEvent.id}`);
+    } else if (selectedEvent.type === 'hospitalization') {
+      // Navigate to hospitalization details page or show details in a modal
+      // For example:
+      navigate(`/vet/hospitalization-vet`);
+      console.log('Hospitalization selected:', selectedEvent);
+    }
   };
 
   // const handleSelectEvent = () => {

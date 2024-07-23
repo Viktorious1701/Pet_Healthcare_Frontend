@@ -4,15 +4,10 @@ import {
   IconCalendarWeek,
   IconDashboard,
   IconListCheck,
-  IconMedicalCross,
-  IconSettings,
-  IconUser
-} from '@tabler/icons-react';
+  IconSettings} from '@tabler/icons-react';
 import { appointmentGetVetIdAPI, appointmentVetAPI } from '@/Services/AppointmentService';
 import {
   APPOINTMENT_DETAILS,
-  APPOINTMENT_MEDICAL_RECORD,
-  COMING_SOON,
   HOSPITALIZATION_VET,
   SCHEDULE_VET,
   SETTINGS_PROFILE
@@ -63,21 +58,21 @@ const useDynamicSideLinks = () => {
       icon: <IconListCheck size={18} />,
       label: ''
     },
-    {
-      title: 'Medical Records',
-      href: `${APPOINTMENT_MEDICAL_RECORD}`,
-      icon: <IconMedicalCross size={18} />
-    },
+    // {
+    //   title: 'Medical Records',
+    //   href: `${APPOINTMENT_MEDICAL_RECORD}`,
+    //   icon: <IconMedicalCross size={18} />
+    // },
     {
       title: 'Hospitalization',
       href: `${HOSPITALIZATION_VET}`,
       icon: <IconBuildingHospital size={18} />
     },
-    {
-      title: 'Profile',
-      href: `${COMING_SOON}`,
-      icon: <IconUser size={18} />
-    },
+    // {
+    //   title: 'Profile',
+    //   href: `${COMING_SOON}`,
+    //   icon: <IconUser size={18} />
+    // },
     {
       title: 'Settings',
       href: `${SETTINGS_PROFILE}`,
