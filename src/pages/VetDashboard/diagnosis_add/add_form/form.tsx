@@ -75,7 +75,7 @@ const AppointmentForm = () => {
                 readOnly
                 value={appointmentDetails.appointmentId.toString()}
                 onChange={handleInputChange}
-                className='w-full py-4 bg-[var(--nav-header)] shadow-[0_3px_0px_-0.5px_rgba(140,140,140)] text-lg'
+                className='w-full py-4 bg-gray-200 text-lg'
               />
             </div>
             <div className='w-full px-3 mb-6'>

@@ -113,7 +113,7 @@ const PetHealthTrackForm = ({ hospitalizationId }: { hospitalizationId: number }
               readOnly
               value={petHealthTrackDetails.hospitalizationId}
               onChange={handleInputChange}
-              className='col-span-3'
+              className='col-span-3 bg-gray-200'
             />
           </div>
           <div className='grid grid-cols-4 items-center gap-4'>
