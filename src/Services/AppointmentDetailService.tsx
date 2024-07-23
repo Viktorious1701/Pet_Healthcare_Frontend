@@ -16,6 +16,7 @@ export const appointmentDetailGetAPI = async () => {
 export const petAppointmentDetailGetAPI = async (petId: number) => {
   try {
     const data = axiosInstance.get<AppointmentDetailGet[]>(api + `/${petId}`);
+    
     return data;
   } catch (error) {
     handleError(error);

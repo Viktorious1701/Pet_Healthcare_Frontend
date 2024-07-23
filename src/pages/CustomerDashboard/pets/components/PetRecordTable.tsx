@@ -24,6 +24,7 @@ const PetRecordTable: React.FC<PetRecordTableProps> = ({ petId }) => {
     await petAppointmentDetailGetAPI(petId)
       .then((res) => {
         if (res?.data) {
+          console.log('detail data ', res.data);
           setAppointmentDetails(res.data);
         }
       })
@@ -53,12 +54,12 @@ const PetRecordTable: React.FC<PetRecordTableProps> = ({ petId }) => {
         {appointmentDetails.map((appointmentDetail) => (
           <TableRow key={appointmentDetail.appointmentId}>
             <TableCell className='font-medium'>{appointmentDetail.appointmentId}</TableCell>
-            <TableCell>{appointmentDetail.vetName}</TableCell>
-            <TableCell>{appointmentDetail.service}</TableCell>
-            <TableCell>{appointmentDetail.diagnosis}</TableCell>
-            <TableCell>{appointmentDetail.medication}</TableCell>
-            <TableCell>{appointmentDetail.treatment}</TableCell>
-            <TableCell className='text-right'>{appointmentDetail.date}</TableCell>
+            <TableCell>{appointmentDetail.vetName || "-"}</TableCell>
+            <TableCell>{appointmentDetail.service || "-"}</TableCell>
+            <TableCell>{appointmentDetail.diagnosis|| "-"}</TableCell>
+            <TableCell>{appointmentDetail.medication|| "-"}</TableCell>
+            <TableCell>{appointmentDetail.treatment|| "-"}</TableCell>
+            <TableCell className='text-right'>{appointmentDetail.date|| "-"}</TableCell>
           </TableRow>
         ))}
       </TableBody>

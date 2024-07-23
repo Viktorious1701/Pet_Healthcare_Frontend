@@ -13,6 +13,7 @@ import { PetGet } from '@/Models/Pet';
 import { useTheme } from '@/components/vet_components/theme-provider'; // Import useTheme hook from your theme provider
 import { RecordPostAPI } from '@/Services/RecordService';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface PetInfo {
   customerUsername: string;
@@ -68,6 +69,7 @@ const AddAPetProfile: React.FC = () => {
 
   const addPetRecord = async () => {
     await RecordPostAPI(pet!.id, 0);
+    toast.success('Pet record created successfully');
   };
 
   const handleBack = () => {
