@@ -157,7 +157,7 @@ const Navbar = () => {
           <div className='mr-5'>
             <ThemeSwitch />
           </div>
-          <Button className='bg-[#DB2777] justify-self-end mr-3' onClick={handleLoginClick}>
+          <Button variant="outline" className='text-[#DB2777] justify-self-end mr-3' onClick={handleLoginClick}>
             Login
           </Button>
 
