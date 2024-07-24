@@ -36,28 +36,28 @@ const reviews = [
     "username": "@kevin",
     "body": "I don't get the hype. The pet health care is quite underwhelming.",
     "img": "https://avatar.vercel.sh/kevin",
-    "rating": 1.0
+    "rating": 3.5
   },
   {
     "name": "Laura",
     "username": "@laura",
     "body": "The pet health care didn't meet my expectations at all. Very disappointed.",
     "img": "https://avatar.vercel.sh/laura",
-    "rating": 1.5
+    "rating": 3
   },
   {
     "name": "Mike",
     "username": "@mike",
     "body": "I found the pet care service to be quite boring and unoriginal.",
     "img": "https://avatar.vercel.sh/mike",
-    "rating": 2.0
+    "rating": 2.5
   },
   {
     "name": "Nina",
     "username": "@nina",
     "body": "Not impressed with the pet health care. I've seen better.",
     "img": "https://avatar.vercel.sh/nina",
-    "rating": 1.0
+    "rating": 4
   },
   {
     "name": "Hank",

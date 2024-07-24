@@ -30,6 +30,12 @@ import CardSongPhucAvatar from '@/components/team_cards/SongPhucCard/CardSongPhu
 import CardDuyTanAvatar from '@/components/team_cards/DuyTanCard/CardDuyTanAvatar';
 import CardAnhKietAvatar from '@/components/team_cards/AnhKietCard/CardDinhDuongAvatar';
 
+import vet1 from '@/assets/vet1.png';
+import vet2 from '@/assets/vet2.png';
+import vet3 from '@/assets/vet3.png';
+import vet4 from '@/assets/vet4.png';
+import vet5 from '@/assets/vet5.png';
+
 const Home = () => {
   return (
     <div className='flex flex-col min-h-screen p-0 m-0 overflow-x-hidden'>
@@ -170,22 +176,40 @@ const Home = () => {
         </section>
 
         {/* Veterinarian Section */}
-        <section id='veterinarian' className='py-[7rem] bg-[--background] text-center'>
+        <section id='veterinarian' className='py-[2rem] bg-[var(--background)] text-center'>
           <h2 className='text-[3rem] font-bold text-pink mb-[4rem] font-mont'>Meet Our Veterinarians</h2>
           <div className='flex flex-wrap justify-center gap-8'>
-            {['Dr. Jane Doe', 'Dr. Johnny Sins', 'Dr. Alice Brown'].map((vet, index) => (
-              <div key={index} className='w-full md:w-1/3 lg:w-1/4 p-4 bg-[--background] rounded-lg shadow'>
-                <img
-                  src={`https://via.placeholder.com/150?text=${vet.split(' ').join('+')}`}
-                  alt={`Vet ${index + 1}`}
-                  className='rounded-full w-24 h-24 mx-auto mb-4'
-                />
-                <h3 className='text-xl font-semibold mb-2'>{vet}</h3>
-                <p className='text-[--hero-text]'>
-                  {index === 0 && 'Specialist in Small Animals'}
-                  {index === 1 && 'Expert in Exotic Pets'}
-                  {index === 2 && 'Veterinary Surgeon'}
-                </p>
+            {[
+              {
+                name: 'Dr. Jane Doe',
+                image: vet1,
+                specialty: 'Specialist in Small Animals'
+              },
+              {
+                name: 'Dr. Johnny Sins',
+                image: vet2,
+                specialty: 'Expert in Exotic Pets'
+              },
+              {
+                name: 'Dr. Alice Brown',
+                image: vet3,
+                specialty: 'Pharmacist'
+              },
+              {
+                name: 'Dr. Saul Goodman',
+                image: vet4,
+                specialty: 'Lawyer'
+              },
+              {
+                name: 'Dr. Gus Fring',
+                image: vet5,
+                specialty: 'Lead Surgeon'
+              }
+            ].map((vet, index) => (
+              <div key={index} className='w-full md:w-1/3 lg:w-1/4 p-4 bg-[var(--background)] rounded-lg shadow'>
+                <img src={vet.image} alt={`Vet ${index + 1}`} className='rounded-full w-24 h-24 mx-auto mb-4' />
+                <h3 className='text-xl font-semibold mb-2'>{vet.name}</h3>
+                <p className='text-[var(--hero-text)]'>{vet.specialty}</p>
               </div>
             ))}
           </div>

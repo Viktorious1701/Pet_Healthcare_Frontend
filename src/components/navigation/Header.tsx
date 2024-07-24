@@ -15,27 +15,27 @@ const intro = [
   {
     title: 'Welcome',
     href: '/#',
-    description: 'Lich sử phát triển của HealthCare'
+    description: 'Discover the journey of HealthCare’s evolution.'
   },
   {
     title: 'About Us',
     href: '#about',
-    description: 'Đội ngũ nhân viên của HealthCare'
+    description: 'Learn about our dedicated team and mission.'
   },
   {
     title: 'Booking',
     href: '#booking',
-    description: 'Đội ngũ nhân viên của HealthCare'
+    description: 'Book your next appointment with ease.'
   },
   {
     title: 'Meet Our Vets',
     href: '#veterinarian',
-    description: 'Đội ngũ nhân viên của HealthCare'
+    description: 'Get to know our skilled veterinary professionals.'
   },
   {
     title: 'Customer Rating',
     href: '#rating',
-    description: 'Đội ngũ nhân viên của HealthCare'
+    description: 'See what our clients have to say about our services.'
   }
 ];
 
@@ -43,12 +43,12 @@ const shops = [
   {
     title: 'Booking',
     href: `/${APPOINTMENT}`,
-    description: 'Dịch Vụ 1 description'
+    description: 'Schedule your service appointments here.'
   },
   {
     title: 'Hospitalization',
     href: `/${HOSPITALIZATION_INTRO}`,
-    description: 'Our most profitable services'
+    description: 'Explore our top-tier hospitalization services.'
   }
 ];
 

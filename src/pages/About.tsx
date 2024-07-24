@@ -4,6 +4,12 @@ import hero from '@/assets/about-us-dog.png';
 import grooming from '@/assets/grooming.jpg';
 import daycare from '@/assets/dog-daycare.png';
 import boarding from '@/assets/dog-boarding.png';
+import gallery1 from '@/assets/gallery1.jpg';
+import gallery2 from '@/assets/gallery2.jpg';
+import gallery3 from '@/assets/gallery3.jpg';
+import gallery4 from '@/assets/gallery4.jpg';
+import gallery5 from '@/assets/gallery5.jpg';
+import gallery6 from '@/assets/gallery6.jpg';
 
 const SECTION_DATA = [
   {
@@ -32,12 +38,12 @@ const SECTION_DATA = [
   {
     title: '',
     images: [
-      'https://placehold.co/400x300',
-      'https://placehold.co/400x300',
-      'https://placehold.co/400x300',
-      'https://placehold.co/400x300',
-      'https://placehold.co/400x300',
-      'https://placehold.co/400x300'
+      gallery1,
+      gallery2,
+      gallery3,
+      gallery4,
+      gallery5,
+      gallery6
     ]
   }
 ];
