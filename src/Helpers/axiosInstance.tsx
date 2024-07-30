@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { toast } from 'sonner';
 import { handleError } from './ErrorHandler';
@@ -16,21 +15,35 @@ const onRefreshed = (token: string) => {
   refreshSubscribers = [];
 };
 
+const addRefreshSubscriber = (callback: (token: string) => void) => {
+  refreshSubscribers.push(callback);
+};
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const {
-      config,
-      response: { status }
-    } = error;
+    const { config, response } = error;
     const originalRequest = config;
 
-    if (status === 401 && !originalRequest._retry) {
+    if (response && response.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise(function (resolve) {
-          refreshSubscribers.push((token: string) => {
+          addRefreshSubscriber((token: string) => {
             originalRequest.headers['Authorization'] = 'Bearer ' + token;
-            resolve(axios(originalRequest));
+            resolve(axiosInstance(originalRequest));
           });
         });
       }
@@ -43,34 +56,32 @@ axiosInstance.interceptors.response.use(
 
       if (token && refreshToken) {
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const res: any = await refreshTokenAPI(token, refreshToken);
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('refreshToken', res.data.refreshToken);
+          const res = await refreshTokenAPI(token, refreshToken);
+          console.log("New tokens received:", res);
+          localStorage.setItem('token', res?.token);
+          localStorage.setItem('refreshToken', res?.refreshToken);
           const userObj = {
-            userName: res.data.userName,
-            email: res.data.email,
-            role: res.data.role
+            userName: res?.userName,
+            email: res?.email,
+            role: res?.role
           };
           localStorage.setItem('user', JSON.stringify(userObj));
-          axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
-          onRefreshed(res.data.token);
+          axiosInstance.defaults.headers.common['Authorization'] = 'Bearer ' + res?.token;
+          onRefreshed(res?.token);
           isRefreshing = false;
           return axiosInstance(originalRequest);
         } catch (err) {
+          console.error("Error during token refresh:", err);
           handleError(err);
           isRefreshing = false;
-          // toast.warning('Session expired, please log in again');
-          toast('Session expired, please log in again', {
-            type: 'warning'
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any);
+          toast.warning('Session expired, please log in again');
           // Handle logout or redirect to login page
           window.history.pushState({}, 'LoginPage', '/login');
         }
       }
     }
 
+    console.error("Error in request:", error);
     return Promise.reject(error);
   }
 );

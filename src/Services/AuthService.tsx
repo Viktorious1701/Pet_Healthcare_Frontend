@@ -67,11 +67,12 @@ export const resetPasswordAPI = async (token: string, email: string, password: s
 
 export const refreshTokenAPI = async (token: string, refreshToken: string) => {
   try {
-    const data = axiosInstance.post(api + 'account/generate-new-jwt-token', {
+    console.log("Endpoint url of refresh token");
+    const data = await axiosInstance.post(api + 'account/generate-new-jwt-token', {
       token: token,
       refreshToken: refreshToken
     });
-    return data;
+    return data?.data;
   } catch (error) {
     handleError(error);
   }

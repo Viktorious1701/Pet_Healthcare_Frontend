@@ -37,7 +37,8 @@ const HospitalizationManagement = () => {
 
         const updatedHospitalizations = hospitalizationsWithPetInfo.map((hospitalization) => ({
           ...hospitalization,
-          paymentStatus: hospitalization.paymentStatus === 1 ? 'Paid' : 'Not Paid'
+          paymentStatus: hospitalization.paymentStatus === 1 ? 'Paid' : 'Not Paid',
+          totalCost: hospitalization.totalCost.toFixed(2)
         }));
 
         setHospitalizations(updatedHospitalizations);

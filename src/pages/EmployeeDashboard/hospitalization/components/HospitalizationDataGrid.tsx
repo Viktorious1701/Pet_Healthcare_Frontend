@@ -69,7 +69,6 @@ const HospitalizationDataGrid: React.FC<HospitalizationDataGridProps> = ({
       prevHospitalizationsRef.current = hospitalizations;
     }
   }, [hospitalizations]);
-
   const handleHospitalizationUpdate = (hospitalizationId: number, dischargeDate: string) => {
     hospitalizationUpdateAPI(hospitalizationId, dischargeDate)
       .then((res) => {
