@@ -103,7 +103,7 @@
     "gsap": "^3.12.5",
     "leva": "^0.9.35",
     "localforage": "^1.10.0",
-    "lucide-react": "^0.379.0",
+    "lucide-react": "^0.407.0",
     "match-sorter": "^6.3.4",
     "meshline": "^3.3.1",
     "moment": "^2.30.1",
